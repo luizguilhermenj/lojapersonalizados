@@ -1,0 +1,12 @@
+<svg width="1200" height="750" viewBox="0 0 1200 750" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="750" rx="40" fill="#0F1C2F"/>
+  <circle cx="915" cy="180" r="220" fill="#7C5CFF" fill-opacity="0.18"/>
+  <circle cx="240" cy="640" r="260" fill="#47A3FF" fill-opacity="0.18"/>
+  <rect x="350" y="170" width="320" height="320" rx="38" fill="#EEF4FF"/>
+  <path d="M670 240H750C803.019 240 846 282.98 846 336C846 389.019 803.019 432 750 432H670" stroke="#EEF4FF" stroke-width="40"/>
+  <path d="M415 250H606" stroke="#B1C9FF" stroke-width="18" stroke-linecap="round"/>
+  <path d="M415 298H606" stroke="#B1C9FF" stroke-width="18" stroke-linecap="round"/>
+  <path d="M415 346H606" stroke="#B1C9FF" stroke-width="18" stroke-linecap="round"/>
+  <path d="M350 544H848" stroke="#47A3FF" stroke-width="18" stroke-linecap="round"/>
+  <text x="600" y="625" fill="#EEF4FF" font-size="52" font-family="Arial, sans-serif" text-anchor="middle">Caneca de teste</text>
+</svg>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resultado do pedido</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="container result-page">
+      <a class="back-link" href="/">← Voltar para a loja</a>
+      <section class="result-card">
+        <p class="eyebrow">Status do pedido</p>
+        <h1>Resultado do checkout</h1>
+        <p id="result-status" class="subtitle">Carregando informações do pedido...</p>
+
+        <div id="order-box" class="order-box hidden">
+          <dl>
+            <div><dt>Pedido</dt><dd id="order-id"></dd></div>
+            <div><dt>Produto</dt><dd id="order-product"></dd></div>
+            <div><dt>Quantidade</dt><dd id="order-qty"></dd></div>
+            <div><dt>Total</dt><dd id="order-total"></dd></div>
+            <div><dt>Status do pedido</dt><dd id="order-status"></dd></div>
+            <div><dt>Status do pagamento</dt><dd id="order-payment-status"></dd></div>
+            <div><dt>Payment ID</dt><dd id="order-payment-id"></dd></div>
+          </dl>
+        </div>
+
+        <p class="result-note">
+          O status final pode depender do retorno automático do checkout e do webhook do Mercado Pago.
+        </p>
+      </section>
+    </main>
+
+    <script src="/result.js"></script>
+  </body>
+</html>
