@@ -1,7 +1,7 @@
 {
-  "name": "mercadopago-test-store",
-  "version": "1.0.0",
-  "description": "Portal simples para testes com Checkout Pro do Mercado Pago",
+  "name": "artize-loja",
+  "version": "2.0.0",
+  "description": "Portal modular da Artize com catálogo, login, carrinho, frete e Checkout Pro",
   "main": "server.js",
   "type": "module",
   "scripts": {

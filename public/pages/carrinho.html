@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Artize | Carrinho</title><link rel="stylesheet" href="/css/base.css"><link rel="stylesheet" href="/css/cart.css"></head><body>
+<header class="sub-header"><div class="container sub-header-inner"><a href="/pages/home.html" class="back-link">← Continuar comprando</a><div class="user-area" id="miniUserArea"></div></div></header>
+<main class="container cart-layout">
+  <section class="card"><div class="section-head"><h1>Seu carrinho</h1><p>Revise itens, calcule frete e siga para o Checkout Pro.</p></div><div id="cartItems" class="stack"></div></section>
+  <aside class="card summary-panel">
+    <h2>Resumo</h2>
+    <div class="stack compact"><label>CEP de destino<input id="cepInput" class="field" placeholder="00000-000"></label><button id="quoteShippingBtn" class="ghost-btn" type="button">Calcular frete</button><div id="shippingOptions" class="stack compact"></div></div>
+    <div class="summary-list"><div><span>Subtotal</span><strong id="subtotalValue">R$ 0,00</strong></div><div><span>Frete</span><strong id="shippingValue">R$ 0,00</strong></div><div class="total-row"><span>Total</span><strong id="totalValue">R$ 0,00</strong></div></div>
+    <button id="checkoutBtn" class="primary-btn" type="button">Ir para pagamento</button>
+    <p id="cartFeedback" class="feedback"></p>
+  </aside>
+</main>
+<script type="module" src="/js/app.js"></script><script type="module" src="/js/cart.js"></script></body></html>

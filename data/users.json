@@ -1,0 +1,18 @@
+[
+  {
+    "id": "u-admin",
+    "name": "Administrador Artize",
+    "email": "admin@artize.com.br",
+    "passwordHash": "scrypt$dbc8fbb4722b6ab902490777d448da1e$Hn4HtwjsuoYv5tr+JtBKcYw/The1ZYxgR5YE1JJoZ9A+bp32xapKUkBH2f6UkgQfrYYzIU7P2v759rKfF1LCnA==",
+    "role": "admin",
+    "createdAt": "2026-03-15T00:00:00.000Z"
+  },
+  {
+    "id": "dfc70060-16c0-4176-99d9-27a9c6031b22",
+    "name": "Luiz Guilherme Neves de Jesus",
+    "email": "luizguilhermenj@hotmail.com",
+    "passwordHash": "scrypt$7923d1fa5f2f878a9f97e02880531a66$Io0dw7A4jOgpMnkmTrkL5qtJkuC8de3FSPks2i/pPxSuY5QLktoPPmD3THDWkGgKhAJim/XaLiKE0GCgmyGxaQ==",
+    "role": "customer",
+    "createdAt": "2026-03-15T04:30:34.470Z"
+  }
+]

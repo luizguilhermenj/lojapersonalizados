@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artize | Home</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/home.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/pages/home.html" class="brand"><span class="brand-mark">A</span><div><strong>Artize</strong><small>Presentes e personalizados</small></div></a>
+      <nav class="nav-links">
+        <a href="/pages/home.html">Home</a>
+        <a href="#categorias">Categorias</a>
+        <a href="#produtos">Produtos</a>
+        <a href="/pages/pedidos.html">Meus pedidos</a>
+        <a href="/pages/admin.html">Admin</a>
+      </nav>
+      <div class="header-actions">
+        <input id="globalSearch" class="search" placeholder="Buscar produtos" />
+        <a class="ghost-btn" href="/pages/login.html" id="accountLink">Entrar</a>
+        <a class="cart-btn" href="/pages/carrinho.html">Carrinho <span id="cartCountBadge">0</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container page-stack">
+    <section class="hero-card">
+      <div>
+        <span class="eyebrow">Portal modular Artize</span>
+        <h1>Catálogo, carrinho, login e checkout no mesmo fluxo.</h1>
+        <p>Agora a loja já nasce com base para pedido, frete, login do cliente, painel administrativo e pagamento com Checkout Pro.</p>
+      </div>
+      <div class="hero-metrics">
+        <div><strong id="featuredCount">0</strong><span>Destaques</span></div>
+        <div><strong>Londrina/PR</strong><span>Origem do frete</span></div>
+        <div><strong>Pix + Cartão</strong><span>Pagamento ativo</span></div>
+      </div>
+    </section>
+
+    <section id="categorias">
+      <div class="section-head"><h2>Categorias</h2><p>Escolha por tipo de produto.</p></div>
+      <div class="chips" id="categoryChips"></div>
+    </section>
+
+    <section>
+      <div class="section-head"><h2>Galeria de produtos</h2><p>Produtos fictícios para ajustar depois. Já integrados ao carrinho e checkout.</p></div>
+      <div class="toolbar">
+        <select id="sortSelect" class="field">
+          <option value="featured">Ordenar por destaque</option>
+          <option value="low">Menor preço</option>
+          <option value="high">Maior preço</option>
+          <option value="name">Nome A-Z</option>
+        </select>
+        <a class="ghost-btn" href="/pages/carrinho.html">Ir para carrinho</a>
+      </div>
+      <div id="productsGrid" class="product-grid"></div>
+    </section>
+  </main>
+  <script type="module" src="/js/app.js"></script>
+  <script type="module" src="/js/home.js"></script>
+</body>
+</html>

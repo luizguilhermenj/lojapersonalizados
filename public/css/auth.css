@@ -1,0 +1,1 @@
+.auth-shell{padding:28px 0 40px}.auth-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.auth-panel h1,.auth-panel h2{margin:0 0 8px}.auth-panel p{margin:0 0 12px;color:var(--muted)}.note{padding:12px 14px;border-radius:16px;background:#fff7ed;border:1px solid #fde4c2;color:#9a5514}@media(max-width:760px){.auth-grid{grid-template-columns:1fr}}

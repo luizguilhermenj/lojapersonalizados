@@ -1,116 +1,68 @@
 [
   {
-    "id": "6d9c23f9-be5b-4258-95d9-f47a71a3489c",
-    "productId": "caneca-classica",
-    "productName": "Caneca Clássica de Teste",
-    "quantity": 1,
-    "unitPrice": 29.9,
-    "totalPrice": 29.9,
-    "buyerName": "Comprador de Teste",
-    "buyerEmail": "teste@teste.com",
-    "status": "pending_checkout",
-    "createdAt": "2026-03-14T03:33:04.231Z",
-    "updatedAt": "2026-03-14T03:33:04.231Z"
+    "id": "bccd0160-fdbe-46c7-b9e5-ba67eff76ea9",
+    "customer": {
+      "id": "dfc70060-16c0-4176-99d9-27a9c6031b22",
+      "name": "Luiz Guilherme Neves de Jesus",
+      "email": "luizguilhermenj@hotmail.com"
+    },
+    "items": [
+      {
+        "productId": "camiseta-estampa",
+        "name": "Camiseta Personalizada",
+        "quantity": 1,
+        "unitPrice": 1,
+        "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80"
+      }
+    ],
+    "shipping": {
+      "id": "pickup",
+      "label": "Retirar na loja",
+      "price": 0,
+      "days": 1,
+      "cep": "",
+      "origin": "Londrina/PR"
+    },
+    "paymentStatus": "pending",
+    "orderStatus": "aguardando_pagamento",
+    "shippingStatus": "aguardando_processamento",
+    "paymentId": null,
+    "createdAt": "2026-03-15T04:46:15.738Z",
+    "updatedAt": "2026-03-15T04:46:15.738Z",
+    "subtotal": 1,
+    "total": 1
   },
   {
-    "id": "6d28b44b-fc0d-45bf-bfaf-e7dc79a9ef85",
-    "productId": "caneca-classica",
-    "productName": "Caneca Clássica de Teste",
-    "quantity": 1,
-    "unitPrice": 29.9,
-    "totalPrice": 29.9,
-    "buyerName": "Comprador de Teste",
-    "buyerEmail": "teste@teste.com",
-    "status": "pending_checkout",
-    "createdAt": "2026-03-14T03:35:33.055Z",
-    "updatedAt": "2026-03-14T03:35:33.055Z"
-  },
-  {
-    "id": "3264812861-cdf82a70-c537-48d7-ba2c-883d4efed1f7",
-    "productId": "caneca-classica",
-    "name": "Comprador de Teste",
-    "email": "teste@teste.com",
-    "quantity": 1,
-    "createdAt": "2026-03-14T03:47:20.504Z"
-  },
-  {
-    "id": "3264812861-65f39d82-47df-4808-a6be-4b03fe16dbad",
-    "productId": "caneca-classica",
-    "name": "Comprador de Teste",
-    "email": "teste@teste.com",
-    "quantity": 1,
-    "createdAt": "2026-03-14T03:48:21.097Z"
-  },
-  {
-    "id": "3264812861-d670aaf1-6504-4d0c-a245-401d6b8d48c9",
-    "productId": "caneca-classica",
-    "name": "Comprador de Teste",
-    "email": "teste@teste.com",
-    "quantity": 1,
-    "createdAt": "2026-03-14T03:48:53.511Z"
-  },
-  {
-    "id": "3264812861-68302322-eb73-4bac-9d23-b603b6d7f918",
-    "productId": "caneca-classica",
-    "name": "Comprador de Teste",
-    "email": "teste@teste.com",
-    "quantity": 1,
-    "createdAt": "2026-03-14T03:51:31.982Z"
-  },
-  {
-    "id": "3264812861-b9fbdc58-105f-4432-bd2d-b053ca6f3ed3",
-    "productId": "caneca-classica",
-    "name": "Comprador de Teste",
-    "email": "teste@teste.com",
-    "quantity": 1,
-    "createdAt": "2026-03-14T03:51:47.681Z"
-  },
-  {
-    "id": "3264812861-5525516f-f92b-4b12-9356-b2548b909934",
-    "productId": "caneca-classica",
-    "name": "Comprador de Teste",
-    "email": "teste@teste.com",
-    "quantity": 1,
-    "createdAt": "2026-03-14T03:56:00.508Z"
-  },
-  {
-    "id": "3264812861-f474f075-6a93-4379-a708-8a7f5a285148",
-    "productId": "caneca-classica",
-    "name": "Comprador de Teste",
-    "email": "teste@teste.com",
-    "quantity": 1,
-    "createdAt": "2026-03-14T19:47:58.578Z"
-  },
-  {
-    "id": "3264812861-047b4a41-375b-4393-8668-e29b98272841",
-    "productId": "caneca-classica",
-    "name": "Comprador de Teste",
-    "email": "teste@teste.com",
-    "quantity": 1,
-    "createdAt": "2026-03-14T19:53:06.550Z"
-  },
-  {
-    "id": "3264812861-fda2b716-5a67-4151-b242-67d666bd041f",
-    "productId": "caneca-classica",
-    "name": "Comprador de Teste",
-    "email": "teste@teste.com",
-    "quantity": 1,
-    "createdAt": "2026-03-14T20:26:26.187Z"
-  },
-  {
-    "id": "3264812861-559e133b-632c-4cac-b3a0-0124e58890c8",
-    "productId": "caneca-classica",
-    "name": "Comprador de Teste",
-    "email": "teste@teste.com",
-    "quantity": 1,
-    "createdAt": "2026-03-14T20:41:45.611Z"
-  },
-  {
-    "id": "3264812861-a5e3f442-9780-4281-9784-c4763dacaf05",
-    "productId": "caneca-classica",
-    "name": "Comprador de Teste",
-    "email": "teste@teste.com",
-    "quantity": 1,
-    "createdAt": "2026-03-14T20:49:06.972Z"
+    "id": "9fdd0699-3432-4855-ac5b-08c55cf85bcf",
+    "customer": {
+      "id": "dfc70060-16c0-4176-99d9-27a9c6031b22",
+      "name": "Luiz Guilherme Neves de Jesus",
+      "email": "luizguilhermenj@hotmail.com"
+    },
+    "items": [
+      {
+        "productId": "camiseta-estampa",
+        "name": "Camiseta Personalizada",
+        "quantity": 1,
+        "unitPrice": 1,
+        "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80"
+      }
+    ],
+    "shipping": {
+      "id": "pac",
+      "label": "Entrega econômica (base Correios)",
+      "price": 17.9,
+      "days": 4,
+      "cep": "86041346",
+      "origin": "Londrina/PR"
+    },
+    "paymentStatus": "pending",
+    "orderStatus": "aguardando_pagamento",
+    "shippingStatus": "aguardando_processamento",
+    "paymentId": null,
+    "createdAt": "2026-03-15T04:31:07.198Z",
+    "updatedAt": "2026-03-15T04:31:07.198Z",
+    "subtotal": 1,
+    "total": 18.9
   }
 ]

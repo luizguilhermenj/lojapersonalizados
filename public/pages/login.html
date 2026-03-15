@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Artize | Login</title><link rel="stylesheet" href="/css/base.css"><link rel="stylesheet" href="/css/auth.css"></head><body>
+<div class="auth-shell container">
+  <a class="back-link" href="/pages/home.html">← Voltar para loja</a>
+  <div class="auth-grid">
+    <section class="card auth-panel">
+      <h1>Entrar</h1><p>Use sua conta para acompanhar pedidos, finalizar compras e acessar seu histórico.</p>
+      <form id="loginForm" class="stack"><input class="field" name="email" type="email" placeholder="Seu e-mail" required><input class="field" name="password" type="password" placeholder="Sua senha" required><button class="primary-btn" type="submit">Entrar</button></form>
+      <p id="loginFeedback" class="feedback"></p>
+    </section>
+    <section class="card auth-panel">
+      <h2>Criar conta</h2><p>Cadastro simples para deixar o fluxo da loja pronto.</p>
+      <form id="registerForm" class="stack"><input class="field" name="name" placeholder="Seu nome" required><input class="field" name="email" type="email" placeholder="Seu e-mail" required><input class="field" name="password" type="password" placeholder="Crie uma senha" required><button class="primary-btn" type="submit">Criar conta</button></form>
+      <p id="registerFeedback" class="feedback"></p>
+      <div class="note">Admin padrão: admin@artize.com.br / 123456</div>
+    </section>
+  </div>
+</div>
+<script type="module" src="/js/app.js"></script><script type="module" src="/js/auth.js"></script></body></html>

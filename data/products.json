@@ -1,0 +1,122 @@
+[
+  {
+    "id": "caneca-foto-premium",
+    "slug": "caneca-foto-premium",
+    "name": "Caneca com Foto Premium",
+    "category": "Canecas",
+    "price": 39.9,
+    "weightKg": 0.45,
+    "description": "Caneca personalizada com foto, frase, logo ou arte especial.",
+    "meta": "Ideal para presente afetivo",
+    "image": "https://images.unsplash.com/photo-1514228742587-6b1558fcf93a?auto=format&fit=crop&w=900&q=80",
+    "featured": true
+  },
+  {
+    "id": "caneca-casal",
+    "slug": "caneca-casal",
+    "name": "Caneca Casal",
+    "category": "Canecas",
+    "price": 42.9,
+    "weightKg": 0.45,
+    "description": "Arte personalizada para casal, aniversários e datas especiais.",
+    "meta": "Apelo emocional alto",
+    "image": "https://images.unsplash.com/photo-1577937927133-66ef06acdf18?auto=format&fit=crop&w=900&q=80",
+    "featured": true
+  },
+  {
+    "id": "copo-termico",
+    "slug": "copo-termico",
+    "name": "Copo Térmico Personalizado",
+    "category": "Copos",
+    "price": 54.9,
+    "weightKg": 0.35,
+    "description": "Modelo moderno para nome, marca ou estampa criativa.",
+    "meta": "Ótimo valor percebido",
+    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=80",
+    "featured": true
+  },
+  {
+    "id": "copo-evento",
+    "slug": "copo-evento",
+    "name": "Copo para Evento",
+    "category": "Copos",
+    "price": 29.9,
+    "weightKg": 0.2,
+    "description": "Ideal para brindes, festas, ações promocionais e lembranças.",
+    "meta": "Boa saída em quantidade",
+    "image": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=900&q=80",
+    "featured": false
+  },
+  {
+    "id": "camiseta-estampa",
+    "slug": "camiseta-estampa",
+    "name": "Camiseta Personalizada",
+    "category": "Camisetas",
+    "price": 1.0,
+    "weightKg": 0.25,
+    "description": "Camisetas para datas, memes, fandoms, casal e empresas.",
+    "meta": "Estilo + personalização",
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80",
+    "featured": true
+  },
+  {
+    "id": "camiseta-frase",
+    "slug": "camiseta-frase",
+    "name": "Camiseta com Frase",
+    "category": "Camisetas",
+    "price": 59.9,
+    "weightKg": 0.25,
+    "description": "Modelo leve e divertido com frases, humor ou identidade de grupo.",
+    "meta": "Boa para coleção",
+    "image": "https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=900&q=80",
+    "featured": false
+  },
+  {
+    "id": "azulejo-foto",
+    "slug": "azulejo-foto",
+    "name": "Azulejo com Foto",
+    "category": "Azulejos",
+    "price": 49.9,
+    "weightKg": 0.6,
+    "description": "Peça decorativa com apelo emocional e forte impacto visual.",
+    "meta": "Muito presenteável",
+    "image": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=900&q=80",
+    "featured": true
+  },
+  {
+    "id": "azulejo-arte",
+    "slug": "azulejo-arte",
+    "name": "Azulejo Decorativo Arte",
+    "category": "Azulejos",
+    "price": 58.9,
+    "weightKg": 0.6,
+    "description": "Visual para ambientes, cozinhas e espaços afetivos.",
+    "meta": "Decoração com memória",
+    "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80",
+    "featured": false
+  },
+  {
+    "id": "relogio-personalizado",
+    "slug": "relogio-personalizado",
+    "name": "Relógio Personalizado",
+    "category": "Relógios",
+    "price": 89.9,
+    "weightKg": 0.8,
+    "description": "Relógio com arte customizada para ambientes e lembranças.",
+    "meta": "Peça de destaque",
+    "image": "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=900&q=80",
+    "featured": true
+  },
+  {
+    "id": "kit-presente-criativo",
+    "slug": "kit-presente-criativo",
+    "name": "Kit Presente Criativo",
+    "category": "Presentes",
+    "price": 119.9,
+    "weightKg": 1.2,
+    "description": "Combinação pronta de itens personalizados para encantar.",
+    "meta": "Perfeito para ocasião especial",
+    "image": "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=900&q=80",
+    "featured": true
+  }
+]
