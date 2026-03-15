@@ -11,7 +11,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
-const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
+const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/+$/, '');
+const WHATSAPP_STORE_NUMBER = process.env.WHATSAPP_STORE_NUMBER || '554384244532';
 const MP_ACCESS_TOKEN = process.env.MP_ACCESS_TOKEN || '';
 const DATA_DIR = path.join(__dirname, 'data');
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -162,6 +163,77 @@ function recalcOrder(order) {
   return order;
 }
 
+function whatsappOrderUrl(order) {
+  if (!WHATSAPP_STORE_NUMBER) return null;
+  const number = String(WHATSAPP_STORE_NUMBER).replace(/\D/g, '');
+  const items = order.items.map(item => `${item.quantity}x ${item.name}`).join(', ');
+  const message = [
+    `Novo pedido pago na Artize!`,
+    `Pedido: ${order.id.slice(0, 8)}`,
+    `Cliente: ${order.customer.name}`,
+    `Itens: ${items}`,
+    `Entrega: ${order.shipping?.label || '-'}`,
+    `Total: R$ ${order.total.toFixed(2).replace('.', ',')}`
+  ].join('\n');
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+}
+
+async function mpGetJson(url) {
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${MP_ACCESS_TOKEN}`,
+      'Content-Type': 'application/json'
+    }
+  });
+  if (!response.ok) throw new Error(`Mercado Pago respondeu ${response.status}`);
+  return response.json();
+}
+
+async function fetchPaymentById(paymentId) {
+  if (!paymentId || !MP_ACCESS_TOKEN) return null;
+  return mpGetJson(`https://api.mercadopago.com/v1/payments/${paymentId}`);
+}
+
+async function searchPaymentsByExternalReference(externalReference) {
+  if (!externalReference || !MP_ACCESS_TOKEN) return [];
+  const query = new URLSearchParams({
+    external_reference: externalReference,
+    sort: 'date_created',
+    criteria: 'desc'
+  });
+  const data = await mpGetJson(`https://api.mercadopago.com/v1/payments/search?${query.toString()}`);
+  return Array.isArray(data?.results) ? data.results : [];
+}
+
+function applyPaymentToOrder(order, payment) {
+  if (!payment) return order;
+  const status = payment.status || payment.status_detail || order.paymentStatus || 'pending';
+  order.paymentStatus = status;
+  order.paymentId = String(payment.id || order.paymentId || '');
+  if (status === 'approved') {
+    if (order.orderStatus === 'aguardando_pagamento') order.orderStatus = 'pago';
+  } else if (status === 'rejected' || status === 'cancelled' || status === 'cancelado') {
+    order.orderStatus = 'cancelado';
+  }
+  order.updatedAt = new Date().toISOString();
+  return order;
+}
+
+async function syncOrderPayment(order, explicitPaymentId = null) {
+  let payment = null;
+  if (explicitPaymentId) {
+    try { payment = await fetchPaymentById(explicitPaymentId); } catch {}
+  }
+  if (!payment) {
+    try {
+      const found = await searchPaymentsByExternalReference(order.id);
+      payment = found[0] || null;
+    } catch {}
+  }
+  if (payment) applyPaymentToOrder(order, payment);
+  return order;
+}
+
 app.get('/api/health', (req, res) => res.json({ ok: true, envConfigured: Boolean(MP_ACCESS_TOKEN) }));
 app.get('/api/products', (req, res) => res.json(products()));
 app.post('/api/auth/register', (req, res) => {
@@ -236,25 +308,47 @@ app.post('/api/checkout/create-preference', auth, async (req, res) => {
     res.status(500).json({ error: error.message || 'Não foi possível gerar o checkout.' });
   }
 });
-app.post('/api/orders/:id/return-update', (req, res) => {
+app.post('/api/orders/:id/return-update', async (req, res) => {
   const all = orders();
   const order = all.find(item => item.id === req.params.id);
   if (!order) return res.status(404).json({ error: 'Pedido não encontrado.' });
   const { paymentStatus, paymentId } = req.body || {};
   if (paymentStatus) order.paymentStatus = paymentStatus;
-  if (paymentId) order.paymentId = paymentId;
-  if (paymentStatus === 'approved') order.orderStatus = order.orderStatus === 'aguardando_pagamento' ? 'pago' : order.orderStatus;
-  order.updatedAt = new Date().toISOString();
+  if (paymentId) order.paymentId = String(paymentId);
+  if (paymentStatus === 'approved' || paymentStatus === 'accredited') {
+    if (order.orderStatus === 'aguardando_pagamento') order.orderStatus = 'pago';
+  }
+  await syncOrderPayment(order, paymentId);
   saveOrders(all);
-  res.json({ ok: true });
+  res.json({ ok: true, order, whatsappUrl: order.paymentStatus === 'approved' ? whatsappOrderUrl(order) : null });
 });
-app.get('/api/orders/public/:id', (req, res) => {
-  const order = orders().find(item => item.id === req.params.id);
+app.get('/api/orders/public/:id', async (req, res) => {
+  const all = orders();
+  const order = all.find(item => item.id === req.params.id);
   if (!order) return res.status(404).json({ error: 'Pedido não encontrado.' });
-  res.json(order);
+  await syncOrderPayment(order);
+  saveOrders(all);
+  res.json({ ...order, whatsappUrl: order.paymentStatus === 'approved' ? whatsappOrderUrl(order) : null });
 });
-app.get('/api/orders/my', auth, (req, res) => res.json(orders().filter(item => item.customer.id === req.user.id)));
-app.get('/api/admin/orders', auth, adminOnly, (req, res) => res.json({ orders: orders() }));
+app.get('/api/orders/my', auth, async (req, res) => {
+  const all = orders();
+  const mine = all.filter(item => item.customer.id === req.user.id);
+  for (const order of mine.filter(item => item.paymentStatus !== 'approved')) {
+    await syncOrderPayment(order);
+  }
+  saveOrders(all);
+  res.json(mine.map(order => ({ ...order, whatsappUrl: order.paymentStatus === 'approved' ? whatsappOrderUrl(order) : null })));
+});
+app.post('/api/orders/:id/sync-payment', async (req, res) => {
+  const all = orders();
+  const order = all.find(item => item.id === req.params.id);
+  if (!order) return res.status(404).json({ error: 'Pedido não encontrado.' });
+  const paymentId = req.body?.paymentId || req.query?.paymentId || null;
+  await syncOrderPayment(order, paymentId);
+  saveOrders(all);
+  res.json({ order, whatsappUrl: order.paymentStatus === 'approved' ? whatsappOrderUrl(order) : null });
+});
+app.get('/api/admin/orders', auth, adminOnly, async (req, res) => { const all = orders(); for (const order of all.filter(item => item.paymentStatus !== 'approved')) { await syncOrderPayment(order); } saveOrders(all); res.json({ orders: all.map(order => ({ ...order, whatsappUrl: order.paymentStatus === 'approved' ? whatsappOrderUrl(order) : null })) }); });
 app.patch('/api/admin/orders/:id/status', auth, adminOnly, (req, res) => {
   const { shippingStatus } = req.body || {};
   const all = orders();
@@ -269,19 +363,25 @@ app.patch('/api/admin/orders/:id/status', auth, adminOnly, (req, res) => {
   saveOrders(all);
   res.json(order);
 });
-app.post('/api/payments/webhook', express.json({ type: '*/*' }), (req, res) => {
-  const body = req.body || {};
-  const externalReference = body?.data?.external_reference || body?.external_reference || req.query?.data_id;
-  // estrutura preparada; em produção, consulte o pagamento pelo Mercado Pago se quiser sincronização completa.
-  if (externalReference) {
-    const all = orders();
-    const order = all.find(item => item.id === externalReference);
-    if (order) {
-      order.updatedAt = new Date().toISOString();
-      saveOrders(all);
+app.post('/api/payments/webhook', express.json({ type: '*/*' }), async (req, res) => {
+  try {
+    const paymentId = req.body?.data?.id || req.query?.id || req.query?.['data.id'] || null;
+    if (paymentId) {
+      const payment = await fetchPaymentById(paymentId).catch(() => null);
+      const externalReference = payment?.external_reference;
+      if (externalReference) {
+        const all = orders();
+        const order = all.find(item => item.id === externalReference);
+        if (order) {
+          applyPaymentToOrder(order, payment);
+          saveOrders(all);
+        }
+      }
     }
+    res.status(200).send('ok');
+  } catch {
+    res.status(200).send('ok');
   }
-  res.status(200).send('ok');
 });
 app.get('*', (req, res) => {
   if (req.path === '/' || req.path === '') return res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
