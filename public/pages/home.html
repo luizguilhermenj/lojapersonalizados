@@ -18,17 +18,18 @@
         </div>
       </a>
 
-      <nav class="nav-links nav-links-primary" id="headerNav" aria-label="Menu principal">
-        <a href="#produtos">Produtos</a>
-        <a href="#categorias">Categorias</a>
-        <a href="#promocoes">Promoções</a>
-      </nav>
+      <div class="header-search-wrap">
+        <input id="globalSearch" class="search header-search" placeholder="Buscar produtos" />
+      </div>
 
       <div class="header-actions">
-        <a class="ghost-btn account-btn" href="/pages/login.html" id="accountLink">Entrar</a>
-        <a class="cart-btn compact-cart-btn" href="/pages/carrinho.html">Carrinho <span id="cartCountBadge">0</span></a>
-        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="sideMenu">
+        <a class="cart-btn compact-cart-btn icon-cart-btn" href="/pages/carrinho.html" aria-label="Carrinho">
+          <span class="cart-icon" aria-hidden="true">🛒</span>
+          <span id="cartCountBadge">0</span>
+        </a>
+        <button class="menu-toggle menu-label-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="sideMenu">
           <span></span><span></span><span></span>
+          <em>Menu</em>
         </button>
       </div>
     </div>
@@ -38,8 +39,8 @@
   <aside class="side-menu" id="sideMenu" aria-hidden="true">
     <div class="side-menu-head">
       <div>
-        <strong>Mais opções</strong>
-        <p>Tudo que não precisa ocupar espaço no topo.</p>
+        <strong>Menu</strong>
+        <p>Acesse conta, pedidos e atalhos da loja.</p>
       </div>
       <button class="side-close" id="sideClose" type="button" aria-label="Fechar menu">×</button>
     </div>
@@ -79,19 +80,6 @@
       <div class="promo-dots" id="promoDots" aria-label="Navegação do banner"></div>
     </section>
 
-    <section class="hero-card">
-      <div>
-        <span class="eyebrow">Portal modular Artize</span>
-        <h1>Loja pronta para vender bem no celular.</h1>
-        <p>Catálogo, carrinho, pedidos, login e checkout num fluxo mais leve, mais limpo e muito mais confortável para quem acessa pelo mobile.</p>
-      </div>
-      <div class="hero-metrics">
-        <div><strong id="featuredCount">0</strong><span>Destaques</span></div>
-        <div><strong>Londrina/PR</strong><span>Origem do frete</span></div>
-        <div><strong>Pix + Cartão</strong><span>Pagamento ativo</span></div>
-      </div>
-    </section>
-
     <section id="categorias">
       <div class="section-head"><h2>Categorias</h2><p>Escolha por tipo de produto.</p></div>
       <div class="chips" id="categoryChips"></div>
@@ -100,14 +88,12 @@
     <section id="produtos">
       <div class="section-head"><h2>Galeria de produtos</h2><p>Produtos fictícios para ajustar depois. Já integrados ao carrinho e checkout.</p></div>
       <div class="toolbar mobile-stack products-toolbar">
-        <input id="globalSearch" class="search products-search" placeholder="Buscar produtos" />
-        <select id="sortSelect" class="field">
+                <select id="sortSelect" class="field">
           <option value="featured">Ordenar por destaque</option>
           <option value="low">Menor preço</option>
           <option value="high">Maior preço</option>
           <option value="name">Nome A-Z</option>
         </select>
-        <a class="ghost-btn" href="/pages/carrinho.html">Ir para carrinho</a>
       </div>
       <div id="productsGrid" class="product-grid"></div>
     </section>

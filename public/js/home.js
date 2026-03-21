@@ -58,7 +58,6 @@ function renderProducts() {
   });
 
   list = sortProducts(list);
-  document.getElementById('featuredCount').textContent = products.filter((product) => product.featured).length;
 
   productsGrid.innerHTML = list
     .map(
