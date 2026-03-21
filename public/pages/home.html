@@ -8,16 +8,29 @@
   <link rel="stylesheet" href="/css/home.css" />
 </head>
 <body>
-  <header class="site-header">
+  <header class="site-header compact-header">
     <div class="container header-inner">
-      <a href="/pages/home.html" class="brand"><span class="brand-mark">A</span><div><strong>Artize</strong><small>Presentes e personalizados</small></div></a>
-      <nav class="nav-links">
+      <a href="/pages/home.html" class="brand">
+        <span class="brand-mark">A</span>
+        <div>
+          <strong>Artize</strong>
+          <small>Presentes e personalizados</small>
+        </div>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerNav">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-links" id="headerNav">
         <a href="/pages/home.html">Home</a>
+        <a href="#promocoes">Promoções</a>
         <a href="#categorias">Categorias</a>
         <a href="#produtos">Produtos</a>
         <a href="/pages/pedidos.html">Meus pedidos</a>
         <a href="/pages/admin.html">Admin</a>
       </nav>
+
       <div class="header-actions">
         <input id="globalSearch" class="search" placeholder="Buscar produtos" />
         <a class="ghost-btn" href="/pages/login.html" id="accountLink">Entrar</a>
@@ -26,12 +39,30 @@
     </div>
   </header>
 
-  <main class="container page-stack">
+  <main class="container page-stack home-page">
+    <section class="promo-carousel" id="promocoes" aria-label="Promoções em destaque">
+      <div class="promo-track" id="promoTrack">
+        <article class="promo-slide active">
+          <img src="/img/banner-dia-namorados.svg" alt="Promoção de Dia dos Namorados" />
+        </article>
+        <article class="promo-slide">
+          <img src="/img/banner-pascoa.svg" alt="Promoção de Páscoa" />
+        </article>
+        <article class="promo-slide">
+          <img src="/img/banner-dia-maes.svg" alt="Promoção de Dia das Mães" />
+        </article>
+        <article class="promo-slide">
+          <img src="/img/banner-dia-pais.svg" alt="Promoção de Dia dos Pais" />
+        </article>
+      </div>
+      <div class="promo-dots" id="promoDots" aria-label="Navegação do banner"></div>
+    </section>
+
     <section class="hero-card">
       <div>
         <span class="eyebrow">Portal modular Artize</span>
-        <h1>Catálogo, carrinho, login e checkout no mesmo fluxo.</h1>
-        <p>Agora a loja já nasce com base para pedido, frete, login do cliente, painel administrativo e pagamento com Checkout Pro.</p>
+        <h1>Loja pronta para vender bem no celular.</h1>
+        <p>Catálogo, carrinho, pedidos, login e checkout num fluxo mais leve, mais limpo e muito mais confortável para quem acessa pelo mobile.</p>
       </div>
       <div class="hero-metrics">
         <div><strong id="featuredCount">0</strong><span>Destaques</span></div>
@@ -45,9 +76,9 @@
       <div class="chips" id="categoryChips"></div>
     </section>
 
-    <section>
+    <section id="produtos">
       <div class="section-head"><h2>Galeria de produtos</h2><p>Produtos fictícios para ajustar depois. Já integrados ao carrinho e checkout.</p></div>
-      <div class="toolbar">
+      <div class="toolbar mobile-stack">
         <select id="sortSelect" class="field">
           <option value="featured">Ordenar por destaque</option>
           <option value="low">Menor preço</option>

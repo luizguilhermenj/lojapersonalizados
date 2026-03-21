@@ -1,1 +1,19 @@
-.admin-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.admin-summary .tile{padding:16px;border-radius:18px;background:#f8fafc;border:1px solid var(--line)}.admin-summary strong{display:block;font-size:1.25rem;margin-bottom:6px}.admin-order-actions{display:flex;gap:10px;flex-wrap:wrap}.admin-select{min-height:42px;border:1px solid var(--line);border-radius:12px;padding:0 12px;background:#fff}@media(max-width:760px){.admin-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.admin-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.admin-summary .tile{padding:18px;border-radius:18px;background:#f8fafc;border:1px solid var(--line)}
+.admin-summary strong{display:block;font-size:1.25rem;margin-bottom:6px}
+.admin-toolbar{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.filter-group{display:flex;gap:10px;flex-wrap:wrap}
+.admin-order-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.admin-select{min-height:42px;border:1px solid var(--line);border-radius:12px;padding:0 12px;background:#fff;min-width:240px}
+.order-pill-group{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.empty-state{display:grid;gap:8px;padding:26px;border:1px dashed var(--line);border-radius:18px;background:#fafafa;color:var(--muted)}
+.modal-backdrop{position:fixed;inset:0;background:rgba(17,24,39,.56);backdrop-filter:blur(4px);display:grid;place-items:center;padding:20px;z-index:100}
+.modal-backdrop.hidden{display:none}
+.modal-card{width:min(100%,560px);background:#fff;border-radius:28px;padding:28px;box-shadow:0 30px 80px rgba(17,24,39,.28);display:grid;gap:16px;border:1px solid rgba(255,255,255,.8)}
+.modal-card h2{margin:0;font-size:1.8rem}
+.modal-badge{display:inline-flex;justify-self:start;padding:8px 12px;border-radius:999px;background:#fff3e7;color:#c56a00;font-weight:800}
+.modal-list{display:grid;gap:10px}
+.modal-order{display:grid;gap:2px;padding:14px 16px;background:#f8fafc;border:1px solid var(--line);border-radius:16px}
+.modal-order span{font-weight:600}
+.modal-order small{color:var(--muted)}
+@media(max-width:760px){.admin-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-select{min-width:0;width:100%}.modal-card{padding:22px}.modal-card h2{font-size:1.45rem}}

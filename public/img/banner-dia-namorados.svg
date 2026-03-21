@@ -1,0 +1,18 @@
+<svg width="1600" height="620" viewBox="0 0 1600 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1600" height="620" rx="36" fill="url(#bg)"/>
+<circle cx="1370" cy="120" r="170" fill="#ffffff" fill-opacity="0.08"/>
+<circle cx="1220" cy="480" r="220" fill="#ffffff" fill-opacity="0.08"/>
+<path d="M1260 190c28-38 86-42 118-6 36 41 20 100-49 160l-38 34-38-34c-70-60-85-119-49-160 32-36 90-32 118 6-15 20-26 44-31 72-5-28-16-52-31-72Z" fill="#fff0f6"/>
+<text x="92" y="178" fill="#FFF1F2" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700">Promoções especiais</text>
+<text x="92" y="282" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="800">Dia dos Namorados</text>
+<text x="92" y="350" fill="#FFE4E6" font-family="Arial, Helvetica, sans-serif" font-size="34">Canecas, almofadas e kits personalizados com visual romântico.</text>
+<rect x="92" y="404" width="248" height="66" rx="33" fill="white" fill-opacity="0.18"/>
+<text x="126" y="446" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">Peça agora</text>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1600" y2="620" gradientUnits="userSpaceOnUse">
+<stop stop-color="#B91C1C"/>
+<stop offset="0.55" stop-color="#E11D48"/>
+<stop offset="1" stop-color="#FB7185"/>
+</linearGradient>
+</defs>
+</svg>

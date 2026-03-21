@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
 const BASE_URL = (process.env.BASE_URL || `http://localhost:${PORT}`).replace(/\/+$/, '');
-const WHATSAPP_STORE_NUMBER = process.env.WHATSAPP_STORE_NUMBER || '554384244532';
+const WHATSAPP_STORE_NUMBER = process.env.WHATSAPP_STORE_NUMBER || '5543984244532';
 const MP_ACCESS_TOKEN = process.env.MP_ACCESS_TOKEN || '';
 const DATA_DIR = path.join(__dirname, 'data');
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -22,6 +22,7 @@ const FILES = {
   orders: path.join(DATA_DIR, 'orders.json'),
   sessions: path.join(DATA_DIR, 'sessions.json')
 };
+const ADMIN_ORDER_STATUSES = ['aguardando_processamento', 'em_producao', 'enviado', 'entregue', 'cancelado'];
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -42,12 +43,20 @@ function hashPassword(password, salt = crypto.randomBytes(16).toString('hex')) {
   return `scrypt$${salt}$${derived}`;
 }
 function verifyPassword(password, stored) {
-  const [algo, salt, hash] = stored.split('$');
+  const [algo, salt, hash] = String(stored || '').split('$');
   if (algo !== 'scrypt' || !salt || !hash) return false;
   const derived = crypto.scryptSync(password, salt, 64).toString('base64');
   return crypto.timingSafeEqual(Buffer.from(hash), Buffer.from(derived));
 }
-function safeUser(user) { return { id: user.id, name: user.name, email: user.email, role: user.role }; }
+function safeUser(user) {
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    lastAdminSeenAt: user.lastAdminSeenAt || null
+  };
+}
 function createSession(userId) {
   const token = uuidv4();
   const all = sessions();
@@ -70,6 +79,45 @@ function auth(req, res, next) {
 function adminOnly(req, res, next) {
   if (req.user?.role !== 'admin') return res.status(403).json({ error: 'Acesso restrito ao administrador.' });
   next();
+}
+function ensureAdminTrackingFields() {
+  const allUsers = users();
+  let changedUsers = false;
+  for (const user of allUsers) {
+    if (user.role === 'admin' && !('lastAdminSeenAt' in user)) {
+      user.lastAdminSeenAt = null;
+      changedUsers = true;
+    }
+  }
+  if (changedUsers) saveUsers(allUsers);
+
+  const allOrders = orders();
+  let changedOrders = false;
+  for (const order of allOrders) {
+    const normalized = normalizeAdminOrder(order);
+    if (JSON.stringify(normalized) !== JSON.stringify(order)) {
+      Object.assign(order, normalized);
+      changedOrders = true;
+    }
+  }
+  if (changedOrders) saveOrders(allOrders);
+}
+function normalizeOrderStatus(status, fallback = 'aguardando_processamento') {
+  const clean = String(status || '').trim();
+  return ADMIN_ORDER_STATUSES.includes(clean) ? clean : fallback;
+}
+function normalizeAdminOrder(order) {
+  const normalizedStatus = normalizeOrderStatus(
+    order.orderStatus === 'pago' ? 'aguardando_processamento' : order.orderStatus,
+    normalizeOrderStatus(order.shippingStatus, 'aguardando_processamento')
+  );
+  return {
+    ...order,
+    orderStatus: normalizedStatus,
+    shippingStatus: normalizedStatus,
+    adminPopupSeenAt: order.adminPopupSeenAt || null,
+    lastStatusChangeAt: order.lastStatusChangeAt || order.updatedAt || order.createdAt || new Date().toISOString()
+  };
 }
 function cepToRegion(cepRaw) {
   const cep = String(cepRaw || '').replace(/\D/g, '');
@@ -111,16 +159,10 @@ function shippingQuote(cep, items) {
   };
 
   if (!cep || !String(cep).replace(/\D/g, '')) {
-    return {
-      origin: 'Londrina/PR',
-      region: 'pickup',
-      state: 'PR',
-      options: [pickupOption]
-    };
+    return { origin: 'Londrina/PR', region: 'pickup', state: 'PR', options: [pickupOption] };
   }
 
   const { region, state } = cepToRegion(cep);
-
   const regionBase = {
     sul: { pac: 17.9, sedex: 28.9, pacDays: 4, sedexDays: 2 },
     sudeste: { pac: 22.9, sedex: 34.9, pacDays: 6, sedexDays: 3 },
@@ -162,22 +204,22 @@ function recalcOrder(order) {
   order.total = Number((subtotal + shippingPrice).toFixed(2));
   return order;
 }
-
 function whatsappOrderUrl(order) {
   if (!WHATSAPP_STORE_NUMBER) return null;
   const number = String(WHATSAPP_STORE_NUMBER).replace(/\D/g, '');
   const items = order.items.map(item => `${item.quantity}x ${item.name}`).join(', ');
   const message = [
-    `Novo pedido pago na Artize!`,
+    `Olá! Acabei de concluir uma compra na Artize 🎉`,
     `Pedido: ${order.id.slice(0, 8)}`,
     `Cliente: ${order.customer.name}`,
     `Itens: ${items}`,
     `Entrega: ${order.shipping?.label || '-'}`,
-    `Total: R$ ${order.total.toFixed(2).replace('.', ',')}`
+    `Total: R$ ${order.total.toFixed(2).replace('.', ',')}`,
+    '',
+    'Pode me confirmar se ficou tudo certo com o pedido?'
   ].join('\n');
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
-
 async function mpGetJson(url) {
   const response = await fetch(url, {
     headers: {
@@ -188,37 +230,31 @@ async function mpGetJson(url) {
   if (!response.ok) throw new Error(`Mercado Pago respondeu ${response.status}`);
   return response.json();
 }
-
 async function fetchPaymentById(paymentId) {
   if (!paymentId || !MP_ACCESS_TOKEN) return null;
   return mpGetJson(`https://api.mercadopago.com/v1/payments/${paymentId}`);
 }
-
 async function searchPaymentsByExternalReference(externalReference) {
   if (!externalReference || !MP_ACCESS_TOKEN) return [];
-  const query = new URLSearchParams({
-    external_reference: externalReference,
-    sort: 'date_created',
-    criteria: 'desc'
-  });
+  const query = new URLSearchParams({ external_reference: externalReference, sort: 'date_created', criteria: 'desc' });
   const data = await mpGetJson(`https://api.mercadopago.com/v1/payments/search?${query.toString()}`);
   return Array.isArray(data?.results) ? data.results : [];
 }
-
 function applyPaymentToOrder(order, payment) {
   if (!payment) return order;
   const status = payment.status || payment.status_detail || order.paymentStatus || 'pending';
   order.paymentStatus = status;
   order.paymentId = String(payment.id || order.paymentId || '');
   if (status === 'approved') {
-    if (order.orderStatus === 'aguardando_pagamento') order.orderStatus = 'pago';
+    if (!ADMIN_ORDER_STATUSES.includes(order.orderStatus)) order.orderStatus = 'aguardando_processamento';
+    if (!ADMIN_ORDER_STATUSES.includes(order.shippingStatus)) order.shippingStatus = 'aguardando_processamento';
   } else if (status === 'rejected' || status === 'cancelled' || status === 'cancelado') {
     order.orderStatus = 'cancelado';
+    order.shippingStatus = 'cancelado';
   }
   order.updatedAt = new Date().toISOString();
-  return order;
+  return normalizeAdminOrder(order);
 }
-
 async function syncOrderPayment(order, explicitPaymentId = null) {
   let payment = null;
   if (explicitPaymentId) {
@@ -231,8 +267,17 @@ async function syncOrderPayment(order, explicitPaymentId = null) {
     } catch {}
   }
   if (payment) applyPaymentToOrder(order, payment);
-  return order;
+  return normalizeAdminOrder(order);
 }
+function getUnseenSalesForAdmin(adminUser) {
+  const lastSeenAt = adminUser?.lastAdminSeenAt ? new Date(adminUser.lastAdminSeenAt).getTime() : 0;
+  return orders()
+    .filter(order => (order.paymentStatus === 'approved' || order.paymentStatus === 'accredited' || order.orderStatus !== 'aguardando_pagamento'))
+    .filter(order => new Date(order.createdAt || 0).getTime() > lastSeenAt)
+    .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+}
+
+ensureAdminTrackingFields();
 
 app.get('/api/health', (req, res) => res.json({ ok: true, envConfigured: Boolean(MP_ACCESS_TOKEN) }));
 app.get('/api/products', (req, res) => res.json(products()));
@@ -241,8 +286,16 @@ app.post('/api/auth/register', (req, res) => {
   if (!name || !email || !password) return res.status(400).json({ error: 'Nome, e-mail e senha são obrigatórios.' });
   const allUsers = users();
   if (allUsers.some(user => user.email.toLowerCase() === String(email).toLowerCase())) return res.status(400).json({ error: 'Este e-mail já está cadastrado.' });
-  const user = { id: uuidv4(), name: String(name).trim(), email: String(email).trim().toLowerCase(), passwordHash: hashPassword(String(password)), role: 'customer', createdAt: new Date().toISOString() };
-  allUsers.push(user); saveUsers(allUsers);
+  const user = {
+    id: uuidv4(),
+    name: String(name).trim(),
+    email: String(email).trim().toLowerCase(),
+    passwordHash: hashPassword(String(password)),
+    role: 'customer',
+    createdAt: new Date().toISOString()
+  };
+  allUsers.push(user);
+  saveUsers(allUsers);
   const token = createSession(user.id);
   res.status(201).json({ token, user: safeUser(user) });
 });
@@ -255,8 +308,13 @@ app.post('/api/auth/login', (req, res) => {
 });
 app.get('/api/auth/me', auth, (req, res) => res.json({ user: safeUser(req.user) }));
 app.post('/api/shipping/quote', (req, res) => {
-  try { const { cep, items } = req.body || {}; if (!Array.isArray(items) || !items.length) return res.status(400).json({ error: 'Carrinho vazio.' }); res.json(shippingQuote(cep, items)); }
-  catch (error) { res.status(400).json({ error: error.message }); }
+  try {
+    const { cep, items } = req.body || {};
+    if (!Array.isArray(items) || !items.length) return res.status(400).json({ error: 'Carrinho vazio.' });
+    res.json(shippingQuote(cep, items));
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 app.post('/api/checkout/create-preference', auth, async (req, res) => {
   try {
@@ -268,9 +326,15 @@ app.post('/api/checkout/create-preference', auth, async (req, res) => {
     const orderItems = items.map(item => {
       const product = productMap.get(item.productId);
       if (!product) throw new Error(`Produto não encontrado: ${item.productId}`);
-      return { productId: product.id, name: product.name, quantity: Number(item.quantity || 1), unitPrice: Number(product.price), image: product.image };
+      return {
+        productId: product.id,
+        name: product.name,
+        quantity: Number(item.quantity || 1),
+        unitPrice: Number(product.price),
+        image: product.image
+      };
     });
-    const order = recalcOrder({
+    const order = normalizeAdminOrder(recalcOrder({
       id: uuidv4(),
       customer: { id: req.user.id, name: req.user.name, email: req.user.email },
       items: orderItems,
@@ -281,9 +345,10 @@ app.post('/api/checkout/create-preference', auth, async (req, res) => {
       paymentId: null,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
-    });
+    }));
     const allOrders = orders();
-    allOrders.unshift(order); saveOrders(allOrders);
+    allOrders.unshift(order);
+    saveOrders(allOrders);
 
     const mpItems = order.items.map(item => ({ id: item.productId, title: item.name, quantity: item.quantity, currency_id: 'BRL', unit_price: item.unitPrice }));
     mpItems.push({ id: `shipping-${order.shipping.id}`, title: order.shipping.label, quantity: 1, currency_id: 'BRL', unit_price: order.shipping.price });
@@ -316,7 +381,8 @@ app.post('/api/orders/:id/return-update', async (req, res) => {
   if (paymentStatus) order.paymentStatus = paymentStatus;
   if (paymentId) order.paymentId = String(paymentId);
   if (paymentStatus === 'approved' || paymentStatus === 'accredited') {
-    if (order.orderStatus === 'aguardando_pagamento') order.orderStatus = 'pago';
+    order.orderStatus = normalizeOrderStatus(order.orderStatus, 'aguardando_processamento');
+    order.shippingStatus = normalizeOrderStatus(order.shippingStatus, 'aguardando_processamento');
   }
   await syncOrderPayment(order, paymentId);
   saveOrders(all);
@@ -337,7 +403,7 @@ app.get('/api/orders/my', auth, async (req, res) => {
     await syncOrderPayment(order);
   }
   saveOrders(all);
-  res.json(mine.map(order => ({ ...order, whatsappUrl: order.paymentStatus === 'approved' ? whatsappOrderUrl(order) : null })));
+  res.json(mine.map(order => ({ ...normalizeAdminOrder(order), whatsappUrl: order.paymentStatus === 'approved' ? whatsappOrderUrl(order) : null })));
 });
 app.post('/api/orders/:id/sync-payment', async (req, res) => {
   const all = orders();
@@ -348,20 +414,53 @@ app.post('/api/orders/:id/sync-payment', async (req, res) => {
   saveOrders(all);
   res.json({ order, whatsappUrl: order.paymentStatus === 'approved' ? whatsappOrderUrl(order) : null });
 });
-app.get('/api/admin/orders', auth, adminOnly, async (req, res) => { const all = orders(); for (const order of all.filter(item => item.paymentStatus !== 'approved')) { await syncOrderPayment(order); } saveOrders(all); res.json({ orders: all.map(order => ({ ...order, whatsappUrl: order.paymentStatus === 'approved' ? whatsappOrderUrl(order) : null })) }); });
+app.get('/api/admin/orders', auth, adminOnly, async (req, res) => {
+  const selectedStatus = String(req.query.status || 'todos');
+  const all = orders();
+  for (const order of all.filter(item => item.paymentStatus !== 'approved')) {
+    await syncOrderPayment(order);
+  }
+  saveOrders(all);
+  const normalized = all.map(order => ({ ...normalizeAdminOrder(order), whatsappUrl: order.paymentStatus === 'approved' ? whatsappOrderUrl(order) : null }));
+  const filtered = selectedStatus === 'todos' ? normalized : normalized.filter(order => order.orderStatus === selectedStatus);
+  res.json({ statuses: ADMIN_ORDER_STATUSES, orders: filtered, totalOrders: normalized.length });
+});
 app.patch('/api/admin/orders/:id/status', auth, adminOnly, (req, res) => {
-  const { shippingStatus } = req.body || {};
+  const requestedStatus = normalizeOrderStatus(req.body?.orderStatus || req.body?.shippingStatus, null);
+  if (!requestedStatus) return res.status(400).json({ error: 'Status inválido.' });
   const all = orders();
   const order = all.find(item => item.id === req.params.id);
   if (!order) return res.status(404).json({ error: 'Pedido não encontrado.' });
-  order.shippingStatus = shippingStatus || order.shippingStatus;
-  if (shippingStatus === 'em_producao') order.orderStatus = 'em_producao';
-  if (shippingStatus === 'enviado') order.orderStatus = 'enviado';
-  if (shippingStatus === 'entregue') order.orderStatus = 'entregue';
-  if (shippingStatus === 'cancelado') order.orderStatus = 'cancelado';
+  order.orderStatus = requestedStatus;
+  order.shippingStatus = requestedStatus;
+  if (requestedStatus === 'cancelado') order.paymentStatus = order.paymentStatus === 'approved' ? 'approved' : (order.paymentStatus || 'cancelled');
+  order.lastStatusChangeAt = new Date().toISOString();
   order.updatedAt = new Date().toISOString();
   saveOrders(all);
-  res.json(order);
+  res.json(normalizeAdminOrder(order));
+});
+app.get('/api/admin/notifications/new-sales', auth, adminOnly, (req, res) => {
+  const unseen = getUnseenSalesForAdmin(req.user).map(order => ({
+    id: order.id,
+    customerName: order.customer?.name || 'Cliente',
+    total: order.total || 0,
+    createdAt: order.createdAt,
+    orderStatus: normalizeOrderStatus(order.orderStatus, 'aguardando_processamento')
+  }));
+  res.json({
+    hasNewSales: unseen.length > 0,
+    count: unseen.length,
+    orders: unseen.slice(0, 5),
+    lastAdminSeenAt: req.user.lastAdminSeenAt || null
+  });
+});
+app.post('/api/admin/notifications/new-sales/ack', auth, adminOnly, (req, res) => {
+  const allUsers = users();
+  const admin = allUsers.find(item => item.id === req.user.id);
+  if (!admin) return res.status(404).json({ error: 'Administrador não encontrado.' });
+  admin.lastAdminSeenAt = new Date().toISOString();
+  saveUsers(allUsers);
+  res.json({ ok: true, lastAdminSeenAt: admin.lastAdminSeenAt });
 });
 app.post('/api/payments/webhook', express.json({ type: '*/*' }), async (req, res) => {
   try {

@@ -1,1 +1,50 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Artize | Admin</title><link rel="stylesheet" href="/css/base.css"><link rel="stylesheet" href="/css/admin.css"></head><body><main class="container page-stack"><a class="back-link" href="/pages/home.html">← Voltar para loja</a><section class="card"><div class="section-head"><h1>Painel administrativo</h1><p>Upgrade incluído: gestão básica de pedidos e status.</p></div><div id="adminSummary" class="admin-summary"></div><div id="adminOrders" class="stack"></div><p id="adminFeedback" class="feedback"></p></section></main><script type="module" src="/js/app.js"></script><script type="module" src="/js/admin.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artize | Admin</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <main class="container page-stack">
+    <a class="back-link" href="/pages/home.html">← Voltar para loja</a>
+
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <h1>Painel administrativo</h1>
+          <p>Gerencie pedidos, acompanhe novas vendas e atualize o andamento da produção.</p>
+        </div>
+        <div class="toolbar">
+          <a class="ghost-btn" href="/pages/pedidos.html">Visão do cliente</a>
+        </div>
+      </div>
+
+      <div id="adminSummary" class="admin-summary"></div>
+
+      <div class="admin-toolbar">
+        <div class="filter-group" id="statusFilters"></div>
+        <button class="ghost-btn" id="refreshAdminBtn" type="button">Atualizar painel</button>
+      </div>
+
+      <div id="adminOrders" class="stack"></div>
+      <p id="adminFeedback" class="feedback"></p>
+    </section>
+  </main>
+
+  <div id="newSaleModal" class="modal-backdrop hidden" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="newSaleTitle">
+      <div class="modal-badge">✨ Nova venda detectada</div>
+      <h2 id="newSaleTitle">Oba, você tem uma nova venda!</h2>
+      <p id="newSaleText">Entrou um novo pedido e o painel já foi atualizado para você acompanhar.</p>
+      <div id="newSaleList" class="modal-list"></div>
+      <button class="primary-btn" id="ackNewSaleBtn" type="button">Vi a notificação</button>
+    </div>
+  </div>
+
+  <script type="module" src="/js/app.js"></script>
+  <script type="module" src="/js/admin.js"></script>
+</body>
+</html>

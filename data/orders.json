@@ -24,13 +24,15 @@
       "origin": "Londrina/PR"
     },
     "paymentStatus": "pending",
-    "orderStatus": "aguardando_pagamento",
+    "orderStatus": "aguardando_processamento",
     "shippingStatus": "aguardando_processamento",
     "paymentId": null,
     "createdAt": "2026-03-15T04:46:15.738Z",
     "updatedAt": "2026-03-15T04:46:15.738Z",
     "subtotal": 1,
-    "total": 1
+    "total": 1,
+    "adminPopupSeenAt": null,
+    "lastStatusChangeAt": "2026-03-15T04:46:15.738Z"
   },
   {
     "id": "9fdd0699-3432-4855-ac5b-08c55cf85bcf",
@@ -57,12 +59,14 @@
       "origin": "Londrina/PR"
     },
     "paymentStatus": "pending",
-    "orderStatus": "aguardando_pagamento",
+    "orderStatus": "aguardando_processamento",
     "shippingStatus": "aguardando_processamento",
     "paymentId": null,
     "createdAt": "2026-03-15T04:31:07.198Z",
     "updatedAt": "2026-03-15T04:31:07.198Z",
     "subtotal": 1,
-    "total": 18.9
+    "total": 18.9,
+    "adminPopupSeenAt": null,
+    "lastStatusChangeAt": "2026-03-15T04:31:07.198Z"
   }
 ]
