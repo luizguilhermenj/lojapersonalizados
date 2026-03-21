@@ -9,6 +9,10 @@ const promoDots = document.getElementById('promoDots');
 const menuToggle = document.getElementById('menuToggle');
 const siteHeader = document.querySelector('.site-header');
 const headerNav = document.getElementById('headerNav');
+const sideMenu = document.getElementById('sideMenu');
+const sideMenuBackdrop = document.getElementById('sideMenuBackdrop');
+const sideClose = document.getElementById('sideClose');
+const sideAccountLink = document.getElementById('sideAccountLink');
 
 let products = [];
 let currentCategory = 'Todos';
@@ -136,26 +140,44 @@ function restartCarousel() {
   carouselTimer = window.setInterval(() => showSlide(currentSlide + 1), 4200);
 }
 
+function closeMenu() {
+  siteHeader?.classList.remove('menu-open');
+  sideMenu?.classList.remove('open');
+  sideMenu?.setAttribute('aria-hidden', 'true');
+  sideMenuBackdrop?.setAttribute('hidden', 'hidden');
+  menuToggle?.setAttribute('aria-expanded', 'false');
+}
+
+function openMenu() {
+  siteHeader?.classList.add('menu-open');
+  sideMenu?.classList.add('open');
+  sideMenu?.setAttribute('aria-hidden', 'false');
+  sideMenuBackdrop?.removeAttribute('hidden');
+  menuToggle?.setAttribute('aria-expanded', 'true');
+}
+
 function setupMenu() {
   if (!menuToggle || !siteHeader || !headerNav) return;
 
   menuToggle.addEventListener('click', () => {
-    const isOpen = siteHeader.classList.toggle('menu-open');
-    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    const isOpen = sideMenu?.classList.contains('open');
+    if (isOpen) closeMenu();
+    else openMenu();
   });
 
-  headerNav.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      siteHeader.classList.remove('menu-open');
-      menuToggle.setAttribute('aria-expanded', 'false');
+  [headerNav, sideMenu].forEach((container) => {
+    container?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
     });
   });
 
+  sideMenuBackdrop?.addEventListener('click', closeMenu);
+  sideClose?.addEventListener('click', closeMenu);
+
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 1100) {
-      siteHeader.classList.remove('menu-open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-    }
+    if (window.innerWidth > 1100) closeMenu();
   });
 }
 
@@ -165,6 +187,11 @@ async function init() {
   renderProducts();
   startCarousel();
   setupMenu();
+  if (sideAccountLink) {
+    const accountLink = document.getElementById('accountLink');
+    sideAccountLink.textContent = accountLink?.textContent || 'Entrar';
+    sideAccountLink.href = accountLink?.getAttribute('href') || '/pages/login.html';
+  }
 }
 
 globalSearch?.addEventListener('input', (event) => {
