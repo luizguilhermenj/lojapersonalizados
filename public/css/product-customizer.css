@@ -26,3 +26,6 @@
 .art-card .select-pill{justify-self:start;padding:8px 12px;border-radius:999px;background:#fff3e4;color:#ab5a00;font-weight:800;font-size:.8rem}
 @media(max-width:980px){.customizer-hero{grid-template-columns:1fr}.art-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){.customizer-page{padding-top:14px}.customizer-hero{gap:18px}.product-preview{padding:8px;border-radius:20px}.product-summary{gap:14px}.summary-price-row strong{font-size:1.55rem}.cta-row{display:grid;grid-template-columns:1fr}.art-grid{gap:12px}.art-card{border-radius:18px;padding:12px}.art-card img{border-radius:14px}.art-card h3{font-size:.96rem}.art-card p{font-size:.85rem}}
+
+.inventory-pill{display:inline-flex;width:max-content;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--muted);font-weight:800;font-size:.82rem}
+.art-card img{background:#fff}

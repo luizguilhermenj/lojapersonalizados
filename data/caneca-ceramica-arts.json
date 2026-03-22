@@ -1,21 +1,4 @@
-import { addToCart } from '/js/app.js';
-
-const artGrid = document.getElementById('artGrid');
-const selectedMockup = document.getElementById('selectedMockup');
-const selectedArtName = document.getElementById('selectedArtName');
-const selectedArtDescription = document.getElementById('selectedArtDescription');
-const addSelectedArtBtn = document.getElementById('addSelectedArtBtn');
-const customizerFeedback = document.getElementById('customizerFeedback');
-const totalArtsLabel = document.getElementById('totalArtsLabel');
-
-const baseProduct = {
-  id: 'caneca-ceramica',
-  name: 'Caneca de Cerâmica',
-  price: 34.9,
-  baseImage: '/img/products/caneca-ceramica.svg'
-};
-
-const arts = [
+[
   {
     "id": "pascoa-01",
     "name": "Páscoa 01",
@@ -316,61 +299,4 @@ const arts = [
     "description": "Arte temática de Páscoa para caneca de cerâmica.",
     "image": "/img/artes/caneca-ceramica/pascoa-50.webp"
   }
-];
-
-let selectedArt = arts[0];
-
-function renderArts() {
-  artGrid.innerHTML = arts.map((art) => `
-    <article class="art-card ${art.id === selectedArt.id ? 'active' : ''}" data-art-id="${art.id}">
-      <img src="${art.image}" alt="${art.name}">
-      <div>
-        <h3>${art.name}</h3>
-        <p>${art.description}</p>
-      </div>
-      <span class="select-pill">${art.id === selectedArt.id ? 'Selecionada' : 'Toque para escolher'}</span>
-    </article>
-  `).join('');
-
-  artGrid.querySelectorAll('.art-card').forEach((card) => {
-    card.addEventListener('click', () => {
-      const art = arts.find((item) => item.id === card.dataset.artId);
-      if (!art) return;
-      selectedArt = art;
-      syncSelectedArt();
-      renderArts();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  });
-}
-
-function syncSelectedArt() {
-  selectedMockup.src = selectedArt.image;
-  selectedMockup.alt = `${baseProduct.name} com arte ${selectedArt.name}`;
-  selectedArtName.textContent = selectedArt.name;
-  selectedArtDescription.textContent = selectedArt.description;
-  if (totalArtsLabel) {
-    totalArtsLabel.textContent = `${arts.length} artes disponíveis`;
-  }
-}
-
-addSelectedArtBtn?.addEventListener('click', () => {
-  const cartKey = `${baseProduct.id}::${selectedArt.id}`;
-  addToCart({
-    cartKey,
-    productId: baseProduct.id,
-    name: `${baseProduct.name} • ${selectedArt.name}`,
-    price: baseProduct.price,
-    image: selectedArt.image,
-    quantity: 1,
-    variation: selectedArt.name,
-    variationId: selectedArt.id,
-    baseName: baseProduct.name
-  });
-
-  customizerFeedback.className = 'feedback success';
-  customizerFeedback.textContent = `Perfeito! ${selectedArt.name} foi adicionada ao carrinho.`;
-});
-
-syncSelectedArt();
-renderArts();
+]
