@@ -211,4 +211,15 @@ addSelectedArtBtn?.addEventListener('click', () => {
   }
 });
 
+window.addEventListener('load', () => {
+  if (window.location.hash === '#escolha-arte') {
+    const secao = document.getElementById('escolha-arte');
+    if (secao) {
+      setTimeout(() => {
+        secao.scrollIntoView({ behavior: 'auto', block: 'start' });
+      }, 200);
+    }
+  }
+});
+
 loadArtes();
