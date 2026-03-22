@@ -31,3 +31,11 @@ html{scroll-behavior:smooth}
 
 .inventory-pill{display:inline-flex;width:max-content;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--muted);font-weight:800;font-size:.82rem}
 .art-card img{background:#fff}
+
+.customizer-section-head{margin-bottom:12px}
+.theme-filter-wrap{margin-bottom:12px}
+.filter-summary{margin:0 0 16px;color:var(--muted);font-weight:600}
+.art-card{appearance:none;text-align:left}
+.art-card-copy{display:grid;gap:4px}
+.art-card p{font-weight:700}
+@media(max-width:720px){.theme-filter-wrap .chips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.theme-filter-wrap .chip{width:100%;text-align:center;padding:11px 10px}.filter-summary{font-size:.92rem}}

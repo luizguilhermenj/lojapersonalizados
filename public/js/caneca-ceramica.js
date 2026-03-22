@@ -4,373 +4,157 @@ const artGrid = document.getElementById('artGrid');
 const selectedMockup = document.getElementById('selectedMockup');
 const selectedArtName = document.getElementById('selectedArtName');
 const selectedArtDescription = document.getElementById('selectedArtDescription');
+const selectedThemeEyebrow = document.getElementById('selectedThemeEyebrow');
 const addSelectedArtBtn = document.getElementById('addSelectedArtBtn');
 const customizerFeedback = document.getElementById('customizerFeedback');
 const totalArtsLabel = document.getElementById('totalArtsLabel');
+const themeFilters = document.getElementById('themeFilters');
+const filterSummary = document.getElementById('filterSummary');
 
 const baseProduct = {
   id: 'caneca-ceramica',
   name: 'Caneca de Cerâmica',
-  price: 34.9,
-  baseImage: '/img/products/caneca-ceramica.svg'
+  price: 34.9
 };
 
-const arts = [
-  {
-    "id": "pascoa-01",
-    "name": "Páscoa 01",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-01.webp"
-  },
-  {
-    "id": "pascoa-02",
-    "name": "Páscoa 02",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-02.webp"
-  },
-  {
-    "id": "pascoa-03",
-    "name": "Páscoa 03",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-03.webp"
-  },
-  {
-    "id": "pascoa-04",
-    "name": "Páscoa 04",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-04.webp"
-  },
-  {
-    "id": "pascoa-05",
-    "name": "Páscoa 05",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-05.webp"
-  },
-  {
-    "id": "pascoa-06",
-    "name": "Páscoa 06",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-06.webp"
-  },
-  {
-    "id": "pascoa-07",
-    "name": "Páscoa 07",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-07.webp"
-  },
-  {
-    "id": "pascoa-08",
-    "name": "Páscoa 08",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-08.webp"
-  },
-  {
-    "id": "pascoa-09",
-    "name": "Páscoa 09",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-09.webp"
-  },
-  {
-    "id": "pascoa-10",
-    "name": "Páscoa 10",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-10.webp"
-  },
-  {
-    "id": "pascoa-11",
-    "name": "Páscoa 11",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-11.webp"
-  },
-  {
-    "id": "pascoa-12",
-    "name": "Páscoa 12",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-12.webp"
-  },
-  {
-    "id": "pascoa-13",
-    "name": "Páscoa 13",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-13.webp"
-  },
-  {
-    "id": "pascoa-14",
-    "name": "Páscoa 14",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-14.webp"
-  },
-  {
-    "id": "pascoa-15",
-    "name": "Páscoa 15",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-15.webp"
-  },
-  {
-    "id": "pascoa-16",
-    "name": "Páscoa 16",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-16.webp"
-  },
-  {
-    "id": "pascoa-17",
-    "name": "Páscoa 17",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-17.webp"
-  },
-  {
-    "id": "pascoa-18",
-    "name": "Páscoa 18",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-18.webp"
-  },
-  {
-    "id": "pascoa-19",
-    "name": "Páscoa 19",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-19.webp"
-  },
-  {
-    "id": "pascoa-20",
-    "name": "Páscoa 20",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-20.webp"
-  },
-  {
-    "id": "pascoa-21",
-    "name": "Páscoa 21",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-21.webp"
-  },
-  {
-    "id": "pascoa-22",
-    "name": "Páscoa 22",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-22.webp"
-  },
-  {
-    "id": "pascoa-23",
-    "name": "Páscoa 23",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-23.webp"
-  },
-  {
-    "id": "pascoa-24",
-    "name": "Páscoa 24",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-24.webp"
-  },
-  {
-    "id": "pascoa-25",
-    "name": "Páscoa 25",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-25.webp"
-  },
-  {
-    "id": "pascoa-26",
-    "name": "Páscoa 26",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-26.webp"
-  },
-  {
-    "id": "pascoa-27",
-    "name": "Páscoa 27",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-27.webp"
-  },
-  {
-    "id": "pascoa-28",
-    "name": "Páscoa 28",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-28.webp"
-  },
-  {
-    "id": "pascoa-29",
-    "name": "Páscoa 29",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-29.webp"
-  },
-  {
-    "id": "pascoa-30",
-    "name": "Páscoa 30",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-30.webp"
-  },
-  {
-    "id": "pascoa-31",
-    "name": "Páscoa 31",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-31.webp"
-  },
-  {
-    "id": "pascoa-32",
-    "name": "Páscoa 32",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-32.webp"
-  },
-  {
-    "id": "pascoa-33",
-    "name": "Páscoa 33",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-33.webp"
-  },
-  {
-    "id": "pascoa-34",
-    "name": "Páscoa 34",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-34.webp"
-  },
-  {
-    "id": "pascoa-35",
-    "name": "Páscoa 35",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-35.webp"
-  },
-  {
-    "id": "pascoa-36",
-    "name": "Páscoa 36",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-36.webp"
-  },
-  {
-    "id": "pascoa-37",
-    "name": "Páscoa 37",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-37.webp"
-  },
-  {
-    "id": "pascoa-38",
-    "name": "Páscoa 38",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-38.webp"
-  },
-  {
-    "id": "pascoa-39",
-    "name": "Páscoa 39",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-39.webp"
-  },
-  {
-    "id": "pascoa-40",
-    "name": "Páscoa 40",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-40.webp"
-  },
-  {
-    "id": "pascoa-41",
-    "name": "Páscoa 41",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-41.webp"
-  },
-  {
-    "id": "pascoa-42",
-    "name": "Páscoa 42",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-42.webp"
-  },
-  {
-    "id": "pascoa-43",
-    "name": "Páscoa 43",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-43.webp"
-  },
-  {
-    "id": "pascoa-44",
-    "name": "Páscoa 44",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-44.webp"
-  },
-  {
-    "id": "pascoa-45",
-    "name": "Páscoa 45",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-45.webp"
-  },
-  {
-    "id": "pascoa-46",
-    "name": "Páscoa 46",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-46.webp"
-  },
-  {
-    "id": "pascoa-47",
-    "name": "Páscoa 47",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-47.webp"
-  },
-  {
-    "id": "pascoa-48",
-    "name": "Páscoa 48",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-48.webp"
-  },
-  {
-    "id": "pascoa-49",
-    "name": "Páscoa 49",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-49.webp"
-  },
-  {
-    "id": "pascoa-50",
-    "name": "Páscoa 50",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "image": "/img/artes/caneca-ceramica/pascoa-50.webp"
-  }
+const themeOrder = [
+  { slug: 'todas', label: 'Todas' },
+  { slug: 'pascoa', label: 'Páscoa' },
+  { slug: 'maes', label: 'Dia das Mães' },
+  { slug: 'namorados', label: 'Dia dos Namorados' },
+  { slug: 'pais', label: 'Dia dos Pais' },
+  { slug: 'avos', label: 'Dia dos Avós' },
+  { slug: 'cactus-flores', label: 'Cactus e Flores' },
+  { slug: 'diversas', label: 'Diversas' }
 ];
 
-let selectedArt = arts[0];
+let arts = [];
+let selectedTheme = 'todas';
+let selectedArt = null;
 
-function renderArts() {
-  artGrid.innerHTML = arts.map((art) => `
-    <article class="art-card ${art.id === selectedArt.id ? 'active' : ''}" data-art-id="${art.id}">
-      <img src="${art.image}" alt="${art.name}">
-      <div>
-        <h3>${art.name}</h3>
-        <p>${art.description}</p>
-      </div>
-      <span class="select-pill">${art.id === selectedArt.id ? 'Selecionada' : 'Toque para escolher'}</span>
-    </article>
-  `).join('');
+function formatPrice(value) {
+  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
 
-  artGrid.querySelectorAll('.art-card').forEach((card) => {
-    card.addEventListener('click', () => {
-      const art = arts.find((item) => item.id === card.dataset.artId);
-      if (!art) return;
-      selectedArt = art;
-      syncSelectedArt();
-      renderArts();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+function getFilteredArts() {
+  if (selectedTheme === 'todas') return arts;
+  return arts.filter((art) => art.theme === selectedTheme);
+}
+
+function ensureSelectedArt() {
+  const visibleArts = getFilteredArts();
+  if (!visibleArts.length) {
+    selectedArt = null;
+    return;
+  }
+
+  const stillVisible = selectedArt && visibleArts.some((art) => art.id === selectedArt.id);
+  if (!stillVisible) selectedArt = visibleArts[0];
+}
+
+function updateHero() {
+  if (!selectedArt) return;
+  selectedMockup.src = selectedArt.image;
+  selectedMockup.alt = `${baseProduct.name} com ${selectedArt.name}`;
+  selectedArtName.textContent = selectedArt.name;
+  selectedArtDescription.textContent = selectedArt.description;
+  selectedThemeEyebrow.textContent = selectedArt.themeLabel;
+  const visibleCount = getFilteredArts().length;
+  totalArtsLabel.textContent = selectedTheme === 'todas'
+    ? `${arts.length} artes disponíveis`
+    : `${visibleCount} artes em ${selectedArt.themeLabel}`;
+  filterSummary.textContent = selectedTheme === 'todas'
+    ? `Mostrando todas as ${arts.length} artes disponíveis.`
+    : `Mostrando ${visibleCount} artes do tema ${selectedArt.themeLabel}.`;
+}
+
+function renderThemeFilters() {
+  const counts = arts.reduce((acc, art) => {
+    acc[art.theme] = (acc[art.theme] || 0) + 1;
+    return acc;
+  }, {});
+
+  themeFilters.innerHTML = '';
+  themeOrder.forEach((theme) => {
+    if (theme.slug !== 'todas' && !counts[theme.slug]) return;
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `chip ${selectedTheme === theme.slug ? 'active' : ''}`;
+    const count = theme.slug === 'todas' ? arts.length : counts[theme.slug];
+    button.textContent = `${theme.label} (${count})`;
+    button.addEventListener('click', () => {
+      selectedTheme = theme.slug;
+      renderThemeFilters();
+      renderArtGrid();
     });
+    themeFilters.appendChild(button);
   });
 }
 
-function syncSelectedArt() {
-  selectedMockup.src = selectedArt.image;
-  selectedMockup.alt = `${baseProduct.name} com arte ${selectedArt.name}`;
-  selectedArtName.textContent = selectedArt.name;
-  selectedArtDescription.textContent = selectedArt.description;
-  if (totalArtsLabel) {
-    totalArtsLabel.textContent = `${arts.length} artes disponíveis`;
+function renderArtGrid() {
+  ensureSelectedArt();
+  updateHero();
+
+  const visibleArts = getFilteredArts();
+  artGrid.innerHTML = '';
+
+  visibleArts.forEach((art) => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = `art-card ${selectedArt?.id === art.id ? 'active' : ''}`;
+    card.innerHTML = `
+      <img src="${art.image}" alt="${art.name}" loading="lazy" />
+      <div class="art-card-copy">
+        <h3>${art.name}</h3>
+        <p>${art.themeLabel}</p>
+      </div>
+      <span class="select-pill">Selecionar</span>
+    `;
+    card.addEventListener('click', () => {
+      selectedArt = art;
+      customizerFeedback.textContent = '';
+      updateHero();
+      renderArtGrid();
+      selectedMockup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    artGrid.appendChild(card);
+  });
+}
+
+addSelectedArtBtn.addEventListener('click', () => {
+  if (!selectedArt) return;
+
+  addToCart({
+    productId: baseProduct.id,
+    cartKey: `${baseProduct.id}-${selectedArt.id}`,
+    name: `${baseProduct.name} • ${selectedArt.name}`,
+    unitPrice: baseProduct.price,
+    image: selectedArt.image,
+    quantity: 1,
+    artId: selectedArt.id,
+    artName: selectedArt.name,
+    artTheme: selectedArt.theme,
+    artThemeLabel: selectedArt.themeLabel,
+    variationLabel: `Arte escolhida: ${selectedArt.name}`
+  });
+
+  customizerFeedback.textContent = `${selectedArt.name} adicionada ao carrinho por ${formatPrice(baseProduct.price)}.`;
+});
+
+async function init() {
+  const response = await fetch('/api/caneca-ceramica-arts');
+  if (!response.ok) throw new Error('Falha ao carregar as artes da caneca.');
+  arts = await response.json();
+  selectedArt = arts[0] || null;
+  renderThemeFilters();
+  renderArtGrid();
+
+  if (!arts.length) {
+    filterSummary.textContent = 'Nenhuma arte foi encontrada. Verifique a pasta public/img/artes/caneca.';
   }
 }
 
-addSelectedArtBtn?.addEventListener('click', () => {
-  const cartKey = `${baseProduct.id}::${selectedArt.id}`;
-  addToCart({
-    cartKey,
-    productId: baseProduct.id,
-    name: `${baseProduct.name} • ${selectedArt.name}`,
-    price: baseProduct.price,
-    image: selectedArt.image,
-    quantity: 1,
-    variation: selectedArt.name,
-    variationId: selectedArt.id,
-    baseName: baseProduct.name
-  });
-
-  customizerFeedback.className = 'feedback success';
-  customizerFeedback.textContent = `Perfeito! ${selectedArt.name} foi adicionada ao carrinho.`;
+init().catch(() => {
+  filterSummary.textContent = 'Não foi possível carregar as artes agora.';
 });
-
-syncSelectedArt();
-renderArts();

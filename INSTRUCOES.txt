@@ -1,0 +1,39 @@
+Substitua estes arquivos no seu projeto:
+
+1) server.js
+   caminho destino: /server.js
+
+2) home.js
+   caminho destino: /public/js/home.js
+
+3) caneca-ceramica.js
+   caminho destino: /public/js/caneca-ceramica.js
+
+4) caneca-ceramica.html
+   caminho destino: /public/pages/caneca-ceramica.html
+
+5) product-customizer.css
+   caminho destino: /public/css/product-customizer.css
+
+Estrutura esperada das imagens:
+/public/img/artes/caneca/
+  pascoa/
+  maes/
+  namorados/
+  pais/
+  avos/
+  cactus-flores/
+  diversas/
+
+O sistema agora lê automaticamente as imagens dessas pastas pelo servidor.
+Não precisa substituir arquivo JSON de artes.
+
+Depois de copiar os arquivos:
+- reinicie o projeto / servidor
+- teste a página da caneca de cerâmica
+
+Comandos:
+ git add .
+ git commit -m "feat: filtro por tema automatico nas artes da caneca"
+ git pull --rebase origin main
+ git push origin main

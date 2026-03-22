@@ -204,6 +204,88 @@ function recalcOrder(order) {
   order.total = Number((subtotal + shippingPrice).toFixed(2));
   return order;
 }
+
+function slugToThemeLabel(slug) {
+  const map = {
+    pascoa: 'Páscoa',
+    maes: 'Dia das Mães',
+    namorados: 'Dia dos Namorados',
+    pais: 'Dia dos Pais',
+    avos: 'Dia dos Avós',
+    'cactus-flores': 'Cactus e Flores',
+    flores: 'Cactus e Flores',
+    diversas: 'Diversas',
+    diversos: 'Diversas'
+  };
+  return map[slug] || slug.replace(/-/g, ' ').replace(/\w/g, (char) => char.toUpperCase());
+}
+
+function buildCeramicMugArts() {
+  const baseDir = path.join(PUBLIC_DIR, 'img', 'artes', 'caneca');
+  const accepted = new Set(['.jpg', '.jpeg', '.png', '.webp']);
+  if (!fs.existsSync(baseDir)) return [];
+
+  const normalizeThemeSlug = (value) => String(value || '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/&/g, ' e ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/^diversos$/, 'diversas')
+    .replace(/^flores$/, 'cactus-flores');
+
+  const prettifyName = (filename, fallbackLabel, index) => {
+    const raw = filename.replace(/\.[^.]+$/, '');
+    const numericOnly = /^\d+$/.test(raw.replace(/\s+/g, ''));
+    if (numericOnly) return `${fallbackLabel} ${String(index).padStart(2, '0')}`;
+    return raw
+      .replace(/[_-]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+
+  const folders = fs.readdirSync(baseDir, { withFileTypes: true }).filter((entry) => entry.isDirectory());
+  const arts = [];
+
+  for (const folder of folders) {
+    const theme = normalizeThemeSlug(folder.name);
+    const themeLabel = slugToThemeLabel(theme);
+    const folderPath = path.join(baseDir, folder.name);
+    const files = fs.readdirSync(folderPath)
+      .filter((file) => accepted.has(path.extname(file).toLowerCase()))
+      .sort((a, b) => a.localeCompare(b, 'pt-BR', { numeric: true, sensitivity: 'base' }));
+
+    files.forEach((file, index) => {
+      const fileUrl = `/img/artes/caneca/${encodeURIComponent(folder.name)}/${encodeURIComponent(file)}`;
+      const name = prettifyName(file, themeLabel, index + 1);
+      arts.push({
+        id: `${theme}-${String(index + 1).padStart(3, '0')}`,
+        name,
+        description: `Arte temática de ${themeLabel.toLowerCase()} para caneca de cerâmica.`,
+        theme,
+        themeLabel,
+        image: fileUrl
+      });
+    });
+  }
+
+  const themeRank = {
+    pascoa: 1,
+    maes: 2,
+    namorados: 3,
+    pais: 4,
+    avos: 5,
+    'cactus-flores': 6,
+    diversas: 7
+  };
+
+  return arts.sort((a, b) => {
+    const rankDiff = (themeRank[a.theme] || 999) - (themeRank[b.theme] || 999);
+    if (rankDiff !== 0) return rankDiff;
+    return a.name.localeCompare(b.name, 'pt-BR', { numeric: true, sensitivity: 'base' });
+  });
+}
 function whatsappOrderUrl(order) {
   if (!WHATSAPP_STORE_NUMBER) return null;
   const number = String(WHATSAPP_STORE_NUMBER).replace(/\D/g, '');
@@ -281,6 +363,7 @@ ensureAdminTrackingFields();
 
 app.get('/api/health', (req, res) => res.json({ ok: true, envConfigured: Boolean(MP_ACCESS_TOKEN) }));
 app.get('/api/products', (req, res) => res.json(products()));
+app.get('/api/caneca-ceramica-arts', (req, res) => res.json(buildCeramicMugArts()));
 app.post('/api/auth/register', (req, res) => {
   const { name, email, password } = req.body || {};
   if (!name || !email || !password) return res.status(400).json({ error: 'Nome, e-mail e senha são obrigatórios.' });

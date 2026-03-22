@@ -21,26 +21,26 @@
   <main class="container page-stack customizer-page">
     <section class="customizer-hero card">
       <div class="product-preview">
-        <img id="selectedMockup" src="/img/artes/caneca-ceramica/pascoa-01.webp" alt="Caneca de Cerâmica com arte selecionada" />
+        <img id="selectedMockup" src="/img/products/caneca-ceramica.svg" alt="Caneca de Cerâmica com arte selecionada" />
       </div>
       <div class="product-summary">
-        <span class="eyebrow">Coleção Páscoa</span>
+        <span class="eyebrow" id="selectedThemeEyebrow">Coleções temáticas</span>
         <h1>Caneca de Cerâmica</h1>
-        <span class="inventory-pill" id="totalArtsLabel">50 artes disponíveis</span>
-        <p class="summary-copy">Escolha uma das artes reais já aplicadas no mockup da caneca. Assim o cliente entra no carrinho com a estampa certa, sem confusão no pedido.</p>
+        <span class="inventory-pill" id="totalArtsLabel">Carregando artes...</span>
+        <p class="summary-copy">Escolha um tema, navegue pelos mockups reais e adicione ao carrinho exatamente a arte desejada. Assim o pedido já segue organizado e sem ruído na produção.</p>
         <div class="summary-price-row">
           <strong>R$ 34,90</strong>
-          <span>Caneca base + arte da coleção Páscoa</span>
+          <span>Caneca base + arte da coleção escolhida</span>
         </div>
         <div class="summary-points">
           <span>✔ Cerâmica clássica</span>
-          <span>✔ Ótima para presente</span>
-          <span>✔ 50 mockups prontos</span>
+          <span>✔ Filtro por tema</span>
+          <span>✔ Mockups reais</span>
         </div>
         <div class="selection-box" id="selectionBox">
           <small>Arte escolhida</small>
-          <strong id="selectedArtName">Páscoa 01</strong>
-          <span id="selectedArtDescription">Arte temática de Páscoa para caneca de cerâmica.</span>
+          <strong id="selectedArtName">Selecione uma arte</strong>
+          <span id="selectedArtDescription">Assim que você tocar em uma arte, a prévia e os detalhes aparecem aqui.</span>
         </div>
         <div class="cta-row">
           <button id="addSelectedArtBtn" class="primary-btn" type="button">Adicionar ao carrinho</button>
@@ -51,10 +51,16 @@
     </section>
 
     <section id="escolha-arte" class="card">
-      <div class="section-head">
-        <h2>Escolha a arte</h2>
-        <span class="section-helper">Toque em uma arte para ver a prévia acima e seguir com a escolha.</span>
+      <div class="section-head customizer-section-head">
+        <div>
+          <h2>Escolha a arte</h2>
+          <span class="section-helper">Filtre por tema e toque em uma arte para ver a prévia acima.</span>
+        </div>
       </div>
+      <div class="theme-filter-wrap">
+        <div id="themeFilters" class="chips" aria-label="Filtrar artes por tema"></div>
+      </div>
+      <div id="filterSummary" class="filter-summary">Mostrando todas as artes disponíveis.</div>
       <div id="artGrid" class="art-grid"></div>
     </section>
   </main>
