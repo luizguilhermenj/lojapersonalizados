@@ -1,8 +1,14 @@
 const storageKeys={cart:'artize_cart_v1',session:'artize_session_v1'};
 export function readCart(){try{return JSON.parse(localStorage.getItem(storageKeys.cart)||'[]')}catch{return []}}
 export function writeCart(items){localStorage.setItem(storageKeys.cart,JSON.stringify(items)); updateCartBadge();}
-export function addToCart(item){const cart=readCart(); const existing=cart.find(p=>p.productId===item.productId); if(existing){existing.quantity+=item.quantity||1}else{cart.push({...item,quantity:item.quantity||1})} writeCart(cart)}
-export function removeFromCart(productId){writeCart(readCart().filter(item=>item.productId!==productId))}
+export function addToCart(item){
+  const cart=readCart();
+  const cartKey=item.cartKey||item.productId;
+  const existing=cart.find(p=>(p.cartKey||p.productId)===cartKey);
+  if(existing){existing.quantity+=(item.quantity||1)}else{cart.push({...item,cartKey,quantity:item.quantity||1})}
+  writeCart(cart)
+}
+export function removeFromCart(cartKey){writeCart(readCart().filter(item=>(item.cartKey||item.productId)!==cartKey))}
 export function updateCartBadge(){const badge=document.getElementById('cartCountBadge'); if(!badge) return; const qty=readCart().reduce((sum,item)=>sum+item.quantity,0); badge.textContent=qty}
 export function getSession(){try{return JSON.parse(localStorage.getItem(storageKeys.session)||'null')}catch{return null}}
 export function getDashboardPath(){const session=getSession(); return session?.user?.role==='admin'?'/pages/admin.html':'/pages/pedidos.html'}

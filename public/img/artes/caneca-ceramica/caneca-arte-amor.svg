@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <rect width="800" height="800" rx="40" fill="#f4f6f8"/>
+  <ellipse cx="400" cy="650" rx="210" ry="40" fill="#d7dce2"/>
+  <rect x="190" y="180" width="360" height="340" rx="32" fill="#ffffff" stroke="#dbe2ea" stroke-width="14"/>
+  <path d="M550 240c82 0 122 38 122 98s-38 102-116 102" fill="none" stroke="#dbe2ea" stroke-width="20" stroke-linecap="round"/>
+  <rect x="230" y="228" width="280" height="244" rx="22" fill="#ffd9e5"/>
+  <circle cx="370" cy="300" r="60" fill="#f97393" opacity="0.15"/>
+  <circle cx="308" cy="364" r="36" fill="#f97393" opacity="0.2"/>
+  <circle cx="448" cy="374" r="42" fill="#f97393" opacity="0.16"/>
+  <text x="370" y="318" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#f97393">Amor</text>
+  <text x="370" y="384" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#374151">Meu lugar favorito</text>
+</svg>

@@ -1,4 +1,4 @@
-import { api, addToCart } from '/js/app.js';
+import { api } from '/js/app.js';
 
 const productsGrid = document.getElementById('productsGrid');
 const categoryChips = document.getElementById('categoryChips');
@@ -18,6 +18,10 @@ let currentCategory = 'Todos';
 let searchText = '';
 let currentSlide = 0;
 let carouselTimer;
+
+const PRODUCT_ROUTES = {
+  'caneca-ceramica': '/pages/caneca-ceramica.html'
+};
 
 function formatBRL(value) {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
@@ -50,6 +54,14 @@ function sortProducts(list) {
   return sorted;
 }
 
+function productActionMarkup(product) {
+  const route = PRODUCT_ROUTES[product.slug];
+  if (route) {
+    return `<a class="primary-btn choose-btn" href="${route}">Quero esta</a>`;
+  }
+  return `<button class="ghost-btn soon-btn" type="button" data-name="${product.name}">Em breve</button>`;
+}
+
 function renderProducts() {
   let list = products.filter((product) => {
     const haystack = `${product.name} ${product.description} ${product.category}`.toLowerCase();
@@ -72,29 +84,20 @@ function renderProducts() {
                 <div class="meta">${product.category} • ${product.meta}</div>
               </div>
             </div>
-            <div class="actions-row">
-              <button class="primary-btn add-btn" data-id="${product.id}">Adicionar</button>
-              <a class="ghost-btn" href="/pages/carrinho.html">Carrinho</a>
+            <div class="actions-row single-action">
+              ${productActionMarkup(product)}
             </div>
           </div>
         </article>`
     )
     .join('');
 
-  productsGrid.querySelectorAll('.add-btn').forEach((button) => {
+  productsGrid.querySelectorAll('.soon-btn').forEach((button) => {
     button.onclick = () => {
-      const product = products.find((item) => item.id === button.dataset.id);
-      addToCart({
-        productId: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
-        quantity: 1
-      });
-      button.textContent = 'Adicionado';
-      setTimeout(() => {
-        button.textContent = 'Adicionar';
-      }, 1000);
+      button.textContent = 'Logo teremos';
+      window.setTimeout(() => {
+        button.textContent = 'Em breve';
+      }, 1300);
     };
   });
 }
