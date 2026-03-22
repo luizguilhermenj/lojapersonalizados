@@ -8,7 +8,6 @@ const promoTrack = document.getElementById('promoTrack');
 const promoDots = document.getElementById('promoDots');
 const menuToggle = document.getElementById('menuToggle');
 const siteHeader = document.querySelector('.site-header');
-const headerNav = document.getElementById('headerNav');
 const sideMenu = document.getElementById('sideMenu');
 const sideMenuBackdrop = document.getElementById('sideMenuBackdrop');
 const sideClose = document.getElementById('sideClose');
@@ -156,7 +155,7 @@ function openMenu() {
 }
 
 function setupMenu() {
-  if (!menuToggle || !siteHeader || !headerNav) return;
+  if (!menuToggle || !siteHeader || !sideMenu) return;
 
   menuToggle.addEventListener('click', () => {
     const isOpen = sideMenu?.classList.contains('open');
@@ -164,7 +163,7 @@ function setupMenu() {
     else openMenu();
   });
 
-  [headerNav, sideMenu].forEach((container) => {
+  [sideMenu].forEach((container) => {
     container?.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
         closeMenu();
@@ -177,6 +176,10 @@ function setupMenu() {
 
   window.addEventListener('resize', () => {
     if (window.innerWidth > 1100) closeMenu();
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeMenu();
   });
 }
 
