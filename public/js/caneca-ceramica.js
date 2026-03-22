@@ -14,7 +14,7 @@ const customizerFeedback = document.getElementById('customizerFeedback');
 const baseProduct = {
   id: 'caneca-ceramica',
   name: 'Caneca de Cerâmica',
-  price: 34.9,
+  price: 34.9
 };
 
 const THEMES = [
@@ -25,188 +25,180 @@ const THEMES = [
   { id: 'paes', label: 'Dia dos Pais' },
   { id: 'avos', label: 'Dia dos Avós' },
   { id: 'flores', label: 'Cactus e Flores' },
-  { id: 'diversos', label: 'Diversas' },
+  { id: 'diversos', label: 'Diversas' }
 ];
 
 let arts = [];
-let currentTheme = 'todos';
 let selectedArt = null;
+let currentTheme = 'todos';
 
-function normalizeArts(rawArts) {
-  return (Array.isArray(rawArts) ? rawArts : []).filter((art) => art && art.id && art.image).map((art) => ({
-    id: String(art.id),
-    name: art.name || 'Arte sem nome',
-    description: art.description || 'Arte para caneca de cerâmica.',
-    theme: art.theme || 'diversos',
-    themeLabel: art.themeLabel || themeLabel(art.theme || 'diversos'),
-    image: art.image,
-  }));
+function getThemeLabel(themeId) {
+  return THEMES.find((theme) => theme.id === themeId)?.label || 'Todas';
 }
 
-function themeLabel(themeId) {
-  return THEMES.find((theme) => theme.id === themeId)?.label || 'Diversas';
-}
-
-function countForTheme(themeId) {
-  return themeId === 'todos' ? arts.length : arts.filter((art) => art.theme === themeId).length;
+function getThemeCount(themeId) {
+  if (themeId === 'todos') return arts.length;
+  return arts.filter((art) => art.theme === themeId).length;
 }
 
 function getFilteredArts() {
-  return currentTheme === 'todos' ? arts : arts.filter((art) => art.theme === currentTheme);
+  if (currentTheme === 'todos') return arts;
+  return arts.filter((art) => art.theme === currentTheme);
 }
 
-function updateSummary(filteredArts) {
-  if (totalArtsLabel) {
-    totalArtsLabel.textContent = currentTheme === 'todos'
-      ? `${filteredArts.length} artes disponíveis`
-      : `${filteredArts.length} artes em ${themeLabel(currentTheme)}`;
+function updateThemeUi(filteredCount) {
+  if (filterSummary) {
+    filterSummary.textContent = currentTheme === 'todos'
+      ? `Mostrando todas as ${filteredCount} artes disponíveis.`
+      : `Mostrando ${filteredCount} artes da coleção ${getThemeLabel(currentTheme)}.`;
   }
 
   if (selectedThemeEyebrow) {
     selectedThemeEyebrow.textContent = currentTheme === 'todos'
       ? 'Coleções temáticas'
-      : `Coleção ${themeLabel(currentTheme)}`;
+      : `Coleção ${getThemeLabel(currentTheme)}`;
   }
 
-  if (filterSummary) {
-    filterSummary.textContent = currentTheme === 'todos'
-      ? 'Mostrando todas as artes disponíveis.'
-      : `Mostrando somente a coleção ${themeLabel(currentTheme)}.`;
+  if (totalArtsLabel) {
+    totalArtsLabel.textContent = currentTheme === 'todos'
+      ? `${filteredCount} artes disponíveis`
+      : `${filteredCount} artes em ${getThemeLabel(currentTheme)}`;
   }
 }
 
-function syncSelectedPreview() {
+function syncSelectedArt() {
   if (!selectedArt) return;
+
   if (selectedMockup) {
     selectedMockup.src = selectedArt.image;
-    selectedMockup.alt = `${baseProduct.name} com ${selectedArt.name}`;
+    selectedMockup.alt = `${baseProduct.name} com arte ${selectedArt.name}`;
   }
+
   if (selectedArtName) selectedArtName.textContent = selectedArt.name;
   if (selectedArtDescription) selectedArtDescription.textContent = selectedArt.description;
 }
 
 function renderThemeFilters() {
   if (!themeFilters) return;
+
   themeFilters.innerHTML = THEMES
-    .filter((theme) => theme.id === 'todos' || countForTheme(theme.id) > 0)
+    .filter((theme) => theme.id === 'todos' || getThemeCount(theme.id) > 0)
     .map((theme) => `
       <button
-        type="button"
         class="chip ${theme.id === currentTheme ? 'active' : ''}"
+        type="button"
         data-theme="${theme.id}"
       >
-        ${theme.label} (${countForTheme(theme.id)})
+        ${theme.label} (${getThemeCount(theme.id)})
       </button>
     `)
     .join('');
 
-  themeFilters.querySelectorAll('[data-theme]').forEach((button) => {
+  themeFilters.querySelectorAll('.chip').forEach((button) => {
     button.addEventListener('click', () => {
       currentTheme = button.dataset.theme;
       const filtered = getFilteredArts();
+
       if (!filtered.some((art) => art.id === selectedArt?.id)) {
         selectedArt = filtered[0] || null;
-        syncSelectedPreview();
+        syncSelectedArt();
       }
+
+      updateThemeUi(filtered.length);
       renderThemeFilters();
-      renderArtGrid();
+      renderArts();
     });
   });
 }
 
-function renderArtGrid() {
+function renderArts() {
   const filteredArts = getFilteredArts();
-  updateSummary(filteredArts);
+  updateThemeUi(filteredArts.length);
 
   if (!filteredArts.length) {
-    artGrid.innerHTML = '<p class="empty-state">Nenhuma arte foi encontrada. Verifique o arquivo data/caneca-ceramica-artes.json e as imagens em img/artes/caneca-ceramica.</p>';
+    artGrid.innerHTML = '<p class="feedback error">Nenhuma arte foi encontrada para este tema.</p>';
     return;
   }
 
   artGrid.innerHTML = filteredArts.map((art) => `
-    <article class="art-card ${selectedArt?.id === art.id ? 'active' : ''}" data-art-id="${art.id}">
-      <img src="${art.image}" alt="${art.name}" loading="lazy">
-      <div class="art-card-copy">
+    <article class="art-card ${art.id === selectedArt?.id ? 'active' : ''}" data-art-id="${art.id}">
+      <img src="${art.image}" alt="${art.name}">
+      <div class="art-body">
         <h3>${art.name}</h3>
         <p>${art.description}</p>
       </div>
-      <span class="select-pill">${selectedArt?.id === art.id ? 'Selecionada' : 'Toque para escolher'}</span>
+      <span class="select-pill">${art.id === selectedArt?.id ? 'Selecionada' : 'Toque para escolher'}</span>
     </article>
   `).join('');
 
-  artGrid.querySelectorAll('[data-art-id]').forEach((card) => {
+  artGrid.querySelectorAll('.art-card').forEach((card) => {
     card.addEventListener('click', () => {
       const art = arts.find((item) => item.id === card.dataset.artId);
       if (!art) return;
       selectedArt = art;
-      syncSelectedPreview();
-      renderArtGrid();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      syncSelectedArt();
+      renderArts();
     });
   });
 }
 
-async function loadArts() {
+async function loadArtes() {
   try {
     const response = await fetch('/data/caneca-ceramica-artes.json', { cache: 'no-store' });
-    if (!response.ok) throw new Error('Falha ao carregar as artes.');
-    arts = normalizeArts(await response.json());
-    if (!arts.length) throw new Error('Nenhuma arte cadastrada.');
+    if (!response.ok) throw new Error('Falha ao carregar artes.');
+    const payload = await response.json();
 
+    if (!Array.isArray(payload) || !payload.length) {
+      throw new Error('Nenhuma arte cadastrada.');
+    }
+
+    arts = payload;
     selectedArt = arts[0];
-    syncSelectedPreview();
+    syncSelectedArt();
     renderThemeFilters();
-    renderArtGrid();
-    ensureAnchorPosition();
+    renderArts();
   } catch (error) {
     console.error(error);
     if (totalArtsLabel) totalArtsLabel.textContent = 'Sem artes disponíveis';
-    if (filterSummary) filterSummary.textContent = 'Não foi possível carregar as artes agora.';
-    if (artGrid) {
-      artGrid.innerHTML = '<p class="empty-state">Não foi possível carregar as artes. Verifique o arquivo <strong>data/caneca-ceramica-artes.json</strong>.</p>';
-    }
+    if (filterSummary) filterSummary.textContent = 'Não foi possível carregar as artes.';
+    artGrid.innerHTML = '<p class="feedback error">Nenhuma arte foi encontrada. Verifique o arquivo public/data/caneca-ceramica-artes.json.</p>';
   }
-}
-
-function ensureAnchorPosition() {
-  if (window.location.hash !== '#escolha-arte') return;
-  const section = document.getElementById('escolha-arte');
-  const header = document.querySelector('.sub-header');
-  if (!section) return;
-
-  window.requestAnimationFrame(() => {
-    window.setTimeout(() => {
-      const headerOffset = header ? header.offsetHeight + 8 : 8;
-      const top = section.getBoundingClientRect().top + window.scrollY - headerOffset;
-      window.scrollTo({ top: Math.max(top, 0), behavior: 'auto' });
-    }, 120);
-  });
 }
 
 addSelectedArtBtn?.addEventListener('click', () => {
   if (!selectedArt) return;
 
+  const cartKey = `${baseProduct.id}::${selectedArt.id}`;
   addToCart({
-    cartKey: `${baseProduct.id}::${selectedArt.id}`,
+    cartKey,
     productId: baseProduct.id,
     name: `${baseProduct.name} • ${selectedArt.name}`,
-    baseName: baseProduct.name,
-    variation: selectedArt.name,
-    variationId: selectedArt.id,
     price: baseProduct.price,
     image: selectedArt.image,
     quantity: 1,
+    variation: selectedArt.name,
+    variationId: selectedArt.id,
+    baseName: baseProduct.name
   });
 
   if (customizerFeedback) {
     customizerFeedback.className = 'feedback success';
-    customizerFeedback.textContent = `${selectedArt.name} foi adicionada ao carrinho.`;
+    customizerFeedback.textContent = `Perfeito! ${selectedArt.name} foi adicionada ao carrinho.`;
   }
 });
 
-window.addEventListener('load', ensureAnchorPosition);
-window.addEventListener('resize', () => {
-  if (window.location.hash === '#escolha-arte') ensureAnchorPosition();
+window.addEventListener('load', () => {
+  if (window.location.hash === '#escolha-arte') {
+    const secao = document.getElementById('escolha-arte');
+    if (secao) {
+      setTimeout(() => {
+        const stickyHeader = document.querySelector('.sub-header');
+        const headerOffset = stickyHeader ? stickyHeader.offsetHeight + 6 : 6;
+        const y = secao.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: y, behavior: 'auto' });
+      }, 220);
+    }
+  }
 });
 
-loadArts();
+loadArtes();
