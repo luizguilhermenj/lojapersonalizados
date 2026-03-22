@@ -1,16 +1,331 @@
+html { scroll-behavior: smooth; }
+#escolha-arte { scroll-margin-top: 8px; }
 
-.art-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  width: 100%;
+.customizer-page {
+  padding-top: 14px;
+  overflow-x: hidden;
 }
 
-@media (max-width: 768px) {
+.customizer-page,
+.customizer-page * {
+  box-sizing: border-box;
+}
+
+.customizer-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
+  gap: 22px;
+  align-items: center;
+}
+
+.product-preview {
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, #fff, #f8fafc);
+  border: 1px solid var(--line);
+}
+
+.product-preview img {
+  width: min(100%, 440px);
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+.product-summary {
+  min-width: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  width: max-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #fff3e4;
+  color: #a95a00;
+  font-size: .78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.product-summary h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 2vw, 2.2rem);
+}
+
+.inventory-pill {
+  display: inline-flex;
+  width: max-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-weight: 800;
+  font-size: .82rem;
+}
+
+.summary-copy,
+.filter-summary {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.summary-price-row {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.summary-price-row strong {
+  font-size: 1.8rem;
+}
+
+.summary-price-row span {
+  color: var(--muted);
+}
+
+.summary-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.summary-points span {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--line);
+  font-size: .9rem;
+  font-weight: 700;
+}
+
+.selection-box {
+  display: grid;
+  gap: 6px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.selection-box small {
+  color: var(--muted);
+  font-weight: 800;
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.selection-box strong {
+  font-size: 1.05rem;
+}
+
+.selection-box span {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.customizer-section-head {
+  margin-bottom: 10px;
+}
+
+.theme-filter-wrap {
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 8px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chips .chip {
+  flex: 0 0 auto;
+}
+
+.filter-summary {
+  margin-bottom: 14px;
+}
+
+.art-grid {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.art-card {
+  min-width: 0;
+  width: 100%;
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px rgba(17, 24, 39, .06);
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.art-card:hover {
+  transform: translateY(-2px);
+}
+
+.art-card.active {
+  border-color: rgba(242, 140, 40, .8);
+  box-shadow: 0 12px 30px rgba(242, 140, 40, .16);
+}
+
+.art-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+}
+
+.art-card-copy {
+  min-width: 0;
+}
+
+.art-card h3 {
+  margin: 0;
+  font-size: .98rem;
+  line-height: 1.3;
+}
+
+.art-card p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: .88rem;
+  line-height: 1.45;
+}
+
+.select-pill {
+  justify-self: start;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: #fff3e4;
+  color: #a95a00;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.empty-state {
+  margin: 0;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-weight: 700;
+}
+
+@media (max-width: 980px) {
+  .customizer-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .art-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  #escolha-arte { scroll-margin-top: 4px; }
+
   .customizer-page {
-    padding-left: 12px;
-    padding-right: 12px;
-    overflow-x: hidden;
+    padding-top: 10px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .customizer-hero {
+    gap: 16px;
+  }
+
+  .product-preview {
+    padding: 8px;
+    border-radius: 18px;
+  }
+
+  .product-preview img {
+    width: min(100%, 320px);
+  }
+
+  .product-summary {
+    gap: 12px;
+  }
+
+  .summary-copy {
+    font-size: .92rem;
+  }
+
+  .summary-price-row strong {
+    font-size: 1.5rem;
+  }
+
+  .summary-points {
+    gap: 8px;
+  }
+
+  .summary-points span {
+    font-size: .82rem;
+    padding: 7px 10px;
+  }
+
+  .selection-box {
+    padding: 14px;
+  }
+
+  .cta-row {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .theme-filter-wrap {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .theme-filter-wrap::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chips {
+    flex-wrap: nowrap;
+    width: max-content;
+    min-width: 100%;
+    padding-bottom: 2px;
+  }
+
+  .chip {
+    white-space: nowrap;
+    font-size: .84rem;
+    padding: 9px 12px;
+  }
+
+  .filter-summary {
+    font-size: .9rem;
   }
 
   .art-grid {
@@ -19,34 +334,25 @@
   }
 
   .art-card {
-    min-width: 0;
-    width: 100%;
     padding: 10px;
     border-radius: 14px;
+    gap: 8px;
   }
 
   .art-card img {
-    width: 100%;
-    aspect-ratio: 1/1;
-    object-fit: cover;
     border-radius: 10px;
   }
 
   .art-card h3 {
-    font-size: 0.85rem;
-    margin-top: 6px;
+    font-size: .85rem;
   }
 
   .art-card p {
     display: none;
   }
 
-  .chips {
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  .chips .chip {
-    flex: 0 0 auto;
+  .select-pill {
+    font-size: .72rem;
+    padding: 6px 10px;
   }
 }
