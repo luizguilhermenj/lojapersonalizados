@@ -1,452 +1,404 @@
 [
-  {
-    "id": "pascoa-01",
-    "name": "Páscoa 01",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (1).jpg"
-  },
-  {
-    "id": "pascoa-02",
-    "name": "Páscoa 02",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (10).jpg"
-  },
-  {
-    "id": "pascoa-03",
-    "name": "Páscoa 03",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (11).jpg"
-  },
-  {
-    "id": "pascoa-04",
-    "name": "Páscoa 04",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (12).jpg"
-  },
-  {
-    "id": "pascoa-05",
-    "name": "Páscoa 05",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (13).jpg"
-  },
-  {
-    "id": "pascoa-06",
-    "name": "Páscoa 06",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (14).jpg"
-  },
-  {
-    "id": "pascoa-07",
-    "name": "Páscoa 07",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (15).jpg"
-  },
-  {
-    "id": "pascoa-08",
-    "name": "Páscoa 08",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (16).jpg"
-  },
-  {
-    "id": "pascoa-09",
-    "name": "Páscoa 09",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (17).jpg"
-  },
-  {
-    "id": "pascoa-10",
-    "name": "Páscoa 10",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (18).jpg"
-  },
-  {
-    "id": "pascoa-11",
-    "name": "Páscoa 11",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (19).jpg"
-  },
-  {
-    "id": "pascoa-12",
-    "name": "Páscoa 12",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (2).jpg"
-  },
-  {
-    "id": "pascoa-13",
-    "name": "Páscoa 13",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (20).jpg"
-  },
-  {
-    "id": "pascoa-14",
-    "name": "Páscoa 14",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (21).jpg"
-  },
-  {
-    "id": "pascoa-15",
-    "name": "Páscoa 15",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (22).jpg"
-  },
-  {
-    "id": "pascoa-16",
-    "name": "Páscoa 16",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (23).jpg"
-  },
-  {
-    "id": "pascoa-17",
-    "name": "Páscoa 17",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (24).jpg"
-  },
-  {
-    "id": "pascoa-18",
-    "name": "Páscoa 18",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (25).jpg"
-  },
-  {
-    "id": "pascoa-19",
-    "name": "Páscoa 19",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (26).jpg"
-  },
-  {
-    "id": "pascoa-20",
-    "name": "Páscoa 20",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (27).jpg"
-  },
-  {
-    "id": "pascoa-21",
-    "name": "Páscoa 21",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (28).jpg"
-  },
-  {
-    "id": "pascoa-22",
-    "name": "Páscoa 22",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (29).jpg"
-  },
-  {
-    "id": "pascoa-23",
-    "name": "Páscoa 23",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (3).jpg"
-  },
-  {
-    "id": "pascoa-24",
-    "name": "Páscoa 24",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (30).jpg"
-  },
-  {
-    "id": "pascoa-25",
-    "name": "Páscoa 25",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (31).jpg"
-  },
-  {
-    "id": "pascoa-26",
-    "name": "Páscoa 26",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (32).jpg"
-  },
-  {
-    "id": "pascoa-27",
-    "name": "Páscoa 27",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (33).jpg"
-  },
-  {
-    "id": "pascoa-28",
-    "name": "Páscoa 28",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (34).jpg"
-  },
-  {
-    "id": "pascoa-29",
-    "name": "Páscoa 29",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (35).jpg"
-  },
-  {
-    "id": "pascoa-30",
-    "name": "Páscoa 30",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (36).jpg"
-  },
-  {
-    "id": "pascoa-31",
-    "name": "Páscoa 31",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (37).jpg"
-  },
-  {
-    "id": "pascoa-32",
-    "name": "Páscoa 32",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (38).jpg"
-  },
-  {
-    "id": "pascoa-33",
-    "name": "Páscoa 33",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (39).jpg"
-  },
-  {
-    "id": "pascoa-34",
-    "name": "Páscoa 34",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (4).jpg"
-  },
-  {
-    "id": "pascoa-35",
-    "name": "Páscoa 35",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (40).jpg"
-  },
-  {
-    "id": "pascoa-36",
-    "name": "Páscoa 36",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (41).jpg"
-  },
-  {
-    "id": "pascoa-37",
-    "name": "Páscoa 37",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (42).jpg"
-  },
-  {
-    "id": "pascoa-38",
-    "name": "Páscoa 38",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (43).jpg"
-  },
-  {
-    "id": "pascoa-39",
-    "name": "Páscoa 39",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (44).jpg"
-  },
-  {
-    "id": "pascoa-40",
-    "name": "Páscoa 40",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (45).jpg"
-  },
-  {
-    "id": "pascoa-41",
-    "name": "Páscoa 41",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (46).jpg"
-  },
-  {
-    "id": "pascoa-42",
-    "name": "Páscoa 42",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (47).jpg"
-  },
-  {
-    "id": "pascoa-43",
-    "name": "Páscoa 43",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (48).jpg"
-  },
-  {
-    "id": "pascoa-44",
-    "name": "Páscoa 44",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (49).jpg"
-  },
-  {
-    "id": "pascoa-45",
-    "name": "Páscoa 45",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (5).jpg"
-  },
-  {
-    "id": "pascoa-46",
-    "name": "Páscoa 46",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (50).jpg"
-  },
-  {
-    "id": "pascoa-47",
-    "name": "Páscoa 47",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (6).jpg"
-  },
-  {
-    "id": "pascoa-48",
-    "name": "Páscoa 48",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (7).jpg"
-  },
-  {
-    "id": "pascoa-49",
-    "name": "Páscoa 49",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (8).jpg"
-  },
-  {
-    "id": "pascoa-50",
-    "name": "Páscoa 50",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/Chocolate (9).jpg"
-  },
-  {
-    "id": "pascoa-51",
-    "name": "Páscoa 51",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/mockup10140.jpg"
-  },
-  {
-    "id": "pascoa-52",
-    "name": "Páscoa 52",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/mockup12022.jpg"
-  },
-  {
-    "id": "pascoa-53",
-    "name": "Páscoa 53",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/mockup18505.jpg"
-  },
-  {
-    "id": "pascoa-54",
-    "name": "Páscoa 54",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/mockup24298.jpg"
-  },
-  {
-    "id": "pascoa-55",
-    "name": "Páscoa 55",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/mockup30458.jpg"
-  },
-  {
-    "id": "pascoa-56",
-    "name": "Páscoa 56",
-    "description": "Arte temática de Páscoa para caneca de cerâmica.",
-    "theme": "pascoa",
-    "themeLabel": "Páscoa",
-    "image": "/img/artes/caneca-ceramica/pascoa/mockup5218.jpg"
-  },
+{
+  "id": "pascoa-01",
+  "name": "Páscoa 01",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-01.webp"
+},
+{
+  "id": "pascoa-02",
+  "name": "Páscoa 02",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-02.webp"
+},
+{
+  "id": "pascoa-03",
+  "name": "Páscoa 03",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-03.webp"
+},
+{
+  "id": "pascoa-04",
+  "name": "Páscoa 04",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-04.webp"
+},
+{
+  "id": "pascoa-05",
+  "name": "Páscoa 05",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-05.webp"
+},
+{
+  "id": "pascoa-06",
+  "name": "Páscoa 06",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-06.webp"
+},
+{
+  "id": "pascoa-07",
+  "name": "Páscoa 07",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-07.webp"
+},
+{
+  "id": "pascoa-08",
+  "name": "Páscoa 08",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-08.webp"
+},
+{
+  "id": "pascoa-09",
+  "name": "Páscoa 09",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-09.webp"
+},
+{
+  "id": "pascoa-10",
+  "name": "Páscoa 10",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-10.webp"
+},
+{
+  "id": "pascoa-11",
+  "name": "Páscoa 11",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-11.webp"
+},
+{
+  "id": "pascoa-12",
+  "name": "Páscoa 12",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-12.webp"
+},
+{
+  "id": "pascoa-13",
+  "name": "Páscoa 13",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-13.webp"
+},
+{
+  "id": "pascoa-14",
+  "name": "Páscoa 14",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-14.webp"
+},
+{
+  "id": "pascoa-15",
+  "name": "Páscoa 15",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-15.webp"
+},
+{
+  "id": "pascoa-16",
+  "name": "Páscoa 16",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-16.webp"
+},
+{
+  "id": "pascoa-17",
+  "name": "Páscoa 17",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-17.webp"
+},
+{
+  "id": "pascoa-18",
+  "name": "Páscoa 18",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-18.webp"
+},
+{
+  "id": "pascoa-19",
+  "name": "Páscoa 19",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-19.webp"
+},
+{
+  "id": "pascoa-20",
+  "name": "Páscoa 20",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-20.webp"
+},
+{
+  "id": "pascoa-21",
+  "name": "Páscoa 21",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-21.webp"
+},
+{
+  "id": "pascoa-22",
+  "name": "Páscoa 22",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-22.webp"
+},
+{
+  "id": "pascoa-23",
+  "name": "Páscoa 23",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-23.webp"
+},
+{
+  "id": "pascoa-24",
+  "name": "Páscoa 24",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-24.webp"
+},
+{
+  "id": "pascoa-25",
+  "name": "Páscoa 25",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-25.webp"
+},
+{
+  "id": "pascoa-26",
+  "name": "Páscoa 26",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-26.webp"
+},
+{
+  "id": "pascoa-27",
+  "name": "Páscoa 27",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-27.webp"
+},
+{
+  "id": "pascoa-28",
+  "name": "Páscoa 28",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-28.webp"
+},
+{
+  "id": "pascoa-29",
+  "name": "Páscoa 29",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-29.webp"
+},
+{
+  "id": "pascoa-30",
+  "name": "Páscoa 30",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-30.webp"
+},
+{
+  "id": "pascoa-31",
+  "name": "Páscoa 31",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-31.webp"
+},
+{
+  "id": "pascoa-32",
+  "name": "Páscoa 32",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-32.webp"
+},
+{
+  "id": "pascoa-33",
+  "name": "Páscoa 33",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-33.webp"
+},
+{
+  "id": "pascoa-34",
+  "name": "Páscoa 34",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-34.webp"
+},
+{
+  "id": "pascoa-35",
+  "name": "Páscoa 35",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-35.webp"
+},
+{
+  "id": "pascoa-36",
+  "name": "Páscoa 36",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-36.webp"
+},
+{
+  "id": "pascoa-37",
+  "name": "Páscoa 37",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-37.webp"
+},
+{
+  "id": "pascoa-38",
+  "name": "Páscoa 38",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-38.webp"
+},
+{
+  "id": "pascoa-39",
+  "name": "Páscoa 39",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-39.webp"
+},
+{
+  "id": "pascoa-40",
+  "name": "Páscoa 40",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-40.webp"
+},
+{
+  "id": "pascoa-41",
+  "name": "Páscoa 41",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-41.webp"
+},
+{
+  "id": "pascoa-42",
+  "name": "Páscoa 42",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-42.webp"
+},
+{
+  "id": "pascoa-43",
+  "name": "Páscoa 43",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-43.webp"
+},
+{
+  "id": "pascoa-44",
+  "name": "Páscoa 44",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-44.webp"
+},
+{
+  "id": "pascoa-45",
+  "name": "Páscoa 45",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-45.webp"
+},
+{
+  "id": "pascoa-46",
+  "name": "Páscoa 46",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-46.webp"
+},
+{
+  "id": "pascoa-47",
+  "name": "Páscoa 47",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-47.webp"
+},
+{
+  "id": "pascoa-48",
+  "name": "Páscoa 48",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-48.webp"
+},
+{
+  "id": "pascoa-49",
+  "name": "Páscoa 49",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-49.webp"
+},
+{
+  "id": "pascoa-50",
+  "name": "Páscoa 50",
+  "description": "Arte temática de Páscoa para caneca de cerâmica.",
+  "theme": "pascoa",
+  "themeLabel": "Páscoa",
+  "image": "/img/artes/caneca-ceramica/pascoa/pascoa-50.webp"
+},
   {
     "id": "maes-01",
     "name": "Dia das Mães 01",
