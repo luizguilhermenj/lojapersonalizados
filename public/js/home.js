@@ -20,7 +20,7 @@ let currentSlide = 0;
 let carouselTimer;
 
 const PRODUCT_ROUTES = {
-  'caneca-ceramica': '/pages/caneca-ceramica.html'
+  'caneca-ceramica': '/pages/caneca-ceramica.html#escolha-arte'
 };
 
 function formatBRL(value) {
