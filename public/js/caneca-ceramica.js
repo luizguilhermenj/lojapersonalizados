@@ -4,12 +4,10 @@ const artGrid = document.getElementById('artGrid');
 const selectedMockup = document.getElementById('selectedMockup');
 const selectedArtName = document.getElementById('selectedArtName');
 const selectedArtDescription = document.getElementById('selectedArtDescription');
-const selectedThemeEyebrow = document.getElementById('selectedThemeEyebrow');
 const addSelectedArtBtn = document.getElementById('addSelectedArtBtn');
 const customizerFeedback = document.getElementById('customizerFeedback');
 const totalArtsLabel = document.getElementById('totalArtsLabel');
-const themeFilters = document.getElementById('themeFilters');
-const filterSummary = document.getElementById('filterSummary');
+const sectionHead = document.querySelector('#escolha-arte .section-head');
 
 const baseProduct = {
   id: 'caneca-ceramica',
@@ -17,144 +15,200 @@ const baseProduct = {
   price: 34.9
 };
 
-const themeOrder = [
-  { slug: 'todas', label: 'Todas' },
-  { slug: 'pascoa', label: 'Páscoa' },
-  { slug: 'maes', label: 'Dia das Mães' },
-  { slug: 'namorados', label: 'Dia dos Namorados' },
-  { slug: 'pais', label: 'Dia dos Pais' },
-  { slug: 'avos', label: 'Dia dos Avós' },
-  { slug: 'cactus-flores', label: 'Cactus e Flores' },
-  { slug: 'diversas', label: 'Diversas' }
+const THEMES = [
+  { id: 'todos', label: 'Todas' },
+  { id: 'pascoa', label: 'Páscoa' },
+  { id: 'maes', label: 'Dia das Mães' },
+  { id: 'namorados', label: 'Dia dos Namorados' },
+  { id: 'paes', label: 'Dia dos Pais' },
+  { id: 'avos', label: 'Dia dos Avós' },
+  { id: 'flores', label: 'Cactus e Flores' },
+  { id: 'diversos', label: 'Diversas' }
 ];
 
 let arts = [];
-let selectedTheme = 'todas';
 let selectedArt = null;
+let currentTheme = 'todos';
+let chipsWrap = null;
+let helperInfo = null;
 
-function formatPrice(value) {
-  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+function ensureFilterUi() {
+  if (!sectionHead || chipsWrap) return;
+
+  helperInfo = document.createElement('p');
+  helperInfo.className = 'theme-helper';
+  helperInfo.textContent = 'Filtre por tema e toque em uma arte para ver a prévia acima.';
+
+  chipsWrap = document.createElement('div');
+  chipsWrap.id = 'themeChips';
+  chipsWrap.className = 'theme-filters';
+
+  sectionHead.insertAdjacentElement('afterend', helperInfo);
+  helperInfo.insertAdjacentElement('afterend', chipsWrap);
+}
+
+function countForTheme(themeId) {
+  if (themeId === 'todos') return arts.length;
+  return arts.filter((art) => art.theme === themeId).length;
+}
+
+function getThemeLabel(themeId) {
+  return THEMES.find((theme) => theme.id === themeId)?.label || 'Todas';
 }
 
 function getFilteredArts() {
-  if (selectedTheme === 'todas') return arts;
-  return arts.filter((art) => art.theme === selectedTheme);
+  if (currentTheme === 'todos') return arts;
+  return arts.filter((art) => art.theme === currentTheme);
 }
 
-function ensureSelectedArt() {
-  const visibleArts = getFilteredArts();
-  if (!visibleArts.length) {
-    selectedArt = null;
+function renderThemeChips() {
+  if (!chipsWrap) return;
+
+  chipsWrap.innerHTML = THEMES
+    .filter((theme) => countForTheme(theme.id) > 0 || theme.id === 'todos')
+    .map((theme) => `
+      <button
+        class="theme-chip ${theme.id === currentTheme ? 'active' : ''}"
+        type="button"
+        data-theme="${theme.id}"
+      >
+        ${theme.label} (${countForTheme(theme.id)})
+      </button>
+    `)
+    .join('');
+
+  chipsWrap.querySelectorAll('.theme-chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      currentTheme = chip.dataset.theme;
+      const filtered = getFilteredArts();
+
+      if (!filtered.some((art) => art.id === selectedArt?.id)) {
+        selectedArt = filtered[0] || null;
+        syncSelectedArt();
+      }
+
+      renderThemeChips();
+      renderArts();
+    });
+  });
+}
+
+function updateSummaryLabels(filteredCount) {
+  if (totalArtsLabel) {
+    totalArtsLabel.textContent = currentTheme === 'todos'
+      ? `${filteredCount} artes disponíveis`
+      : `${filteredCount} artes em ${getThemeLabel(currentTheme)}`;
+  }
+
+  const eyebrow = document.querySelector('.eyebrow');
+  if (eyebrow) {
+    eyebrow.textContent = currentTheme === 'todos'
+      ? 'Coleções temáticas'
+      : `Coleção ${getThemeLabel(currentTheme)}`;
+  }
+
+  const priceSupport = document.querySelector('.summary-price-row span');
+  if (priceSupport) {
+    priceSupport.textContent = currentTheme === 'todos'
+      ? 'Caneca base + arte da coleção escolhida'
+      : `Caneca base + arte da coleção ${getThemeLabel(currentTheme)}`;
+  }
+}
+
+function renderArts() {
+  const filteredArts = getFilteredArts();
+  updateSummaryLabels(filteredArts.length);
+
+  if (!filteredArts.length) {
+    artGrid.innerHTML = '<p class="empty-state">Nenhuma arte foi encontrada. Verifique a pasta public/img/artes/caneca-ceramica.</p>';
     return;
   }
 
-  const stillVisible = selectedArt && visibleArts.some((art) => art.id === selectedArt.id);
-  if (!stillVisible) selectedArt = visibleArts[0];
-}
-
-function updateHero() {
-  if (!selectedArt) return;
-  selectedMockup.src = selectedArt.image;
-  selectedMockup.alt = `${baseProduct.name} com ${selectedArt.name}`;
-  selectedArtName.textContent = selectedArt.name;
-  selectedArtDescription.textContent = selectedArt.description;
-  selectedThemeEyebrow.textContent = selectedArt.themeLabel;
-  const visibleCount = getFilteredArts().length;
-  totalArtsLabel.textContent = selectedTheme === 'todas'
-    ? `${arts.length} artes disponíveis`
-    : `${visibleCount} artes em ${selectedArt.themeLabel}`;
-  filterSummary.textContent = selectedTheme === 'todas'
-    ? `Mostrando todas as ${arts.length} artes disponíveis.`
-    : `Mostrando ${visibleCount} artes do tema ${selectedArt.themeLabel}.`;
-}
-
-function renderThemeFilters() {
-  const counts = arts.reduce((acc, art) => {
-    acc[art.theme] = (acc[art.theme] || 0) + 1;
-    return acc;
-  }, {});
-
-  themeFilters.innerHTML = '';
-  themeOrder.forEach((theme) => {
-    if (theme.slug !== 'todas' && !counts[theme.slug]) return;
-
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = `chip ${selectedTheme === theme.slug ? 'active' : ''}`;
-    const count = theme.slug === 'todas' ? arts.length : counts[theme.slug];
-    button.textContent = `${theme.label} (${count})`;
-    button.addEventListener('click', () => {
-      selectedTheme = theme.slug;
-      renderThemeFilters();
-      renderArtGrid();
-    });
-    themeFilters.appendChild(button);
-  });
-}
-
-function renderArtGrid() {
-  ensureSelectedArt();
-  updateHero();
-
-  const visibleArts = getFilteredArts();
-  artGrid.innerHTML = '';
-
-  visibleArts.forEach((art) => {
-    const card = document.createElement('button');
-    card.type = 'button';
-    card.className = `art-card ${selectedArt?.id === art.id ? 'active' : ''}`;
-    card.innerHTML = `
-      <img src="${art.image}" alt="${art.name}" loading="lazy" />
-      <div class="art-card-copy">
+  artGrid.innerHTML = filteredArts.map((art) => `
+    <article class="art-card ${art.id === selectedArt?.id ? 'active' : ''}" data-art-id="${art.id}">
+      <img src="${art.image}" alt="${art.name}">
+      <div>
         <h3>${art.name}</h3>
-        <p>${art.themeLabel}</p>
+        <p>${art.description}</p>
       </div>
-      <span class="select-pill">Selecionar</span>
-    `;
+      <span class="select-pill">${art.id === selectedArt?.id ? 'Selecionada' : 'Toque para escolher'}</span>
+    </article>
+  `).join('');
+
+  artGrid.querySelectorAll('.art-card').forEach((card) => {
     card.addEventListener('click', () => {
+      const art = arts.find((item) => item.id === card.dataset.artId);
+      if (!art) return;
       selectedArt = art;
-      customizerFeedback.textContent = '';
-      updateHero();
-      renderArtGrid();
-      selectedMockup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      syncSelectedArt();
+      renderArts();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-    artGrid.appendChild(card);
   });
 }
 
-addSelectedArtBtn.addEventListener('click', () => {
+function syncSelectedArt() {
   if (!selectedArt) return;
 
-  addToCart({
-    productId: baseProduct.id,
-    cartKey: `${baseProduct.id}-${selectedArt.id}`,
-    name: `${baseProduct.name} • ${selectedArt.name}`,
-    unitPrice: baseProduct.price,
-    image: selectedArt.image,
-    quantity: 1,
-    artId: selectedArt.id,
-    artName: selectedArt.name,
-    artTheme: selectedArt.theme,
-    artThemeLabel: selectedArt.themeLabel,
-    variationLabel: `Arte escolhida: ${selectedArt.name}`
-  });
+  if (selectedMockup) {
+    selectedMockup.src = selectedArt.image;
+    selectedMockup.alt = `${baseProduct.name} com arte ${selectedArt.name}`;
+  }
 
-  customizerFeedback.textContent = `${selectedArt.name} adicionada ao carrinho por ${formatPrice(baseProduct.price)}.`;
-});
+  if (selectedArtName) {
+    selectedArtName.textContent = selectedArt.name;
+  }
 
-async function init() {
-  const response = await fetch('/api/caneca-ceramica-arts');
-  if (!response.ok) throw new Error('Falha ao carregar as artes da caneca.');
-  arts = await response.json();
-  selectedArt = arts[0] || null;
-  renderThemeFilters();
-  renderArtGrid();
-
-  if (!arts.length) {
-    filterSummary.textContent = 'Nenhuma arte foi encontrada. Verifique a pasta public/img/artes/caneca.';
+  if (selectedArtDescription) {
+    selectedArtDescription.textContent = selectedArt.description;
   }
 }
 
-init().catch(() => {
-  filterSummary.textContent = 'Não foi possível carregar as artes agora.';
+async function loadArtes() {
+  try {
+    const response = await fetch('/data/caneca-ceramica-artes.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Falha ao carregar artes.');
+    arts = await response.json();
+
+    if (!Array.isArray(arts) || !arts.length) {
+      throw new Error('Nenhuma arte cadastrada.');
+    }
+
+    selectedArt = arts[0];
+    ensureFilterUi();
+    syncSelectedArt();
+    renderThemeChips();
+    renderArts();
+  } catch (error) {
+    console.error(error);
+    ensureFilterUi();
+    if (totalArtsLabel) {
+      totalArtsLabel.textContent = 'Sem artes disponíveis';
+    }
+    artGrid.innerHTML = '<p class="empty-state">Nenhuma arte foi encontrada. Verifique a pasta public/img/artes/caneca-ceramica e o arquivo public/data/caneca-ceramica-artes.json.</p>';
+  }
+}
+
+addSelectedArtBtn?.addEventListener('click', () => {
+  if (!selectedArt) return;
+
+  const cartKey = `${baseProduct.id}::${selectedArt.id}`;
+  addToCart({
+    cartKey,
+    productId: baseProduct.id,
+    name: `${baseProduct.name} • ${selectedArt.name}`,
+    price: baseProduct.price,
+    image: selectedArt.image,
+    quantity: 1,
+    variation: selectedArt.name,
+    variationId: selectedArt.id,
+    baseName: baseProduct.name
+  });
+
+  if (customizerFeedback) {
+    customizerFeedback.className = 'feedback success';
+    customizerFeedback.textContent = `Perfeito! ${selectedArt.name} foi adicionada ao carrinho.`;
+  }
 });
+
+loadArtes();
