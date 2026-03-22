@@ -2,7 +2,7 @@ html {
   scroll-behavior: smooth;
 }
 #escolha-arte {
-  scroll-margin-top: 40px;
+  scroll-margin-top: 90px;
 }
 .customizer-page{padding-top:18px}
 .customizer-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:24px;align-items:center}
