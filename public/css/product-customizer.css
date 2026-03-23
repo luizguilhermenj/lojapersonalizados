@@ -337,3 +337,60 @@
     padding:7px 10px;
   }
 }
+
+
+/* ajustes extras para grade de artes no mobile */
+#artGrid{
+  min-width:0;
+}
+
+#escolha-arte.card{
+  overflow:hidden;
+}
+
+@media(max-width:760px){
+  #escolha-arte.card{
+    padding:14px;
+  }
+
+  .customizer-section-head,
+  .theme-filter-wrap,
+  .filter-summary,
+  #artGrid{
+    min-width:0;
+  }
+
+  .art-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    align-items:start;
+    gap:10px;
+  }
+
+  .art-card{
+    width:100%;
+    min-width:0;
+  }
+
+  .art-card img{
+    width:100%;
+    height:auto;
+    aspect-ratio:1 / 1;
+    object-fit:cover;
+  }
+
+  .art-body{
+    min-width:0;
+  }
+
+  .art-card h3{
+    font-size:.84rem;
+    line-height:1.15;
+    word-break:break-word;
+  }
+
+  .select-pill{
+    width:calc(100% - 24px);
+    justify-content:center;
+    text-align:center;
+  }
+}
