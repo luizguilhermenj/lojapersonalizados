@@ -22,8 +22,8 @@ for (const file of ['orders','sessions']) fs.writeFileSync(`${runtime}/data/${fi
 fs.rmSync(runtime+'/data/appearance', {recursive:true,force:true});
 const base = 'http://127.0.0.1:3198';
 let server;
-async function start() {
- server = spawn(process.execPath,['server.js'], {cwd:runtime,env:{...process.env,PORT:'3198',BASE_URL:base,MP_ACCESS_TOKEN:'',NODE_ENV:'test',RENDER:'',THEME_STORAGE_DIR:'',THEME_STORAGE_DURABLE:''},stdio:['ignore','pipe','pipe']});
+async function start(themeEnv = {}) {
+ server = spawn(process.execPath,['server.js'], {cwd:runtime,env:{...process.env,PORT:'3198',BASE_URL:base,MP_ACCESS_TOKEN:'',DATABASE_URL:'',NODE_ENV:'test',RENDER:'',THEME_STORAGE_DIR:'',THEME_STORAGE_DURABLE:'',...themeEnv},stdio:['ignore','pipe','pipe']});
  let failure = ''; server.stderr.on('data', d=>failure+=d);
  for(let n=0;n<100;n++){try{if((await fetch(base+'/api/health')).ok)return;}catch{} await new Promise(r=>setTimeout(r,100));}
  throw Error('Startup failed: '+failure);
@@ -94,5 +94,17 @@ try {
  await page.waitForFunction(()=>document.getElementById('themeFeedback').textContent.includes('Tema ativado com sucesso'));
  await stop();await start();assert.equal((await json('/api/theme')).data.theme.id,'artize');
  await page.goto(base+'/pages/home.html');await page.locator('html[data-theme="artize"]').waitFor();assert.equal(await page.locator('.mothers-gifts').isVisible(),false);
- console.log('PASS restore standard and persistence');assert.deepEqual(errors,[]);console.log('PASS no browser JavaScript errors');
+ console.log('PASS restore standard and persistence');
+ await stop(); await start({RENDER:'true',THEME_STORAGE_DIR:runtime+'/data/appearance',THEME_STORAGE_DURABLE:'true'});
+ await page.goto(base+'/pages/admin.html');
+ await page.waitForFunction(()=>document.getElementById('themeFeedback').textContent.includes('DATABASE_URL'));
+ assert(await page.locator('#publishTheme').isDisabled());assert(await page.locator('#restoreTheme').isDisabled());
+ assert.equal((await json('/api/admin/themes/active',{method:'PUT',headers:{Authorization:`Bearer ${admin.token}`,'Content-Type':'application/json'},body:JSON.stringify({themeId:'dia-das-maes'})})).status,503);
+ console.log('PASS Render requires DATABASE_URL even with old durable flags');
+ await stop(); await start({RENDER:'true',DATABASE_URL:'invalid-url'});
+ assert.equal((await json('/api/health')).status,200);assert.deepEqual((await json('/api/products')).data,catalogBefore);
+ assert.equal((await json('/api/admin/themes',{headers:{Authorization:`Bearer ${admin.token}`}})).status,503);
+ assert.equal((await json('/api/theme')).data.theme.id,'artize');
+ console.log('PASS invalid database configuration does not block server or catalog');
+ assert.deepEqual(errors,[]);console.log('PASS no browser JavaScript errors');
 } finally {await browser?.close();await stop();}

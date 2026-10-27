@@ -16,3 +16,6 @@ node server.js
 - O frete usa uma estimativa base saindo de Londrina/PR.
 - Para produção, revise preços, produtos, imagens e token do Mercado Pago.
 - O webhook do Mercado Pago já está preparado em `/api/payments/webhook`.
+## Aparência e Temas
+
+O painel administrativo permite pré-visualizar, ativar e restaurar temas manualmente. No Render, configure `DATABASE_URL` com Neon PostgreSQL; arquivos locais são exclusivos de desenvolvimento. Consulte [configuração, persistência e testes](docs/gerenciador-temas.md).

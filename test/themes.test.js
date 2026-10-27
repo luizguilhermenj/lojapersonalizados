@@ -7,28 +7,31 @@ import express from 'express';
 import { createThemeStore } from '../themes/store.js';
 import { themeRoutes } from '../routes/themes.js';
 
-test('persistência, restauração, validação e bloqueio de armazenamento efêmero', () => {
+test('persistência, restauração, validação e bloqueio de armazenamento efêmero', async () => {
   const localDir = fs.mkdtempSync(path.join(os.tmpdir(), 'artize-themes-'));
   try {
     const store = createThemeStore({ env: {}, localDir });
-    assert.equal(store.read(), 'artize');
-    store.save('dia-das-maes');
-    assert.equal(createThemeStore({ env: {}, localDir }).read(), 'dia-das-maes');
-    assert.throws(() => store.save('../invalid'));
-    assert.equal(store.read(), 'dia-das-maes');
-    store.save('artize'); assert.equal(store.read(), 'artize');
+    assert.equal(await store.read(), 'artize');
+    await store.save('dia-das-maes');
+    assert.equal(await createThemeStore({ env: {}, localDir }).read(), 'dia-das-maes');
+    await assert.rejects(store.save('../invalid'));
+    assert.equal(await store.read(), 'dia-das-maes');
+    await store.save('artize'); assert.equal(await store.read(), 'artize');
     const blocked = createThemeStore({ env: { RENDER: 'true' }, localDir });
-    assert.equal(blocked.writable, false); assert.throws(() => blocked.save('dia-das-maes'));
+    assert.equal(blocked.writable, false); await assert.rejects(blocked.save('dia-das-maes'));
+    await assert.rejects(blocked.save('artize'));
     const configured = createThemeStore({ env: { NODE_ENV: 'production', THEME_STORAGE_DIR: localDir, THEME_STORAGE_DURABLE: 'true' }, localDir });
-    configured.save('dia-das-maes'); assert.equal(configured.read(), 'dia-das-maes');
+    assert.equal(configured.writable, false);
+    await assert.rejects(configured.save('dia-das-maes'));
+    assert.equal(await configured.read(), 'artize');
     fs.writeFileSync(path.join(localDir, 'active-theme.json'), '{');
-    assert.throws(() => configured.read());
+    await assert.rejects(store.read());
   } finally { fs.rmSync(localDir, { recursive: true, force: true }); }
 });
 
 test('rotas negam visitantes e clientes; preview não altera o tema; falha de gravação retorna erro', async () => {
   let active = 'artize';
-  const store = { read: () => active, save: id => { active = id; }, writable: true };
+  const store = { read: async () => active, save: async id => { active = id; }, writable: true };
   const app = express(); app.use(express.json());
   const auth = (req, res, next) => req.headers.authorization ? next() : res.sendStatus(401);
   const adminOnly = (req, res, next) => req.headers.authorization === 'admin' ? next() : res.sendStatus(403);
@@ -46,7 +49,7 @@ test('rotas negam visitantes e clientes; preview não altera o tema; falha de gr
     assert.equal((await request('/admin/themes/active', 'PUT', 'admin', { themeId: 'invalid' })).status, 400);
     assert.equal((await request('/admin/themes/active', 'PUT', 'admin', { themeId: 'dia-das-maes' })).status, 200);
     assert.equal((await (await request('/theme')).json()).theme.id, 'dia-das-maes');
-    store.save = () => { throw new Error('disk failure'); };
+    store.save = async () => { throw new Error('disk failure'); };
     assert.equal((await request('/admin/themes/active', 'PUT', 'admin', { themeId: 'artize' })).status, 503);
     assert.equal(active, 'dia-das-maes');
   } finally { await new Promise(resolve => server.close(resolve)); }
