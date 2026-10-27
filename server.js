@@ -1,4 +1,6 @@
 import 'dotenv/config';
+import { createThemeStore } from './themes/store.js';
+import { themeRoutes } from './routes/themes.js';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -360,6 +362,9 @@ function getUnseenSalesForAdmin(adminUser) {
 }
 
 ensureAdminTrackingFields();
+
+const themeStore = createThemeStore({ localDir: path.join(DATA_DIR, 'appearance') });
+app.use('/api', themeRoutes({ store: themeStore, auth, adminOnly }));
 
 app.get('/api/health', (req, res) => res.json({ ok: true, envConfigured: Boolean(MP_ACCESS_TOKEN) }));
 app.get('/api/products', (req, res) => res.json(products()));

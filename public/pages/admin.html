@@ -6,6 +6,8 @@
   <title>Artize | Admin</title>
   <link rel="stylesheet" href="/css/base.css">
   <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <script type="module" src="/js/themes.js"></script>
 </head>
 <body>
   <main class="container page-stack">
@@ -32,6 +34,18 @@
       <div id="adminOrders" class="stack"></div>
       <p id="adminFeedback" class="feedback"></p>
     </section>
+    <section id="appearancePanel" class="card" hidden aria-labelledby="appearanceTitle">
+      <h2 id="appearanceTitle">Aparência e Temas</h2>
+      <p>Escolha uma identidade visual e pré-visualize antes de publicar. A ativação é manual.</p>
+      <fieldset id="themeChoices" class="theme-options" aria-label="Temas disponíveis"></fieldset>
+      <div class="toolbar">
+        <button id="previewTheme" class="ghost-btn" type="button" disabled>Pré-visualizar</button>
+        <button id="publishTheme" class="primary-btn" type="button" disabled>Ativar tema selecionado</button>
+        <button id="restoreTheme" class="ghost-btn" type="button" disabled>Restaurar tema padrão</button>
+      </div>
+      <p id="themeFeedback" class="feedback" role="status" aria-live="polite"></p>
+      <iframe id="themePreviewFrame" class="theme-preview-frame" title="Pré-visualização da loja" hidden></iframe>
+    </section>
   </main>
 
   <div id="newSaleModal" class="modal-backdrop hidden" aria-hidden="true">
@@ -46,5 +60,6 @@
 
   <script type="module" src="/js/app.js"></script>
   <script type="module" src="/js/admin.js"></script>
+  <script type="module" src="/js/admin-themes.js"></script>
 </body>
 </html>

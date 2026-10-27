@@ -1,0 +1,26 @@
+/* O padrão não recebe overrides: mantém a identidade original integralmente. */
+html[data-theme="dia-das-maes"] {--bg:#FFF8F4;--surface-2:#fff4f7;--accent:#C96C8C;--accent-2:#F7DCE5;--line:#e9ccd6;--dark:#693347;--muted:#71616a}
+html[data-theme="dia-das-maes"] .site-header {background:#FFF8F4;border-color:#e9ccd6}
+html[data-theme="dia-das-maes"] .primary-btn {background:#934561;color:#fff}
+html[data-theme="dia-das-maes"] .brand-mark {background:#693347}
+html[data-theme="dia-das-maes"] .chip.active {background:#693347;border-color:#693347}
+html[data-theme="dia-das-maes"] .price {color:#934561}
+html[data-theme="dia-das-maes"] .promo-carousel {display:none}
+.mothers-gifts {display:none}
+html[data-theme="dia-das-maes"] .mothers-gifts {display:grid;gap:16px;padding:clamp(20px,4vw,48px);border:1px solid #e9ccd6;border-radius:24px;background:radial-gradient(ellipse at top right,#829B8233,transparent 60%),#F7DCE5;color:#49333d}
+.mothers-gifts h1 {font-size:clamp(1.6rem,4vw,2.8rem);line-height:1.15;margin:0;max-width:700px}
+.mothers-gifts p {max-width:650px;margin:0;line-height:1.6}
+.mothers-gifts .primary-btn {justify-self:start}
+.theme-preview-notice {margin:0;padding:12px;background:#fff1c9;color:#493b16;text-align:center;font-weight:700}
+.theme-options {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px;border:0;padding:0;margin:0 0 20px;min-width:0}
+.theme-options legend {margin-bottom:12px}
+.theme-option {display:grid;gap:12px;border:1px solid var(--line);border-radius:18px;padding:20px;cursor:pointer}
+.theme-option:has(input:checked) {border-color:#934561;box-shadow:0 0 0 2px #934561}
+.theme-option input {width:20px;height:20px}
+.theme-swatches {display:flex;gap:8px}
+.theme-swatches i {width:28px;height:28px;border:1px solid #999;border-radius:50%}
+.theme-preview-frame {width:100%;height:650px;max-height:80vh;margin-top:20px;border:1px solid var(--line);border-radius:16px;background:white}
+.theme-preview-frame[hidden],#appearancePanel[hidden] {display:none}
+#appearancePanel button:disabled {opacity:.55;cursor:not-allowed}
+#themeFeedback {margin-top:16px;overflow-wrap:anywhere}
+@media(max-width:600px) {#appearancePanel .toolbar {display:grid}#appearancePanel .toolbar button {width:100%}.mothers-gifts .primary-btn {width:100%;text-align:center}}

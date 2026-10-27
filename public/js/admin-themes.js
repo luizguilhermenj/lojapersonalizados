@@ -1,0 +1,61 @@
+import { api, getSession } from '/js/app.js';
+const panel = document.getElementById('appearancePanel');
+const choices = document.getElementById('themeChoices');
+const feedback = document.getElementById('themeFeedback');
+const publish = document.getElementById('publishTheme');
+const restore = document.getElementById('restoreTheme');
+const preview = document.getElementById('previewTheme');
+const frame = document.getElementById('themePreviewFrame');
+let selected;
+let canActivate = false;
+let busy = false;
+function message(text, error = false) {
+  feedback.textContent = text;
+  feedback.className = `feedback ${error ? 'error' : 'success'}`;
+}
+function controls() {
+  publish.disabled = restore.disabled = busy || !canActivate;
+  preview.disabled = busy || !selected;
+  choices.disabled = busy;
+}
+async function load() {
+  const data = await api('/api/admin/themes');
+  canActivate = data.canActivate;
+  selected = data.activeThemeId;
+  choices.replaceChildren();
+  for (const theme of data.themes) {
+    const label = document.createElement('label');
+    label.className = 'theme-option';
+    const input = document.createElement('input');
+    input.type = 'radio'; input.name = 'appearanceTheme'; input.value = theme.id;
+    input.checked = theme.id === selected;
+    input.addEventListener('change', () => { selected = input.value; frame.hidden = true; frame.removeAttribute('src'); controls(); });
+    const title = document.createElement('strong');
+    title.textContent = theme.name + (theme.id === data.activeThemeId ? ' • Ativo' : '');
+    const description = document.createElement('span'); description.textContent = theme.description;
+    const swatches = document.createElement('span'); swatches.className = 'theme-swatches'; swatches.ariaHidden = 'true';
+    for (const color of theme.colors) { const swatch = document.createElement('i'); swatch.style.backgroundColor = color; swatches.append(swatch); }
+    label.append(input, title, description, swatches); choices.append(label);
+  }
+  if (data.warning) message(data.warning, true);
+  controls();
+}
+async function activate(themeId) {
+  busy = true; controls();
+  try {
+    await api('/api/admin/themes/active', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ themeId }) });
+    frame.hidden = true; frame.removeAttribute('src');
+    await load(); message('Tema ativado com sucesso. A loja usará este tema nas próximas visitas ou ao atualizar a página.');
+  } catch (error) { message(error.message, true); }
+  finally { busy = false; controls(); }
+}
+publish.addEventListener('click', () => activate(selected));
+restore.addEventListener('click', () => activate('artize'));
+preview.addEventListener('click', () => {
+  frame.src = `/pages/home.html?themePreview=${encodeURIComponent(selected)}`;
+  frame.hidden = false;
+});
+if (getSession()?.user?.role === 'admin') {
+  panel.hidden = false;
+  load().catch(error => { message(error.message, true); controls(); });
+}
