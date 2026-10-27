@@ -6,16 +6,11 @@ const globalSearch = document.getElementById('globalSearch');
 const sortSelect = document.getElementById('sortSelect');
 const promoTrack = document.getElementById('promoTrack');
 const promoDots = document.getElementById('promoDots');
-const menuToggle = document.getElementById('menuToggle');
-const siteHeader = document.querySelector('.site-header');
-const sideMenu = document.getElementById('sideMenu');
-const sideMenuBackdrop = document.getElementById('sideMenuBackdrop');
-const sideClose = document.getElementById('sideClose');
-const sideAccountLink = document.getElementById('sideAccountLink');
 
 let products = [];
 let currentCategory = 'Todos';
-let searchText = '';
+let searchText = new URLSearchParams(location.search).get('q') || '';
+if (globalSearch) globalSearch.value = searchText;
 let currentSlide = 0;
 let carouselTimer;
 
@@ -147,62 +142,11 @@ function restartCarousel() {
   carouselTimer = window.setInterval(() => showSlide(currentSlide + 1), 4200);
 }
 
-function closeMenu() {
-  siteHeader?.classList.remove('menu-open');
-  sideMenu?.classList.remove('open');
-  sideMenu?.setAttribute('aria-hidden', 'true');
-  sideMenuBackdrop?.setAttribute('hidden', 'hidden');
-  menuToggle?.setAttribute('aria-expanded', 'false');
-}
-
-function openMenu() {
-  siteHeader?.classList.add('menu-open');
-  sideMenu?.classList.add('open');
-  sideMenu?.setAttribute('aria-hidden', 'false');
-  sideMenuBackdrop?.removeAttribute('hidden');
-  menuToggle?.setAttribute('aria-expanded', 'true');
-}
-
-function setupMenu() {
-  if (!menuToggle || !siteHeader || !sideMenu) return;
-
-  menuToggle.addEventListener('click', () => {
-    const isOpen = sideMenu?.classList.contains('open');
-    if (isOpen) closeMenu();
-    else openMenu();
-  });
-
-  [sideMenu].forEach((container) => {
-    container?.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        closeMenu();
-      });
-    });
-  });
-
-  sideMenuBackdrop?.addEventListener('click', closeMenu);
-  sideClose?.addEventListener('click', closeMenu);
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 1100) closeMenu();
-  });
-
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeMenu();
-  });
-}
-
 async function init() {
   products = await api('/api/products');
   renderChips();
   renderProducts();
   if (!promoTrack.closest('.promo-carousel').hidden) startCarousel();
-  setupMenu();
-  if (sideAccountLink) {
-    const accountLink = document.getElementById('accountLink');
-    sideAccountLink.textContent = accountLink?.textContent || 'Entrar';
-    sideAccountLink.href = accountLink?.getAttribute('href') || '/pages/login.html';
-  }
 }
 
 globalSearch?.addEventListener('input', (event) => {

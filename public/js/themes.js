@@ -21,7 +21,8 @@ export function applyTheme(theme) {
   root.toggleAttribute('data-seasonal', Boolean(theme.campaign));
   const navLink = document.getElementById('seasonalNavLink');
   if (navLink) {
-    navLink.href = theme.campaign ? '#seasonalCampaign' : '#promocoes';
+    const home = document.getElementById('seasonalCampaign') ? '' : '/pages/home.html';
+    navLink.href = home + (theme.campaign ? '#seasonalCampaign' : '#promocoes');
     navLink.textContent = theme.campaign ? 'Presentes personalizados' : 'Promoções';
   }
   const campaign = document.getElementById('seasonalCampaign');
@@ -39,14 +40,8 @@ export function applyTheme(theme) {
     }
     document.querySelector('.promo-carousel').hidden = Boolean(theme.campaign);
   }
-  document.getElementById('seasonalFooter')?.remove();
-  if (theme.campaign) {
-    const footer = document.createElement('footer'); footer.id = 'seasonalFooter'; footer.className = 'seasonal-footer';
-    const inner = document.createElement('div'); inner.className = 'container';
-    const brand = document.createElement('a'); brand.href = '/pages/home.html'; brand.textContent = 'Artize';
-    const text = document.createElement('p'); text.textContent = theme.campaign.footer;
-    inner.append(brand, text); footer.append(inner); document.body.append(footer);
-  }
+  const footerMessage=document.getElementById('campaignFooterMessage');
+  if(footerMessage)footerMessage.textContent=theme.campaign?.footer||'Presentes personalizados para transformar carinho em boas lembranças.';
   effects.set(theme.effect);
   document.dispatchEvent(new CustomEvent('artize:themechange', { detail: { themeId: theme.id } }));
 }

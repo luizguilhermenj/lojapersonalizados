@@ -44,6 +44,8 @@ try {
  const catalogBefore = (await json('/api/products')).data;
  browser = await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
  const page = await browser.newPage({viewport:{width:1280,height:900}});
+ // Limita downloads de originais nesta suíte funcional; payload de imagens é medido separadamente.
+ await page.context().route('**/img/artes/**',route=>/pascoa-0[1-4]\.webp$/.test(route.request().url())?route.continue():route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>'}));
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/pages/admin.html');
  await page.evaluate(session=>localStorage.setItem('artize_session_v1',JSON.stringify(session)),admin);
