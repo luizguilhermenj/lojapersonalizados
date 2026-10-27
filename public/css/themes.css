@@ -1,26 +1,58 @@
-/* O padrão não recebe overrides: mantém a identidade original integralmente. */
-html[data-theme="dia-das-maes"] {--bg:#FFF8F4;--surface-2:#fff4f7;--accent:#C96C8C;--accent-2:#F7DCE5;--line:#e9ccd6;--dark:#693347;--muted:#71616a}
-html[data-theme="dia-das-maes"] .site-header {background:#FFF8F4;border-color:#e9ccd6}
-html[data-theme="dia-das-maes"] .primary-btn {background:#934561;color:#fff}
-html[data-theme="dia-das-maes"] .brand-mark {background:#693347}
-html[data-theme="dia-das-maes"] .chip.active {background:#693347;border-color:#693347}
-html[data-theme="dia-das-maes"] .price {color:#934561}
-html[data-theme="dia-das-maes"] .promo-carousel {display:none}
-.mothers-gifts {display:none}
-html[data-theme="dia-das-maes"] .mothers-gifts {display:grid;gap:16px;padding:clamp(20px,4vw,48px);border:1px solid #e9ccd6;border-radius:24px;background:radial-gradient(ellipse at top right,#829B8233,transparent 60%),#F7DCE5;color:#49333d}
-.mothers-gifts h1 {font-size:clamp(1.6rem,4vw,2.8rem);line-height:1.15;margin:0;max-width:700px}
-.mothers-gifts p {max-width:650px;margin:0;line-height:1.6}
-.mothers-gifts .primary-btn {justify-self:start}
+/* O tema padrão usa integralmente os estilos originais. Paletas vêm da configuração. */
+html[data-seasonal] .site-header {background:var(--bg);border-color:var(--line)}
+html[data-seasonal] .brand-mark {background:var(--dark)}
+html[data-seasonal] .primary-btn {background:var(--accent);color:#fff}
+html[data-seasonal] .price {color:var(--accent)}
+html[data-seasonal] :is(.menu-toggle,.side-menu,.side-menu-section a,.ghost-btn,.chip,.search) {background:var(--surface);border-color:var(--line);color:var(--text)}
+html[data-seasonal] :is(.chip.active,.cart-btn) {background:var(--dark);border-color:var(--dark);color:#fff}
+html[data-seasonal] :is(.product-card,.card) {border-color:var(--line);background:var(--surface)}
+html[data-seasonal] .product-card {box-shadow:0 10px 28px color-mix(in srgb,var(--dark) 7%,transparent)}
+html[data-seasonal] .product-card img {background:var(--surface-2)}
+html[data-seasonal] :is(button,a,input,select):focus-visible {outline:3px solid var(--accent);outline-offset:4px}
+html[data-seasonal] .menu-label-toggle em {color:var(--text)}
+.seasonal-campaign {display:grid;position:relative;isolation:isolate;overflow:hidden;border:1px solid var(--line);border-radius:28px;background:var(--theme-hero);color:var(--theme-hero-text);padding:clamp(24px,4vw,52px);min-height:340px;align-items:center;gap:24px}
+.seasonal-campaign.has-illustration {grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+.campaign-copy {position:relative;z-index:1;min-width:0}
+.campaign-eyebrow {margin:0 0 22px;font-size:.78rem;font-weight:800;letter-spacing:.17em;text-transform:uppercase}
+.seasonal-campaign h1 {font-family:Georgia,'Times New Roman',serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:500;line-height:1.07;letter-spacing:-.035em;max-width:720px;margin:0 0 22px;text-wrap:balance}
+.campaign-description {max-width:580px;line-height:1.75;color:var(--theme-hero-muted);margin:0;font-size:1rem}
+.campaign-actions {display:flex;align-items:center;flex-wrap:wrap;gap:22px;margin-top:28px}
+html[data-seasonal] .seasonal-campaign .primary-btn {background:var(--theme-hero-button);color:var(--theme-hero-button-text);min-height:48px}
+html[data-seasonal] .seasonal-campaign a:focus-visible {outline-color:var(--theme-hero-text)}
+html[data-seasonal] .seasonal-footer a:focus-visible {outline:3px solid #fff;outline-offset:4px}
+.campaign-catalog-link {font-size:.9rem;font-weight:650;text-decoration:underline;text-underline-offset:5px}
+.campaign-signature {color:var(--theme-hero-muted);font-size:.75rem;margin:28px 0 0;letter-spacing:.025em}
+.campaign-art {width:100%;height:auto;max-height:360px;object-fit:contain;pointer-events:none}
+html[data-theme="natal"] .campaign-eyebrow {color:#D5AD60}
+html[data-theme="natal"] .seasonal-campaign {border-color:#174B3A;background:radial-gradient(ellipse at right bottom,#29644D 0,transparent 65%),#174B3A}
+html[data-theme="pascoa"] .seasonal-campaign {background:radial-gradient(ellipse at bottom right,#F8D7DF 0,transparent 65%),#F1E7F7}
+html[data-theme="dia-das-maes"] .seasonal-campaign {background:radial-gradient(ellipse at top right,#829B8233,transparent 60%),#F7DCE5}
+.seasonal-footer {background:var(--dark);color:#fff;margin-top:28px;padding:32px 0 78px;border-top:3px solid var(--accent-2)}
+.seasonal-footer .container {display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.seasonal-footer a {font-size:1.4rem;font-weight:800;letter-spacing:-.04em}
+.seasonal-footer p {font-size:.9rem;line-height:1.6;margin:0;max-width:500px}
 .theme-preview-notice {margin:0;padding:12px;background:#fff1c9;color:#493b16;text-align:center;font-weight:700}
 .theme-options {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px;border:0;padding:0;margin:0 0 20px;min-width:0}
 .theme-options legend {margin-bottom:12px}
-.theme-option {display:grid;gap:12px;border:1px solid var(--line);border-radius:18px;padding:20px;cursor:pointer}
-.theme-option:has(input:checked) {border-color:#934561;box-shadow:0 0 0 2px #934561}
-.theme-option input {width:20px;height:20px}
+.theme-option {display:grid;gap:12px;border:1px solid var(--line);border-radius:18px;padding:20px;cursor:pointer;align-content:start}
+.theme-option:has(input:checked) {border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+.theme-option input {width:20px;height:20px;accent-color:var(--dark)}
 .theme-swatches {display:flex;gap:8px}
 .theme-swatches i {width:28px;height:28px;border:1px solid #999;border-radius:50%}
 .theme-preview-frame {width:100%;height:650px;max-height:80vh;margin-top:20px;border:1px solid var(--line);border-radius:16px;background:white}
-.theme-preview-frame[hidden],#appearancePanel[hidden] {display:none}
+:is(.theme-preview-frame,.seasonal-campaign,.campaign-art,.promo-carousel,#appearancePanel)[hidden] {display:none}
 #appearancePanel button:disabled {opacity:.55;cursor:not-allowed}
 #themeFeedback {margin-top:16px;overflow-wrap:anywhere}
-@media(max-width:600px) {#appearancePanel .toolbar {display:grid}#appearancePanel .toolbar button {width:100%}.mothers-gifts .primary-btn {width:100%;text-align:center}}
+/* Container fixo pertence ao documento atual; dentro de iframe fica limitado à prévia. */
+.seasonal-effects {position:fixed;inset:0;z-index:45;overflow:hidden;contain:strict;pointer-events:none;user-select:none}
+.seasonal-effects * {pointer-events:none}
+.seasonal-particle {position:absolute;top:-24px;display:block;width:var(--size);height:var(--size);opacity:0;animation:seasonal-fall var(--duration) var(--delay) linear infinite}
+.seasonal-particle-core {display:block;width:100%;height:100%;border-radius:50%;animation:seasonal-sway 4s var(--delay) ease-in-out infinite alternate}
+.seasonal-effects--snow .seasonal-particle-core {box-shadow:0 0 1px #174B3A55}
+.seasonal-effects--petals .seasonal-particle-core {border-radius:75% 0 75% 20%;height:70%;border:1px solid #76544322}
+.seasonal-effects-toggle {position:fixed;right:16px;bottom:16px;z-index:50;min-height:40px;padding:8px 14px;border:1px solid var(--line);border-radius:99px;background:var(--surface);color:var(--text);font:inherit;font-size:.75rem;cursor:pointer;box-shadow:0 3px 12px #00000014}
+@keyframes seasonal-fall {0%{transform:translate3d(0,-24px,0) rotate(0);opacity:0}8%{opacity:var(--opacity)}90%{opacity:var(--opacity)}100%{transform:translate3d(var(--drift),calc(100vh + 48px),0) rotate(var(--turn));opacity:0}}
+@keyframes seasonal-sway {from{transform:translate3d(calc(-1 * var(--sway)),0,0) rotate(-15deg)}to{transform:translate3d(var(--sway),0,0) rotate(20deg)}}
+@media(max-width:760px) {.seasonal-campaign.has-illustration{grid-template-columns:1fr}.seasonal-campaign{gap:8px;padding:28px 24px}.campaign-art{height:200px;width:100%;max-width:380px;justify-self:center}.campaign-eyebrow{margin-bottom:18px}.campaign-signature{margin-top:20px}.campaign-description{font-size:.94rem}.campaign-actions{gap:18px}.seasonal-campaign h1{font-size:clamp(2.2rem,8vw,3rem)}}
+@media(max-width:600px) {#appearancePanel .toolbar {display:grid}#appearancePanel .toolbar button {width:100%}.campaign-actions .primary-btn{width:100%}.campaign-actions{justify-content:center}.seasonal-footer .container{display:grid}.seasonal-effects-toggle{right:12px;bottom:12px}}
+@media(prefers-reduced-motion:reduce) {.seasonal-effects,.seasonal-effects-toggle{display:none}.seasonal-particle,.seasonal-particle-core{animation:none}html[data-seasonal]{scroll-behavior:auto}}

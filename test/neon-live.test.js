@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { themes } from '../themes/config.js';
 import { createNeonThemeStore } from '../themes/neon-store.js';
 
 // Use SOMENTE um banco de testes dedicado. Nunca reutiliza DATABASE_URL da aplicação.
@@ -10,8 +11,10 @@ test('Neon real: inicialização, ativação, novo cliente, restauração e pres
   const store = createNeonThemeStore(databaseUrl);
   const original = await store.read({ fresh: true });
   try {
-    await store.save('dia-das-maes', 'integration-test');
-    assert.equal(await createNeonThemeStore(databaseUrl).read(), 'dia-das-maes');
+    for (const theme of themes) {
+      await store.save(theme.id, 'integration-test');
+      assert.equal(await createNeonThemeStore(databaseUrl).read(), theme.id);
+    }
     await store.save('artize', 'integration-test');
     assert.equal(await createNeonThemeStore(databaseUrl).read(), 'artize');
   } finally { await store.save(original, 'integration-test-cleanup'); }

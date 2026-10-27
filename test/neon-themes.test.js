@@ -70,6 +70,10 @@ test('driver Neon: criação idempotente, parâmetros, cache, ativação, reinic
     await store.save('dia-das-maes'); release(); db.delaySelect = undefined;
     assert.equal(await inFlightRead, 'dia-das-maes', 'leitura antiga não desfaz publicação no cache');
     assert.equal(await store.read(), 'dia-das-maes');
+    for (const themeId of ['artize','natal','pascoa','dia-das-maes']) {
+      await store.save(themeId, 'admin');
+      assert.equal(await createNeonThemeStore(url).read(), themeId);
+    }
     const before = db.calls.length; await assert.rejects(store.save('invalid')); assert.equal(db.calls.length, before);
   } finally { neonConfig.fetchFunction = original; }
 });

@@ -1,4 +1,5 @@
 import { api, getSession } from '/js/app.js';
+import { applyTheme, themeReady } from '/js/themes.js';
 const panel = document.getElementById('appearancePanel');
 const choices = document.getElementById('themeChoices');
 const feedback = document.getElementById('themeFeedback');
@@ -19,7 +20,9 @@ function controls() {
   choices.disabled = busy;
 }
 async function load() {
+  await themeReady;
   const data = await api('/api/admin/themes');
+  applyTheme(data.themes.find(theme => theme.id === data.activeThemeId));
   canActivate = data.canActivate;
   selected = data.activeThemeId;
   choices.replaceChildren();
@@ -42,6 +45,8 @@ async function load() {
 }
 async function activate(themeId) {
   busy = true; controls();
+  feedback.className = 'feedback';
+  feedback.textContent = 'Publicando tema...';
   try {
     await api('/api/admin/themes/active', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ themeId }) });
     frame.hidden = true; frame.removeAttribute('src');

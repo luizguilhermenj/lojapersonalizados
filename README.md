@@ -18,4 +18,4 @@ node server.js
 - O webhook do Mercado Pago já está preparado em `/api/payments/webhook`.
 ## Aparência e Temas
 
-O painel administrativo permite pré-visualizar, ativar e restaurar temas manualmente. No Render, configure `DATABASE_URL` com Neon PostgreSQL; arquivos locais são exclusivos de desenvolvimento. Consulte [configuração, persistência e testes](docs/gerenciador-temas.md).
+O painel administrativo permite pré-visualizar, ativar e restaurar Artize Padrão, Natal, Páscoa e Dia das Mães manualmente. Natal e Páscoa incluem efeitos leves que respeitam movimento reduzido. No Render, configure `DATABASE_URL` com Neon PostgreSQL; arquivos locais são exclusivos de desenvolvimento. Consulte [configuração, persistência e testes](docs/gerenciador-temas.md).

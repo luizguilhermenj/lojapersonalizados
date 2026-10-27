@@ -36,7 +36,7 @@ try {
  await start(); console.log('PASS server startup');
  const admin = await login('admin@test.invalid'); const customer = await login('customer@test.invalid');
  assert.equal(admin.user.role,'admin');
- for(const [route,method] of [['/api/admin/themes','GET'],['/api/admin/themes/dia-das-maes/preview','GET'],['/api/admin/themes/active','PUT']]){
+ for(const [route,method] of [['/api/admin/themes','GET'],...['artize','natal','pascoa','dia-das-maes'].map(id=>[`/api/admin/themes/${id}/preview`,'GET']),['/api/admin/themes/active','PUT']]){
   assert.equal((await json(route,{method})).status,401);
   assert.equal((await json(route,{method,headers:{Authorization:`Bearer ${customer.token}`}})).status,403);
  }
@@ -54,6 +54,76 @@ try {
   assert(await page.evaluate(()=>document.getElementById('appearancePanel').getBoundingClientRect().right <= innerWidth), `Theme panel overflow at ${width}`);
  }
  console.log('PASS theme panel responsive 360 / 390 / 768 / 1280 px');
+ const availableThemes = (await json('/api/admin/themes',{headers:{Authorization:`Bearer ${admin.token}`}})).data.themes;
+ assert.deepEqual(availableThemes.map(theme=>theme.id),['artize','natal','pascoa','dia-das-maes']);
+ fs.mkdirSync(path.join(root,'work/screens'),{recursive:true});
+ for (const theme of availableThemes) {
+  await page.goto(base+'/pages/admin.html');
+  await page.locator(`input[name="appearanceTheme"][value="${theme.id}"]`).check();
+  const activeBefore = (await json('/api/theme')).data.theme.id;
+  await page.locator('#previewTheme').click();
+  const frame = page.frameLocator('#themePreviewFrame');
+  await frame.locator(`html[data-theme="${theme.id}"]`).waitFor();
+  assert.equal((await json('/api/theme')).data.theme.id,activeBefore);
+  assert.equal(await page.locator('html').getAttribute('data-theme'),activeBefore);
+  if (theme.effect) {
+   await frame.locator(`.seasonal-effects--${theme.effect.type}`).waitFor();
+   assert(await frame.locator('.seasonal-effects').evaluate(el=>getComputedStyle(el).pointerEvents==='none' && el.getAttribute('aria-hidden')==='true'));
+   assert(await frame.locator('.seasonal-effects').evaluate(el=>el.getBoundingClientRect().height===innerHeight && el.getBoundingClientRect().width===innerWidth));
+  } else assert.equal(await frame.locator('.seasonal-effects').count(),0);
+  await page.locator('#publishTheme').click();
+  await page.waitForFunction(()=>document.getElementById('themeFeedback').textContent.includes('Tema ativado com sucesso'));
+  assert.equal((await json('/api/theme')).data.theme.id,theme.id);
+  assert.equal(await page.locator('html').getAttribute('data-theme'),theme.id,'painel aplica publicação sem reload');
+  assert.equal(await page.locator('#themePreviewFrame').getAttribute('src'),null,'prévia descartada');
+  await stop();await start();assert.equal((await json('/api/theme')).data.theme.id,theme.id);
+  for (const width of [360,390,768,1280]) {
+   await page.setViewportSize({width,height:900});await page.goto(base+'/pages/home.html');
+   await page.locator(`html[data-theme="${theme.id}"]`).waitFor();
+   await page.locator('.product-card').first().waitFor();
+   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${theme.id} overflow at ${width}`);
+   assert.equal(await page.locator('#seasonalCampaign').isVisible(),Boolean(theme.campaign));
+   if (theme.campaign) {
+    const contrast = await page.locator('#campaignAction').evaluate(el=> {
+      const rgb = s => (s.match(/[\d.]+/g)||[]).slice(0,3).map(Number).map(c=>{const v=c/255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});
+      const luminance = s => {const c=rgb(s);return .2126*c[0]+.7152*c[1]+.0722*c[2];};
+      const style=getComputedStyle(el);const a=luminance(style.color);const b=luminance(style.backgroundColor);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+    });
+    assert(contrast>=4.5,`${theme.id} CTA contrast ${contrast}`);
+   }
+   if (theme.effect) {
+    const expected = width<=600 ? theme.effect.mobileCount : theme.effect.count;
+    await page.waitForFunction(n=>document.querySelectorAll('.seasonal-particle').length===n,expected);
+    await page.locator('#menuToggle').click();assert.equal(await page.locator('#menuToggle').getAttribute('aria-expanded'),'true');await page.locator('#sideClose').click();
+    await page.locator('#sideMenu').evaluate(el=>Promise.all(el.getAnimations().map(animation=>animation.finished)));
+   } else assert.equal(await page.locator('.seasonal-effects').count(),0);
+   if ((theme.id==='natal'||theme.id==='pascoa') && (width===360||width===1280)) await page.screenshot({path:path.join(root,`work/screens/${theme.id}-${width}.png`)});
+  }
+  if (theme.effect) {
+   const particle=page.locator('.seasonal-particle').first();
+   const before=await particle.evaluate(el=>getComputedStyle(el).transform);
+   await page.waitForTimeout(180);
+   assert.notEqual(await particle.evaluate(el=>getComputedStyle(el).transform),before,'animação se move');
+   await page.getByRole('button',{name:'Animação sazonal'}).click();assert.equal(await page.locator('.seasonal-effects').count(),0);
+   await page.getByRole('button',{name:'Animação sazonal'}).click();await page.locator('.seasonal-effects').waitFor();
+   await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>!document.querySelector('.seasonal-effects'));
+   assert.equal(await page.locator('.seasonal-effects-toggle').count(),0);
+   await page.emulateMedia({reducedMotion:'no-preference'});await page.locator('.seasonal-effects').waitFor();
+   // Troca no mesmo documento exercita a limpeza de DOM/listeners do módulo reutilizável.
+   await page.evaluate(async()=>{const {applyTheme}=await import('/js/themes.js');applyTheme({id:'artize'});});
+   assert.equal(await page.locator('.seasonal-effects,.seasonal-effects-toggle').count(),0);
+   await page.setViewportSize({width:390,height:900});await page.emulateMedia({reducedMotion:'reduce'});await page.emulateMedia({reducedMotion:'no-preference'});
+   assert.equal(await page.locator('.seasonal-effects,.seasonal-effects-toggle').count(),0,'listeners antigos não recriam efeito');
+   const reducedPage = await browser.newPage({reducedMotion:'reduce'});
+   await reducedPage.goto(base+'/pages/home.html');await reducedPage.locator(`html[data-theme="${theme.id}"]`).waitFor();
+   assert.equal(await reducedPage.locator('.seasonal-effects,.seasonal-effects-toggle').count(),0);await reducedPage.close();
+  }
+  console.log(`PASS ${theme.id}: preview isolated, activation, restart, responsive, effects/motion/cleanup`);
+ }
+ // Volta ao padrão para manter o cenário de regressão original independente.
+ await page.goto(base+'/pages/admin.html');await page.locator('#restoreTheme').click();
+ await page.waitForFunction(()=>document.getElementById('themeFeedback').textContent.includes('Tema ativado com sucesso'));
+
  await page.getByLabel('Dia das Mães', {exact:false}).check();
  await page.getByRole('button',{name:'Pré-visualizar',exact:true}).click();
  await page.frameLocator('#themePreviewFrame').locator('html[data-theme="dia-das-maes"]').waitFor();
@@ -67,7 +137,7 @@ try {
  for(const width of [360,390,768,1280]){
   await page.setViewportSize({width,height:900});await page.goto(base+'/pages/home.html');
   await page.locator('html[data-theme="dia-das-maes"]').waitFor();await page.locator('.product-card').first().waitFor();
-  assert(await page.locator('.mothers-gifts').isVisible());
+  assert(await page.locator('#seasonalCampaign').isVisible());
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Overflow at ${width}`);
  }
  console.log('PASS responsive home 360 / 390 / 768 / 1280 px');
@@ -93,8 +163,20 @@ try {
  await page.getByRole('button',{name:'Restaurar tema padrão'}).click();
  await page.waitForFunction(()=>document.getElementById('themeFeedback').textContent.includes('Tema ativado com sucesso'));
  await stop();await start();assert.equal((await json('/api/theme')).data.theme.id,'artize');
- await page.goto(base+'/pages/home.html');await page.locator('html[data-theme="artize"]').waitFor();assert.equal(await page.locator('.mothers-gifts').isVisible(),false);
+ await page.goto(base+'/pages/home.html');await page.locator('html[data-theme="artize"]').waitFor();assert.equal(await page.locator('#seasonalCampaign').isVisible(),false);
  console.log('PASS restore standard and persistence');
+ let releaseTheme;
+ const pendingTheme = new Promise(resolve=>{releaseTheme=resolve;});
+ await page.route('**/api/theme',async route=>{await pendingTheme;await route.continue();});
+ try {
+  await page.goto(base+'/pages/home.html',{waitUntil:'domcontentloaded'});
+  await page.locator('.product-card').first().waitFor();await page.locator('#menuToggle').click();
+  assert.equal(await page.locator('#menuToggle').getAttribute('aria-expanded'),'true','menu funciona enquanto tema aguarda banco');
+ } finally {
+  const themeResponse = page.waitForResponse(response=>response.url()===base+'/api/theme');
+  releaseTheme();await themeResponse;await page.unroute('**/api/theme');
+ }
+ console.log('PASS catalog and navigation do not wait for theme/database');
  await stop(); await start({RENDER:'true',THEME_STORAGE_DIR:runtime+'/data/appearance',THEME_STORAGE_DURABLE:'true'});
  await page.goto(base+'/pages/admin.html');
  await page.waitForFunction(()=>document.getElementById('themeFeedback').textContent.includes('DATABASE_URL'));

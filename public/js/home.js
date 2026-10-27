@@ -118,6 +118,7 @@ function showSlide(index) {
 }
 
 function startCarousel() {
+  window.clearInterval(carouselTimer);
   const slides = [...promoTrack.querySelectorAll('.promo-slide')];
   if (!slides.length) return;
 
@@ -135,6 +136,11 @@ function startCarousel() {
   showSlide(0);
   carouselTimer = window.setInterval(() => showSlide(currentSlide + 1), 4200);
 }
+
+document.addEventListener('artize:themechange', () => {
+  window.clearInterval(carouselTimer);
+  if (!promoTrack.closest('.promo-carousel').hidden) startCarousel();
+});
 
 function restartCarousel() {
   window.clearInterval(carouselTimer);
@@ -190,7 +196,7 @@ async function init() {
   products = await api('/api/products');
   renderChips();
   renderProducts();
-  startCarousel();
+  if (!promoTrack.closest('.promo-carousel').hidden) startCarousel();
   setupMenu();
   if (sideAccountLink) {
     const accountLink = document.getElementById('accountLink');
