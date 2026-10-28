@@ -10,7 +10,7 @@ export function createColorStudio({ frame, onPublished, onBusy }) {
   const tabs = [...root.querySelectorAll('[role="tab"]')];
   const compare = document.getElementById('compareOriginal');
   const size = document.getElementById('previewSize');
-  let themes = [], selected, saved = {}, drafts = {}, writable = false, busy = false, ready = false;
+  let themes = [], selected, saved = {}, drafts = {}, writable = false, previewOnly = false, busy = false, ready = false;
   const invalidColors = new Set();
   const current = () => drafts[selected] ?? null;
   const theme = () => themes.find(t => t.id === selected);
@@ -18,14 +18,14 @@ export function createColorStudio({ frame, onPublished, onBusy }) {
   function updateState() {
     const dirty = !same(current(), saved[selected]?.draft ?? null);
     const unpublished = !same(current(), saved[selected]?.published ?? null);
-    state.textContent = dirty ? 'Alterações não salvas' : unpublished ? 'Rascunho salvo' : current() ? 'Visual publicado' : 'Visual original';
+    state.textContent = previewOnly ? (dirty ? 'Prévia temporária alterada' : 'Prévia temporária') : dirty ? 'Alterações não salvas' : unpublished ? 'Rascunho salvo' : current() ? 'Visual publicado' : 'Visual original';
     document.getElementById('studioSettingsSummary').textContent = `${theme()?.name || ''} · ${state.textContent}. As configurações são independentes por tema.`;
-    for (const id of ['saveStudio', 'publishStudio']) document.getElementById(id).disabled = busy || !writable || invalidColors.size > 0;
+    for (const id of ['saveStudio', 'publishStudio']) { document.getElementById(id).disabled = busy || !writable || invalidColors.size > 0; document.getElementById(id).hidden = previewOnly; }
     for (const id of ['resetStudio','discardStudio']) document.getElementById(id).disabled = busy;
     root.querySelectorAll('input, .palette-choice').forEach(el => { el.disabled = busy; });
   }
   function sendPreview() {
-    if (ready && frame.contentWindow && !frame.hidden) frame.contentWindow.postMessage({ type: 'artize:studio-preview', themeId: selected, customization: compare.checked ? null : current() }, location.origin);
+    if (ready && frame.contentWindow && !frame.hidden) frame.contentWindow.postMessage({ type: 'artize:studio-preview', themeId: selected, ...(previewOnly ? { theme: theme() } : {}), customization: compare.checked ? null : current() }, location.origin);
   }
   function syncInputs() {
     const config = current() || originalCustomization(theme());
@@ -104,7 +104,7 @@ export function createColorStudio({ frame, onPublished, onBusy }) {
     frame.style.maxWidth = size.value === 'mobile' ? 'calc(100% - 2px)' : 'none';
   }
   function showPreview() {
-    const url = `/pages/home.html?themePreview=${encodeURIComponent(selected)}&studioPreview=1`;
+    const url = `/pages/home.html?themePreview=${encodeURIComponent(selected)}&studioPreview=1${previewOnly ? '&temporaryPreview=1' : ''}`;
     if (frame.getAttribute('src') !== url) { ready = false; frame.src = url; }
     frame.hidden = false; sizePreview(); sendPreview();
   }
@@ -128,17 +128,21 @@ export function createColorStudio({ frame, onPublished, onBusy }) {
   }
   document.getElementById('saveStudio').addEventListener('click', () => save());
   document.getElementById('publishStudio').addEventListener('click', () => save(true));
-  document.getElementById('resetStudio').addEventListener('click', () => { drafts[selected] = null; syncInputs(); tell('Padrão original restaurado na prévia. Publique para aplicar à loja.'); });
-  document.getElementById('discardStudio').addEventListener('click', () => { drafts[selected] = copy(saved[selected]?.draft ?? null); syncInputs(); tell('Alterações não salvas descartadas.'); });
+  document.getElementById('resetStudio').addEventListener('click', () => { drafts[selected] = null; syncInputs(); tell(previewOnly ? 'Padrão original restaurado apenas na prévia temporária.' : 'Padrão original restaurado na prévia. Publique para aplicar à loja.'); });
+  document.getElementById('discardStudio').addEventListener('click', () => { drafts[selected] = copy(saved[selected]?.draft ?? null); syncInputs(); tell(previewOnly ? 'Alterações temporárias descartadas.' : 'Alterações não salvas descartadas.'); });
   window.addEventListener('beforeunload', event => {
     if (Object.keys(drafts).some(id => !same(drafts[id], saved[id]?.draft ?? null))) { event.preventDefault(); event.returnValue = ''; }
   });
   return {
     load(data) {
       root.hidden = false;
+      previewOnly = data.colorStudioMode === 'preview';
+      document.getElementById('studioDescription').textContent = previewOnly ? 'Experimente as 12 paletas, cores e glow. Esta prévia é temporária: nada é gravado e os ajustes são descartados ao recarregar.' : 'Crie uma combinação para cada tema. Experimente na prévia, salve um rascunho e publique quando estiver pronto.';
+      document.getElementById('studioPersistenceNote').textContent = previewOnly ? 'Cores e glow valem somente nesta prévia. Salvar e publicar estão indisponíveis enquanto a prioridade é a experimentação visual. Os ajustes ficam apenas na memória desta aba.' : 'Salvar mantém a loja pública igual. Publicar ativa o tema selecionado com estas cores neste ambiente. Restaurar só entra em vigor na loja depois de publicar.';
+      document.getElementById('themeActivationNote').hidden = !previewOnly;
       const previousSaved = saved;
       const previousDrafts = drafts;
-      themes = data.themes; saved = data.colorStudio?.themes || {}; writable = data.canActivate;
+      themes = data.themes; saved = data.colorStudio?.themes || {}; writable = data.canSaveColors ?? data.canActivate;
       drafts = Object.fromEntries(themes.map(t => [t.id, copy(Object.hasOwn(previousDrafts, t.id) && !same(previousDrafts[t.id], previousSaved[t.id]?.draft ?? null) ? previousDrafts[t.id] : saved[t.id]?.draft ?? null)]));
       selected = data.activeThemeId; compare.checked = false; syncInputs();
     },
@@ -148,6 +152,7 @@ export function createColorStudio({ frame, onPublished, onBusy }) {
       else { frame.hidden = true; frame.removeAttribute('src'); }
     },
     preview() { setTab('preview'); },
-    publish() { return save(true); }
+    publish() { return save(true); },
+    get previewOnly() { return previewOnly; }
   };
 }

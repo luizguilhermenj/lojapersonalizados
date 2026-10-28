@@ -22,9 +22,10 @@ test('PostgreSQL: migrações reversíveis, JSONB por tema, publicação, instâ
     },
     transaction(queries) { return db.transaction(async tx=>{const results=[];for(const q of queries)results.push((await tx.query(q.query,q.params)).rows);return results;}); }
   };
-  const make=()=>createNeonThemeStore('isolated-pglite',{createSql:()=>sql});
+  const make=()=>createNeonThemeStore('isolated-pglite',{createSql:()=>sql,studioWritable:true});
   try {
     const store=make();assert.deepEqual(await store.readPublished(),{themeId:'artize',customization:null});
+    await db.exec(fs.readFileSync('migrations/001-color-studio.up.sql','utf8'));
     const actor="admin'; DROP TABLE artize_theme_settings; --";
     const c=fromPalette('midnight-emerald');
     await store.saveStudio('natal',c,actor);

@@ -71,15 +71,33 @@ window.addEventListener('pagehide', () => effects.stop());
 window.addEventListener('pageshow', event => { if (event.persisted && currentTheme) effects.set(motionAllowed() ? currentTheme.effect : undefined); });
 
 const studioPreview = new URLSearchParams(location.search).get('studioPreview') === '1';
+const temporaryPreview = studioPreview && window.parent !== window && new URLSearchParams(location.search).get('temporaryPreview') === '1';
+const previewId = new URLSearchParams(location.search).get('themePreview');
+let resolveTemporaryPreview;
 window.addEventListener('message', async event => {
   if (!studioPreview || window.parent === window || event.origin !== location.origin || event.source !== window.parent || event.data?.type !== 'artize:studio-preview') return;
+  if (temporaryPreview) {
+    if (event.data.themeId !== previewId || event.data.theme?.id !== previewId) return;
+    const base = currentTheme?.id === previewId ? currentTheme : event.data.theme;
+    applyTheme({ ...base, customization: safeCustomization(event.data.customization) });
+    resolveTemporaryPreview?.(previewId); resolveTemporaryPreview = undefined;
+    return;
+  }
   await themeReady;
   if (event.data.themeId !== currentTheme?.id) return;
   applyTheme({ ...currentTheme, customization: safeCustomization(event.data.customization) });
 });
 
 export const themeReady = (async () => {
-  const preview = new URLSearchParams(location.search).get('themePreview');
+  const preview = previewId;
+  if (temporaryPreview) {
+    const notice = document.createElement('p'); notice.className = 'theme-preview-notice';
+    notice.textContent = 'Prévia temporária — cores e glow não são gravados.'; document.body.prepend(notice);
+    return new Promise(resolve => {
+      resolveTemporaryPreview = resolve;
+      window.parent.postMessage({ type: 'artize:studio-ready', themeId: preview }, location.origin);
+    });
+  }
   try {
     const data = await api(preview ? `/api/admin/themes/${encodeURIComponent(preview)}/preview` : '/api/theme');
     applyTheme(data.theme);

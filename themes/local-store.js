@@ -20,7 +20,7 @@ export function createLocalThemeStore(directory) {
     } finally { fs.rmSync(temporary, { force: true }); }
   }
   return {
-    provider: 'local', writable: true, warning: null,
+    provider: 'local', writable: true, studioWritable: true, warning: null,
     async read() {
       try {
         const data = JSON.parse(fs.readFileSync(file, 'utf8'));

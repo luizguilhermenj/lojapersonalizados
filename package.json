@@ -11,7 +11,8 @@
     "test:browser": "node test/browser.mjs",
     "test:studio:browser": "node test/color-studio-browser.mjs",
     "measure:studio": "node scripts/measure-color-studio.mjs",
-    "test:neon": "node --test test/neon-live.test.js"
+    "test:neon": "node --test test/neon-live.test.js",
+    "test:studio:preview": "node test/studio-preview-browser.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",

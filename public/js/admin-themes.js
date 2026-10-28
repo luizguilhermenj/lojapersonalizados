@@ -59,7 +59,7 @@ async function activate(themeId) {
   } catch (error) { message(error.message, true); }
   finally { busy = false; controls(); }
 }
-publish.addEventListener('click', () => studio.publish());
+publish.addEventListener('click', () => studio.previewOnly ? activate(selected) : studio.publish());
 restore.addEventListener('click', () => activate('artize'));
 preview.addEventListener('click', () => studio.preview());
 if (getSession()?.user?.role === 'admin') {

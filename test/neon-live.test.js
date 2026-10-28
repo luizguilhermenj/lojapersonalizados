@@ -24,7 +24,7 @@ test('Neon real isolado: migrações, 12 paletas, rascunhos, publicação, novos
     query: (query, params = [], options) => sql.query(rewrite(query), params, options),
     transaction: (queries, options) => sql.transaction(queries, options)
   });
-  const store = () => createNeonThemeStore(databaseUrl, { createSql });
+  const store = () => createNeonThemeStore(databaseUrl, { createSql, studioWritable: true });
   async function migrate(direction) {
     const source = fs.readFileSync(new URL(`../migrations/001-color-studio.${direction}.sql`, import.meta.url), 'utf8');
     const statements = source.replace(/--[^\n]*/g, '').split(';').map(s => s.trim()).filter(s => s && !['BEGIN','COMMIT'].includes(s));

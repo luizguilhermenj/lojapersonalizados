@@ -6,6 +6,7 @@ import { PALETTES, validateCustomization } from '../public/js/color-studio.js';
 export function themeRoutes({ store, auth, adminOnly }) {
   const router = Router();
   router.use((req, res, next) => { res.set('Cache-Control', 'no-store'); next(); });
+  const canSaveColors = Boolean(store.writable && store.studioWritable !== false && store.saveStudio && store.publishStudio);
   let lastKnownThemeId = DEFAULT_THEME;
   let lastKnownPublicTheme = findTheme(DEFAULT_THEME);
   router.get('/theme', async (req, res) => {
@@ -22,7 +23,7 @@ export function themeRoutes({ store, auth, adminOnly }) {
       const activeThemeId = await store.read({ fresh: true });
       lastKnownThemeId = activeThemeId;
       const colorStudio = store.readStudio ? await store.readStudio() : emptyStudio();
-      res.json({ themes, colorStudio, palettes: PALETTES, activeThemeId, canActivate: store.writable, warning: store.warning, provider: store.provider });
+      res.json({ themes, colorStudio, palettes: PALETTES, activeThemeId, colorStudioMode: canSaveColors ? 'persistent' : 'preview', canSaveColors, canActivate: store.writable, warning: store.warning, provider: store.provider });
     }
     catch { res.status(503).json({ error: 'Não foi possível ler o tema salvo. Verifique o armazenamento antes de publicar.' }); }
   });
@@ -30,7 +31,7 @@ export function themeRoutes({ store, auth, adminOnly }) {
     const theme = findTheme(req.params.id);
     if (!theme) return res.status(400).json({ error: 'Tema inválido.' });
     try {
-      const studio = store.readStudio ? await store.readStudio() : emptyStudio();
+      const studio = canSaveColors && store.readStudio ? await store.readStudio() : emptyStudio();
       res.json({ theme: { ...theme, customization: studioEntry(studio, theme.id).published } });
     } catch { res.status(503).json({ error: 'Não foi possível carregar a prévia salva.' }); }
   });
@@ -55,6 +56,7 @@ export function themeRoutes({ store, auth, adminOnly }) {
       catch (error) { return res.status(400).json({ error: error.message }); }
       const method = action === 'publish' ? 'publishStudio' : 'saveStudio';
       if (!store.writable || !store[method]) return res.status(503).json({ error: store.warning || 'Armazenamento visual indisponível.' });
+      if (!canSaveColors) return res.status(409).json({ error: 'Prévia temporária: cores e glow não são gravados neste ambiente.' });
       try {
         await store[method](theme.id, config, req.user?.id || null);
         if (action === 'publish') {
