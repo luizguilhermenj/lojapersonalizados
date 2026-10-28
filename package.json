@@ -10,7 +10,8 @@
     "test": "node --test test/*.test.js",
     "test:browser": "node test/browser.mjs",
     "test:studio:browser": "node test/color-studio-browser.mjs",
-    "measure:studio": "node scripts/measure-color-studio.mjs"
+    "measure:studio": "node scripts/measure-color-studio.mjs",
+    "test:neon": "node --test test/neon-live.test.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",
