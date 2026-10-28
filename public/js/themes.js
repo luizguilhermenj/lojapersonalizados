@@ -8,6 +8,8 @@ const tokenNames = {
   heroMuted: '--theme-hero-muted', heroButton: '--theme-hero-button', heroButtonText: '--theme-hero-button-text'
 };
 let currentTheme;
+// Efeitos ficam na experiência de descoberta, fora do carrinho e gestão.
+const motionAllowed = () => Boolean(document.querySelector('.home-page,.customizer-page'));
 
 export function applyTheme(theme) {
   effects.stop();
@@ -42,12 +44,12 @@ export function applyTheme(theme) {
   }
   const footerMessage=document.getElementById('campaignFooterMessage');
   if(footerMessage)footerMessage.textContent=theme.campaign?.footer||'Presentes personalizados para transformar carinho em boas lembranças.';
-  effects.set(theme.effect);
+  effects.set(motionAllowed() ? theme.effect : undefined);
   document.dispatchEvent(new CustomEvent('artize:themechange', { detail: { themeId: theme.id } }));
 }
 
 window.addEventListener('pagehide', () => effects.stop());
-window.addEventListener('pageshow', event => { if (event.persisted && currentTheme) effects.set(currentTheme.effect); });
+window.addEventListener('pageshow', event => { if (event.persisted && currentTheme) effects.set(motionAllowed() ? currentTheme.effect : undefined); });
 
 export const themeReady = (async () => {
   const preview = new URLSearchParams(location.search).get('themePreview');

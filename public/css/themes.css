@@ -47,12 +47,18 @@ html[data-theme="dia-das-maes"] .seasonal-campaign {background:radial-gradient(e
 .seasonal-effects {position:fixed;inset:0;z-index:45;overflow:hidden;contain:strict;pointer-events:none;user-select:none}
 .seasonal-effects * {pointer-events:none}
 .seasonal-particle {position:absolute;top:-24px;display:block;width:var(--size);height:var(--size);opacity:0;animation:seasonal-fall var(--duration) var(--delay) linear infinite}
-.seasonal-particle-core {display:block;width:100%;height:100%;border-radius:50%;animation:seasonal-sway 4s var(--delay) ease-in-out infinite alternate}
-.seasonal-effects--snow .seasonal-particle-core {box-shadow:0 0 1px #174B3A55}
+.seasonal-particle-core {display:block;width:100%;height:100%;border-radius:50%;transform:rotate(-12deg)}
+.seasonal-effects--snow .seasonal-particle-core {background-clip:padding-box}
 .seasonal-effects--petals .seasonal-particle-core {border-radius:75% 0 75% 20%;height:70%;border:1px solid #76544322}
-.seasonal-effects-toggle {position:fixed;right:16px;bottom:16px;z-index:50;min-height:40px;padding:8px 14px;border:1px solid var(--line);border-radius:99px;background:var(--surface);color:var(--text);font:inherit;font-size:.75rem;cursor:pointer;box-shadow:0 3px 12px #00000014}
-@keyframes seasonal-fall {0%{transform:translate3d(0,-24px,0) rotate(0);opacity:0}8%{opacity:var(--opacity)}90%{opacity:var(--opacity)}100%{transform:translate3d(var(--drift),calc(100vh + 48px),0) rotate(var(--turn));opacity:0}}
-@keyframes seasonal-sway {from{transform:translate3d(calc(-1 * var(--sway)),0,0) rotate(-15deg)}to{transform:translate3d(var(--sway),0,0) rotate(20deg)}}
+.seasonal-effects-toggle {position:fixed;right:16px;bottom:16px;z-index:50;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:99px;background:var(--surface);color:var(--text);font:inherit;font-size:.75rem;cursor:pointer;box-shadow:0 3px 12px #00000014}
+@keyframes seasonal-fall {0%{transform:translate3d(0,-24px,0) rotate(0);opacity:0}8%{opacity:var(--opacity)}35%{transform:translate3d(calc(var(--drift) * .35 + var(--sway)),35vh,0) rotate(35deg)}65%{transform:translate3d(calc(var(--drift) * .65 - var(--sway)),65vh,0) rotate(-20deg)}90%{opacity:var(--opacity)}100%{transform:translate3d(var(--drift),calc(100vh + 48px),0) rotate(var(--turn));opacity:0}}
 @media(max-width:760px) {.seasonal-campaign.has-illustration{grid-template-columns:1fr}.seasonal-campaign{gap:8px;padding:28px 24px}.campaign-art{height:200px;width:100%;max-width:380px;justify-self:center}.campaign-eyebrow{margin-bottom:18px}.campaign-signature{margin-top:20px}.campaign-description{font-size:.94rem}.campaign-actions{gap:18px}.seasonal-campaign h1{font-size:clamp(2.2rem,8vw,3rem)}}
 @media(max-width:600px) {#appearancePanel .toolbar {display:grid}#appearancePanel .toolbar button {width:100%}.campaign-actions .primary-btn{width:100%}.campaign-actions{justify-content:center}.seasonal-footer .container{display:grid}.seasonal-effects-toggle{right:12px;bottom:12px}}
 @media(prefers-reduced-motion:reduce) {.seasonal-effects,.seasonal-effects-toggle{display:none}.seasonal-particle,.seasonal-particle-core{animation:none}html[data-seasonal]{scroll-behavior:auto}}
+
+/* Artize Motion: nenhum loop de JS por frame e nenhuma animação em checkout. */
+body:has(.mobile-purchase) .seasonal-effects-toggle{bottom:calc(94px + env(safe-area-inset-bottom,0px))}
+.seasonal-effects-toggle{max-width:calc(100vw - 32px);bottom:calc(16px + env(safe-area-inset-bottom,0px));right:max(16px,env(safe-area-inset-right,0px))}
+@media(min-width:48rem){body:has(.mobile-purchase) .seasonal-effects-toggle{bottom:calc(16px + env(safe-area-inset-bottom,0px))}.home-hero-art{width:37%;padding:24px}.home-hero-art>span{font-size:1.25rem}.home-hero-art img{display:block;width:100%;height:250px;object-fit:contain}}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.primary-btn:active,.ghost-btn:active{transform:scale(.98)}.art-card:hover{box-shadow:var(--shadow)}.theme-option{transition:box-shadow var(--motion-fast)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}.art-card,.product-card,.primary-btn,.ghost-btn{transition:none!important;transform:none!important}}
