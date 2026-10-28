@@ -8,9 +8,9 @@ cp .env.example .env
 node server.js
 ```
 
-## Login admin padrão
-- E-mail: admin@artize.com.br
-- Senha: 123456
+## Acesso administrativo
+
+Use uma conta de administrador configurada no ambiente. Credenciais devem permanecer no gerenciador de segredos, fora da documentação e do frontend.
 
 ## Observações
 - O frete usa uma estimativa base saindo de Londrina/PR.
@@ -39,6 +39,10 @@ npm test
 npm run test:studio:browser
 npm run test:browser
 npm run measure:studio
+# Somente com THEME_TEST_DATABASE_URL de um banco exclusivo de testes:
+npm run test:neon
 ```
 
 Salvar rascunho não publica a aparência. A publicação exige administrador e armazenamento persistente no Neon em ambientes Render. Não reutilize banco de produção para testes.
+
+A configuração segura da conexão de teste está em [docs/color-studio-neon.md](docs/color-studio-neon.md). O PR #2 permanece em Draft até a validação externa e a confirmação de desempenho na homologação.
