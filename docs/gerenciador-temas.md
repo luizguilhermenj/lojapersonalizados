@@ -69,7 +69,7 @@ Resultado desta entrega: 5 testes automatizados passaram e o teste Neon real foi
 
 ## Campanhas e efeitos sazonais
 
-A ordem no painel é Artize Padrão, Natal, Páscoa e Dia das Mães. O padrão restaura a identidade Artize do design system e o banner editorial estático. Os temas sazonais exibem um banner próprio, textos sem descontos/ofertas inventados, ilustração opcional e um rodapé Artize. Os links continuam apontando para o catálogo e a personalização real de canecas; produtos, preços e disponibilidade não são alterados.
+A ordem no painel é Artize Padrão, Natal, Páscoa e Dia das Mães. O padrão restaura a identidade Artize do design system e o carrossel editorial compacto de três composições. Os temas sazonais adaptam o mesmo carrossel, com textos sem descontos/ofertas inventados, ilustração opcional e um rodapé Artize. A altura é220px no mobile,320px no tablet e380px no desktop, reservada antes da API. Os links continuam apontando para o catálogo e a personalização real de canecas; produtos, preços e disponibilidade não são alterados.
 
 A configuração de cada tema pode definir:
 
@@ -81,7 +81,7 @@ A configuração de cada tema pode definir:
 
 `applyTheme()` limpa a paleta e o efeito anteriores antes de aplicar o próximo tema. O painel também aplica o tema confirmado imediatamente, sem recarregar a página. Outras abas já abertas continuam seguindo a regra de atualização da página descrita acima.
 
-O módulo `seasonal-effects.js` cria uma quantidade limitada de partículas (máximo defensivo de 40), com posição, tamanho, atraso, duração e trajetória variados. Anima somente transformações/opacidade via CSS; não há bibliotecas, intervalos ou loops JavaScript por frame. Natal utiliza 24 flocos no desktop e 6 até 600 px; Páscoa, 16 pétalas no desktop e 4 no celular. Os efeitos ficam restritos à home, personalização e iframe de prévia, sem camada em carrinho, conta, pedidos ou gestão. Há uma animação CSS por partícula. O banner editorial padrão não tem rotação automática.
+O módulo `seasonal-effects.js` cria uma quantidade limitada de partículas (máximo defensivo de 40), com posição, tamanho, atraso, duração e trajetória variados. Anima somente transformações/opacidade via CSS; não há bibliotecas, intervalos ou loops JavaScript por frame. Natal utiliza 24 flocos no desktop e 6 até 600 px; Páscoa, 16 pétalas no desktop e 4 no celular. Os efeitos ficam restritos à home, personalização e iframe de prévia, sem camada em carrinho, conta, pedidos ou gestão. Há uma animação CSS por partícula. O carrossel tem rotação de5,5s com pausa explícita/por foco, visibilidade e movimento reduzido; os efeitos continuam independentes da rotação. Consulte [o refinamento mobile](banner-mobile.md).
 
 A camada é fixa, recortada ao viewport do documento, `aria-hidden`, `inert` e `pointer-events: none`; partículas não recebem foco nem interceptam cliques/rolagem. Na prévia, ela pertence exclusivamente ao documento do iframe. Fechar ou mudar a prévia descarta o documento e seus efeitos. Alterar a seleção no painel não publica nem muda o tema do documento pai.
 
@@ -116,3 +116,9 @@ Somente a escolha de tema passa a ter persistência externa. Usuários, sessões
 O plano gratuito Neon possui franquias de computação/rede e pode suspender o acesso ao esgotá-las; monitore o consumo. Cache não substitui persistência e não garante que toda carga caiba no plano gratuito. Não foi criado serviço pago, banco remoto, credencial ou deploy por esta entrega.
 
 O repositório já contém `.env` e `node_modules` rastreados. Nenhum deles deve entrar no novo commit; `.gitignore` não remove o rastreamento preexistente.
+
+### Conteúdo compacto dos slides
+
+As quatro coleções editoriais ficam em `public/js/hero-content.js`, separadas do controlador `hero-carousel.js`. Ao adicionar um tema, inclua textos curtos adequados aos três slides e valide os seis tamanhos; IDs, paleta e persistência continuam em sua configuração original. Camisetas devem manter Em breve e somente link de catálogo enquanto indisponíveis.
+
+Após alterar categorias no catálogo, execute `node scripts/sync-shell.mjs` para regenerar a marcação inicial da home a partir de `data/products.json`; a API continua sendo a fonte em runtime. Isso evita deslocamento durante o carregamento. O gerador não altera os dados comerciais.

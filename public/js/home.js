@@ -1,18 +1,16 @@
 import { api } from '/js/app.js';
+import { initHeroCarousel } from '/js/hero-carousel.js';
+initHeroCarousel();
 
 const productsGrid = document.getElementById('productsGrid');
 const categoryChips = document.getElementById('categoryChips');
 const globalSearch = document.getElementById('globalSearch');
 const sortSelect = document.getElementById('sortSelect');
-const promoTrack = document.getElementById('promoTrack');
-const promoDots = document.getElementById('promoDots');
 
 let products = [];
 let currentCategory = 'Todos';
 let searchText = new URLSearchParams(location.search).get('q') || '';
 if (globalSearch) globalSearch.value = searchText;
-let currentSlide = 0;
-let carouselTimer;
 
 const PRODUCT_ROUTES = {
   'caneca-ceramica': '/pages/caneca-ceramica.html#escolha-arte'
@@ -24,8 +22,9 @@ function formatBRL(value) {
 
 function renderChips() {
   const categories = ['Todos', ...new Set(products.map((p) => p.category))];
+  categoryChips.setAttribute('aria-busy','false');
   categoryChips.innerHTML = categories
-    .map((category) => `<button class="chip ${category === currentCategory ? 'active' : ''}" aria-pressed="${category === currentCategory}" data-category="${category}">${category}</button>`)
+    .map((category) => `<button type="button" class="chip ${category === currentCategory ? 'active' : ''}" aria-pressed="${category === currentCategory}" data-category="${category}">${category}</button>`)
     .join('');
 
   categoryChips.querySelectorAll('.chip').forEach((button) => {
@@ -59,6 +58,7 @@ function productActionMarkup(product) {
 
 const fold = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 function renderProducts() {
+  productsGrid.setAttribute('aria-busy','false');
   let list = products.filter((product) => {
     const haystack = `${product.name} ${product.description} ${product.category}`.toLowerCase();
     return (currentCategory === 'Todos' || product.category === currentCategory) && fold(haystack).includes(fold(searchText.trim()));
@@ -100,57 +100,10 @@ function renderProducts() {
   });
 }
 
-function showSlide(index) {
-  const slides = [...promoTrack.querySelectorAll('.promo-slide')];
-  const dots = [...promoDots.querySelectorAll('button')];
-  if (!slides.length) return;
-
-  currentSlide = (index + slides.length) % slides.length;
-  slides.forEach((slide, slideIndex) => {
-    slide.classList.toggle('active', slideIndex === currentSlide);
-  });
-  dots.forEach((dot, dotIndex) => {
-    dot.classList.toggle('active', dotIndex === currentSlide);
-    dot.setAttribute('aria-current', dotIndex === currentSlide ? 'true' : 'false');
-  });
-}
-
-function startCarousel() {
-  window.clearInterval(carouselTimer);
-  const slides = [...promoTrack.querySelectorAll('.promo-slide')];
-  if (!slides.length) return;
-
-  promoDots.innerHTML = slides
-    .map((_, index) => `<button type="button" class="${index === 0 ? 'active' : ''}" aria-label="Ir para banner ${index + 1}"></button>`)
-    .join('');
-
-  [...promoDots.querySelectorAll('button')].forEach((button, index) => {
-    button.addEventListener('click', () => {
-      showSlide(index);
-      restartCarousel();
-    });
-  });
-
-  showSlide(0);
-  if (slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  carouselTimer = window.setInterval(() => showSlide(currentSlide + 1), 4200);
-}
-
-document.addEventListener('artize:themechange', () => {
-  window.clearInterval(carouselTimer);
-  if (!promoTrack.closest('.promo-carousel').hidden) startCarousel();
-});
-
-function restartCarousel() {
-  window.clearInterval(carouselTimer);
-  carouselTimer = window.setInterval(() => showSlide(currentSlide + 1), 4200);
-}
-
 async function init() {
   products = await api('/api/products');
   renderChips();
   renderProducts();
-  if (!promoTrack.closest('.promo-carousel').hidden) startCarousel();
 }
 
 let searchTimer;
@@ -162,5 +115,8 @@ globalSearch?.addEventListener('input', (event) => {
 sortSelect?.addEventListener('change', renderProducts);
 
 init().catch((error) => {
+  productsGrid.setAttribute('aria-busy','false');
+  categoryChips.setAttribute('aria-busy','false');
+  document.getElementById('productResults').textContent='Não foi possível carregar o catálogo.';
   productsGrid.innerHTML = `<p class="feedback error">${error.message}</p>`;
 });

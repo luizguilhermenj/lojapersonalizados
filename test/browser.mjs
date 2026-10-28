@@ -84,9 +84,9 @@ try {
    await page.locator(`html[data-theme="${theme.id}"]`).waitFor();
    await page.locator('.product-card').first().waitFor();
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${theme.id} overflow at ${width}`);
-   assert.equal(await page.locator('#seasonalCampaign').isVisible(),Boolean(theme.campaign));
+   assert(await page.locator('[data-hero-carousel]').isVisible());assert.equal(await page.locator('[data-hero-carousel]').getAttribute('data-hero-theme'),theme.id);
    if (theme.campaign) {
-    const contrast = await page.locator('#campaignAction').evaluate(el=> {
+    const contrast = await page.locator('.hero-slide[aria-hidden="false"] [data-hero-action]').evaluate(el=> {
       const rgb = s => (s.match(/[\d.]+/g)||[]).slice(0,3).map(Number).map(c=>{const v=c/255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});
       const luminance = s => {const c=rgb(s);return .2126*c[0]+.7152*c[1]+.0722*c[2];};
       const style=getComputedStyle(el);const a=luminance(style.color);const b=luminance(style.backgroundColor);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
@@ -139,7 +139,7 @@ try {
  for(const width of [360,390,768,1280]){
   await page.setViewportSize({width,height:900});await page.goto(base+'/pages/home.html');
   await page.locator('html[data-theme="dia-das-maes"]').waitFor();await page.locator('.product-card').first().waitFor();
-  assert(await page.locator('#seasonalCampaign').isVisible());
+  assert(await page.locator('[data-hero-carousel][data-hero-theme="dia-das-maes"]').isVisible());
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Overflow at ${width}`);
  }
  console.log('PASS responsive home 360 / 390 / 768 / 1280 px');
@@ -165,7 +165,7 @@ try {
  await page.getByRole('button',{name:'Restaurar tema padrão'}).click();
  await page.waitForFunction(()=>document.getElementById('themeFeedback').textContent.includes('Tema ativado com sucesso'));
  await stop();await start();assert.equal((await json('/api/theme')).data.theme.id,'artize');
- await page.goto(base+'/pages/home.html');await page.locator('html[data-theme="artize"]').waitFor();assert.equal(await page.locator('#seasonalCampaign').isVisible(),false);
+ await page.goto(base+'/pages/home.html');await page.locator('html[data-theme="artize"]').waitFor();assert.equal(await page.locator('[data-hero-carousel]').getAttribute('data-hero-theme'),'artize');
  console.log('PASS restore standard and persistence');
  let releaseTheme;
  const pendingTheme = new Promise(resolve=>{releaseTheme=resolve;});

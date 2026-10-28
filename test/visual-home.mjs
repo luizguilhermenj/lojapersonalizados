@@ -13,7 +13,7 @@ try{
   for(const width of [320,360,390,430,768,1440]){
    await page.setViewportSize({width,height:844});await page.goto(base+'/pages/home.html');await page.locator(`html[data-theme="${theme}"]`).waitFor();await page.locator('.product-card').first().waitFor();
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-   const bounds=await page.evaluate(()=>{const hero=document.querySelector('#seasonalCampaign:not([hidden]),.promo-carousel:not([hidden])');const link=hero.querySelector('.primary-btn');return {height:hero.getBoundingClientRect().height,contained:link.getBoundingClientRect().bottom<=hero.getBoundingClientRect().bottom-8};});assert.equal(bounds.height,440);assert(bounds.contained,`${theme}/${width}: CTA clipped`);
+   const bounds=await page.evaluate(()=>{const hero=document.querySelector('[data-hero-carousel]');const link=hero.querySelector('.hero-slide[aria-hidden="false"] .primary-btn');return {height:hero.getBoundingClientRect().height,contained:link.getBoundingClientRect().bottom<=hero.getBoundingClientRect().bottom-8};});assert.equal(bounds.height,width<768?220:width<1024?320:380);assert(bounds.contained,`${theme}/${width}: CTA clipped`);
    if(width<500)assert.equal(await page.locator('#productsGrid').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length),2);
   }
  }
@@ -23,5 +23,5 @@ try{
  await fetch(base+'/api/admin/themes/active',{method:'PUT',headers,body:JSON.stringify({themeId:'pascoa'})});
  let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/api/theme',async route=>{await gate;await route.continue();});
  await page.goto(base+'/pages/home.html',{waitUntil:'domcontentloaded'});const categoryBefore=await page.locator('#categorias').evaluate(el=>el.getBoundingClientRect().top+scrollY);release();await page.locator('html[data-theme="pascoa"]').waitFor();const categoryAfter=await page.locator('#categorias').evaluate(el=>el.getBoundingClientRect().top+scrollY);assert.equal(categoryAfter,categoryBefore,'tema tardio não desloca categorias');
- console.log('PASS home: 4 temas × 6 larguras; hero 440px e CTA visível; 2 colunas mobile; busca sem acento; estado vazio; disponibilidade preservada');
+ console.log('PASS home: 4 temas × 6 larguras; hero compacto 220/320/380px e CTA visível; 2 colunas mobile; busca sem acento; estado vazio; disponibilidade preservada');
 }finally{await browser?.close();server.kill('SIGTERM');}

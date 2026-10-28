@@ -1,5 +1,7 @@
 # Artize Visual 2.0 — Registro de execução
 
+Refinamento posterior: o [carrossel mobile](banner-mobile.md) substitui o banner440px desta fase por220px em smartphones, com swipe e rotação acessível. Os números abaixo registram os seis pacotes originais.
+
 A base desta fase é o commit `a9ec895`, com os quatro temas e Neon preservados. As alterações locais anteriores ficam intactas no checkout original. O trabalho visual usa o checkout isolado `work/visual-2`, branch local `feature/artize-visual-2`.
 
 ## Segurança de publicação

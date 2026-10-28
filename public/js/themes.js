@@ -1,4 +1,5 @@
 import { api } from '/js/app.js';
+import { initHeroCarousel } from '/js/hero-carousel.js';
 import { createSeasonalEffects } from '/js/seasonal-effects.js';
 
 const effects = createSeasonalEffects();
@@ -23,25 +24,11 @@ export function applyTheme(theme) {
   root.toggleAttribute('data-seasonal', Boolean(theme.campaign));
   const navLink = document.getElementById('seasonalNavLink');
   if (navLink) {
-    const home = document.getElementById('seasonalCampaign') ? '' : '/pages/home.html';
-    navLink.href = home + (theme.campaign ? '#seasonalCampaign' : '#promocoes');
+    const home = document.querySelector('[data-hero-carousel]') ? '' : '/pages/home.html';
+    navLink.href = home + '#promocoes';
     navLink.textContent = theme.campaign ? 'Presentes personalizados' : 'Inspiração para presentear';
   }
-  const campaign = document.getElementById('seasonalCampaign');
-  if (campaign) {
-    campaign.hidden = !theme.campaign;
-    campaign.classList.toggle('has-illustration', Boolean(theme.decoration));
-    if (theme.campaign) {
-      for (const [id, key] of [['campaignEyebrow', 'eyebrow'], ['campaignTitle', 'title'], ['campaignDescription', 'description'], ['campaignAction', 'actionLabel']]) {
-        document.getElementById(id).textContent = theme.campaign[key];
-      }
-      const art = document.getElementById('campaignArt');
-      art.hidden = !theme.decoration;
-      if (theme.decoration) { art.src = theme.decoration.src; art.alt = theme.decoration.alt; }
-      else art.removeAttribute('src');
-    }
-    document.querySelector('.promo-carousel').hidden = Boolean(theme.campaign);
-  }
+  initHeroCarousel()?.setTheme(theme);
   const footerMessage=document.getElementById('campaignFooterMessage');
   if(footerMessage)footerMessage.textContent=theme.campaign?.footer||'Presentes personalizados para transformar carinho em boas lembranças.';
   effects.set(motionAllowed() ? theme.effect : undefined);
