@@ -4,9 +4,7 @@ A base desta fase é o commit `a9ec895`, com os quatro temas e Neon preservados.
 
 ## Segurança de publicação
 
-Ainda não há confirmação da branch ligada ao serviço Render de homologação. Não foi encontrada configuração de deploy no repositório, não há ferramenta Render conectada e o commit do PR #1 não tem status de deploy que identifique o serviço. O GitHub apresenta somente `main` e `feature/gerenciador-temas`.
-
-Não presumir que uma dessas branches é homologação. Até identificar a branch/serviço, não fazer push, não mudar configurações do Render e não iniciar as etapas seguintes que dependem da publicação sequencial. A autorização permite auto-deploy por push somente no destino correto de homologação.
+Homologação confirmada pelo responsável: serviço `artize-homologacao`, URL https://artize-homologacao.onrender.com, branch `feature/gerenciador-temas`. Etapa 1 publicada por fast-forward (`a9ec895..bb57b50`), sem force ou merge. Acesso HTTP ao domínio bloqueado pelo proxy do executor (CONNECT 403); isso não é evidência de falha do Render. Não houve deploy manual ou mudança de configuração.
 
 ## Etapa 1 — Design system e estrutura compartilhada
 
@@ -43,3 +41,17 @@ Use Node 22/24 LTS, dependências instaladas pelo lockfile e Playwright disponí
 6. Acessibilidade e performance finais.
 
 Cada etapa deve ter testes, commit próprio e push ao destino de homologação confirmado antes de avançar para a seguinte. Os bloqueadores financeiros e de persistência operacional da Auditoria 360° continuam pendentes antes da abertura comercial.
+
+## Etapa 2 — Home
+
+Hero editorial sem carrossel automático ou promessas de promoção; geometria de 440px compartilhada pelos quatro temas para evitar deslocamento ao aplicar a campanha. Duas colunas no mobile, imagens dimensionadas com lazy loading fora dos primeiros cards, categorias com estado acessível, busca tolerante a acentos com debounce, contagem e estado vazio com limpeza. Produtos, preços e disponibilidade preservados.
+
+### Interrupção solicitada — teste da etapa 2
+
+`node test/visual-home.mjs` falhou na primeira verificação de altura: `AssertionError: 442 !== 440`, linha 16. A altura interna de `.promo-track` é 440px e o contêiner acrescenta bordas de 1px, enquanto o banner sazonal tem altura externa de 440px. A geometria compartilhada ainda não atende ao critério. A etapa foi interrompida sem commit/push das alterações da home; etapas 3–6 não iniciadas. Sugestão para retomada: unificar a altura externa dos dois contêineres e repetir os testes de geometria, conteúdo e responsividade, sem relaxar a asserção.
+
+Resultados nesta retomada: etapa 1 revalidada com 120 combinações visuais e `npm test` (5 passaram, 1 Neon real pulado), enviada como `bb57b50`. Na etapa 2, `npm test` também passou (5/1), teste específico da home falhou e a matriz geral foi cancelada. GitHub confirma a branch de homologação em `bb57b50`, main permanece `aa370571`. Nenhum status de deploy retornado pelo GitHub; HTTP da homologação inacessível pelo proxy (403 CONNECT), portanto publicação no Render não confirmada.
+
+### Retomada e correção da etapa 2
+
+Autorização recebida para corrigir e continuar. A altura passou a pertencer à `.promo-carousel` externa (`height:440px;box-sizing:border-box`), e a `.promo-track` usa `height:100%`. A asserção continua exigindo exatamente 440px, sem tolerância. `node test/visual-home.mjs` passou para quatro temas × seis larguras, CTA contido, duas colunas mobile, busca sem acento e catálogo com disponibilidade preservada. `npm test`: 5 passaram/1 Neon real pulado. `node test/browser.mjs`: suíte de regressão completa aprovada sem pagamento. O script `scripts/measure-frontend.mjs` permite comparar o snapshot bb57b50 e o frontend final com imagens reais, 390×844, CPU 4× e rede simulada.

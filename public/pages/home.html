@@ -57,23 +57,16 @@
       </div>
       <img id="campaignArt" class="campaign-art" alt="" width="520" height="420" hidden>
     </section>
-    <section class="promo-carousel" id="promocoes" aria-label="Promoções em destaque">
+    <section class="promo-carousel" id="promocoes" aria-label="Inspiração para presentear">
       <div class="promo-track" id="promoTrack">
         <article class="promo-slide active">
-          <img src="/img/banner-dia-namorados.svg" alt="Promoção de Dia dos Namorados" />
-        </article>
-        <article class="promo-slide">
-          <img src="/img/banner-pascoa.svg" alt="Promoção de Páscoa" />
-        </article>
-        <article class="promo-slide">
-          <img src="/img/banner-dia-maes.svg" alt="Promoção de Dia das Mães" />
-        </article>
-        <article class="promo-slide">
-          <img src="/img/banner-dia-pais.svg" alt="Promoção de Dia dos Pais" />
+          <div class="home-hero-copy"><p class="eyebrow">Pequenos gestos. Boas lembranças.</p><h1>Um presente com a sua história.</h1><p>Escolha uma arte, encontre seu estilo e transforme carinho em uma caneca personalizada.</p><a class="primary-btn" href="/pages/caneca-ceramica.html#escolha-arte">Escolher minha arte <span aria-hidden="true">↗</span></a></div>
+          <div class="home-hero-art" aria-hidden="true"><span>Feito para<br>quem importa.</span><img src="/img/visual/presente.svg" width="520" height="420" alt="" decoding="async"></div>
         </article>
       </div>
-      <div class="promo-dots" id="promoDots" aria-label="Navegação do banner"></div>
+      <div class="promo-dots" id="promoDots" hidden></div>
     </section>
+    <section class="shopping-steps" aria-label="Como personalizar"><p><b>01</b> Encontre seu presente</p><p><b>02</b> Escolha uma arte</p><p><b>03</b> Dê seu toque</p></section>
 
     <section id="categorias">
       <div class="section-head category-head"><h2>Categorias</h2><span class="section-helper">Escolha por tipo de produto.</span></div>
@@ -81,15 +74,16 @@
     </section>
 
     <section id="produtos">
-      <div class="section-head"><h2>Galeria de produtos</h2></div>
+      <div class="section-head"><div><p class="section-kicker">Feito para presentear</p><h2>Encontre seu próximo presente</h2></div></div>
       <div class="toolbar mobile-stack products-toolbar">
-                <select id="sortSelect" class="field">
+                <label class="sr-only" for="sortSelect">Ordenar produtos</label><select id="sortSelect" class="field">
           <option value="featured">Ordenar por destaque</option>
           <option value="low">Menor preço</option>
           <option value="high">Maior preço</option>
           <option value="name">Nome A-Z</option>
         </select>
       </div>
+      <p id="productResults" class="filter-summary" role="status" aria-live="polite"></p>
       <div id="productsGrid" class="product-grid"></div>
     </section>
   </main>

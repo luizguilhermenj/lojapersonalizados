@@ -23,7 +23,7 @@ export function applyTheme(theme) {
   if (navLink) {
     const home = document.getElementById('seasonalCampaign') ? '' : '/pages/home.html';
     navLink.href = home + (theme.campaign ? '#seasonalCampaign' : '#promocoes');
-    navLink.textContent = theme.campaign ? 'Presentes personalizados' : 'Promoções';
+    navLink.textContent = theme.campaign ? 'Presentes personalizados' : 'Inspiração para presentear';
   }
   const campaign = document.getElementById('seasonalCampaign');
   if (campaign) {

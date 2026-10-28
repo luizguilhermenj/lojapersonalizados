@@ -25,7 +25,7 @@ function formatBRL(value) {
 function renderChips() {
   const categories = ['Todos', ...new Set(products.map((p) => p.category))];
   categoryChips.innerHTML = categories
-    .map((category) => `<button class="chip ${category === currentCategory ? 'active' : ''}" data-category="${category}">${category}</button>`)
+    .map((category) => `<button class="chip ${category === currentCategory ? 'active' : ''}" aria-pressed="${category === currentCategory}" data-category="${category}">${category}</button>`)
     .join('');
 
   categoryChips.querySelectorAll('.chip').forEach((button) => {
@@ -57,19 +57,21 @@ function productActionMarkup(product) {
   return `<button class="ghost-btn soon-btn" type="button" data-name="${product.name}">Em breve</button>`;
 }
 
+const fold = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 function renderProducts() {
   let list = products.filter((product) => {
     const haystack = `${product.name} ${product.description} ${product.category}`.toLowerCase();
-    return (currentCategory === 'Todos' || product.category === currentCategory) && haystack.includes(searchText.toLowerCase());
+    return (currentCategory === 'Todos' || product.category === currentCategory) && fold(haystack).includes(fold(searchText.trim()));
   });
 
   list = sortProducts(list);
 
+  document.getElementById('productResults').textContent = `${list.length} presente${list.length === 1 ? '' : 's'} no catálogo`;
   productsGrid.innerHTML = list
     .map(
-      (product) => `
+      (product, index) => `
         <article class="product-card">
-          <img src="${product.image}" alt="${product.name}">
+          <img src="${product.image}" alt="${product.name}" width="400" height="400" loading="${index < 2 ? 'eager' : 'lazy'}" decoding="async">
           <div class="product-body">
             <h3>${product.name}</h3>
             <p>${product.description}</p>
@@ -85,7 +87,8 @@ function renderProducts() {
           </div>
         </article>`
     )
-    .join('');
+    .join('') || '<div class="empty-state"><h3>Nenhum presente encontrado</h3><p>Tente outro termo ou selecione outra categoria.</p><button class="ghost-btn" id="clearProductFilters" type="button">Limpar filtros</button></div>';
+  document.getElementById('clearProductFilters')?.addEventListener('click', () => {currentCategory='Todos';searchText='';globalSearch.value='';renderChips();renderProducts();});
 
   productsGrid.querySelectorAll('.soon-btn').forEach((button) => {
     button.onclick = () => {
@@ -129,6 +132,7 @@ function startCarousel() {
   });
 
   showSlide(0);
+  if (slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   carouselTimer = window.setInterval(() => showSlide(currentSlide + 1), 4200);
 }
 
@@ -149,9 +153,10 @@ async function init() {
   if (!promoTrack.closest('.promo-carousel').hidden) startCarousel();
 }
 
+let searchTimer;
 globalSearch?.addEventListener('input', (event) => {
   searchText = event.target.value;
-  renderProducts();
+  clearTimeout(searchTimer);searchTimer=setTimeout(renderProducts,120);
 });
 
 sortSelect?.addEventListener('change', renderProducts);
