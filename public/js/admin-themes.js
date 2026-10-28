@@ -1,3 +1,4 @@
+import { createColorStudio } from '/js/admin-color-studio.js';
 import { api, getSession } from '/js/app.js';
 import { applyTheme, themeReady } from '/js/themes.js';
 const panel = document.getElementById('appearancePanel');
@@ -6,13 +7,11 @@ const feedback = document.getElementById('themeFeedback');
 const publish = document.getElementById('publishTheme');
 const restore = document.getElementById('restoreTheme');
 const preview = document.getElementById('previewTheme');
-const previewSize = document.getElementById('previewSize');
 const frame = document.getElementById('themePreviewFrame');
-function sizePreview(){frame.style.maxWidth=previewSize.value==='mobile'?'430px':'100%';}
-previewSize.addEventListener('change',sizePreview);sizePreview();
 let selected;
 let canActivate = false;
 let busy = false;
+const studio = createColorStudio({ frame, onPublished: async () => { await load(); message('Tema ativado com sucesso. Visual publicado.'); }, onBusy: value => { busy = value; controls(); } });
 function message(text, error = false) {
   feedback.textContent = text;
   feedback.className = `feedback ${error ? 'error' : 'success'}`;
@@ -25,7 +24,8 @@ function controls() {
 async function load() {
   await themeReady;
   const data = await api('/api/admin/themes');
-  applyTheme(data.themes.find(theme => theme.id === data.activeThemeId));
+  applyTheme({ ...data.themes.find(theme => theme.id === data.activeThemeId), customization: data.colorStudio?.themes?.[data.activeThemeId]?.published ?? null });
+  studio.load(data);
   canActivate = data.canActivate;
   selected = data.activeThemeId;
   choices.replaceChildren();
@@ -35,7 +35,7 @@ async function load() {
     const input = document.createElement('input');
     input.type = 'radio'; input.name = 'appearanceTheme'; input.value = theme.id;
     input.checked = theme.id === selected;
-    input.addEventListener('change', () => { selected = input.value; frame.hidden = true; frame.removeAttribute('src'); controls(); });
+    input.addEventListener('change', () => { selected = input.value; studio.select(selected); controls(); });
     const title = document.createElement('strong');
     title.textContent = theme.name + (theme.id === data.activeThemeId ? ' • Ativo' : '');
     const description = document.createElement('span'); description.textContent = theme.description;
@@ -59,12 +59,9 @@ async function activate(themeId) {
   } catch (error) { message(error.message, true); }
   finally { busy = false; controls(); }
 }
-publish.addEventListener('click', () => activate(selected));
+publish.addEventListener('click', () => studio.publish());
 restore.addEventListener('click', () => activate('artize'));
-preview.addEventListener('click', () => {
-  frame.src = `/pages/home.html?themePreview=${encodeURIComponent(selected)}`;
-  frame.hidden = false;
-});
+preview.addEventListener('click', () => studio.preview());
 if (getSession()?.user?.role === 'admin') {
   panel.hidden = false;
   load().catch(error => { message(error.message, true); controls(); });

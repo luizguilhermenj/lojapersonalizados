@@ -1,3 +1,4 @@
+@import url('/css/color-studio.css');
 /* O tema padrão usa integralmente os estilos originais. Paletas vêm da configuração. */
 html[data-seasonal] .site-header {background:var(--bg);border-color:var(--line)}
 html[data-seasonal] .brand-mark {background:var(--dark)}
@@ -40,3 +41,5 @@ body:has(.mobile-purchase) .seasonal-effects-toggle{bottom:calc(94px + env(safe-
 @media(min-width:48rem){body:has(.mobile-purchase) .seasonal-effects-toggle{bottom:calc(16px + env(safe-area-inset-bottom,0px))}}
 @media(hover:hover) and (prefers-reduced-motion:no-preference){.primary-btn:active,.ghost-btn:active{transform:scale(.98)}.art-card:hover{box-shadow:var(--shadow)}.theme-option{transition:box-shadow var(--motion-fast)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}.art-card,.product-card,.primary-btn,.ghost-btn{transition:none!important;transform:none!important}}
+
+/* Color Studio is opt-in: no selector applies until customization is published. */

@@ -72,8 +72,46 @@
         <button id="restoreTheme" class="ghost-btn" type="button" disabled>Restaurar tema padrão</button>
       </div>
       <p id="themeFeedback" class="feedback" role="status" aria-live="polite"></p>
-      <label class="preview-size-label" for="previewSize">Largura da prévia<select id="previewSize" class="field"><option value="mobile">Celular (até 430 px)</option><option value="full">Toda a largura disponível</option></select></label>
-      <iframe id="themePreviewFrame" class="theme-preview-frame" title="Pré-visualização da loja" hidden></iframe>
+      <section id="colorStudio" class="color-studio" aria-labelledby="studioTitle">
+        <div class="studio-heading"><div><p class="admin-eyebrow">Cor, luz e identidade</p><h3 id="studioTitle">Artize Color Studio</h3><p>Crie uma combinação para cada tema. Experimente na prévia, salve um rascunho e publique quando estiver pronto.</p></div><span id="studioState" class="studio-badge" role="status">Visual original</span></div>
+        <div class="studio-tabs" role="tablist" aria-label="Artize Color Studio">
+          <button id="tab-palettes" role="tab" aria-selected="true" aria-controls="studio-palettes" type="button">Paletas</button>
+          <button id="tab-custom" role="tab" aria-selected="false" aria-controls="studio-custom" tabindex="-1" type="button">Personalização</button>
+          <button id="tab-preview" role="tab" aria-selected="false" aria-controls="studio-preview" tabindex="-1" type="button">Pré-visualização</button>
+          <button id="tab-settings" role="tab" aria-selected="false" aria-controls="studio-settings" tabindex="-1" type="button">Configurações</button>
+        </div>
+        <div id="studio-palettes" class="studio-panel" role="tabpanel" aria-labelledby="tab-palettes">
+          <h4>Suaves e Elegantes</h4><div id="softPalettes" class="palette-grid"></div>
+          <h4>Glow Premium</h4><div id="premiumPalettes" class="palette-grid"></div>
+        </div>
+        <div id="studio-custom" class="studio-panel" role="tabpanel" aria-labelledby="tab-custom" hidden>
+          <div id="studioColors" class="studio-fields"></div>
+          <div class="studio-switches">
+            <label><input id="glowEnabled" type="checkbox">Ativar glow</label>
+            <label><input id="glowButtons" type="checkbox">Botões</label>
+            <label><input id="glowCards" type="checkbox">Cards</label>
+            <label><input id="glowBorders" type="checkbox">Bordas</label>
+          </div>
+          <label class="studio-range" for="glowIntensity">Intensidade do glow: <output id="glowValue" for="glowIntensity">35%</output><input id="glowIntensity" type="range" min="0" max="100" step="1" value="35"></label>
+          <p class="studio-note">As cores de texto dos componentes se ajustam quando necessário para manter a leitura. Em celulares e com movimento reduzido, os efeitos são simplificados.</p>
+        </div>
+        <div id="studio-preview" class="studio-panel" role="tabpanel" aria-labelledby="tab-preview" hidden>
+          <div class="studio-preview-tools"><label for="previewSize">Dispositivo<select id="previewSize" class="field"><option value="mobile">Celular (390 px)</option><option value="full">Desktop (1280 px)</option></select></label><label><input id="compareOriginal" type="checkbox">Comparar com o tema original</label></div>
+          <p class="studio-note">Esta é a loja real em uma prévia isolada. Navegação e compras ficam desativadas aqui.</p>
+          <div class="studio-preview-viewport"><iframe id="themePreviewFrame" class="theme-preview-frame" title="Pré-visualização da loja" sandbox="allow-scripts allow-same-origin" hidden></iframe></div>
+        </div>
+        <div id="studio-settings" class="studio-panel" role="tabpanel" aria-labelledby="tab-settings" hidden>
+          <p id="studioSettingsSummary" class="studio-note"></p>
+          <div class="studio-actions">
+            <button id="saveStudio" class="ghost-btn" type="button" disabled>Salvar rascunho</button>
+            <button id="resetStudio" class="ghost-btn" type="button">Restaurar padrão deste tema</button>
+            <button id="discardStudio" class="ghost-btn" type="button">Descartar alterações</button>
+            <button id="publishStudio" class="primary-btn" type="button" disabled>Publicar visual</button>
+          </div>
+          <p class="studio-note">Salvar mantém a loja pública igual. Publicar ativa o tema selecionado com estas cores neste ambiente. Restaurar só entra em vigor na loja depois de publicar.</p>
+        </div>
+        <p id="studioFeedback" class="feedback" role="status" aria-live="polite"></p>
+      </section>
     </section>
   </main>
 
