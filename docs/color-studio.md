@@ -2,7 +2,7 @@
 
 Implementação na branch `feature/artize-color-studio`, baseada em `feature/gerenciador-temas` no commit `92db5fa43f5b5493410527682d06721b4ac76fb1`. Destino do PR: `feature/gerenciador-temas`, confirmada pelo responsável como a branch acompanhada pelo serviço de homologação. Nenhum merge, deploy ou acesso a banco de produção foi executado.
 
-Continuação em 28/10/2026: código preparado para iniciar homologação controlada, com o [PR #2](https://github.com/luizguilhermenj/lojapersonalizados/pull/2) mantido em **Draft**. A validação Neon real depende de um segredo/endpoint de testes; o p75 do visual original no desktop ainda precisa ser confirmado em ambiente estável.
+**Estratégia atual: frontend primeiro.** O Color Studio está preparado para homologação visual em modo temporário no Neon/Render, sem gravar cores nem executar migração nova. Não criar projetos/bancos Neon e não configurar THEME_TEST_DATABASE_URL. A persistência existente da seleção dos quatro temas foi mantida. [Roteiro atual e limitações](color-studio-homologacao.md). Os ensaios e planos de backend anteriores abaixo ficam como histórico, sem bloquear essa fase visual.
 
 ## Análise da arquitetura existente
 
@@ -22,7 +22,7 @@ O Studio só libera seus controles após a leitura autenticada das configuraçõ
 
 As quatro abas oferecem paletas, seletores visuais/campos HEX, controles de glow e prévia da loja real. A seleção de tema mantém rascunhos independentes. Cores e glow são enviados imediatamente ao iframe autenticado, com verificação de origem e janela emissora. A comparação remove a camada para mostrar o tema original. A prévia oferece viewport móvel de 390 px ou desktop de 1280 px, com rolagem interna em telas pequenas.
 
-Salvar rascunho não muda a loja pública. Publicar grava as cores e ativa o tema escolhido. Restaurar padrão remove a personalização apenas na edição, exigindo publicação para afetar a loja. Descartar retorna ao último rascunho salvo. Mudanças não salvas geram aviso ao sair da página. A ativação/restauração de tema já existente continua disponível no gerenciador.
+No desenvolvimento local, salvar rascunho não muda a loja pública e publicar grava as cores/ativa o tema. No Neon/Render essas ações de cores ficam desativadas: a prévia é temporária e o gerenciador tradicional continua ativando apenas o tema original. Restaurar padrão remove a personalização apenas na edição, exigindo publicação para afetar a loja. Descartar retorna ao último rascunho salvo. Mudanças não salvas geram aviso ao sair da página. A ativação/restauração de tema já existente continua disponível no gerenciador.
 
 A prévia bloqueia navegação de compra, formulários e escrita no carrinho. Não usa localStorage para publicar aparência. Apenas o servidor decide a configuração pública.
 
@@ -54,9 +54,9 @@ Configurações ausentes/inválidas resultam no tema original. A cor de destaque
 
 Glow usa gradientes radiais e sombras CSS estáticas. Não há biblioteca visual, loops de animação ou blur em elementos móveis. Sombras e halos são reduzidos no celular e com `prefers-reduced-motion`/`prefers-reduced-data`; transições também respeitam movimento reduzido. Imagens, logotipos e composições das campanhas permanecem originais.
 
-## Persistência e migração
+## Persistência existente e migração postergada
 
-A tabela existente `public.artize_theme_settings` recebe a coluna adicional `color_studio JSONB`, com este formato:
+A proposta de persistência de cores utiliza a coluna adicional `color_studio JSONB` na tabela existente `public.artize_theme_settings`. **Essa coluna não é exigida nem criada automaticamente no rollout visual atual.** O formato reservado para a futura retomada do backend é:
 
 ```json
 {
@@ -70,13 +70,13 @@ A tabela existente `public.artize_theme_settings` recebe a coluna adicional `col
 }
 ```
 
-`null` significa o padrão original. Cada tema tem seus próprios valores de `draft` e `published`. A inicialização Neon aplica a migração aditiva e idempotente sob o lock consultivo já existente. Os arquivos versionados são `migrations/001-color-studio.up.sql` e `migrations/001-color-studio.down.sql`. O rollback é manual e remove apenas a coluna nova; exporte seus dados antes de executá-lo. Nenhum SQL de rollback foi executado fora do banco isolado de testes.
+`null` significa o padrão original. Cada tema tem seus próprios valores de `draft` e `published`. A migração aditiva foi retirada da inicialização Neon. O bootstrap e as consultas legadas de seleção de tema foram preservados; a migração permanece versionada e não deve ser executada nesta fase. Os arquivos versionados são `migrations/001-color-studio.up.sql` e `migrations/001-color-studio.down.sql`. O rollback é manual e remove apenas a coluna nova; exporte seus dados antes de executá-lo. Nenhum SQL de rollback foi executado fora do banco isolado de testes.
 
-Salvar atualiza apenas o caminho JSONB daquele tema; publicar atualiza tema ativo, rascunho e configuração publicada em uma única instrução SQL parametrizada. Auditoria usa `updated_by`, `updated_at` e `version` existentes. A API pública lê tema e cores na mesma consulta, sem o cache anterior de 15 minutos, para refletir publicações entre instâncias. Em falhas, mantém o último visual público conhecido pelo processo. Na primeira leitura após reinício, sem banco disponível, usa Artize Padrão.
+A implementação JSONB já feita permanece reservada para a retomada do backend, bloqueada por padrão no Neon. No modo temporário, `readStudio` devolve um estado vazio sem consulta extra; a leitura pública usa apenas a seleção legada de tema, sem exigir `color_studio`. As operações de salvar/publicar cores são bloqueadas antes de acessar o banco. O iframe recebe a configuração visual diretamente do painel por mensagem de mesma origem, sem consultar as rotas de tema. A edição não afeta a loja pública.
 
 Em desenvolvimento, as duas configurações compartilham o arquivo `active-theme.json` existente, atualizado por escrita temporária e rename atômico. Arquivos antigos, sem `colorStudio`, continuam válidos. No Render sem `DATABASE_URL`, rascunho e publicação continuam bloqueados, sem fallback para disco efêmero.
 
-Rotas novas, sempre com autenticação e papel admin:
+Rotas de persistência já implementadas, sempre com autenticação/papel admin e bloqueadas com HTTP 409 no modo temporário:
 
 - `PUT /api/admin/themes/:id/color-studio/draft`
 - `PUT /api/admin/themes/:id/color-studio/publish`
@@ -104,8 +104,9 @@ Ambiente local com usuários de fixture, armazenamento em memória/temporário, 
 
 | Comando | Resultado atual |
 |---|---|
-| `npm test` | **11 passaram, 1 pulado, 0 falhas**; skip de Neon real por ausência de `THEME_TEST_DATABASE_URL` |
+| `npm test` | **12 passaram, 1 pulado, 0 falhas**; skip de Neon real por ausência de `THEME_TEST_DATABASE_URL` |
 | `npm run test:browser` | passou: quatro temas, login/permissões, publicação/restauração e reinício, catálogo, carrinho/frete, bloqueios de checkout/Render |
+| `npm run test:studio:preview` | passou: 12 paletas × quatro temas, memória temporária, sem migração/queries durante a edição, responsividade, restauração e ativação legada |
 | `npm run test:studio:browser` | passou: 12 paletas, HEX, glow 0–100, rascunhos, comparação, isolamento, responsividade, contraste; novo teste confirma 1 escrita de estilo e 0 reconstruções do carrossel por ajuste de cor |
 | `node test/visual-admin.mjs` | passou: seis larguras, modal, foco/Escape/inert e prévia |
 | `node test/hero-carousel.mjs` | passou: histórico recuperado, quatro temas × seis resoluções × três slides, swipe, teclado, rotação, limpeza de listeners/timers |
@@ -124,7 +125,7 @@ O navegador verificou contraste computado ≥4,5:1 para texto, preços, navegaç
 
 A limitação anterior do checkout parcial foi resolvida para a suíte: o frontend histórico do commit `d43351825655658048acb69806a0b19a2478d134` foi recuperado exatamente e os arquivos estáticos originais foram restaurados, sem alterá-los no PR. Não foram enfraquecidas as verificações nem criados substitutos fictícios para as imagens. O teste histórico do carrossel foi executado e aprovado.
 
-O teste Neon foi ampliado para executar o driver/SQL reais em um schema descartável de um banco exclusivamente de testes. Cobre as 12 paletas, quatro temas, rascunhos, publicação, novos clientes e migrações up/down/up. Não carrega `.env`, não usa uma conexão alternativa e sanitiza erros. A nova unidade de segurança confirma que URLs de conexão não aparecem nos erros. Instruções exatas: [color-studio-neon.md](color-studio-neon.md).
+O teste Neon já implementado cobre driver/SQL reais, 12 paletas, quatro temas, rascunhos, publicação, novos clientes e migrações up/down/up. Permanece inativo nesta fase. Não carrega `.env`, não usa uma conexão alternativa e sanitiza erros. A unidade de segurança confirma que URLs de conexão não aparecem nos erros. [Decisão atual de adiar a etapa Neon](color-studio-neon.md).
 
 ## Desempenho observado — registro histórico
 
@@ -214,26 +215,33 @@ O maior CLS no conjunto final foi **0,00714**, abaixo de 0,1, mas as janelas cur
 - `docs/color-studio/traces/` contém quatro traces Chrome comprimidos dos extremos discutidos. Os demais traces permanecem em `work/color-studio-v2/`. Para abrir os arquivos retidos no painel Performance do Chromium, descomprima o `.json.gz` e importe o JSON.
 - [Resultado das regressões](color-studio/test-results.json). O teste matemático novo verifica que a amostra 9.164 continua no máximo e que p75/mediana são calculados sem descartá-la.
 
-## Pendência Neon e prontidão
+## Homologação visual — estratégia atual
 
-Não existe `THEME_TEST_DATABASE_URL` nesta sessão, e a política de rede não inclui o endpoint Neon a ser escolhido. Nenhuma conexão alternativa foi tentada. Para concluir essa etapa, forneça a variável como segredo de ambiente com uma conexão **exclusiva de testes** e permita HTTPS para seu hostname exato. Não envie a URL no chat. Siga o [procedimento completo com permissões, comandos e resultado esperado](color-studio-neon.md).
+A validação de persistência Neon foi adiada por decisão de escopo. Ela não é requisito para começar a experimentar o frontend. Não criar recursos novos nem configurar credenciais de testes. O modo temporário funciona com a tabela legada, sem nova coluna, e a implementação já existente de seleção/ativação de temas continua em uso.
 
-O código e as regressões locais estão preparados para iniciar uma **homologação controlada**. O aceite técnico completo e a saída de Draft dependem de executar o teste Neon real e confirmar o comportamento operacional/desempenho em ambiente estável. O p75 do original desktop e os extremos permanecem visíveis como pendências. Esta continuação não autoriza nem executa merge ou deploy.
+A integração do PR #2 está preparada para `feature/gerenciador-temas`, sem merge ou deploy executado nesta sessão. O serviço de homologação acompanha essa branch, segundo confirmação anterior do responsável; um merge autorizado pode iniciar seu Auto-Deploy existente. Não se deve alterar main ou configurações do Render para este ensaio.
 
-## Validação na homologação
+O [roteiro de homologação visual](color-studio-homologacao.md) descreve as ações no painel e a separação entre ativar um tema original e experimentar cores. Até retomarmos o backend, não há publicação/salvamento remoto de paletas, persistência entre sessões nem compartilhamento da combinação temporária. A prévia é da home; a navegação e as compras ficam bloqueadas dentro dela.
 
-1. Revisar o PR direcionado a `feature/gerenciador-temas`. Esta entrega não faz merge. Se o Render estiver com deploy automático ligado para essa branch, um futuro merge poderá iniciar o deploy; revise essa configuração antes do merge. Criar o PR não modifica a branch acompanhada.
-2. Antes de disponibilizar, confirmar no serviço **artize-homologacao** que `DATABASE_URL` aponta para banco exclusivo de homologação. As credenciais e a configuração atual do Render não estão acessíveis nesta sessão, e não foram alteradas.
-3. Depois de um deploy de homologação autorizado, entrar em `/pages/admin.html` como administrador. A migração aditiva é aplicada pela inicialização existente no primeiro acesso ao armazenamento. O usuário do banco precisa da permissão de adicionar a coluna.
-4. Em Aparência e Temas, selecionar cada um dos quatro temas. Escolher uma paleta e ajustar cores/glow. Abrir a prévia em celular/desktop e comparar com o original.
-5. Manter uma aba anônima em `https://artize-homologacao.onrender.com/pages/home.html`. Salvar rascunho e confirmar que essa aba continua igual. Publicar explicitamente no painel; atualizar a aba e conferir o resultado.
-6. Trocar de tema e voltar, verificando suas configurações independentes. Restaurar padrão, conferir na prévia e publicar. Repetir após reinício/deploy autorizado da homologação para validar durabilidade Neon.
-7. Testar cabeçalho, pesquisa, menu, carrossel, categorias, produtos, carrinho, frete, login, formulários e modal em desktop/celular. Não realizar pagamento real.
+Os dados novos de resposta visual do editor e a nova verificação de LCP ficam em `docs/color-studio/preview-rendering.json` e `preview-lcp.json`; resultados anteriores, inclusive amostras extremas, permanecem preservados.
+
+Na rodada atual, 72 aplicações de paleta tiveram mediana/p75/máximo de **78,95/96,30/146,50 ms** na prévia móvel e **118,85/154,20/216,50 ms** na desktop, com CPU emulada 4×. O intervalo termina duas animation frames após aplicar as cores; não é uma medição de LCP.
+
+A verificação adicional de LCP usou três repetições, dois temas e duas larguras nos cinco cenários do mesmo protocolo local (60 amostras, seis por condição/largura). Para o código atual:
+
+| Visual | Largura | Mediana (ms) | p75 (ms) | Máximo (ms) |
+| --- | --- | --- | --- | --- |
+| Original | 390 | 1612 | 2208 | 2296 |
+| Original | 1440 | 906 | 1008 | 1168 |
+| Personalizado | 390 | 1532 | 1920 | 2268 |
+| Personalizado | 1440 | 852 | 928 | 1168 |
+
+Esta rodada é uma verificação de laboratório com amostra pequena, não uma comparação direta com as médias históricas nem uma medida de Render/Neon. Os dados brutos e extremos estão preservados. O PR permanece em Draft, aguardando a revisão e a integração autorizada na branch de homologação.
 
 ## Limites e riscos restantes
 
 - Nenhum deploy nem publicação de aparência foi executado no Render. A autorização e configuração do serviço precisam ser verificadas antes de disponibilizar o código.
-- Neon real, permissões de migração e persistência após reinício do Render ainda precisam de validação com banco exclusivo de homologação.
+- Persistência remota de cores e execução da migração real estão adiadas até retomarmos o backend; não bloqueiam a prévia visual temporária.
 - Contraste automatizado cobre tokens e componentes amostrados; não representa certificação integral WCAG. Cores personalizadas podem exigir ajuste automático de texto.
 - Administradores editando o mesmo tema simultaneamente seguem a política de última gravação; temas diferentes são preservados por atualizações JSONB específicas.
 - Usuários, sessões e pedidos mantêm o armazenamento JSON anterior; não foram migrados. O risco preexistente de perda desses dados no filesystem efêmero do Render permanece.

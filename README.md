@@ -18,7 +18,7 @@ Use uma conta de administrador configurada no ambiente. Credenciais devem perman
 - O webhook do Mercado Pago já está preparado em `/api/payments/webhook`.
 ## Aparência e Temas
 
-O painel administrativo permite pré-visualizar, ativar e restaurar Artize Padrão, Natal, Páscoa e Dia das Mães manualmente. Natal e Páscoa incluem efeitos leves que respeitam movimento reduzido. No Render, configure `DATABASE_URL` com Neon PostgreSQL; arquivos locais são exclusivos de desenvolvimento. Consulte [configuração, persistência e testes](docs/gerenciador-temas.md).
+O painel administrativo permite pré-visualizar, ativar e restaurar Artize Padrão, Natal, Páscoa e Dia das Mães manualmente. Natal e Páscoa incluem efeitos leves que respeitam movimento reduzido. A ativação no Render usa a conexão `DATABASE_URL` já existente; a prévia temporária do Color Studio não exige nova configuração. Arquivos locais continuam exclusivos de desenvolvimento. Consulte [configuração, persistência e testes](docs/gerenciador-temas.md).
 
 ## Artize Visual 2.0
 
@@ -30,19 +30,18 @@ Refinamento da home: [carrossel mobile integrado aos temas](docs/banner-mobile.m
 
 ## Artize Color Studio
 
-O gerenciador em **Aparência e Temas** oferece 12 paletas, cores e glow por tema, rascunhos e prévia isolada. [Documentação, persistência, testes e validação na homologação](docs/color-studio.md).
+O gerenciador em **Aparência e Temas** oferece 12 paletas, cores e glow por tema e prévia isolada. No Neon/Render, o modo temporário permite experimentar o frontend sem gravar cores nem executar migrações novas. [Documentação, persistência, testes e validação na homologação](docs/color-studio.md).
 
 ```bash
 npm ci
 npm test
 # Chromium instalado; ajuste CHROMIUM_PATH se necessário para a suíte do Studio.
 npm run test:studio:browser
+npm run test:studio:preview
 npm run test:browser
 npm run measure:studio
-# Somente com THEME_TEST_DATABASE_URL de um banco exclusivo de testes:
-npm run test:neon
 ```
 
-Salvar rascunho não publica a aparência. A publicação exige administrador e armazenamento persistente no Neon em ambientes Render. Não reutilize banco de produção para testes.
+Nesta fase não criar projetos/bancos Neon nem configurar THEME_TEST_DATABASE_URL. A persistência existente dos quatro temas permanece igual; as cores experimentais ficam apenas na memória da prévia no Render. A persistência local de desenvolvimento foi preservada.
 
-A configuração segura da conexão de teste está em [docs/color-studio-neon.md](docs/color-studio-neon.md). O PR #2 permanece em Draft até a validação externa e a confirmação de desempenho na homologação.
+[Integração e roteiro de homologação visual](docs/color-studio-homologacao.md). O PR #2 tem como destino apenas feature/gerenciador-temas; main, produção e configurações do Render não são alteradas por esta preparação.
