@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-28",
+  "sourceCommit": "4c57a5db3efca25d18ee43fd28f085987b1f45ec",
+  "baseCommit": "54b8a879ead3355e46da128e0088fbc5f97f654a",
+  "unit": {
+    "passed": 15,
+    "skipped": 1,
+    "failed": 0,
+    "skip": "No isolated live Neon URL; no fallback connection"
+  },
+  "browserSuites": 12,
+  "liveInspection": {
+    "authorized": true,
+    "executed": false,
+    "blocker": "ARTIZE_HOMOLOG_DATABASE_URL not available; no Neon hostname allowed",
+    "exclusiveSecret": "ARTIZE_HOMOLOG_DATABASE_URL"
+  },
+  "liveDatabaseWrites": false,
+  "liveMigrationExecuted": false,
+  "newNeonResources": false,
+  "renderConfigChanged": false,
+  "mergeExecuted": false,
+  "deployExecuted": false,
+  "performance": {
+    "lcpSamples": 30,
+    "httpSaveSamples": 12,
+    "limitations": "Local fixtures only; no Render/Neon network latency, cold-start or field data"
+  },
+  "sourceSha256": {
+    "themes/neon-store.js": "6ad2936020fc8085cb70027393edfadc161387f22f24ca25d039e3e07d4b782b",
+    "routes/themes.js": "a3b00891ee986a60e7046646ba8ff1c81365e0639f224dd5050894d65d06079d",
+    "public/js/admin-color-studio.js": "3370b7526b43813309ac18038909d4ba0103e821334a278f1b532c4e48432131",
+    "public/js/admin-themes.js": "bbd3f80a7507e4933dec9cf333c249715cc996eaee4138a63d4cf1f150cab578",
+    "public/pages/admin.html": "d838a75c6f404760571984c03ba46958409e2a74b939a0f59029ce86a5fd28f7",
+    "public/css/admin.css": "2035dbb8444d081ae6da2e56284c328ece55f38d4a5942d0565a6968f42b3106",
+    "migrations/001-color-studio.up.sql": "4e0ca535aeb858dba6dac936aeb1930625bfe7b1d6505f3d9560ca9b27cb6760",
+    "scripts/inspect-color-studio.mjs": "9342ef94850d90b12c03098f5270bdd1c37d08a5508d27d6787f9f60778af433",
+    "scripts/inspect-color-studio.sql": "b851ebf6032b812cf8545eb294547d41d82500b15aebbde6808622718e3834cd"
+  }
+}
