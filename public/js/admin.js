@@ -1,4 +1,5 @@
 import { api, getSession } from '/js/app.js';
+import { createModal } from '/js/modal.js';
 const adminOrders=document.getElementById('adminOrders');
 const adminSummary=document.getElementById('adminSummary');
 const feedback=document.getElementById('adminFeedback');
@@ -8,6 +9,7 @@ const modal=document.getElementById('newSaleModal');
 const modalText=document.getElementById('newSaleText');
 const modalList=document.getElementById('newSaleList');
 const ackBtn=document.getElementById('ackNewSaleBtn');
+const notificationModal=createModal(modal,ackBtn);
 const statuses=['todos','aguardando_processamento','em_producao','enviado','entregue','cancelado'];
 let currentFilter='todos';
 
@@ -17,8 +19,8 @@ function formatDate(date){return new Date(date).toLocaleString('pt-BR')}
 function pill(status){return `<span class="status-pill status-${status}">${formatStatus(status)}</span>`}
 
 function buildFilters(){
-  statusFilters.innerHTML=statuses.map(status=>`<button type="button" class="chip ${status===currentFilter?'active':''}" data-status="${status}">${status==='todos'?'Todos':formatStatus(status)}</button>`).join('');
-  statusFilters.querySelectorAll('[data-status]').forEach(btn=>btn.onclick=()=>{currentFilter=btn.dataset.status; buildFilters(); render();});
+  statusFilters.innerHTML=statuses.map(status=>`<button type="button" class="chip ${status===currentFilter?'active':''}" aria-pressed="${status===currentFilter}" data-status="${status}">${status==='todos'?'Todos':formatStatus(status)}</button>`).join('');
+  statusFilters.querySelectorAll('[data-status]').forEach(btn=>btn.onclick=()=>{currentFilter=btn.dataset.status;statusFilters.querySelectorAll('[data-status]').forEach(filter=>{const active=filter.dataset.status===currentFilter;filter.classList.toggle('active',active);filter.setAttribute('aria-pressed',String(active));});render();});
 }
 
 async function checkNewSales(){
@@ -27,15 +29,13 @@ async function checkNewSales(){
     if(!info.hasNewSales) return;
     modalText.textContent=info.count===1?'Entrou 1 novo pedido desde a última vez que você visualizou o painel.':'Entraram '+info.count+' novos pedidos desde a última vez que você visualizou o painel.';
     modalList.innerHTML=info.orders.map(order=>`<div class="modal-order"><strong>Pedido ${order.id.slice(0,8)}</strong><span>${order.customerName}</span><small>${formatBRL(order.total)} • ${formatDate(order.createdAt)}</small></div>`).join('');
-    modal.classList.remove('hidden');
-    modal.setAttribute('aria-hidden','false');
+    notificationModal.open();
   }catch(err){console.error(err)}
 }
 
 async function acknowledgeNewSales(){
   await api('/api/admin/notifications/new-sales/ack',{method:'POST'});
-  modal.classList.add('hidden');
-  modal.setAttribute('aria-hidden','true');
+  notificationModal.close();
 }
 
 async function render(){
@@ -58,7 +58,7 @@ async function render(){
       return;
     }
 
-    adminOrders.innerHTML=data.orders.map(order=>`<article class="order-card">      <header>        <div>          <strong>Pedido ${order.id.slice(0,8)}</strong>          <div class="feedback">${order.customer.name} • ${order.customer.email}</div>        </div>        <div class="order-pill-group">${pill(order.orderStatus)} ${pill(order.paymentStatus||'pending')}</div>      </header>      <div class="order-meta">        <div><strong>Total</strong><div>${formatBRL(order.total)}</div></div>        <div><strong>Itens</strong><div>${order.items.map(item=>`${item.quantity}x ${item.name}`).join(', ')}</div></div>        <div><strong>Entrega</strong><div>${order.shipping?.label||'-'}</div></div>        <div><strong>Criado em</strong><div>${formatDate(order.createdAt)}</div></div>        <div><strong>Última atualização</strong><div>${formatDate(order.updatedAt||order.createdAt)}</div></div>      </div>      <div class="admin-order-actions">        <select class="admin-select" data-id="${order.id}">${statuses.filter(s=>s!=='todos').map(s=>`<option value="${s}" ${order.orderStatus===s?'selected':''}>${formatStatus(s)}</option>`).join('')}</select>        <button class="primary-btn save-status" data-id="${order.id}">Salvar status</button>        ${order.whatsappUrl?`<a class="ghost-btn" href="${order.whatsappUrl}" target="_blank" rel="noopener">Notificar vendedor ativo</a>`:''}      </div>    </article>`).join('');
+    adminOrders.innerHTML=data.orders.map(order=>`<article class="order-card">      <header>        <div>          <strong>Pedido ${order.id.slice(0,8)}</strong>          <div class="feedback">${order.customer.name} • ${order.customer.email}</div>        </div>        <div class="order-pill-group">${pill(order.orderStatus)} ${pill(order.paymentStatus||'pending')}</div>      </header>      <div class="order-meta">        <div><strong>Total</strong><div>${formatBRL(order.total)}</div></div>        <div><strong>Itens</strong><div>${order.items.map(item=>`${item.quantity}x ${item.name}`).join(', ')}</div></div>        <div><strong>Entrega</strong><div>${order.shipping?.label||'-'}</div></div>        <div><strong>Criado em</strong><div>${formatDate(order.createdAt)}</div></div>        <div><strong>Última atualização</strong><div>${formatDate(order.updatedAt||order.createdAt)}</div></div>      </div>      <div class="admin-order-actions">        <select class="admin-select" aria-label="Status do pedido ${order.id.slice(0,8)}" data-id="${order.id}">${statuses.filter(s=>s!=='todos').map(s=>`<option value="${s}" ${order.orderStatus===s?'selected':''}>${formatStatus(s)}</option>`).join('')}</select>        <button class="primary-btn save-status" data-id="${order.id}">Salvar status</button>        ${order.whatsappUrl?`<a class="ghost-btn" href="${order.whatsappUrl}" target="_blank" rel="noopener">Notificar vendedor ativo</a>`:''}      </div>    </article>`).join('');
 
     adminOrders.querySelectorAll('.save-status').forEach(btn=>btn.onclick=async()=>{
       const id=btn.dataset.id;

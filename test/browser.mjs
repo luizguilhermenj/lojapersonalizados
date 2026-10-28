@@ -1,0 +1,194 @@
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+let playwright;
+try { playwright = require('playwright'); } catch { playwright = require('../work/node_modules/playwright'); }
+const { chromium } = playwright;
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { spawn } from 'node:child_process';
+import assert from 'node:assert/strict';
+const root = process.cwd();
+const runtime = path.join(root, 'work/runtime');
+fs.mkdirSync(runtime + '/data', { recursive: true });
+for (const file of ['server.js', 'package.json']) fs.copyFileSync(file, path.join(runtime, file));
+for (const dir of ['public','node_modules','themes','routes']) { const target = path.join(runtime, dir); if (!fs.existsSync(target)) fs.symlinkSync(path.join(root, dir), target); }
+fs.copyFileSync('data/products.json', runtime + '/data/products.json');
+const password = 'ThemeTestOnly!234';
+const salt = 'local-test-fixture';
+const passwordHash = `scrypt$${salt}$${crypto.scryptSync(password,salt,64).toString('base64')}`;
+fs.writeFileSync(runtime+'/data/users.json', JSON.stringify([{ id:'test-admin',name:'Admin Test',email:'admin@test.invalid',role:'admin',passwordHash,lastAdminSeenAt:null },{ id:'test-customer',name:'Customer Test',email:'customer@test.invalid',role:'customer',passwordHash }]));
+for (const file of ['orders','sessions']) fs.writeFileSync(`${runtime}/data/${file}.json`,'[]');
+fs.rmSync(runtime+'/data/appearance', {recursive:true,force:true});
+const base = 'http://127.0.0.1:3198';
+let server;
+async function start(themeEnv = {}) {
+ server = spawn(process.execPath,['server.js'], {cwd:runtime,env:{...process.env,PORT:'3198',BASE_URL:base,MP_ACCESS_TOKEN:'',DATABASE_URL:'',NODE_ENV:'test',RENDER:'',THEME_STORAGE_DIR:'',THEME_STORAGE_DURABLE:'',...themeEnv},stdio:['ignore','pipe','pipe']});
+ let failure = ''; server.stderr.on('data', d=>failure+=d);
+ for(let n=0;n<100;n++){try{if((await fetch(base+'/api/health')).ok)return;}catch{} await new Promise(r=>setTimeout(r,100));}
+ throw Error('Startup failed: '+failure);
+}
+async function stop(){if(server?.exitCode===null){server.kill();await new Promise(r=>server.once('exit',r));}}
+const json = async (url,options={}) => {const res=await fetch(base+url,options);return {status:res.status,data:await res.json()};};
+const login = async email => (await json('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})})).data;
+let browser;
+try {
+ await start(); console.log('PASS server startup');
+ const admin = await login('admin@test.invalid'); const customer = await login('customer@test.invalid');
+ assert.equal(admin.user.role,'admin');
+ for(const [route,method] of [['/api/admin/themes','GET'],...['artize','natal','pascoa','dia-das-maes'].map(id=>[`/api/admin/themes/${id}/preview`,'GET']),['/api/admin/themes/active','PUT']]){
+  assert.equal((await json(route,{method})).status,401);
+  assert.equal((await json(route,{method,headers:{Authorization:`Bearer ${customer.token}`}})).status,403);
+ }
+ console.log('PASS real admin login / visitor 401 / customer 403');
+ const catalogBefore = (await json('/api/products')).data;
+ browser = await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
+ const page = await browser.newPage({viewport:{width:1280,height:900}});
+ // Limita downloads de originais nesta suíte funcional; payload de imagens é medido separadamente.
+ await page.context().route('**/img/artes/**',route=>/pascoa-0[1-4]\.webp$/.test(route.request().url())?route.continue():route.fulfill({status:200,contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>'}));
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'/pages/admin.html');
+ await page.evaluate(session=>localStorage.setItem('artize_session_v1',JSON.stringify(session)),admin);
+ await page.reload();
+ await page.locator('.theme-option').first().waitFor();
+ for (const width of [360,390,768,1280]) {
+  await page.setViewportSize({width,height:900});
+  assert(await page.evaluate(()=>document.getElementById('appearancePanel').getBoundingClientRect().right <= innerWidth), `Theme panel overflow at ${width}`);
+ }
+ console.log('PASS theme panel responsive 360 / 390 / 768 / 1280 px');
+ const availableThemes = (await json('/api/admin/themes',{headers:{Authorization:`Bearer ${admin.token}`}})).data.themes;
+ assert.deepEqual(availableThemes.map(theme=>theme.id),['artize','natal','pascoa','dia-das-maes']);
+ fs.mkdirSync(path.join(root,'work/screens'),{recursive:true});
+ for (const theme of availableThemes) {
+  await page.goto(base+'/pages/admin.html');
+  await page.locator(`input[name="appearanceTheme"][value="${theme.id}"]`).check();
+  const activeBefore = (await json('/api/theme')).data.theme.id;
+  await page.locator('#previewTheme').click();
+  const frame = page.frameLocator('#themePreviewFrame');
+  await frame.locator(`html[data-theme="${theme.id}"]`).waitFor();
+  assert.equal((await json('/api/theme')).data.theme.id,activeBefore);
+  assert.equal(await page.locator('html').getAttribute('data-theme'),activeBefore);
+  if (theme.effect) {
+   await frame.locator(`.seasonal-effects--${theme.effect.type}`).waitFor();
+   assert(await frame.locator('.seasonal-effects').evaluate(el=>getComputedStyle(el).pointerEvents==='none' && el.getAttribute('aria-hidden')==='true'));
+   assert(await frame.locator('.seasonal-effects').evaluate(el=>el.getBoundingClientRect().height===innerHeight && el.getBoundingClientRect().width===innerWidth));
+  } else assert.equal(await frame.locator('.seasonal-effects').count(),0);
+  await page.locator('#publishTheme').click();
+  await page.waitForFunction(()=>document.getElementById('themeFeedback').textContent.includes('Tema ativado com sucesso'));
+  assert.equal((await json('/api/theme')).data.theme.id,theme.id);
+  assert.equal(await page.locator('html').getAttribute('data-theme'),theme.id,'painel aplica publicação sem reload');
+  assert.equal(await page.locator('#themePreviewFrame').getAttribute('src'),null,'prévia descartada');
+  await stop();await start();assert.equal((await json('/api/theme')).data.theme.id,theme.id);
+  for (const width of [360,390,768,1280]) {
+   await page.setViewportSize({width,height:900});await page.goto(base+'/pages/home.html');
+   await page.locator(`html[data-theme="${theme.id}"]`).waitFor();
+   await page.locator('.product-card').first().waitFor();
+   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${theme.id} overflow at ${width}`);
+   assert(await page.locator('[data-hero-carousel]').isVisible());assert.equal(await page.locator('[data-hero-carousel]').getAttribute('data-hero-theme'),theme.id);
+   if (theme.campaign) {
+    const contrast = await page.locator('.hero-slide[aria-hidden="false"] [data-hero-action]').evaluate(el=> {
+      const rgb = s => (s.match(/[\d.]+/g)||[]).slice(0,3).map(Number).map(c=>{const v=c/255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});
+      const luminance = s => {const c=rgb(s);return .2126*c[0]+.7152*c[1]+.0722*c[2];};
+      const style=getComputedStyle(el);const a=luminance(style.color);const b=luminance(style.backgroundColor);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+    });
+    assert(contrast>=4.5,`${theme.id} CTA contrast ${contrast}`);
+   }
+   if (theme.effect) {
+    const expected = width<=600 ? theme.effect.mobileCount : theme.effect.count;
+    await page.waitForFunction(n=>document.querySelectorAll('.seasonal-particle').length===n,expected);
+    await page.locator('#menuToggle').click();assert.equal(await page.locator('#menuToggle').getAttribute('aria-expanded'),'true');await page.locator('#sideClose').click();
+    await page.locator('#sideMenu').evaluate(el=>Promise.all(el.getAnimations().map(animation=>animation.finished)));
+   } else assert.equal(await page.locator('.seasonal-effects').count(),0);
+   if ((theme.id==='natal'||theme.id==='pascoa') && (width===360||width===1280)) await page.screenshot({path:path.join(root,`work/screens/${theme.id}-${width}.png`)});
+  }
+  if (theme.effect) {
+   const particle=page.locator('.seasonal-particle').first();
+   const before=await particle.evaluate(el=>getComputedStyle(el).transform);
+   await page.waitForTimeout(180);
+   assert.notEqual(await particle.evaluate(el=>getComputedStyle(el).transform),before,'animação se move');
+   await page.getByRole('button',{name:'Animação sazonal'}).click();assert.equal(await page.locator('.seasonal-effects').count(),0);
+   await page.getByRole('button',{name:'Animação sazonal'}).click();await page.locator('.seasonal-effects').waitFor();
+   await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>!document.querySelector('.seasonal-effects'));
+   assert.equal(await page.locator('.seasonal-effects-toggle').count(),0);
+   await page.emulateMedia({reducedMotion:'no-preference'});await page.locator('.seasonal-effects').waitFor();
+   // Troca no mesmo documento exercita a limpeza de DOM/listeners do módulo reutilizável.
+   await page.evaluate(async()=>{const {applyTheme}=await import('/js/themes.js');applyTheme({id:'artize'});});
+   assert.equal(await page.locator('.seasonal-effects,.seasonal-effects-toggle').count(),0);
+   await page.setViewportSize({width:390,height:900});await page.emulateMedia({reducedMotion:'reduce'});await page.emulateMedia({reducedMotion:'no-preference'});
+   assert.equal(await page.locator('.seasonal-effects,.seasonal-effects-toggle').count(),0,'listeners antigos não recriam efeito');
+   const reducedPage = await browser.newPage({reducedMotion:'reduce'});
+   await reducedPage.goto(base+'/pages/home.html');await reducedPage.locator(`html[data-theme="${theme.id}"]`).waitFor();
+   assert.equal(await reducedPage.locator('.seasonal-effects,.seasonal-effects-toggle').count(),0);await reducedPage.close();
+  }
+  console.log(`PASS ${theme.id}: preview isolated, activation, restart, responsive, effects/motion/cleanup`);
+ }
+ // Volta ao padrão para manter o cenário de regressão original independente.
+ await page.goto(base+'/pages/admin.html');await page.locator('#restoreTheme').click();
+ await page.waitForFunction(()=>document.getElementById('themeFeedback').textContent.includes('Tema ativado com sucesso'));
+
+ await page.getByLabel('Dia das Mães', {exact:false}).check();
+ await page.getByRole('button',{name:'Pré-visualizar',exact:true}).click();
+ await page.frameLocator('#themePreviewFrame').locator('html[data-theme="dia-das-maes"]').waitFor();
+ assert.equal((await json('/api/theme')).data.theme.id,'artize');
+ console.log('PASS admin UI preview without publication');
+ await page.getByRole('button',{name:'Ativar tema selecionado'}).click();
+ await page.waitForFunction(()=>document.getElementById('themeFeedback').textContent.includes('Tema ativado com sucesso'));
+ assert.equal((await json('/api/theme')).data.theme.id,'dia-das-maes');
+ await stop();await start();assert.equal((await json('/api/theme')).data.theme.id,'dia-das-maes');
+ console.log('PASS activation and persistence across server process restart');
+ for(const width of [360,390,768,1280]){
+  await page.setViewportSize({width,height:900});await page.goto(base+'/pages/home.html');
+  await page.locator('html[data-theme="dia-das-maes"]').waitFor();await page.locator('.product-card').first().waitFor();
+  assert(await page.locator('[data-hero-carousel][data-hero-theme="dia-das-maes"]').isVisible());
+  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Overflow at ${width}`);
+ }
+ console.log('PASS responsive home 360 / 390 / 768 / 1280 px');
+ await page.goto(base+'/pages/caneca-ceramica.html'); await page.locator('html[data-theme="dia-das-maes"]').waitFor();
+ // O carrinho usa os módulos reais; o fixture contém somente um produto real do catálogo.
+ const product = catalogBefore[0];
+ await page.evaluate(async p=>{const app=await import('/js/app.js');app.addToCart({productId:p.id,name:p.name,price:p.price,image:p.image,quantity:1});},product);
+ await page.goto(base+'/pages/carrinho.html');
+ await page.locator('.cart-item').waitFor();
+ assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('artize_cart_v1'))[0].quantity),1);
+ await page.locator('.increase').click();
+ assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('artize_cart_v1'))[0].quantity),2);
+ await page.locator('#cepInput').fill('86010000');await page.locator('#quoteShippingBtn').click();
+ await page.locator('.shipping-option').first().waitFor();
+ assert.equal(await page.locator('.shipping-option').count(),3);
+ const quote=await json('/api/shipping/quote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cep:'86010000',items:[{productId:product.id,quantity:1}]})});
+ assert.equal(quote.status,200);assert.equal(quote.data.options.length,3);
+ assert.equal((await json('/api/checkout/create-preference',{method:'POST'})).status,401);
+ assert.equal((await json('/api/checkout/create-preference',{method:'POST',headers:{Authorization:`Bearer ${customer.token}`,'Content-Type':'application/json'},body:JSON.stringify({items:[]})})).status,400);
+ assert.deepEqual((await json('/api/products')).data,catalogBefore);
+ console.log('PASS catalog unchanged / cart storage / shipping / checkout auth and empty-cart guard (no payment)');
+ await page.goto(base+'/pages/admin.html');
+ await page.getByRole('button',{name:'Restaurar tema padrão'}).click();
+ await page.waitForFunction(()=>document.getElementById('themeFeedback').textContent.includes('Tema ativado com sucesso'));
+ await stop();await start();assert.equal((await json('/api/theme')).data.theme.id,'artize');
+ await page.goto(base+'/pages/home.html');await page.locator('html[data-theme="artize"]').waitFor();assert.equal(await page.locator('[data-hero-carousel]').getAttribute('data-hero-theme'),'artize');
+ console.log('PASS restore standard and persistence');
+ let releaseTheme;
+ const pendingTheme = new Promise(resolve=>{releaseTheme=resolve;});
+ await page.route('**/api/theme',async route=>{await pendingTheme;await route.continue();});
+ try {
+  await page.goto(base+'/pages/home.html',{waitUntil:'domcontentloaded'});
+  await page.locator('.product-card').first().waitFor();await page.locator('#menuToggle').click();
+  assert.equal(await page.locator('#menuToggle').getAttribute('aria-expanded'),'true','menu funciona enquanto tema aguarda banco');
+ } finally {
+  const themeResponse = page.waitForResponse(response=>response.url()===base+'/api/theme');
+  releaseTheme();await themeResponse;await page.unroute('**/api/theme');
+ }
+ console.log('PASS catalog and navigation do not wait for theme/database');
+ await stop(); await start({RENDER:'true',THEME_STORAGE_DIR:runtime+'/data/appearance',THEME_STORAGE_DURABLE:'true'});
+ await page.goto(base+'/pages/admin.html');
+ await page.waitForFunction(()=>document.getElementById('themeFeedback').textContent.includes('DATABASE_URL'));
+ assert(await page.locator('#publishTheme').isDisabled());assert(await page.locator('#restoreTheme').isDisabled());
+ assert.equal((await json('/api/admin/themes/active',{method:'PUT',headers:{Authorization:`Bearer ${admin.token}`,'Content-Type':'application/json'},body:JSON.stringify({themeId:'dia-das-maes'})})).status,503);
+ console.log('PASS Render requires DATABASE_URL even with old durable flags');
+ await stop(); await start({RENDER:'true',DATABASE_URL:'invalid-url'});
+ assert.equal((await json('/api/health')).status,200);assert.deepEqual((await json('/api/products')).data,catalogBefore);
+ assert.equal((await json('/api/admin/themes',{headers:{Authorization:`Bearer ${admin.token}`}})).status,503);
+ assert.equal((await json('/api/theme')).data.theme.id,'artize');
+ console.log('PASS invalid database configuration does not block server or catalog');
+ assert.deepEqual(errors,[]);console.log('PASS no browser JavaScript errors');
+} finally {await browser?.close();await stop();}

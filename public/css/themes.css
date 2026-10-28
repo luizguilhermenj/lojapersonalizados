@@ -1,0 +1,75 @@
+/* O tema padrão usa integralmente os estilos originais. Paletas vêm da configuração. */
+html[data-seasonal] .site-header {background:var(--bg);border-color:var(--line)}
+html[data-seasonal] .brand-mark {background:var(--dark)}
+html[data-seasonal] .primary-btn {background:var(--accent);color:#fff}
+html[data-seasonal] .price {color:var(--accent)}
+html[data-seasonal] :is(.menu-toggle,.side-menu,.side-menu-section a,.ghost-btn,.chip,.search) {background:var(--surface);border-color:var(--line);color:var(--text)}
+html[data-seasonal] :is(.chip.active,.cart-btn) {background:var(--dark);border-color:var(--dark);color:#fff}
+html[data-seasonal] :is(.product-card,.card) {border-color:var(--line);background:var(--surface)}
+html[data-seasonal] .product-card {box-shadow:0 10px 28px color-mix(in srgb,var(--dark) 7%,transparent)}
+html[data-seasonal] .product-card img {background:var(--surface-2)}
+html[data-seasonal] :is(button,a,input,select):focus-visible {outline:3px solid var(--accent);outline-offset:4px}
+html[data-seasonal] .menu-label-toggle em {color:var(--text)}
+.theme-preview-notice {margin:0;padding:12px;background:#fff1c9;color:#493b16;text-align:center;font-weight:700}
+.theme-options {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px;border:0;padding:0;margin:0 0 20px;min-width:0}
+.theme-options legend {margin-bottom:12px}
+.theme-option {display:grid;gap:12px;border:1px solid var(--line);border-radius:18px;padding:20px;cursor:pointer;align-content:start}
+.theme-option:has(input:checked) {border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+.theme-option input {width:20px;height:20px;accent-color:var(--dark)}
+.theme-swatches {display:flex;gap:8px}
+.theme-swatches i {width:28px;height:28px;border:1px solid #999;border-radius:50%}
+.theme-preview-frame {width:100%;height:650px;max-height:80vh;margin-top:20px;border:1px solid var(--line);border-radius:16px;background:white}
+:is(.theme-preview-frame,.seasonal-campaign,.campaign-art,.promo-carousel,#appearancePanel)[hidden] {display:none}
+#appearancePanel button:disabled {opacity:.55;cursor:not-allowed}
+#themeFeedback {margin-top:16px;overflow-wrap:anywhere}
+/* Container fixo pertence ao documento atual; dentro de iframe fica limitado à prévia. */
+.seasonal-effects {position:fixed;inset:0;z-index:45;overflow:hidden;contain:strict;pointer-events:none;user-select:none}
+.seasonal-effects * {pointer-events:none}
+.seasonal-particle {position:absolute;top:-24px;display:block;width:var(--size);height:var(--size);opacity:0;animation:seasonal-fall var(--duration) var(--delay) linear infinite}
+.seasonal-particle-core {display:block;width:100%;height:100%;border-radius:50%;transform:rotate(-12deg)}
+.seasonal-effects--snow .seasonal-particle-core {background-clip:padding-box}
+.seasonal-effects--petals .seasonal-particle-core {border-radius:75% 0 75% 20%;height:70%;border:1px solid #76544322}
+.seasonal-effects-toggle {position:fixed;right:16px;bottom:16px;z-index:50;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:99px;background:var(--surface);color:var(--text);font:inherit;font-size:.75rem;cursor:pointer;box-shadow:0 3px 12px #00000014}
+@keyframes seasonal-fall {0%{transform:translate3d(0,-24px,0) rotate(0);opacity:0}8%{opacity:var(--opacity)}35%{transform:translate3d(calc(var(--drift) * .35 + var(--sway)),35vh,0) rotate(35deg)}65%{transform:translate3d(calc(var(--drift) * .65 - var(--sway)),65vh,0) rotate(-20deg)}90%{opacity:var(--opacity)}100%{transform:translate3d(var(--drift),calc(100vh + 48px),0) rotate(var(--turn));opacity:0}}
+@media(max-width:600px) {#appearancePanel .toolbar {display:grid}#appearancePanel .toolbar button {width:100%}.seasonal-effects-toggle{right:12px;bottom:12px}}
+@media(prefers-reduced-motion:reduce) {.seasonal-effects,.seasonal-effects-toggle{display:none}.seasonal-particle,.seasonal-particle-core{animation:none}html[data-seasonal]{scroll-behavior:auto}}
+
+/* Artize Motion: nenhum loop de JS por frame e nenhuma animação em checkout. */
+body:has(.mobile-purchase) .seasonal-effects-toggle{bottom:calc(94px + env(safe-area-inset-bottom,0px))}
+.seasonal-effects-toggle{max-width:calc(100vw - 32px);bottom:calc(16px + env(safe-area-inset-bottom,0px));right:max(16px,env(safe-area-inset-right,0px))}
+@media(min-width:48rem){body:has(.mobile-purchase) .seasonal-effects-toggle{bottom:calc(16px + env(safe-area-inset-bottom,0px))}}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.primary-btn:active,.ghost-btn:active{transform:scale(.98)}.art-card:hover{box-shadow:var(--shadow)}.theme-option{transition:box-shadow var(--motion-fast)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}.art-card,.product-card,.primary-btn,.ghost-btn{transition:none!important;transform:none!important}}
+
+
+html[data-theme][data-color-studio] body {background:var(--store-background);color:var(--store-page-text)}
+html[data-theme][data-color-studio] :is(.site-header,.sub-header,.side-menu,.modal-card,.product-card,.art-card,.card,.hero-controls,.product-summary,.mobile-purchase,.theme-option,.empty-state) {--text:var(--store-text);--muted:var(--store-text);background:var(--store-surface);color:var(--store-text);border-color:var(--line)}
+html[data-theme][data-color-studio] :is(.field,.search,select,textarea,.menu-toggle,.side-close,.ghost-btn,.chip,.side-menu-section a,.quantity-control,.qty-btn,.art-filter-toggle,.theme-filter-toggle) {background:var(--store-surface);color:var(--store-text);border-color:var(--line)}
+html[data-theme][data-color-studio] :is(.primary-btn,.cart-btn,.chip.active,.brand-mark,.mobile-purchase .primary-btn),
+html[data-theme][data-color-studio] .hero-carousel .hero-copy .primary-btn {background:var(--store-accent);color:var(--store-on-accent);border-color:var(--store-accent)}
+html[data-theme][data-color-studio] .price {color:var(--store-link)}
+html[data-theme][data-color-studio] :is(.site-footer) {background:var(--store-surface);color:var(--store-text);border-top:1px solid var(--line)}
+html[data-theme][data-color-studio] :is(.footer-intro p,.footer-links h2,.footer-bottom,.menu-toggle em) {color:inherit}
+html[data-theme][data-color-studio] :is(.hero-carousel,.hero-controls,.search) {border-color:var(--line)}
+html[data-theme][data-color-studio] :is(.card,.product-card,.art-card,.hero-carousel) {transition:background-color var(--motion-fast),color var(--motion-fast),box-shadow var(--motion-fast)}
+html[data-theme][data-color-studio] :is(input,select,textarea,button,a):focus-visible {outline:3px solid currentColor;outline-offset:3px}
+html[data-theme][data-color-studio] .site-footer a:focus-visible {outline-color:currentColor}
+html[data-theme][data-color-studio][data-glow-cards] :is(.product-card,.art-card,.card) {box-shadow:0 4px 22px var(--store-glow-soft)}
+html[data-theme][data-color-studio][data-glow-borders] :is(.product-card,.art-card,.hero-carousel) {border-color:var(--store-glow-edge);box-shadow:inset 0 0 0 1px var(--store-glow-edge)}
+html[data-theme][data-color-studio][data-glow-buttons] .primary-btn {box-shadow:0 3px 18px var(--store-glow-edge)}
+html[data-theme][data-color-studio] .home-page {background-image:radial-gradient(ellipse at 10% 0%,var(--store-glow-soft),transparent 55%);background-repeat:no-repeat;background-size:100% min(700px,100vh)}
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+  html[data-theme][data-color-studio][data-glow-cards] .product-card:hover {box-shadow:0 7px 26px var(--store-glow-edge)}
+}
+@media(max-width:600px),(prefers-reduced-motion:reduce),(prefers-reduced-data:reduce) {
+  html[data-theme][data-color-studio] .home-page {background-image:none}
+  html[data-theme][data-color-studio]:is([data-glow-cards],[data-glow-buttons],[data-glow-borders]) :is(.product-card,.art-card,.card,.primary-btn,.hero-carousel) {box-shadow:none;transition:none}
+}
+
+html[data-theme][data-color-studio] .art-card.active .select-pill {background:var(--store-accent);color:var(--store-on-accent)}
+html[data-theme][data-color-studio] .eyebrow {color:var(--store-link)}
+html[data-theme][data-color-studio] :is(.qty-row button,.modal-card,.cart-item,.selection-box) {background:var(--store-surface);color:var(--store-text)}
+html[data-theme][data-color-studio] :is(.field,.search,textarea)::placeholder {color:var(--store-text);opacity:.75}
+/* Control boundaries and focus stay visible independently of decorative glow. */
+html[data-theme][data-color-studio] :is(.field,.search,select,textarea,.menu-toggle,.side-close,.ghost-btn,.chip) {--line:var(--store-text)}
+html[data-theme][data-color-studio] :is(input,select,textarea,button,a):focus-visible {outline-color:var(--store-text)}

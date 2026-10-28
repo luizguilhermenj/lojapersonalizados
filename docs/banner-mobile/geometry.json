@@ -1,0 +1,314 @@
+[
+  {
+    "theme": "artize",
+    "width": 320,
+    "height": 568,
+    "before": {
+      "height": 440,
+      "productTop": 1244.0625
+    },
+    "after": {
+      "height": 220,
+      "productTop": 871.953125
+    }
+  },
+  {
+    "theme": "artize",
+    "width": 360,
+    "height": 800,
+    "before": {
+      "height": 440,
+      "productTop": 1175.984375
+    },
+    "after": {
+      "height": 220,
+      "productTop": 871.953125
+    }
+  },
+  {
+    "theme": "artize",
+    "width": 390,
+    "height": 844,
+    "before": {
+      "height": 440,
+      "productTop": 1123.1875
+    },
+    "after": {
+      "height": 220,
+      "productTop": 819.15625
+    }
+  },
+  {
+    "theme": "artize",
+    "width": 430,
+    "height": 932,
+    "before": {
+      "height": 440,
+      "productTop": 1125.1875
+    },
+    "after": {
+      "height": 220,
+      "productTop": 821.15625
+    }
+  },
+  {
+    "theme": "artize",
+    "width": 768,
+    "height": 1024,
+    "before": {
+      "height": 440,
+      "productTop": 1026.015625
+    },
+    "after": {
+      "height": 320,
+      "productTop": 902.734375
+    }
+  },
+  {
+    "theme": "artize",
+    "width": 1440,
+    "height": 900,
+    "before": {
+      "height": 440,
+      "productTop": 1022.015625
+    },
+    "after": {
+      "height": 380,
+      "productTop": 958.734375
+    }
+  },
+  {
+    "theme": "natal",
+    "width": 320,
+    "height": 568,
+    "before": {
+      "height": 440,
+      "productTop": 1244.0625
+    },
+    "after": {
+      "height": 220,
+      "productTop": 871.953125
+    }
+  },
+  {
+    "theme": "natal",
+    "width": 360,
+    "height": 800,
+    "before": {
+      "height": 440,
+      "productTop": 1175.984375
+    },
+    "after": {
+      "height": 220,
+      "productTop": 871.953125
+    }
+  },
+  {
+    "theme": "natal",
+    "width": 390,
+    "height": 844,
+    "before": {
+      "height": 440,
+      "productTop": 1123.1875
+    },
+    "after": {
+      "height": 220,
+      "productTop": 819.15625
+    }
+  },
+  {
+    "theme": "natal",
+    "width": 430,
+    "height": 932,
+    "before": {
+      "height": 440,
+      "productTop": 1125.1875
+    },
+    "after": {
+      "height": 220,
+      "productTop": 821.15625
+    }
+  },
+  {
+    "theme": "natal",
+    "width": 768,
+    "height": 1024,
+    "before": {
+      "height": 440,
+      "productTop": 1026.015625
+    },
+    "after": {
+      "height": 320,
+      "productTop": 902.734375
+    }
+  },
+  {
+    "theme": "natal",
+    "width": 1440,
+    "height": 900,
+    "before": {
+      "height": 440,
+      "productTop": 1022.015625
+    },
+    "after": {
+      "height": 380,
+      "productTop": 958.734375
+    }
+  },
+  {
+    "theme": "pascoa",
+    "width": 320,
+    "height": 568,
+    "before": {
+      "height": 440,
+      "productTop": 1244.0625
+    },
+    "after": {
+      "height": 220,
+      "productTop": 871.953125
+    }
+  },
+  {
+    "theme": "pascoa",
+    "width": 360,
+    "height": 800,
+    "before": {
+      "height": 440,
+      "productTop": 1175.984375
+    },
+    "after": {
+      "height": 220,
+      "productTop": 871.953125
+    }
+  },
+  {
+    "theme": "pascoa",
+    "width": 390,
+    "height": 844,
+    "before": {
+      "height": 440,
+      "productTop": 1123.1875
+    },
+    "after": {
+      "height": 220,
+      "productTop": 819.15625
+    }
+  },
+  {
+    "theme": "pascoa",
+    "width": 430,
+    "height": 932,
+    "before": {
+      "height": 440,
+      "productTop": 1125.1875
+    },
+    "after": {
+      "height": 220,
+      "productTop": 821.15625
+    }
+  },
+  {
+    "theme": "pascoa",
+    "width": 768,
+    "height": 1024,
+    "before": {
+      "height": 440,
+      "productTop": 1026.015625
+    },
+    "after": {
+      "height": 320,
+      "productTop": 902.734375
+    }
+  },
+  {
+    "theme": "pascoa",
+    "width": 1440,
+    "height": 900,
+    "before": {
+      "height": 440,
+      "productTop": 1022.015625
+    },
+    "after": {
+      "height": 380,
+      "productTop": 958.734375
+    }
+  },
+  {
+    "theme": "dia-das-maes",
+    "width": 320,
+    "height": 568,
+    "before": {
+      "height": 440,
+      "productTop": 1244.0625
+    },
+    "after": {
+      "height": 220,
+      "productTop": 871.953125
+    }
+  },
+  {
+    "theme": "dia-das-maes",
+    "width": 360,
+    "height": 800,
+    "before": {
+      "height": 440,
+      "productTop": 1175.984375
+    },
+    "after": {
+      "height": 220,
+      "productTop": 871.953125
+    }
+  },
+  {
+    "theme": "dia-das-maes",
+    "width": 390,
+    "height": 844,
+    "before": {
+      "height": 440,
+      "productTop": 1123.1875
+    },
+    "after": {
+      "height": 220,
+      "productTop": 819.15625
+    }
+  },
+  {
+    "theme": "dia-das-maes",
+    "width": 430,
+    "height": 932,
+    "before": {
+      "height": 440,
+      "productTop": 1125.1875
+    },
+    "after": {
+      "height": 220,
+      "productTop": 821.15625
+    }
+  },
+  {
+    "theme": "dia-das-maes",
+    "width": 768,
+    "height": 1024,
+    "before": {
+      "height": 440,
+      "productTop": 1026.015625
+    },
+    "after": {
+      "height": 320,
+      "productTop": 902.734375
+    }
+  },
+  {
+    "theme": "dia-das-maes",
+    "width": 1440,
+    "height": 900,
+    "before": {
+      "height": 440,
+      "productTop": 1022.015625
+    },
+    "after": {
+      "height": 380,
+      "productTop": 958.734375
+    }
+  }
+]

@@ -1,4 +1,6 @@
 import 'dotenv/config';
+import { createThemeStore } from './themes/store.js';
+import { themeRoutes } from './routes/themes.js';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -26,7 +28,13 @@ const ADMIN_ORDER_STATUSES = ['aguardando_processamento', 'em_producao', 'enviad
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(PUBLIC_DIR));
+app.use(express.static(PUBLIC_DIR, {
+  setHeaders(res, file) {
+    // Recursos sem hash: imagens podem ser reutilizadas; documentos e código revalidam.
+    const image = /\.(?:svg|webp|avif|png|jpe?g)$/i.test(file);
+    res.setHeader('Cache-Control', image ? 'public, max-age=86400' : 'public, max-age=0, must-revalidate');
+  }
+}));
 
 function readJson(file) { return JSON.parse(fs.readFileSync(file, 'utf-8')); }
 function writeJson(file, data) { fs.writeFileSync(file, JSON.stringify(data, null, 2)); }
@@ -360,6 +368,9 @@ function getUnseenSalesForAdmin(adminUser) {
 }
 
 ensureAdminTrackingFields();
+
+const themeStore = createThemeStore({ localDir: path.join(DATA_DIR, 'appearance') });
+app.use('/api', themeRoutes({ store: themeStore, auth, adminOnly }));
 
 app.get('/api/health', (req, res) => res.json({ ok: true, envConfigured: Boolean(MP_ACCESS_TOKEN) }));
 app.get('/api/products', (req, res) => res.json(products()));

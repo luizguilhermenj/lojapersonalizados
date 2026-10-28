@@ -2,24 +2,54 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Artize | Admin</title>
-  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/orders.css">
   <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <script type="module" src="/js/themes.js"></script>
 </head>
 <body>
-  <main class="container page-stack">
+<!-- artize:header -->
+<a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/pages/home.html" class="brand" aria-label="Artize, página inicial"><span class="brand-mark" aria-hidden="true">A</span><span class="brand-copy"><strong>Artize</strong><small>Presentes com significado</small></span></a>
+    <form class="header-search-wrap" action="/pages/home.html" method="get" role="search">
+      <label class="sr-only" for="globalSearch">Buscar presentes personalizados</label>
+      <svg class="search-symbol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+      <input id="globalSearch" name="q" class="search header-search" type="search" placeholder="Encontre seu próximo presente" autocomplete="off">
+      <button class="search-submit" type="submit" aria-label="Buscar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+    </form>
+    <div class="header-actions">
+      <a class="cart-btn compact-cart-btn" href="/pages/carrinho.html" aria-label="Carrinho"><svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 7h14l1 14H4L5 7Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span id="cartCountBadge" aria-hidden="true">0</span></a>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="sideMenu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><em>Menu</em></button>
+    </div>
+  </div>
+  <nav class="container desktop-navigation" aria-label="Navegação principal"><a href="/pages/home.html#produtos">Presentes personalizados</a><a href="/pages/caneca-ceramica.html#escolha-arte">Escolha sua arte</a><a href="/pages/pedidos.html">Meus pedidos</a></nav>
+</header>
+<div class="side-menu-backdrop" id="sideMenuBackdrop" hidden></div>
+<aside class="side-menu" id="sideMenu" role="dialog" aria-modal="true" aria-labelledby="sideMenuTitle" aria-hidden="true" inert hidden>
+  <div class="side-menu-head"><div><strong id="sideMenuTitle">Seu próximo presente</strong><p>Encontre uma ideia, escolha uma arte e dê seu toque.</p></div><button class="side-close" id="sideClose" type="button" aria-label="Fechar menu">×</button></div>
+  <nav class="side-menu-section" aria-label="Explorar"><span class="side-menu-title">Explore a Artize</span><a href="/pages/home.html#produtos">Todos os presentes</a><a href="/pages/home.html#categorias">Categorias</a><a href="/pages/caneca-ceramica.html#escolha-arte">Personalizar uma caneca</a><a id="seasonalNavLink" href="/pages/home.html#promocoes">Campanhas</a></nav>
+  <nav class="side-menu-section" aria-label="Conta"><span class="side-menu-title">Sua conta</span><a href="/pages/login.html" id="accountLink">Entrar na minha conta</a><a href="/pages/pedidos.html">Meus pedidos</a><a href="/pages/carrinho.html">Meu carrinho</a><a href="/pages/admin.html">Painel administrativo</a></nav>
+  <div id="miniUserArea"></div>
+</aside>
+<!-- /artize:header -->
+  <main id="main-content" tabindex="-1" class="container page-stack">
     <a class="back-link" href="/pages/home.html">← Voltar para loja</a>
 
-    <section class="card">
+    <header class="admin-page-heading"><div><p class="admin-eyebrow">Área de gestão</p><h1>Painel administrativo</h1><p>Pedidos e identidade da loja em um só lugar.</p></div><a class="ghost-btn" href="/pages/pedidos.html">Visão do cliente</a></header>
+    <nav class="admin-section-nav" aria-label="Seções do painel"><a href="#ordersPanel">Pedidos</a><a href="#appearancePanel">Aparência e Temas</a></nav>
+    <section class="card" id="ordersPanel" aria-labelledby="ordersTitle">
       <div class="section-head">
         <div>
-          <h1>Painel administrativo</h1>
-          <p>Gerencie pedidos, acompanhe novas vendas e atualize o andamento da produção.</p>
+          <p class="admin-eyebrow">Acompanhe a produção</p><h2 id="ordersTitle">Pedidos</h2><p>Filtre pelo andamento e atualize o status de cada pedido.</p>
         </div>
-        <div class="toolbar">
-          <a class="ghost-btn" href="/pages/pedidos.html">Visão do cliente</a>
-        </div>
+
       </div>
 
       <div id="adminSummary" class="admin-summary"></div>
@@ -30,7 +60,61 @@
       </div>
 
       <div id="adminOrders" class="stack"></div>
-      <p id="adminFeedback" class="feedback"></p>
+      <p id="adminFeedback" class="feedback" role="status" aria-live="polite"></p>
+    </section>
+    <section id="appearancePanel" class="card" hidden aria-labelledby="appearanceTitle">
+      <p class="admin-eyebrow">A identidade da sua loja</p><h2 id="appearanceTitle">Aparência e Temas</h2>
+      <p>Escolha uma identidade visual e pré-visualize antes de publicar. A ativação é manual.</p>
+      <fieldset id="themeChoices" class="theme-options" aria-label="Temas disponíveis"></fieldset>
+      <div class="toolbar">
+        <button id="previewTheme" class="ghost-btn" type="button" disabled>Pré-visualizar</button>
+        <button id="publishTheme" class="primary-btn" type="button" disabled>Ativar tema selecionado</button>
+        <button id="restoreTheme" class="ghost-btn" type="button" disabled>Ativar Artize Padrão</button>
+      </div>
+      <p id="themeActivationNote" class="studio-note">Ativar tema selecionado troca o tema usando suas cores já salvas. Para aplicar as alterações da prévia, use Salvar e aplicar paleta abaixo.</p>
+      <p id="themeFeedback" class="feedback" role="status" aria-live="polite"></p>
+      <section id="colorStudio" class="color-studio" aria-labelledby="studioTitle" hidden>
+        <div class="studio-heading"><div><p class="admin-eyebrow">Cor, luz e identidade</p><h3 id="studioTitle">Artize Color Studio</h3><p id="studioDescription">Escolha uma paleta, ajuste as cores e confira a prévia. Salvar e aplicar paleta ativa o tema selecionado com essas cores na loja.</p></div><span id="studioState" class="studio-badge" role="status">Cores originais</span></div>
+        <div class="studio-tabs" role="tablist" aria-label="Artize Color Studio">
+          <button id="tab-palettes" role="tab" aria-selected="true" aria-controls="studio-palettes" type="button">Paletas</button>
+          <button id="tab-custom" role="tab" aria-selected="false" aria-controls="studio-custom" tabindex="-1" type="button">Personalização</button>
+          <button id="tab-preview" role="tab" aria-selected="false" aria-controls="studio-preview" tabindex="-1" type="button">Pré-visualização</button>
+          <button id="tab-settings" role="tab" aria-selected="false" aria-controls="studio-settings" tabindex="-1" type="button">Configurações</button>
+        </div>
+        <div id="studio-palettes" class="studio-panel" role="tabpanel" aria-labelledby="tab-palettes">
+          <h4>Suaves e Elegantes</h4><div id="softPalettes" class="palette-grid"></div>
+          <h4>Glow Premium</h4><div id="premiumPalettes" class="palette-grid"></div>
+        </div>
+        <div id="studio-custom" class="studio-panel" role="tabpanel" aria-labelledby="tab-custom" hidden>
+          <div id="studioColors" class="studio-fields"></div>
+          <div class="studio-switches">
+            <label><input id="glowEnabled" type="checkbox">Ativar glow</label>
+            <label><input id="glowButtons" type="checkbox">Botões</label>
+            <label><input id="glowCards" type="checkbox">Cards</label>
+            <label><input id="glowBorders" type="checkbox">Bordas</label>
+          </div>
+          <label class="studio-range" for="glowIntensity">Intensidade do glow: <output id="glowValue" for="glowIntensity">35%</output><input id="glowIntensity" type="range" min="0" max="100" step="1" value="35"></label>
+          <p class="studio-note">As cores de texto dos componentes se ajustam quando necessário para manter a leitura. Em celulares e com movimento reduzido, os efeitos são simplificados.</p>
+        </div>
+        <div id="studio-preview" class="studio-panel" role="tabpanel" aria-labelledby="tab-preview" hidden>
+          <div class="studio-preview-tools"><label for="previewSize">Dispositivo<select id="previewSize" class="field"><option value="mobile">Celular (390 px)</option><option value="full">Desktop (1280 px)</option></select></label><label><input id="compareOriginal" type="checkbox">Comparar com o tema original</label></div>
+          <p class="studio-note">Esta é a loja real em uma prévia isolada. Navegação e compras ficam desativadas aqui.</p>
+          <div class="studio-preview-viewport"><iframe id="themePreviewFrame" class="theme-preview-frame" title="Pré-visualização da loja" sandbox="allow-scripts allow-same-origin" hidden></iframe></div>
+        </div>
+        <div id="studio-settings" class="studio-panel" role="tabpanel" aria-labelledby="tab-settings" hidden>
+          <p id="studioSettingsSummary" class="studio-note"></p>
+          <button id="saveStudio" class="ghost-btn" type="button" disabled>Salvar rascunho (sem aplicar à loja)</button>
+        </div>
+        <div class="studio-apply-bar">
+          <div class="studio-actions">
+            <button id="publishStudio" class="primary-btn" type="button" aria-describedby="studioPersistenceNote" disabled>Salvar e aplicar paleta</button>
+            <button id="resetStudio" class="ghost-btn" type="button">Restaurar cores originais</button>
+            <button id="discardStudio" class="ghost-btn" type="button">Descartar alterações</button>
+          </div>
+          <p id="studioPersistenceNote" class="studio-note">A seleção só altera a prévia. Salvar e aplicar paleta grava as cores e ativa este tema na loja. Para restaurar a loja, restaure as cores e depois salve e aplique.</p>
+        </div>
+        <p id="studioFeedback" class="feedback" role="status" aria-live="polite"></p>
+      </section>
     </section>
   </main>
 
@@ -46,5 +130,16 @@
 
   <script type="module" src="/js/app.js"></script>
   <script type="module" src="/js/admin.js"></script>
+  <script type="module" src="/js/admin-themes.js"></script>
+<!-- artize:footer -->
+<footer class="site-footer" id="siteFooter">
+  <div class="container footer-grid">
+    <div class="footer-intro"><a class="footer-brand" href="/pages/home.html">Artize</a><p id="campaignFooterMessage">Presentes personalizados para transformar carinho em boas lembranças.</p></div>
+    <nav class="footer-links" aria-label="Presentes"><h2>Feito para presentear</h2><a href="/pages/home.html#produtos">Explorar o catálogo</a><a href="/pages/caneca-ceramica.html#escolha-arte">Escolher uma arte</a><a href="/pages/carrinho.html">Meu carrinho</a></nav>
+    <nav class="footer-links" aria-label="Minha conta"><h2>Perto de você</h2><a href="/pages/login.html">Minha conta</a><a href="/pages/pedidos.html">Acompanhar pedidos</a><a href="/pages/home.html">Voltar à loja</a></nav>
+  </div>
+  <div class="container footer-bottom"><span>Artize Personalizados</span><span>Feito para presentear. Criado com você.</span></div>
+</footer>
+<!-- /artize:footer -->
 </body>
 </html>

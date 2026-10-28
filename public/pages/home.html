@@ -2,102 +2,108 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Artize | Home</title>
-  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css" />
+<link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/home.css" />
+  <link rel="stylesheet" href="/css/hero-carousel.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="modulepreload" href="/js/app.js">
+  <link rel="modulepreload" href="/js/hero-carousel.js">
+  <link rel="modulepreload" href="/js/hero-content.js">
+  <script type="module" src="/js/themes.js"></script>
 </head>
 <body>
-  <header class="site-header compact-header">
-    <div class="container header-inner">
-      <a href="/pages/home.html" class="brand">
-        <span class="brand-mark">A</span>
-        <div>
-          <strong>Artize</strong>
-          <small>Presentes e personalizados</small>
-        </div>
-      </a>
-
-      <div class="header-search-wrap">
-        <input id="globalSearch" class="search header-search" placeholder="Buscar produtos" />
-      </div>
-
-      <div class="header-actions">
-        <a class="cart-btn compact-cart-btn icon-cart-btn" href="/pages/carrinho.html" aria-label="Carrinho">
-          <span class="cart-icon" aria-hidden="true">🛒</span>
-          <span id="cartCountBadge">0</span>
-        </a>
-        <button class="menu-toggle menu-label-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="sideMenu">
-          <em>Menu</em>
-        </button>
-      </div>
+<!-- artize:header -->
+<a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/pages/home.html" class="brand" aria-label="Artize, página inicial"><span class="brand-mark" aria-hidden="true">A</span><span class="brand-copy"><strong>Artize</strong><small>Presentes com significado</small></span></a>
+    <form class="header-search-wrap" action="/pages/home.html" method="get" role="search">
+      <label class="sr-only" for="globalSearch">Buscar presentes personalizados</label>
+      <svg class="search-symbol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+      <input id="globalSearch" name="q" class="search header-search" type="search" placeholder="Encontre seu próximo presente" autocomplete="off">
+      <button class="search-submit" type="submit" aria-label="Buscar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+    </form>
+    <div class="header-actions">
+      <a class="cart-btn compact-cart-btn" href="/pages/carrinho.html" aria-label="Carrinho"><svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 7h14l1 14H4L5 7Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span id="cartCountBadge" aria-hidden="true">0</span></a>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="sideMenu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><em>Menu</em></button>
     </div>
-  </header>
+  </div>
+  <nav class="container desktop-navigation" aria-label="Navegação principal"><a href="/pages/home.html#produtos">Presentes personalizados</a><a href="/pages/caneca-ceramica.html#escolha-arte">Escolha sua arte</a><a href="/pages/pedidos.html">Meus pedidos</a></nav>
+</header>
+<div class="side-menu-backdrop" id="sideMenuBackdrop" hidden></div>
+<aside class="side-menu" id="sideMenu" role="dialog" aria-modal="true" aria-labelledby="sideMenuTitle" aria-hidden="true" inert hidden>
+  <div class="side-menu-head"><div><strong id="sideMenuTitle">Seu próximo presente</strong><p>Encontre uma ideia, escolha uma arte e dê seu toque.</p></div><button class="side-close" id="sideClose" type="button" aria-label="Fechar menu">×</button></div>
+  <nav class="side-menu-section" aria-label="Explorar"><span class="side-menu-title">Explore a Artize</span><a href="/pages/home.html#produtos">Todos os presentes</a><a href="/pages/home.html#categorias">Categorias</a><a href="/pages/caneca-ceramica.html#escolha-arte">Personalizar uma caneca</a><a id="seasonalNavLink" href="/pages/home.html#promocoes">Campanhas</a></nav>
+  <nav class="side-menu-section" aria-label="Conta"><span class="side-menu-title">Sua conta</span><a href="/pages/login.html" id="accountLink">Entrar na minha conta</a><a href="/pages/pedidos.html">Meus pedidos</a><a href="/pages/carrinho.html">Meu carrinho</a><a href="/pages/admin.html">Painel administrativo</a></nav>
+  <div id="miniUserArea"></div>
+</aside>
+<!-- /artize:header -->
 
-  <aside class="side-menu-backdrop" id="sideMenuBackdrop" hidden></aside>
-  <aside class="side-menu" id="sideMenu" aria-hidden="true">
-    <div class="side-menu-head">
-      <div>
-        <strong>Menu</strong>
-        <p>Acesse conta, pedidos e atalhos da loja.</p>
+
+
+
+
+  <main id="main-content" tabindex="-1" class="container page-stack home-page">
+    <h1 class="sr-only">Presentes personalizados Artize</h1>
+    <section id="promocoes" class="hero-carousel" data-hero-carousel role="region" aria-roledescription="carrossel" aria-label="Inspirações para presentear">
+      <div class="hero-viewport" id="heroViewport"><div class="hero-track">
+          <article class="hero-slide hero-slide--mugs" role="group" aria-roledescription="slide" aria-label="1 de 3: Carinho em cada caneca." aria-hidden="false">
+            <div class="hero-copy"><p class="hero-eyebrow" data-hero-eyebrow>Canecas • Artize</p><h2>Carinho em cada caneca.</h2><p class="hero-description" data-hero-description>Escolha uma arte e transforme uma lembrança em um presente pessoal.</p><a class="primary-btn" data-hero-action href="/pages/caneca-ceramica.html#escolha-arte">Escolher arte</a></div>
+            <div class="hero-visual" aria-hidden="true"><img class="hero-decoration" data-hero-decoration alt="" width="240" height="240" hidden><img class="hero-product" src="/img/visual/hero-caneca.svg" fetchpriority="high" alt="" width="240" height="240" decoding="async" draggable="false"></div>
+          </article>
+          <article class="hero-slide hero-slide--shirts" role="group" aria-roledescription="slide" aria-label="2 de 3: Seu estilo, do seu jeito." aria-hidden="true" inert>
+            <div class="hero-copy"><p class="hero-eyebrow" data-hero-eyebrow>Camisetas • Em breve</p><h2>Seu estilo, do seu jeito.</h2><p class="hero-description" data-hero-description>Inspirações para vestir boas histórias. Disponibilidade em breve.</p><a class="primary-btn" data-hero-action href="#produtos">Ver catálogo</a></div>
+            <div class="hero-visual" aria-hidden="true"><img class="hero-decoration" data-hero-decoration alt="" width="240" height="240" hidden><img class="hero-product" data-src="/img/visual/hero-camiseta.svg" loading="lazy" alt="" width="240" height="240" decoding="async" draggable="false"></div>
+          </article>
+          <article class="hero-slide hero-slide--gifts" role="group" aria-roledescription="slide" aria-label="3 de 3: Presentes com significado." aria-hidden="true" inert>
+            <div class="hero-copy"><p class="hero-eyebrow" data-hero-eyebrow>Feito para presentear</p><h2>Presentes com significado.</h2><p class="hero-description" data-hero-description>Encontre uma arte que combine com quem você quer surpreender.</p><a class="primary-btn" data-hero-action href="/pages/caneca-ceramica.html#escolha-arte">Explorar artes</a></div>
+            <div class="hero-visual" aria-hidden="true"><img class="hero-decoration" data-hero-decoration alt="" width="240" height="240" hidden><img class="hero-product" data-src="/img/visual/hero-presentes.svg" loading="lazy" alt="" width="240" height="240" decoding="async" draggable="false"></div>
+          </article>
+      </div></div>
+      <div class="hero-controls" aria-label="Controles do carrossel">
+        <button type="button" data-hero-prev aria-label="Slide anterior" aria-controls="heroViewport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button>
+        <div class="hero-dots" aria-label="Escolher slide"><button type="button" class="hero-dot" data-hero-index="0" aria-label="Ir para slide 1" aria-current="true" aria-controls="heroViewport"></button><button type="button" class="hero-dot" data-hero-index="1" aria-label="Ir para slide 2" aria-current="false" aria-controls="heroViewport"></button><button type="button" class="hero-dot" data-hero-index="2" aria-label="Ir para slide 3" aria-current="false" aria-controls="heroViewport"></button></div>
+        <button type="button" data-hero-next aria-label="Próximo slide" aria-controls="heroViewport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button>
+        <button type="button" data-hero-rotation aria-label="Pausar rotação automática"><svg data-hero-pause viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg><svg data-hero-play viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden><path d="m8 5 12 7-12 7Z"/></svg></button>
       </div>
-      <button class="side-close" id="sideClose" type="button" aria-label="Fechar menu">×</button>
-    </div>
-
-    <div class="side-menu-section">
-      <span class="side-menu-title">Acesso rápido</span>
-      <a href="#produtos">Produtos</a>
-      <a href="#categorias">Categorias</a>
-      <a href="#promocoes">Promoções</a>
-      <a href="/pages/carrinho.html">Carrinho</a>
-    </div>
-
-    <div class="side-menu-section">
-      <span class="side-menu-title">Conta e pedidos</span>
-      <a href="/pages/login.html" id="sideAccountLink">Entrar</a>
-      <a href="/pages/pedidos.html">Meus pedidos</a>
-      <a href="/pages/admin.html">Painel admin</a>
-    </div>
-  </aside>
-
-  <main class="container page-stack home-page">
-    <section class="promo-carousel" id="promocoes" aria-label="Promoções em destaque">
-      <div class="promo-track" id="promoTrack">
-        <article class="promo-slide active">
-          <img src="/img/banner-dia-namorados.svg" alt="Promoção de Dia dos Namorados" />
-        </article>
-        <article class="promo-slide">
-          <img src="/img/banner-pascoa.svg" alt="Promoção de Páscoa" />
-        </article>
-        <article class="promo-slide">
-          <img src="/img/banner-dia-maes.svg" alt="Promoção de Dia das Mães" />
-        </article>
-        <article class="promo-slide">
-          <img src="/img/banner-dia-pais.svg" alt="Promoção de Dia dos Pais" />
-        </article>
-      </div>
-      <div class="promo-dots" id="promoDots" aria-label="Navegação do banner"></div>
+      <p class="sr-only" data-hero-status role="status" aria-live="polite" aria-atomic="true"></p>
     </section>
+    <section class="shopping-steps" aria-label="Como personalizar"><p><b>01</b> Encontre seu presente</p><p><b>02</b> Escolha uma arte</p><p><b>03</b> Dê seu toque</p></section>
 
     <section id="categorias">
       <div class="section-head category-head"><h2>Categorias</h2><span class="section-helper">Escolha por tipo de produto.</span></div>
-      <div class="chips" id="categoryChips"></div>
+      <div class="chips" id="categoryChips" aria-busy="true"><button type="button" class="chip active" aria-pressed="true" data-category="Todos" disabled>Todos</button><button type="button" class="chip " aria-pressed="false" data-category="Canecas" disabled>Canecas</button><button type="button" class="chip " aria-pressed="false" data-category="Relógios" disabled>Relógios</button><button type="button" class="chip " aria-pressed="false" data-category="Camisetas" disabled>Camisetas</button><button type="button" class="chip " aria-pressed="false" data-category="Azulejos" disabled>Azulejos</button><button type="button" class="chip " aria-pressed="false" data-category="Squeezes" disabled>Squeezes</button></div>
     </section>
 
     <section id="produtos">
-      <div class="section-head"><h2>Galeria de produtos</h2></div>
+      <div class="section-head"><div><p class="section-kicker">Feito para presentear</p><h2>Encontre seu próximo presente</h2></div></div>
       <div class="toolbar mobile-stack products-toolbar">
-                <select id="sortSelect" class="field">
+                <label class="sr-only" for="sortSelect">Ordenar produtos</label><select id="sortSelect" class="field">
           <option value="featured">Ordenar por destaque</option>
           <option value="low">Menor preço</option>
           <option value="high">Maior preço</option>
           <option value="name">Nome A-Z</option>
         </select>
       </div>
-      <div id="productsGrid" class="product-grid"></div>
+      <p id="productResults" class="filter-summary" role="status" aria-live="polite">Carregando produtos...</p>
+      <div id="productsGrid" class="product-grid" aria-busy="true"><div class="product-placeholder" aria-hidden="true"><span class="product-placeholder-image"></span><span class="product-placeholder-copy"></span></div><div class="product-placeholder" aria-hidden="true"><span class="product-placeholder-image"></span><span class="product-placeholder-copy"></span></div><div class="product-placeholder" aria-hidden="true"><span class="product-placeholder-image"></span><span class="product-placeholder-copy"></span></div><div class="product-placeholder" aria-hidden="true"><span class="product-placeholder-image"></span><span class="product-placeholder-copy"></span></div></div>
     </section>
   </main>
   <script type="module" src="/js/app.js"></script>
   <script type="module" src="/js/home.js"></script>
+<!-- artize:footer -->
+<footer class="site-footer" id="siteFooter">
+  <div class="container footer-grid">
+    <div class="footer-intro"><a class="footer-brand" href="/pages/home.html">Artize</a><p id="campaignFooterMessage">Presentes personalizados para transformar carinho em boas lembranças.</p></div>
+    <nav class="footer-links" aria-label="Presentes"><h2>Feito para presentear</h2><a href="/pages/home.html#produtos">Explorar o catálogo</a><a href="/pages/caneca-ceramica.html#escolha-arte">Escolher uma arte</a><a href="/pages/carrinho.html">Meu carrinho</a></nav>
+    <nav class="footer-links" aria-label="Minha conta"><h2>Perto de você</h2><a href="/pages/login.html">Minha conta</a><a href="/pages/pedidos.html">Acompanhar pedidos</a><a href="/pages/home.html">Voltar à loja</a></nav>
+  </div>
+  <div class="container footer-bottom"><span>Artize Personalizados</span><span>Feito para presentear. Criado com você.</span></div>
+</footer>
+<!-- /artize:footer -->
 </body>
 </html>

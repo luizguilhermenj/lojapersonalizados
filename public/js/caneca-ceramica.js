@@ -8,7 +8,6 @@ const selectedArtName = document.getElementById('selectedArtName');
 const selectedArtDescription = document.getElementById('selectedArtDescription');
 const selectedThemeEyebrow = document.getElementById('selectedThemeEyebrow');
 const totalArtsLabel = document.getElementById('totalArtsLabel');
-const addSelectedArtBtn = document.getElementById('addSelectedArtBtn');
 const customizerFeedback = document.getElementById('customizerFeedback');
 
 const baseProduct = {
@@ -31,6 +30,12 @@ const THEMES = [
 let arts = [];
 let selectedArt = null;
 let currentTheme = 'todos';
+let previews = {};
+const cards = new Map();
+let activeCard;
+const pageSize = 24;
+let visibleCount = pageSize;
+const loadMore = document.getElementById('loadMoreArts');
 
 function getThemeLabel(themeId) {
   return THEMES.find((theme) => theme.id === themeId)?.label || 'Todas';
@@ -70,12 +75,24 @@ function syncSelectedArt() {
   if (!selectedArt) return;
 
   if (selectedMockup) {
-    selectedMockup.src = selectedArt.image;
+    const nextImage=previews[selectedArt.id]?.preview || selectedArt.image;
+    if(selectedMockup.getAttribute('src')!==nextImage)selectedMockup.src = nextImage;
+    selectedMockup.width = selectedMockup.height = 800;
     selectedMockup.alt = `${baseProduct.name} com arte ${selectedArt.name}`;
   }
 
   if (selectedArtName) selectedArtName.textContent = selectedArt.name;
   if (selectedArtDescription) selectedArtDescription.textContent = selectedArt.description;
+  document.getElementById('mobileArtName').textContent = selectedArt.name;
+  document.querySelectorAll('[data-add-art]').forEach(button => button.disabled = false);
+  for (const card of new Set([activeCard,cards.get(selectedArt.id)])) {
+    if(!card)continue;
+    const active = card.dataset.artId === selectedArt.id;
+    card.classList.toggle('active', active);
+    card.setAttribute('aria-pressed', String(active));
+    card.querySelector('.select-pill').textContent = active ? 'Selecionada' : 'Escolher arte';
+  }
+  activeCard=cards.get(selectedArt.id);
 }
 
 function renderThemeFilters() {
@@ -87,7 +104,7 @@ function renderThemeFilters() {
       <button
         class="chip ${theme.id === currentTheme ? 'active' : ''}"
         type="button"
-        data-theme="${theme.id}"
+        aria-pressed="${theme.id === currentTheme}" data-theme="${theme.id}"
       >
         ${theme.label} (${getThemeCount(theme.id)})
       </button>
@@ -105,46 +122,49 @@ function renderThemeFilters() {
       }
 
       updateThemeUi(filtered.length);
-      renderThemeFilters();
+      themeFilters.querySelectorAll('[data-theme]').forEach(chip => {const active=chip.dataset.theme===currentTheme;chip.classList.toggle('active',active);chip.setAttribute('aria-pressed',String(active));});
+      visibleCount = pageSize;
       renderArts();
     });
   });
 }
 
+function createCard(art) {
+  const card = document.createElement('button');
+  card.type = 'button';card.className = 'art-card';card.dataset.artId = art.id;card.setAttribute('aria-pressed','false');
+  const image = document.createElement('img');
+  const preview = previews[art.id];
+  image.src = preview?.small || art.image;
+  if (preview) {image.srcset = `${preview.small} 200w, ${preview.medium} 400w`;image.sizes = '(min-width:1024px) 240px, (min-width:768px) 30vw, 44vw';}
+  image.alt = '';image.width = image.height = 400;image.loading = 'lazy';image.decoding = 'async';
+  const body = document.createElement('span');body.className = 'art-body';
+  const title = document.createElement('strong');title.textContent = art.name;
+  const description = document.createElement('span');description.className='art-description';description.textContent=art.description;
+  body.append(title,description);
+  const pill = document.createElement('span');pill.className = 'select-pill';pill.ariaHidden = 'true';pill.textContent='Escolher arte';
+  card.append(image,body,pill);
+  card.setAttribute('aria-label', `Escolher arte ${art.name}`);
+  card.addEventListener('click', () => {selectedArt=art;syncSelectedArt();});
+  cards.set(art.id,card);return card;
+}
 function renderArts() {
-  const filteredArts = getFilteredArts();
-  updateThemeUi(filteredArts.length);
-
-  if (!filteredArts.length) {
-    artGrid.innerHTML = '<p class="feedback error">Nenhuma arte foi encontrada para este tema.</p>';
-    return;
-  }
-
-  artGrid.innerHTML = filteredArts.map((art) => `
-    <article class="art-card ${art.id === selectedArt?.id ? 'active' : ''}" data-art-id="${art.id}">
-      <img src="${art.image}" alt="${art.name}">
-      <div class="art-body">
-        <h3>${art.name}</h3>
-        <p>${art.description}</p>
-      </div>
-      <span class="select-pill">${art.id === selectedArt?.id ? 'Selecionada' : 'Toque para escolher'}</span>
-    </article>
-  `).join('');
-
-  artGrid.querySelectorAll('.art-card').forEach((card) => {
-    card.addEventListener('click', () => {
-      const art = arts.find((item) => item.id === card.dataset.artId);
-      if (!art) return;
-      selectedArt = art;
-      syncSelectedArt();
-      renderArts();
-    });
-  });
+  const filtered = getFilteredArts();
+  updateThemeUi(filtered.length);
+  const visible = filtered.slice(0,visibleCount);
+  // Reutiliza nós entre filtros; selecionar não passa por esta função.
+  artGrid.replaceChildren(...visible.map(art => cards.get(art.id) || createCard(art)));
+  loadMore.hidden = visible.length >= filtered.length;
+  loadMore.textContent = `Mostrar mais artes (${visible.length} de ${filtered.length})`;
+  syncSelectedArt();
 }
+loadMore.addEventListener('click', () => {const firstNew=visibleCount;visibleCount += pageSize;renderArts();const art=getFilteredArts()[firstNew];if(art)cards.get(art.id)?.focus({preventScroll:true});});
 
 async function loadArtes() {
   try {
-    const response = await fetch('/data/caneca-ceramica-artes.json', { cache: 'no-store' });
+    const [response, thumbnails] = await Promise.all([
+      fetch('/data/caneca-ceramica-artes.json'),
+      fetch('/data/art-previews.json').catch(() => null)
+    ]);
     if (!response.ok) throw new Error('Falha ao carregar artes.');
     const payload = await response.json();
 
@@ -152,6 +172,7 @@ async function loadArtes() {
       throw new Error('Nenhuma arte cadastrada.');
     }
 
+    try {if(thumbnails?.ok)previews = await thumbnails.json();} catch { /* Originais continuam disponíveis se os derivados falharem. */ }
     arts = payload;
     selectedArt = arts[0];
     syncSelectedArt();
@@ -165,7 +186,7 @@ async function loadArtes() {
   }
 }
 
-addSelectedArtBtn?.addEventListener('click', () => {
+function addSelectedArt() {
   if (!selectedArt) return;
 
   const cartKey = `${baseProduct.id}::${selectedArt.id}`;
@@ -185,14 +206,15 @@ addSelectedArtBtn?.addEventListener('click', () => {
     customizerFeedback.className = 'feedback success';
     customizerFeedback.textContent = `Perfeito! ${selectedArt.name} foi adicionada ao carrinho.`;
   }
-});
+}
+document.querySelectorAll('[data-add-art]').forEach(button => button.addEventListener('click',addSelectedArt));
 
 window.addEventListener('load', () => {
   if (window.location.hash === '#escolha-arte') {
     const secao = document.getElementById('escolha-arte');
     if (secao) {
       setTimeout(() => {
-        const stickyHeader = document.querySelector('.sub-header');
+        const stickyHeader = document.querySelector('.site-header');
         const headerOffset = stickyHeader ? stickyHeader.offsetHeight + 6 : 6;
         const y = secao.getBoundingClientRect().top + window.pageYOffset - headerOffset;
         window.scrollTo({ top: y, behavior: 'auto' });

@@ -1,0 +1,977 @@
+{
+  "pascoa-01": {
+    "small": "/img/art-previews/pascoa-01-200.webp",
+    "medium": "/img/art-previews/pascoa-01-400.webp",
+    "preview": "/img/art-previews/pascoa-01-800.webp"
+  },
+  "pascoa-02": {
+    "small": "/img/art-previews/pascoa-02-200.webp",
+    "medium": "/img/art-previews/pascoa-02-400.webp",
+    "preview": "/img/art-previews/pascoa-02-800.webp"
+  },
+  "pascoa-03": {
+    "small": "/img/art-previews/pascoa-03-200.webp",
+    "medium": "/img/art-previews/pascoa-03-400.webp",
+    "preview": "/img/art-previews/pascoa-03-800.webp"
+  },
+  "pascoa-04": {
+    "small": "/img/art-previews/pascoa-04-200.webp",
+    "medium": "/img/art-previews/pascoa-04-400.webp",
+    "preview": "/img/art-previews/pascoa-04-800.webp"
+  },
+  "pascoa-05": {
+    "small": "/img/art-previews/pascoa-05-200.webp",
+    "medium": "/img/art-previews/pascoa-05-400.webp",
+    "preview": "/img/art-previews/pascoa-05-800.webp"
+  },
+  "pascoa-06": {
+    "small": "/img/art-previews/pascoa-06-200.webp",
+    "medium": "/img/art-previews/pascoa-06-400.webp",
+    "preview": "/img/art-previews/pascoa-06-800.webp"
+  },
+  "pascoa-07": {
+    "small": "/img/art-previews/pascoa-07-200.webp",
+    "medium": "/img/art-previews/pascoa-07-400.webp",
+    "preview": "/img/art-previews/pascoa-07-800.webp"
+  },
+  "pascoa-08": {
+    "small": "/img/art-previews/pascoa-08-200.webp",
+    "medium": "/img/art-previews/pascoa-08-400.webp",
+    "preview": "/img/art-previews/pascoa-08-800.webp"
+  },
+  "pascoa-09": {
+    "small": "/img/art-previews/pascoa-09-200.webp",
+    "medium": "/img/art-previews/pascoa-09-400.webp",
+    "preview": "/img/art-previews/pascoa-09-800.webp"
+  },
+  "pascoa-10": {
+    "small": "/img/art-previews/pascoa-10-200.webp",
+    "medium": "/img/art-previews/pascoa-10-400.webp",
+    "preview": "/img/art-previews/pascoa-10-800.webp"
+  },
+  "pascoa-11": {
+    "small": "/img/art-previews/pascoa-11-200.webp",
+    "medium": "/img/art-previews/pascoa-11-400.webp",
+    "preview": "/img/art-previews/pascoa-11-800.webp"
+  },
+  "pascoa-12": {
+    "small": "/img/art-previews/pascoa-12-200.webp",
+    "medium": "/img/art-previews/pascoa-12-400.webp",
+    "preview": "/img/art-previews/pascoa-12-800.webp"
+  },
+  "pascoa-13": {
+    "small": "/img/art-previews/pascoa-13-200.webp",
+    "medium": "/img/art-previews/pascoa-13-400.webp",
+    "preview": "/img/art-previews/pascoa-13-800.webp"
+  },
+  "pascoa-14": {
+    "small": "/img/art-previews/pascoa-14-200.webp",
+    "medium": "/img/art-previews/pascoa-14-400.webp",
+    "preview": "/img/art-previews/pascoa-14-800.webp"
+  },
+  "pascoa-15": {
+    "small": "/img/art-previews/pascoa-15-200.webp",
+    "medium": "/img/art-previews/pascoa-15-400.webp",
+    "preview": "/img/art-previews/pascoa-15-800.webp"
+  },
+  "pascoa-16": {
+    "small": "/img/art-previews/pascoa-16-200.webp",
+    "medium": "/img/art-previews/pascoa-16-400.webp",
+    "preview": "/img/art-previews/pascoa-16-800.webp"
+  },
+  "pascoa-17": {
+    "small": "/img/art-previews/pascoa-17-200.webp",
+    "medium": "/img/art-previews/pascoa-17-400.webp",
+    "preview": "/img/art-previews/pascoa-17-800.webp"
+  },
+  "pascoa-18": {
+    "small": "/img/art-previews/pascoa-18-200.webp",
+    "medium": "/img/art-previews/pascoa-18-400.webp",
+    "preview": "/img/art-previews/pascoa-18-800.webp"
+  },
+  "pascoa-19": {
+    "small": "/img/art-previews/pascoa-19-200.webp",
+    "medium": "/img/art-previews/pascoa-19-400.webp",
+    "preview": "/img/art-previews/pascoa-19-800.webp"
+  },
+  "pascoa-20": {
+    "small": "/img/art-previews/pascoa-20-200.webp",
+    "medium": "/img/art-previews/pascoa-20-400.webp",
+    "preview": "/img/art-previews/pascoa-20-800.webp"
+  },
+  "pascoa-21": {
+    "small": "/img/art-previews/pascoa-21-200.webp",
+    "medium": "/img/art-previews/pascoa-21-400.webp",
+    "preview": "/img/art-previews/pascoa-21-800.webp"
+  },
+  "pascoa-22": {
+    "small": "/img/art-previews/pascoa-22-200.webp",
+    "medium": "/img/art-previews/pascoa-22-400.webp",
+    "preview": "/img/art-previews/pascoa-22-800.webp"
+  },
+  "pascoa-23": {
+    "small": "/img/art-previews/pascoa-23-200.webp",
+    "medium": "/img/art-previews/pascoa-23-400.webp",
+    "preview": "/img/art-previews/pascoa-23-800.webp"
+  },
+  "pascoa-24": {
+    "small": "/img/art-previews/pascoa-24-200.webp",
+    "medium": "/img/art-previews/pascoa-24-400.webp",
+    "preview": "/img/art-previews/pascoa-24-800.webp"
+  },
+  "pascoa-25": {
+    "small": "/img/art-previews/pascoa-25-200.webp",
+    "medium": "/img/art-previews/pascoa-25-400.webp",
+    "preview": "/img/art-previews/pascoa-25-800.webp"
+  },
+  "pascoa-26": {
+    "small": "/img/art-previews/pascoa-26-200.webp",
+    "medium": "/img/art-previews/pascoa-26-400.webp",
+    "preview": "/img/art-previews/pascoa-26-800.webp"
+  },
+  "pascoa-27": {
+    "small": "/img/art-previews/pascoa-27-200.webp",
+    "medium": "/img/art-previews/pascoa-27-400.webp",
+    "preview": "/img/art-previews/pascoa-27-800.webp"
+  },
+  "pascoa-28": {
+    "small": "/img/art-previews/pascoa-28-200.webp",
+    "medium": "/img/art-previews/pascoa-28-400.webp",
+    "preview": "/img/art-previews/pascoa-28-800.webp"
+  },
+  "pascoa-29": {
+    "small": "/img/art-previews/pascoa-29-200.webp",
+    "medium": "/img/art-previews/pascoa-29-400.webp",
+    "preview": "/img/art-previews/pascoa-29-800.webp"
+  },
+  "pascoa-30": {
+    "small": "/img/art-previews/pascoa-30-200.webp",
+    "medium": "/img/art-previews/pascoa-30-400.webp",
+    "preview": "/img/art-previews/pascoa-30-800.webp"
+  },
+  "pascoa-31": {
+    "small": "/img/art-previews/pascoa-31-200.webp",
+    "medium": "/img/art-previews/pascoa-31-400.webp",
+    "preview": "/img/art-previews/pascoa-31-800.webp"
+  },
+  "pascoa-32": {
+    "small": "/img/art-previews/pascoa-32-200.webp",
+    "medium": "/img/art-previews/pascoa-32-400.webp",
+    "preview": "/img/art-previews/pascoa-32-800.webp"
+  },
+  "pascoa-33": {
+    "small": "/img/art-previews/pascoa-33-200.webp",
+    "medium": "/img/art-previews/pascoa-33-400.webp",
+    "preview": "/img/art-previews/pascoa-33-800.webp"
+  },
+  "pascoa-34": {
+    "small": "/img/art-previews/pascoa-34-200.webp",
+    "medium": "/img/art-previews/pascoa-34-400.webp",
+    "preview": "/img/art-previews/pascoa-34-800.webp"
+  },
+  "pascoa-35": {
+    "small": "/img/art-previews/pascoa-35-200.webp",
+    "medium": "/img/art-previews/pascoa-35-400.webp",
+    "preview": "/img/art-previews/pascoa-35-800.webp"
+  },
+  "pascoa-36": {
+    "small": "/img/art-previews/pascoa-36-200.webp",
+    "medium": "/img/art-previews/pascoa-36-400.webp",
+    "preview": "/img/art-previews/pascoa-36-800.webp"
+  },
+  "pascoa-37": {
+    "small": "/img/art-previews/pascoa-37-200.webp",
+    "medium": "/img/art-previews/pascoa-37-400.webp",
+    "preview": "/img/art-previews/pascoa-37-800.webp"
+  },
+  "pascoa-38": {
+    "small": "/img/art-previews/pascoa-38-200.webp",
+    "medium": "/img/art-previews/pascoa-38-400.webp",
+    "preview": "/img/art-previews/pascoa-38-800.webp"
+  },
+  "pascoa-39": {
+    "small": "/img/art-previews/pascoa-39-200.webp",
+    "medium": "/img/art-previews/pascoa-39-400.webp",
+    "preview": "/img/art-previews/pascoa-39-800.webp"
+  },
+  "pascoa-40": {
+    "small": "/img/art-previews/pascoa-40-200.webp",
+    "medium": "/img/art-previews/pascoa-40-400.webp",
+    "preview": "/img/art-previews/pascoa-40-800.webp"
+  },
+  "pascoa-41": {
+    "small": "/img/art-previews/pascoa-41-200.webp",
+    "medium": "/img/art-previews/pascoa-41-400.webp",
+    "preview": "/img/art-previews/pascoa-41-800.webp"
+  },
+  "pascoa-42": {
+    "small": "/img/art-previews/pascoa-42-200.webp",
+    "medium": "/img/art-previews/pascoa-42-400.webp",
+    "preview": "/img/art-previews/pascoa-42-800.webp"
+  },
+  "pascoa-43": {
+    "small": "/img/art-previews/pascoa-43-200.webp",
+    "medium": "/img/art-previews/pascoa-43-400.webp",
+    "preview": "/img/art-previews/pascoa-43-800.webp"
+  },
+  "pascoa-44": {
+    "small": "/img/art-previews/pascoa-44-200.webp",
+    "medium": "/img/art-previews/pascoa-44-400.webp",
+    "preview": "/img/art-previews/pascoa-44-800.webp"
+  },
+  "pascoa-45": {
+    "small": "/img/art-previews/pascoa-45-200.webp",
+    "medium": "/img/art-previews/pascoa-45-400.webp",
+    "preview": "/img/art-previews/pascoa-45-800.webp"
+  },
+  "pascoa-46": {
+    "small": "/img/art-previews/pascoa-46-200.webp",
+    "medium": "/img/art-previews/pascoa-46-400.webp",
+    "preview": "/img/art-previews/pascoa-46-800.webp"
+  },
+  "pascoa-47": {
+    "small": "/img/art-previews/pascoa-47-200.webp",
+    "medium": "/img/art-previews/pascoa-47-400.webp",
+    "preview": "/img/art-previews/pascoa-47-800.webp"
+  },
+  "pascoa-48": {
+    "small": "/img/art-previews/pascoa-48-200.webp",
+    "medium": "/img/art-previews/pascoa-48-400.webp",
+    "preview": "/img/art-previews/pascoa-48-800.webp"
+  },
+  "pascoa-49": {
+    "small": "/img/art-previews/pascoa-49-200.webp",
+    "medium": "/img/art-previews/pascoa-49-400.webp",
+    "preview": "/img/art-previews/pascoa-49-800.webp"
+  },
+  "pascoa-50": {
+    "small": "/img/art-previews/pascoa-50-200.webp",
+    "medium": "/img/art-previews/pascoa-50-400.webp",
+    "preview": "/img/art-previews/pascoa-50-800.webp"
+  },
+  "maes-01": {
+    "small": "/img/art-previews/maes-01-200.webp",
+    "medium": "/img/art-previews/maes-01-400.webp",
+    "preview": "/img/art-previews/maes-01-800.webp"
+  },
+  "maes-02": {
+    "small": "/img/art-previews/maes-02-200.webp",
+    "medium": "/img/art-previews/maes-02-400.webp",
+    "preview": "/img/art-previews/maes-02-800.webp"
+  },
+  "maes-03": {
+    "small": "/img/art-previews/maes-03-200.webp",
+    "medium": "/img/art-previews/maes-03-400.webp",
+    "preview": "/img/art-previews/maes-03-800.webp"
+  },
+  "maes-04": {
+    "small": "/img/art-previews/maes-04-200.webp",
+    "medium": "/img/art-previews/maes-04-400.webp",
+    "preview": "/img/art-previews/maes-04-800.webp"
+  },
+  "maes-05": {
+    "small": "/img/art-previews/maes-05-200.webp",
+    "medium": "/img/art-previews/maes-05-400.webp",
+    "preview": "/img/art-previews/maes-05-800.webp"
+  },
+  "maes-06": {
+    "small": "/img/art-previews/maes-06-200.webp",
+    "medium": "/img/art-previews/maes-06-400.webp",
+    "preview": "/img/art-previews/maes-06-800.webp"
+  },
+  "maes-07": {
+    "small": "/img/art-previews/maes-07-200.webp",
+    "medium": "/img/art-previews/maes-07-400.webp",
+    "preview": "/img/art-previews/maes-07-800.webp"
+  },
+  "maes-08": {
+    "small": "/img/art-previews/maes-08-200.webp",
+    "medium": "/img/art-previews/maes-08-400.webp",
+    "preview": "/img/art-previews/maes-08-800.webp"
+  },
+  "maes-09": {
+    "small": "/img/art-previews/maes-09-200.webp",
+    "medium": "/img/art-previews/maes-09-400.webp",
+    "preview": "/img/art-previews/maes-09-800.webp"
+  },
+  "maes-10": {
+    "small": "/img/art-previews/maes-10-200.webp",
+    "medium": "/img/art-previews/maes-10-400.webp",
+    "preview": "/img/art-previews/maes-10-800.webp"
+  },
+  "maes-11": {
+    "small": "/img/art-previews/maes-11-200.webp",
+    "medium": "/img/art-previews/maes-11-400.webp",
+    "preview": "/img/art-previews/maes-11-800.webp"
+  },
+  "maes-12": {
+    "small": "/img/art-previews/maes-12-200.webp",
+    "medium": "/img/art-previews/maes-12-400.webp",
+    "preview": "/img/art-previews/maes-12-800.webp"
+  },
+  "maes-13": {
+    "small": "/img/art-previews/maes-13-200.webp",
+    "medium": "/img/art-previews/maes-13-400.webp",
+    "preview": "/img/art-previews/maes-13-800.webp"
+  },
+  "maes-14": {
+    "small": "/img/art-previews/maes-14-200.webp",
+    "medium": "/img/art-previews/maes-14-400.webp",
+    "preview": "/img/art-previews/maes-14-800.webp"
+  },
+  "maes-15": {
+    "small": "/img/art-previews/maes-15-200.webp",
+    "medium": "/img/art-previews/maes-15-400.webp",
+    "preview": "/img/art-previews/maes-15-800.webp"
+  },
+  "maes-16": {
+    "small": "/img/art-previews/maes-16-200.webp",
+    "medium": "/img/art-previews/maes-16-400.webp",
+    "preview": "/img/art-previews/maes-16-800.webp"
+  },
+  "maes-17": {
+    "small": "/img/art-previews/maes-17-200.webp",
+    "medium": "/img/art-previews/maes-17-400.webp",
+    "preview": "/img/art-previews/maes-17-800.webp"
+  },
+  "maes-18": {
+    "small": "/img/art-previews/maes-18-200.webp",
+    "medium": "/img/art-previews/maes-18-400.webp",
+    "preview": "/img/art-previews/maes-18-800.webp"
+  },
+  "maes-19": {
+    "small": "/img/art-previews/maes-19-200.webp",
+    "medium": "/img/art-previews/maes-19-400.webp",
+    "preview": "/img/art-previews/maes-19-800.webp"
+  },
+  "maes-20": {
+    "small": "/img/art-previews/maes-20-200.webp",
+    "medium": "/img/art-previews/maes-20-400.webp",
+    "preview": "/img/art-previews/maes-20-800.webp"
+  },
+  "maes-21": {
+    "small": "/img/art-previews/maes-21-200.webp",
+    "medium": "/img/art-previews/maes-21-400.webp",
+    "preview": "/img/art-previews/maes-21-800.webp"
+  },
+  "maes-22": {
+    "small": "/img/art-previews/maes-22-200.webp",
+    "medium": "/img/art-previews/maes-22-400.webp",
+    "preview": "/img/art-previews/maes-22-800.webp"
+  },
+  "maes-23": {
+    "small": "/img/art-previews/maes-23-200.webp",
+    "medium": "/img/art-previews/maes-23-400.webp",
+    "preview": "/img/art-previews/maes-23-800.webp"
+  },
+  "maes-24": {
+    "small": "/img/art-previews/maes-24-200.webp",
+    "medium": "/img/art-previews/maes-24-400.webp",
+    "preview": "/img/art-previews/maes-24-800.webp"
+  },
+  "maes-25": {
+    "small": "/img/art-previews/maes-25-200.webp",
+    "medium": "/img/art-previews/maes-25-400.webp",
+    "preview": "/img/art-previews/maes-25-800.webp"
+  },
+  "maes-26": {
+    "small": "/img/art-previews/maes-26-200.webp",
+    "medium": "/img/art-previews/maes-26-400.webp",
+    "preview": "/img/art-previews/maes-26-800.webp"
+  },
+  "maes-27": {
+    "small": "/img/art-previews/maes-27-200.webp",
+    "medium": "/img/art-previews/maes-27-400.webp",
+    "preview": "/img/art-previews/maes-27-800.webp"
+  },
+  "maes-28": {
+    "small": "/img/art-previews/maes-28-200.webp",
+    "medium": "/img/art-previews/maes-28-400.webp",
+    "preview": "/img/art-previews/maes-28-800.webp"
+  },
+  "maes-29": {
+    "small": "/img/art-previews/maes-29-200.webp",
+    "medium": "/img/art-previews/maes-29-400.webp",
+    "preview": "/img/art-previews/maes-29-800.webp"
+  },
+  "maes-30": {
+    "small": "/img/art-previews/maes-30-200.webp",
+    "medium": "/img/art-previews/maes-30-400.webp",
+    "preview": "/img/art-previews/maes-30-800.webp"
+  },
+  "maes-31": {
+    "small": "/img/art-previews/maes-31-200.webp",
+    "medium": "/img/art-previews/maes-31-400.webp",
+    "preview": "/img/art-previews/maes-31-800.webp"
+  },
+  "maes-32": {
+    "small": "/img/art-previews/maes-32-200.webp",
+    "medium": "/img/art-previews/maes-32-400.webp",
+    "preview": "/img/art-previews/maes-32-800.webp"
+  },
+  "maes-33": {
+    "small": "/img/art-previews/maes-33-200.webp",
+    "medium": "/img/art-previews/maes-33-400.webp",
+    "preview": "/img/art-previews/maes-33-800.webp"
+  },
+  "maes-34": {
+    "small": "/img/art-previews/maes-34-200.webp",
+    "medium": "/img/art-previews/maes-34-400.webp",
+    "preview": "/img/art-previews/maes-34-800.webp"
+  },
+  "maes-35": {
+    "small": "/img/art-previews/maes-35-200.webp",
+    "medium": "/img/art-previews/maes-35-400.webp",
+    "preview": "/img/art-previews/maes-35-800.webp"
+  },
+  "maes-36": {
+    "small": "/img/art-previews/maes-36-200.webp",
+    "medium": "/img/art-previews/maes-36-400.webp",
+    "preview": "/img/art-previews/maes-36-800.webp"
+  },
+  "maes-37": {
+    "small": "/img/art-previews/maes-37-200.webp",
+    "medium": "/img/art-previews/maes-37-400.webp",
+    "preview": "/img/art-previews/maes-37-800.webp"
+  },
+  "maes-38": {
+    "small": "/img/art-previews/maes-38-200.webp",
+    "medium": "/img/art-previews/maes-38-400.webp",
+    "preview": "/img/art-previews/maes-38-800.webp"
+  },
+  "maes-39": {
+    "small": "/img/art-previews/maes-39-200.webp",
+    "medium": "/img/art-previews/maes-39-400.webp",
+    "preview": "/img/art-previews/maes-39-800.webp"
+  },
+  "maes-40": {
+    "small": "/img/art-previews/maes-40-200.webp",
+    "medium": "/img/art-previews/maes-40-400.webp",
+    "preview": "/img/art-previews/maes-40-800.webp"
+  },
+  "maes-41": {
+    "small": "/img/art-previews/maes-41-200.webp",
+    "medium": "/img/art-previews/maes-41-400.webp",
+    "preview": "/img/art-previews/maes-41-800.webp"
+  },
+  "maes-42": {
+    "small": "/img/art-previews/maes-42-200.webp",
+    "medium": "/img/art-previews/maes-42-400.webp",
+    "preview": "/img/art-previews/maes-42-800.webp"
+  },
+  "maes-43": {
+    "small": "/img/art-previews/maes-43-200.webp",
+    "medium": "/img/art-previews/maes-43-400.webp",
+    "preview": "/img/art-previews/maes-43-800.webp"
+  },
+  "maes-44": {
+    "small": "/img/art-previews/maes-44-200.webp",
+    "medium": "/img/art-previews/maes-44-400.webp",
+    "preview": "/img/art-previews/maes-44-800.webp"
+  },
+  "maes-45": {
+    "small": "/img/art-previews/maes-45-200.webp",
+    "medium": "/img/art-previews/maes-45-400.webp",
+    "preview": "/img/art-previews/maes-45-800.webp"
+  },
+  "maes-46": {
+    "small": "/img/art-previews/maes-46-200.webp",
+    "medium": "/img/art-previews/maes-46-400.webp",
+    "preview": "/img/art-previews/maes-46-800.webp"
+  },
+  "maes-47": {
+    "small": "/img/art-previews/maes-47-200.webp",
+    "medium": "/img/art-previews/maes-47-400.webp",
+    "preview": "/img/art-previews/maes-47-800.webp"
+  },
+  "maes-48": {
+    "small": "/img/art-previews/maes-48-200.webp",
+    "medium": "/img/art-previews/maes-48-400.webp",
+    "preview": "/img/art-previews/maes-48-800.webp"
+  },
+  "maes-49": {
+    "small": "/img/art-previews/maes-49-200.webp",
+    "medium": "/img/art-previews/maes-49-400.webp",
+    "preview": "/img/art-previews/maes-49-800.webp"
+  },
+  "maes-50": {
+    "small": "/img/art-previews/maes-50-200.webp",
+    "medium": "/img/art-previews/maes-50-400.webp",
+    "preview": "/img/art-previews/maes-50-800.webp"
+  },
+  "maes-51": {
+    "small": "/img/art-previews/maes-51-200.webp",
+    "medium": "/img/art-previews/maes-51-400.webp",
+    "preview": "/img/art-previews/maes-51-800.webp"
+  },
+  "maes-52": {
+    "small": "/img/art-previews/maes-52-200.webp",
+    "medium": "/img/art-previews/maes-52-400.webp",
+    "preview": "/img/art-previews/maes-52-800.webp"
+  },
+  "maes-53": {
+    "small": "/img/art-previews/maes-53-200.webp",
+    "medium": "/img/art-previews/maes-53-400.webp",
+    "preview": "/img/art-previews/maes-53-800.webp"
+  },
+  "maes-54": {
+    "small": "/img/art-previews/maes-54-200.webp",
+    "medium": "/img/art-previews/maes-54-400.webp",
+    "preview": "/img/art-previews/maes-54-800.webp"
+  },
+  "maes-55": {
+    "small": "/img/art-previews/maes-55-200.webp",
+    "medium": "/img/art-previews/maes-55-400.webp",
+    "preview": "/img/art-previews/maes-55-800.webp"
+  },
+  "maes-56": {
+    "small": "/img/art-previews/maes-56-200.webp",
+    "medium": "/img/art-previews/maes-56-400.webp",
+    "preview": "/img/art-previews/maes-56-800.webp"
+  },
+  "maes-57": {
+    "small": "/img/art-previews/maes-57-200.webp",
+    "medium": "/img/art-previews/maes-57-400.webp",
+    "preview": "/img/art-previews/maes-57-800.webp"
+  },
+  "maes-58": {
+    "small": "/img/art-previews/maes-58-200.webp",
+    "medium": "/img/art-previews/maes-58-400.webp",
+    "preview": "/img/art-previews/maes-58-800.webp"
+  },
+  "maes-59": {
+    "small": "/img/art-previews/maes-59-200.webp",
+    "medium": "/img/art-previews/maes-59-400.webp",
+    "preview": "/img/art-previews/maes-59-800.webp"
+  },
+  "maes-60": {
+    "small": "/img/art-previews/maes-60-200.webp",
+    "medium": "/img/art-previews/maes-60-400.webp",
+    "preview": "/img/art-previews/maes-60-800.webp"
+  },
+  "maes-61": {
+    "small": "/img/art-previews/maes-61-200.webp",
+    "medium": "/img/art-previews/maes-61-400.webp",
+    "preview": "/img/art-previews/maes-61-800.webp"
+  },
+  "maes-62": {
+    "small": "/img/art-previews/maes-62-200.webp",
+    "medium": "/img/art-previews/maes-62-400.webp",
+    "preview": "/img/art-previews/maes-62-800.webp"
+  },
+  "maes-63": {
+    "small": "/img/art-previews/maes-63-200.webp",
+    "medium": "/img/art-previews/maes-63-400.webp",
+    "preview": "/img/art-previews/maes-63-800.webp"
+  },
+  "maes-64": {
+    "small": "/img/art-previews/maes-64-200.webp",
+    "medium": "/img/art-previews/maes-64-400.webp",
+    "preview": "/img/art-previews/maes-64-800.webp"
+  },
+  "namorados-01": {
+    "small": "/img/art-previews/namorados-01-200.webp",
+    "medium": "/img/art-previews/namorados-01-400.webp",
+    "preview": "/img/art-previews/namorados-01-800.webp"
+  },
+  "namorados-02": {
+    "small": "/img/art-previews/namorados-02-200.webp",
+    "medium": "/img/art-previews/namorados-02-400.webp",
+    "preview": "/img/art-previews/namorados-02-800.webp"
+  },
+  "namorados-03": {
+    "small": "/img/art-previews/namorados-03-200.webp",
+    "medium": "/img/art-previews/namorados-03-400.webp",
+    "preview": "/img/art-previews/namorados-03-800.webp"
+  },
+  "namorados-04": {
+    "small": "/img/art-previews/namorados-04-200.webp",
+    "medium": "/img/art-previews/namorados-04-400.webp",
+    "preview": "/img/art-previews/namorados-04-800.webp"
+  },
+  "namorados-05": {
+    "small": "/img/art-previews/namorados-05-200.webp",
+    "medium": "/img/art-previews/namorados-05-400.webp",
+    "preview": "/img/art-previews/namorados-05-800.webp"
+  },
+  "namorados-06": {
+    "small": "/img/art-previews/namorados-06-200.webp",
+    "medium": "/img/art-previews/namorados-06-400.webp",
+    "preview": "/img/art-previews/namorados-06-800.webp"
+  },
+  "namorados-07": {
+    "small": "/img/art-previews/namorados-07-200.webp",
+    "medium": "/img/art-previews/namorados-07-400.webp",
+    "preview": "/img/art-previews/namorados-07-800.webp"
+  },
+  "namorados-08": {
+    "small": "/img/art-previews/namorados-08-200.webp",
+    "medium": "/img/art-previews/namorados-08-400.webp",
+    "preview": "/img/art-previews/namorados-08-800.webp"
+  },
+  "namorados-09": {
+    "small": "/img/art-previews/namorados-09-200.webp",
+    "medium": "/img/art-previews/namorados-09-400.webp",
+    "preview": "/img/art-previews/namorados-09-800.webp"
+  },
+  "namorados-10": {
+    "small": "/img/art-previews/namorados-10-200.webp",
+    "medium": "/img/art-previews/namorados-10-400.webp",
+    "preview": "/img/art-previews/namorados-10-800.webp"
+  },
+  "namorados-11": {
+    "small": "/img/art-previews/namorados-11-200.webp",
+    "medium": "/img/art-previews/namorados-11-400.webp",
+    "preview": "/img/art-previews/namorados-11-800.webp"
+  },
+  "namorados-12": {
+    "small": "/img/art-previews/namorados-12-200.webp",
+    "medium": "/img/art-previews/namorados-12-400.webp",
+    "preview": "/img/art-previews/namorados-12-800.webp"
+  },
+  "namorados-13": {
+    "small": "/img/art-previews/namorados-13-200.webp",
+    "medium": "/img/art-previews/namorados-13-400.webp",
+    "preview": "/img/art-previews/namorados-13-800.webp"
+  },
+  "namorados-14": {
+    "small": "/img/art-previews/namorados-14-200.webp",
+    "medium": "/img/art-previews/namorados-14-400.webp",
+    "preview": "/img/art-previews/namorados-14-800.webp"
+  },
+  "namorados-15": {
+    "small": "/img/art-previews/namorados-15-200.webp",
+    "medium": "/img/art-previews/namorados-15-400.webp",
+    "preview": "/img/art-previews/namorados-15-800.webp"
+  },
+  "namorados-16": {
+    "small": "/img/art-previews/namorados-16-200.webp",
+    "medium": "/img/art-previews/namorados-16-400.webp",
+    "preview": "/img/art-previews/namorados-16-800.webp"
+  },
+  "namorados-17": {
+    "small": "/img/art-previews/namorados-17-200.webp",
+    "medium": "/img/art-previews/namorados-17-400.webp",
+    "preview": "/img/art-previews/namorados-17-800.webp"
+  },
+  "namorados-18": {
+    "small": "/img/art-previews/namorados-18-200.webp",
+    "medium": "/img/art-previews/namorados-18-400.webp",
+    "preview": "/img/art-previews/namorados-18-800.webp"
+  },
+  "namorados-19": {
+    "small": "/img/art-previews/namorados-19-200.webp",
+    "medium": "/img/art-previews/namorados-19-400.webp",
+    "preview": "/img/art-previews/namorados-19-800.webp"
+  },
+  "namorados-20": {
+    "small": "/img/art-previews/namorados-20-200.webp",
+    "medium": "/img/art-previews/namorados-20-400.webp",
+    "preview": "/img/art-previews/namorados-20-800.webp"
+  },
+  "namorados-21": {
+    "small": "/img/art-previews/namorados-21-200.webp",
+    "medium": "/img/art-previews/namorados-21-400.webp",
+    "preview": "/img/art-previews/namorados-21-800.webp"
+  },
+  "paes-01": {
+    "small": "/img/art-previews/paes-01-200.webp",
+    "medium": "/img/art-previews/paes-01-400.webp",
+    "preview": "/img/art-previews/paes-01-800.webp"
+  },
+  "paes-02": {
+    "small": "/img/art-previews/paes-02-200.webp",
+    "medium": "/img/art-previews/paes-02-400.webp",
+    "preview": "/img/art-previews/paes-02-800.webp"
+  },
+  "paes-03": {
+    "small": "/img/art-previews/paes-03-200.webp",
+    "medium": "/img/art-previews/paes-03-400.webp",
+    "preview": "/img/art-previews/paes-03-800.webp"
+  },
+  "paes-04": {
+    "small": "/img/art-previews/paes-04-200.webp",
+    "medium": "/img/art-previews/paes-04-400.webp",
+    "preview": "/img/art-previews/paes-04-800.webp"
+  },
+  "paes-05": {
+    "small": "/img/art-previews/paes-05-200.webp",
+    "medium": "/img/art-previews/paes-05-400.webp",
+    "preview": "/img/art-previews/paes-05-800.webp"
+  },
+  "paes-06": {
+    "small": "/img/art-previews/paes-06-200.webp",
+    "medium": "/img/art-previews/paes-06-400.webp",
+    "preview": "/img/art-previews/paes-06-800.webp"
+  },
+  "paes-07": {
+    "small": "/img/art-previews/paes-07-200.webp",
+    "medium": "/img/art-previews/paes-07-400.webp",
+    "preview": "/img/art-previews/paes-07-800.webp"
+  },
+  "paes-08": {
+    "small": "/img/art-previews/paes-08-200.webp",
+    "medium": "/img/art-previews/paes-08-400.webp",
+    "preview": "/img/art-previews/paes-08-800.webp"
+  },
+  "avos-01": {
+    "small": "/img/art-previews/avos-01-200.webp",
+    "medium": "/img/art-previews/avos-01-400.webp",
+    "preview": "/img/art-previews/avos-01-800.webp"
+  },
+  "avos-02": {
+    "small": "/img/art-previews/avos-02-200.webp",
+    "medium": "/img/art-previews/avos-02-400.webp",
+    "preview": "/img/art-previews/avos-02-800.webp"
+  },
+  "avos-03": {
+    "small": "/img/art-previews/avos-03-200.webp",
+    "medium": "/img/art-previews/avos-03-400.webp",
+    "preview": "/img/art-previews/avos-03-800.webp"
+  },
+  "avos-04": {
+    "small": "/img/art-previews/avos-04-200.webp",
+    "medium": "/img/art-previews/avos-04-400.webp",
+    "preview": "/img/art-previews/avos-04-800.webp"
+  },
+  "avos-05": {
+    "small": "/img/art-previews/avos-05-200.webp",
+    "medium": "/img/art-previews/avos-05-400.webp",
+    "preview": "/img/art-previews/avos-05-800.webp"
+  },
+  "avos-06": {
+    "small": "/img/art-previews/avos-06-200.webp",
+    "medium": "/img/art-previews/avos-06-400.webp",
+    "preview": "/img/art-previews/avos-06-800.webp"
+  },
+  "avos-07": {
+    "small": "/img/art-previews/avos-07-200.webp",
+    "medium": "/img/art-previews/avos-07-400.webp",
+    "preview": "/img/art-previews/avos-07-800.webp"
+  },
+  "avos-08": {
+    "small": "/img/art-previews/avos-08-200.webp",
+    "medium": "/img/art-previews/avos-08-400.webp",
+    "preview": "/img/art-previews/avos-08-800.webp"
+  },
+  "avos-09": {
+    "small": "/img/art-previews/avos-09-200.webp",
+    "medium": "/img/art-previews/avos-09-400.webp",
+    "preview": "/img/art-previews/avos-09-800.webp"
+  },
+  "avos-10": {
+    "small": "/img/art-previews/avos-10-200.webp",
+    "medium": "/img/art-previews/avos-10-400.webp",
+    "preview": "/img/art-previews/avos-10-800.webp"
+  },
+  "avos-11": {
+    "small": "/img/art-previews/avos-11-200.webp",
+    "medium": "/img/art-previews/avos-11-400.webp",
+    "preview": "/img/art-previews/avos-11-800.webp"
+  },
+  "avos-12": {
+    "small": "/img/art-previews/avos-12-200.webp",
+    "medium": "/img/art-previews/avos-12-400.webp",
+    "preview": "/img/art-previews/avos-12-800.webp"
+  },
+  "avos-13": {
+    "small": "/img/art-previews/avos-13-200.webp",
+    "medium": "/img/art-previews/avos-13-400.webp",
+    "preview": "/img/art-previews/avos-13-800.webp"
+  },
+  "avos-14": {
+    "small": "/img/art-previews/avos-14-200.webp",
+    "medium": "/img/art-previews/avos-14-400.webp",
+    "preview": "/img/art-previews/avos-14-800.webp"
+  },
+  "avos-15": {
+    "small": "/img/art-previews/avos-15-200.webp",
+    "medium": "/img/art-previews/avos-15-400.webp",
+    "preview": "/img/art-previews/avos-15-800.webp"
+  },
+  "flores-01": {
+    "small": "/img/art-previews/flores-01-200.webp",
+    "medium": "/img/art-previews/flores-01-400.webp",
+    "preview": "/img/art-previews/flores-01-800.webp"
+  },
+  "flores-02": {
+    "small": "/img/art-previews/flores-02-200.webp",
+    "medium": "/img/art-previews/flores-02-400.webp",
+    "preview": "/img/art-previews/flores-02-800.webp"
+  },
+  "flores-03": {
+    "small": "/img/art-previews/flores-03-200.webp",
+    "medium": "/img/art-previews/flores-03-400.webp",
+    "preview": "/img/art-previews/flores-03-800.webp"
+  },
+  "flores-04": {
+    "small": "/img/art-previews/flores-04-200.webp",
+    "medium": "/img/art-previews/flores-04-400.webp",
+    "preview": "/img/art-previews/flores-04-800.webp"
+  },
+  "flores-05": {
+    "small": "/img/art-previews/flores-05-200.webp",
+    "medium": "/img/art-previews/flores-05-400.webp",
+    "preview": "/img/art-previews/flores-05-800.webp"
+  },
+  "flores-06": {
+    "small": "/img/art-previews/flores-06-200.webp",
+    "medium": "/img/art-previews/flores-06-400.webp",
+    "preview": "/img/art-previews/flores-06-800.webp"
+  },
+  "flores-07": {
+    "small": "/img/art-previews/flores-07-200.webp",
+    "medium": "/img/art-previews/flores-07-400.webp",
+    "preview": "/img/art-previews/flores-07-800.webp"
+  },
+  "flores-08": {
+    "small": "/img/art-previews/flores-08-200.webp",
+    "medium": "/img/art-previews/flores-08-400.webp",
+    "preview": "/img/art-previews/flores-08-800.webp"
+  },
+  "flores-09": {
+    "small": "/img/art-previews/flores-09-200.webp",
+    "medium": "/img/art-previews/flores-09-400.webp",
+    "preview": "/img/art-previews/flores-09-800.webp"
+  },
+  "flores-10": {
+    "small": "/img/art-previews/flores-10-200.webp",
+    "medium": "/img/art-previews/flores-10-400.webp",
+    "preview": "/img/art-previews/flores-10-800.webp"
+  },
+  "flores-11": {
+    "small": "/img/art-previews/flores-11-200.webp",
+    "medium": "/img/art-previews/flores-11-400.webp",
+    "preview": "/img/art-previews/flores-11-800.webp"
+  },
+  "flores-12": {
+    "small": "/img/art-previews/flores-12-200.webp",
+    "medium": "/img/art-previews/flores-12-400.webp",
+    "preview": "/img/art-previews/flores-12-800.webp"
+  },
+  "flores-13": {
+    "small": "/img/art-previews/flores-13-200.webp",
+    "medium": "/img/art-previews/flores-13-400.webp",
+    "preview": "/img/art-previews/flores-13-800.webp"
+  },
+  "flores-14": {
+    "small": "/img/art-previews/flores-14-200.webp",
+    "medium": "/img/art-previews/flores-14-400.webp",
+    "preview": "/img/art-previews/flores-14-800.webp"
+  },
+  "flores-15": {
+    "small": "/img/art-previews/flores-15-200.webp",
+    "medium": "/img/art-previews/flores-15-400.webp",
+    "preview": "/img/art-previews/flores-15-800.webp"
+  },
+  "flores-16": {
+    "small": "/img/art-previews/flores-16-200.webp",
+    "medium": "/img/art-previews/flores-16-400.webp",
+    "preview": "/img/art-previews/flores-16-800.webp"
+  },
+  "flores-17": {
+    "small": "/img/art-previews/flores-17-200.webp",
+    "medium": "/img/art-previews/flores-17-400.webp",
+    "preview": "/img/art-previews/flores-17-800.webp"
+  },
+  "flores-18": {
+    "small": "/img/art-previews/flores-18-200.webp",
+    "medium": "/img/art-previews/flores-18-400.webp",
+    "preview": "/img/art-previews/flores-18-800.webp"
+  },
+  "flores-19": {
+    "small": "/img/art-previews/flores-19-200.webp",
+    "medium": "/img/art-previews/flores-19-400.webp",
+    "preview": "/img/art-previews/flores-19-800.webp"
+  },
+  "flores-20": {
+    "small": "/img/art-previews/flores-20-200.webp",
+    "medium": "/img/art-previews/flores-20-400.webp",
+    "preview": "/img/art-previews/flores-20-800.webp"
+  },
+  "flores-21": {
+    "small": "/img/art-previews/flores-21-200.webp",
+    "medium": "/img/art-previews/flores-21-400.webp",
+    "preview": "/img/art-previews/flores-21-800.webp"
+  },
+  "flores-22": {
+    "small": "/img/art-previews/flores-22-200.webp",
+    "medium": "/img/art-previews/flores-22-400.webp",
+    "preview": "/img/art-previews/flores-22-800.webp"
+  },
+  "diversos-01": {
+    "small": "/img/art-previews/diversos-01-200.webp",
+    "medium": "/img/art-previews/diversos-01-400.webp",
+    "preview": "/img/art-previews/diversos-01-800.webp"
+  },
+  "diversos-02": {
+    "small": "/img/art-previews/diversos-02-200.webp",
+    "medium": "/img/art-previews/diversos-02-400.webp",
+    "preview": "/img/art-previews/diversos-02-800.webp"
+  },
+  "diversos-03": {
+    "small": "/img/art-previews/diversos-03-200.webp",
+    "medium": "/img/art-previews/diversos-03-400.webp",
+    "preview": "/img/art-previews/diversos-03-800.webp"
+  },
+  "diversos-04": {
+    "small": "/img/art-previews/diversos-04-200.webp",
+    "medium": "/img/art-previews/diversos-04-400.webp",
+    "preview": "/img/art-previews/diversos-04-800.webp"
+  },
+  "diversos-05": {
+    "small": "/img/art-previews/diversos-05-200.webp",
+    "medium": "/img/art-previews/diversos-05-400.webp",
+    "preview": "/img/art-previews/diversos-05-800.webp"
+  },
+  "diversos-06": {
+    "small": "/img/art-previews/diversos-06-200.webp",
+    "medium": "/img/art-previews/diversos-06-400.webp",
+    "preview": "/img/art-previews/diversos-06-800.webp"
+  },
+  "diversos-07": {
+    "small": "/img/art-previews/diversos-07-200.webp",
+    "medium": "/img/art-previews/diversos-07-400.webp",
+    "preview": "/img/art-previews/diversos-07-800.webp"
+  },
+  "diversos-08": {
+    "small": "/img/art-previews/diversos-08-200.webp",
+    "medium": "/img/art-previews/diversos-08-400.webp",
+    "preview": "/img/art-previews/diversos-08-800.webp"
+  },
+  "diversos-09": {
+    "small": "/img/art-previews/diversos-09-200.webp",
+    "medium": "/img/art-previews/diversos-09-400.webp",
+    "preview": "/img/art-previews/diversos-09-800.webp"
+  },
+  "diversos-10": {
+    "small": "/img/art-previews/diversos-10-200.webp",
+    "medium": "/img/art-previews/diversos-10-400.webp",
+    "preview": "/img/art-previews/diversos-10-800.webp"
+  },
+  "diversos-11": {
+    "small": "/img/art-previews/diversos-11-200.webp",
+    "medium": "/img/art-previews/diversos-11-400.webp",
+    "preview": "/img/art-previews/diversos-11-800.webp"
+  },
+  "diversos-12": {
+    "small": "/img/art-previews/diversos-12-200.webp",
+    "medium": "/img/art-previews/diversos-12-400.webp",
+    "preview": "/img/art-previews/diversos-12-800.webp"
+  },
+  "diversos-13": {
+    "small": "/img/art-previews/diversos-13-200.webp",
+    "medium": "/img/art-previews/diversos-13-400.webp",
+    "preview": "/img/art-previews/diversos-13-800.webp"
+  },
+  "diversos-14": {
+    "small": "/img/art-previews/diversos-14-200.webp",
+    "medium": "/img/art-previews/diversos-14-400.webp",
+    "preview": "/img/art-previews/diversos-14-800.webp"
+  },
+  "diversos-15": {
+    "small": "/img/art-previews/diversos-15-200.webp",
+    "medium": "/img/art-previews/diversos-15-400.webp",
+    "preview": "/img/art-previews/diversos-15-800.webp"
+  }
+}
