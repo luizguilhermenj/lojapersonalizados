@@ -69,12 +69,12 @@
       <div class="toolbar">
         <button id="previewTheme" class="ghost-btn" type="button" disabled>Pré-visualizar</button>
         <button id="publishTheme" class="primary-btn" type="button" disabled>Ativar tema selecionado</button>
-        <button id="restoreTheme" class="ghost-btn" type="button" disabled>Restaurar tema padrão</button>
+        <button id="restoreTheme" class="ghost-btn" type="button" disabled>Ativar Artize Padrão</button>
       </div>
-      <p id="themeActivationNote" class="studio-note" hidden>A ativação acima troca somente o tema da loja. As cores experimentais ficam na prévia e não são publicadas.</p>
+      <p id="themeActivationNote" class="studio-note">Ativar tema selecionado troca o tema usando suas cores já salvas. Para aplicar as alterações da prévia, use Salvar e aplicar paleta abaixo.</p>
       <p id="themeFeedback" class="feedback" role="status" aria-live="polite"></p>
       <section id="colorStudio" class="color-studio" aria-labelledby="studioTitle" hidden>
-        <div class="studio-heading"><div><p class="admin-eyebrow">Cor, luz e identidade</p><h3 id="studioTitle">Artize Color Studio</h3><p id="studioDescription">Crie uma combinação para cada tema. Experimente na prévia, salve um rascunho e publique quando estiver pronto.</p></div><span id="studioState" class="studio-badge" role="status">Visual original</span></div>
+        <div class="studio-heading"><div><p class="admin-eyebrow">Cor, luz e identidade</p><h3 id="studioTitle">Artize Color Studio</h3><p id="studioDescription">Escolha uma paleta, ajuste as cores e confira a prévia. Salvar e aplicar paleta ativa o tema selecionado com essas cores na loja.</p></div><span id="studioState" class="studio-badge" role="status">Cores originais</span></div>
         <div class="studio-tabs" role="tablist" aria-label="Artize Color Studio">
           <button id="tab-palettes" role="tab" aria-selected="true" aria-controls="studio-palettes" type="button">Paletas</button>
           <button id="tab-custom" role="tab" aria-selected="false" aria-controls="studio-custom" tabindex="-1" type="button">Personalização</button>
@@ -103,13 +103,15 @@
         </div>
         <div id="studio-settings" class="studio-panel" role="tabpanel" aria-labelledby="tab-settings" hidden>
           <p id="studioSettingsSummary" class="studio-note"></p>
+          <button id="saveStudio" class="ghost-btn" type="button" disabled>Salvar rascunho (sem aplicar à loja)</button>
+        </div>
+        <div class="studio-apply-bar">
           <div class="studio-actions">
-            <button id="saveStudio" class="ghost-btn" type="button" disabled>Salvar rascunho</button>
-            <button id="resetStudio" class="ghost-btn" type="button">Restaurar padrão deste tema</button>
+            <button id="publishStudio" class="primary-btn" type="button" aria-describedby="studioPersistenceNote" disabled>Salvar e aplicar paleta</button>
+            <button id="resetStudio" class="ghost-btn" type="button">Restaurar cores originais</button>
             <button id="discardStudio" class="ghost-btn" type="button">Descartar alterações</button>
-            <button id="publishStudio" class="primary-btn" type="button" disabled>Publicar visual</button>
           </div>
-          <p id="studioPersistenceNote" class="studio-note">Salvar mantém a loja pública igual. Publicar ativa o tema selecionado com estas cores neste ambiente. Restaurar só entra em vigor na loja depois de publicar.</p>
+          <p id="studioPersistenceNote" class="studio-note">A seleção só altera a prévia. Salvar e aplicar paleta grava as cores e ativa este tema na loja. Para restaurar a loja, restaure as cores e depois salve e aplique.</p>
         </div>
         <p id="studioFeedback" class="feedback" role="status" aria-live="polite"></p>
       </section>

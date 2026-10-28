@@ -1,5 +1,7 @@
 # Persistência Neon — etapa suspensa
 
+> Histórico do PR #2. A solicitação posterior de salvar/aplicar tem [documentação própria](color-studio-save-apply.md), com inspeção do banco pendente e migração dependente de autorização específica. As instruções de modo temporário abaixo descrevem a fase anterior.
+
 A prioridade atual é exclusivamente o frontend. **Não criar novos projetos ou bancos Neon, não configurar `THEME_TEST_DATABASE_URL` e não executar a migração do Color Studio nesta fase.**
 
 A ativação dos quatro temas mantém a persistência existente. No Neon/Render, paletas, cores e glow são experimentados em prévia temporária, com gravação desativada por padrão. A inicialização não adiciona a coluna `color_studio` automaticamente.

@@ -11,7 +11,7 @@ const frame = document.getElementById('themePreviewFrame');
 let selected;
 let canActivate = false;
 let busy = false;
-const studio = createColorStudio({ frame, onPublished: async () => { await load(); message('Tema ativado com sucesso. Visual publicado.'); }, onBusy: value => { busy = value; controls(); } });
+const studio = createColorStudio({ frame, onPublished: async () => { await load(); message('Tema selecionado ativo com a paleta salva.'); }, onBusy: value => { busy = value; controls(); } });
 function message(text, error = false) {
   feedback.textContent = text;
   feedback.className = `feedback ${error ? 'error' : 'success'}`;
@@ -51,7 +51,7 @@ async function load() {
 async function activate(themeId) {
   busy = true; controls();
   feedback.className = 'feedback';
-  feedback.textContent = 'Publicando tema...';
+  feedback.textContent = 'Ativando tema…';
   try {
     await api('/api/admin/themes/active', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ themeId }) });
     frame.hidden = true; frame.removeAttribute('src');
@@ -59,7 +59,7 @@ async function activate(themeId) {
   } catch (error) { message(error.message, true); }
   finally { busy = false; controls(); }
 }
-publish.addEventListener('click', () => studio.previewOnly ? activate(selected) : studio.publish());
+publish.addEventListener('click', () => activate(selected));
 restore.addEventListener('click', () => activate('artize'));
 preview.addEventListener('click', () => studio.preview());
 if (getSession()?.user?.role === 'admin') {

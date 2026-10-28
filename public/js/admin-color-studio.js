@@ -16,11 +16,13 @@ export function createColorStudio({ frame, onPublished, onBusy }) {
   const theme = () => themes.find(t => t.id === selected);
   const tell = (text, error = false) => { feedback.textContent = text; feedback.className = `feedback ${error ? 'error' : 'success'}`; };
   function updateState() {
-    const dirty = !same(current(), saved[selected]?.draft ?? null);
+    const dirty = invalidColors.size > 0 || !same(current(), saved[selected]?.draft ?? null);
     const unpublished = !same(current(), saved[selected]?.published ?? null);
-    state.textContent = previewOnly ? (dirty ? 'Prévia temporária alterada' : 'Prévia temporária') : dirty ? 'Alterações não salvas' : unpublished ? 'Rascunho salvo' : current() ? 'Visual publicado' : 'Visual original';
+    state.textContent = busy ? 'Salvando…' : dirty ? 'Alterações não salvas' : previewOnly ? 'Prévia · salvamento indisponível' : unpublished ? 'Rascunho salvo · ainda não aplicado' : current() ? 'Paleta aplicada' : 'Cores originais';
     document.getElementById('studioSettingsSummary').textContent = `${theme()?.name || ''} · ${state.textContent}. As configurações são independentes por tema.`;
-    for (const id of ['saveStudio', 'publishStudio']) { document.getElementById(id).disabled = busy || !writable || invalidColors.size > 0; document.getElementById(id).hidden = previewOnly; }
+    for (const id of ['saveStudio', 'publishStudio']) document.getElementById(id).disabled = busy || !writable || invalidColors.size > 0;
+    root.setAttribute('aria-busy', String(busy));
+    document.getElementById('publishStudio').textContent = busy ? 'Salvando…' : 'Salvar e aplicar paleta';
     for (const id of ['resetStudio','discardStudio']) document.getElementById(id).disabled = busy;
     root.querySelectorAll('input, .palette-choice').forEach(el => { el.disabled = busy; });
   }
@@ -62,7 +64,7 @@ export function createColorStudio({ frame, onPublished, onBusy }) {
     const hex = document.createElement('input'); hex.type = 'text'; hex.id = `hex-${key}`; hex.className = 'field'; hex.dataset.hex = key; hex.maxLength = 7; hex.pattern = '#[0-9a-fA-F]{6}'; hex.spellcheck = false;
     picker.addEventListener('input', () => edit(key, picker.value));
     hex.addEventListener('input', () => {
-      if (!isHex(hex.value)) { invalidColors.add(key); hex.setAttribute('aria-invalid','true'); hex.setCustomValidity('Use #RRGGBB.'); tell('Cor incompleta ou inválida. Use #RRGGBB antes de salvar ou publicar.',true); updateState(); return; }
+      if (!isHex(hex.value)) { invalidColors.add(key); hex.setAttribute('aria-invalid','true'); hex.setCustomValidity('Use #RRGGBB.'); tell('Cor incompleta ou inválida. Use #RRGGBB antes de salvar e aplicar.',true); updateState(); return; }
       edit(key, hex.value);
     });
     pair.append(picker, hex); field.append(label,pair); colors.append(field);
@@ -117,29 +119,32 @@ export function createColorStudio({ frame, onPublished, onBusy }) {
   async function save(publish = false) {
     if (busy || !writable || invalidColors.size) return;
     const id = selected, config = copy(current());
-    busy = true; onBusy(true); updateState(); tell(publish ? 'Publicando visual...' : 'Salvando rascunho...');
+    busy = true; onBusy(true); updateState(); tell(publish ? 'Salvando e aplicando paleta…' : 'Salvando rascunho…');
     try {
       await api(`/api/admin/themes/${encodeURIComponent(id)}/color-studio/${publish ? 'publish' : 'draft'}`, { method: 'PUT', headers: { 'Content-Type':'application/json' }, body: JSON.stringify({ customization: config }) });
       saved[id] = { draft: copy(config), published: publish ? copy(config) : saved[id]?.published ?? null };
-      if (publish) { frame.hidden = true; frame.removeAttribute('src'); ready = false; await onPublished(); }
-      tell(publish ? 'Visual publicado com sucesso. Atualize a loja para conferir.' : 'Rascunho salvo. A loja pública permanece igual.');
-    } catch (error) { tell(error.message,true); }
+      if (publish) {
+        frame.hidden = true; frame.removeAttribute('src'); ready = false;
+        try { await onPublished(); }
+        catch { tell('Paleta salva e aplicada. Não foi possível atualizar o painel; recarregue para conferir.'); return; }
+      }
+      tell(publish ? 'Paleta salva e aplicada à loja. As cores permanecerão ao atualizar a página.' : 'Rascunho salvo. A loja pública permanece igual.');
+    } catch (error) { tell(error instanceof TypeError ? 'Falha de conexão. Não foi possível confirmar o salvamento. Recarregue o painel para conferir antes de tentar novamente.' : error.message,true); }
     finally { busy = false; onBusy(false); updateState(); }
   }
   document.getElementById('saveStudio').addEventListener('click', () => save());
   document.getElementById('publishStudio').addEventListener('click', () => save(true));
-  document.getElementById('resetStudio').addEventListener('click', () => { drafts[selected] = null; syncInputs(); tell(previewOnly ? 'Padrão original restaurado apenas na prévia temporária.' : 'Padrão original restaurado na prévia. Publique para aplicar à loja.'); });
+  document.getElementById('resetStudio').addEventListener('click', () => { drafts[selected] = null; syncInputs(); tell('Cores originais restauradas na prévia. Clique em Salvar e aplicar paleta para restaurar a loja.'); });
   document.getElementById('discardStudio').addEventListener('click', () => { drafts[selected] = copy(saved[selected]?.draft ?? null); syncInputs(); tell(previewOnly ? 'Alterações temporárias descartadas.' : 'Alterações não salvas descartadas.'); });
   window.addEventListener('beforeunload', event => {
-    if (Object.keys(drafts).some(id => !same(drafts[id], saved[id]?.draft ?? null))) { event.preventDefault(); event.returnValue = ''; }
+    if (invalidColors.size || Object.keys(drafts).some(id => !same(drafts[id], saved[id]?.draft ?? null))) { event.preventDefault(); event.returnValue = ''; }
   });
   return {
     load(data) {
       root.hidden = false;
       previewOnly = data.colorStudioMode === 'preview';
-      document.getElementById('studioDescription').textContent = previewOnly ? 'Experimente as 12 paletas, cores e glow. Esta prévia é temporária: nada é gravado e os ajustes são descartados ao recarregar.' : 'Crie uma combinação para cada tema. Experimente na prévia, salve um rascunho e publique quando estiver pronto.';
-      document.getElementById('studioPersistenceNote').textContent = previewOnly ? 'Cores e glow valem somente nesta prévia. Salvar e publicar estão indisponíveis enquanto a prioridade é a experimentação visual. Os ajustes ficam apenas na memória desta aba.' : 'Salvar mantém a loja pública igual. Publicar ativa o tema selecionado com estas cores neste ambiente. Restaurar só entra em vigor na loja depois de publicar.';
-      document.getElementById('themeActivationNote').hidden = !previewOnly;
+      document.getElementById('studioDescription').textContent = 'Escolha uma paleta, ajuste as cores e confira a prévia. Salvar e aplicar paleta ativa o tema selecionado com essas cores na loja.';
+      document.getElementById('studioPersistenceNote').textContent = previewOnly ? `${data.colorStudioWarning || 'O armazenamento de paletas ainda não está disponível neste ambiente.'} A edição fica só na prévia e será descartada ao recarregar.` : 'A seleção só altera a prévia. Salvar e aplicar paleta grava as cores e ativa este tema na loja. Para restaurar a loja, restaure as cores e depois salve e aplique.';
       const previousSaved = saved;
       const previousDrafts = drafts;
       themes = data.themes; saved = data.colorStudio?.themes || {}; writable = data.canSaveColors ?? data.canActivate;

@@ -1,5 +1,7 @@
 # Homologação visual do Artize Color Studio
 
+> Histórico do PR #2. A solicitação posterior de salvar/aplicar tem [documentação própria](color-studio-save-apply.md), com inspeção do banco pendente e migração dependente de autorização específica. As instruções de modo temporário abaixo descrevem a fase anterior.
+
 Prioridade atual: frontend, identidade visual, mobile, paletas e animações. A integração do PR #2 deve usar **prévia temporária**, sem ampliar o backend.
 
 ## Resultado da verificação da migração

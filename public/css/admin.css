@@ -30,6 +30,8 @@
 .studio-range input {width:100%;accent-color:var(--dark);min-height:44px}
 .studio-note {color:var(--muted);font-size:.875rem;line-height:1.6}
 .studio-actions {display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
+.studio-apply-bar {border-top:1px solid var(--line);margin-top:20px;padding-top:4px}
+.studio-apply-bar .primary-btn {min-height:48px;min-width:220px}
 .studio-preview-tools {display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .studio-preview-tools label {display:flex;align-items:center;gap:10px;min-height:44px}
 .studio-preview-tools select {width:auto;max-width:100%}
