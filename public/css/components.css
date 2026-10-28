@@ -59,3 +59,8 @@ a.compact-cart-btn {position:relative;min-width:48px;padding:10px;border-radius:
 .form-field {display:grid;gap:8px;font-size:.875rem}.form-field input {font-weight:400}
 .order-card,.order-meta,.admin-summary .tile {min-width:0;overflow-wrap:anywhere}
 .chips {display:flex;flex-wrap:wrap;gap:8px}
+
+/* A ação fixa não encobre os últimos links do rodapé no celular. */
+body:has(.mobile-purchase){padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))}
+:target{scroll-margin-top:calc(var(--header-height) + 24px)}
+@media(min-width:48rem){body:has(.mobile-purchase){padding-bottom:0}}

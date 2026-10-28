@@ -31,7 +31,7 @@ function renderChips() {
   categoryChips.querySelectorAll('.chip').forEach((button) => {
     button.onclick = () => {
       currentCategory = button.dataset.category;
-      renderChips();
+      categoryChips.querySelectorAll('.chip').forEach(chip=>{const active=chip.dataset.category===currentCategory;chip.classList.toggle('active',active);chip.setAttribute('aria-pressed',String(active));});
       renderProducts();
     };
   });

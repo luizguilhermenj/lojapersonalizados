@@ -28,7 +28,13 @@ const ADMIN_ORDER_STATUSES = ['aguardando_processamento', 'em_producao', 'enviad
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(PUBLIC_DIR));
+app.use(express.static(PUBLIC_DIR, {
+  setHeaders(res, file) {
+    // Recursos sem hash: imagens podem ser reutilizadas; documentos e código revalidam.
+    const image = /\.(?:svg|webp|avif|png|jpe?g)$/i.test(file);
+    res.setHeader('Cache-Control', image ? 'public, max-age=86400' : 'public, max-age=0, must-revalidate');
+  }
+}));
 
 function readJson(file) { return JSON.parse(fs.readFileSync(file, 'utf-8')); }
 function writeJson(file, data) { fs.writeFileSync(file, JSON.stringify(data, null, 2)); }

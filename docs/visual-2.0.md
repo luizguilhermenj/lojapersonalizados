@@ -76,3 +76,56 @@ Cabeçalho de gestão, atalhos nativos a Pedidos/Aparência, resumos em grade, e
 Mesma implementação reutilizável de efeitos, agora com uma animação CSS por partícula em vez de duas. Neve: 24 desktop/6 mobile; pétalas: 16/4 (antes 30/10 e 22/7). Apenas transform/opacity animados. Efeitos restritos à home/personalização/prévia, ausentes em carrinho, conta, pedidos e gestão. Controle tem área de 44px, respeita safe area e fica acima da ação fixa de compra. Visibilidade da página remove a camada e reduz trabalho em segundo plano; movimento reduzido elimina camada e controle. Microinterações respeitam a preferência do usuário. Ilustração floral de Dia das Mães e cores de amostra do padrão alinhadas ao design system; IDs/armazenamento/Neon intactos.
 
 `npm test` (5 passaram/1 real pulado), `node test/browser.mjs` (regressão completa) e `node test/visual-home.mjs` (4×6/geometria/CTA) passaram. `node test/visual-motion.mjs` valida contagens, pausa por visibilidade, reduced motion, remoção/listeners, ausência em carrinho e não sobreposição da compra. Sua primeira execução encontrou corrida do teste ao ler o DOM antes do evento assíncrono de media query; o teste passou após aguardar a condição, mantendo exigência de exatamente zero partículas e contagem exata na retomada. Não se removeu asserção nem se toleraram partículas residuais. Matriz geral de 120 combinações executada antes do push.
+
+## Etapa 6 — Refinamento e validação final
+
+- Carrinho compacto mobile, imagens dimensionadas, controles de quantidade ≥44px com nomes acessíveis e preservação do foco. Nenhuma alteração no cálculo de quantidade/total/frete ou no fluxo de pagamento.
+- Formulários e pedidos usam tokens compartilhados, feedbacks anunciam mudanças; rodapé não fica coberto pela ação fixa da personalização.
+- Galeria consulta manifest comercial e derivados em paralelo. Categorias mantêm foco ao filtrar.
+- Única alteração no servidor: cabeçalhos de cache de arquivos estáticos. Imagens: `public, max-age=86400`, sem immutable por não terem hash no nome. HTML/JS/CSS/JSON revalidam com `max-age=0, must-revalidate`; ETag mantido. APIs/dados financeiros não foram alterados.
+- Geometria validada com resposta de tema retida: posição das categorias exatamente igual antes/depois da aplicação tardia de Páscoa, sem tolerância.
+
+### Testes finais
+
+`npm test`: 5 aprovados, 1 Neon real pulado. Executados e aprovados: `node test/browser.mjs`, `node test/visual-home.mjs`, `node test/visual-customizer.mjs`, `node test/visual-admin.mjs`, `node test/visual-motion.mjs`, `node test/visual-accessibility.mjs`, `node test/visual-shell.mjs`. A matriz geral cobre 4 temas × 6 resoluções × 5 páginas; o teste adicional cobre 6 páginas × 6 larguras, inclusive conta e resultado. Verificações específicas: botões principais com contraste mínimo 4,5:1, landmarks/título exposto, rótulos, alvos44px, foco, revalidação304, carrinho/quantidade, três opções de frete e erro de checkout interceptado sem criar pedido ou acessar provedor. Capturas reais revisadas em mobile390px/desktop1440px; seta decorativa convertida para SVG para independência de fonte.
+
+A asserção inicial do teste de cache recebeu 200 porque o cliente Node, ao combinar modo padrão com cabeçalho condicional, força recarga; diagnóstico confirmou 304 com revalidação explícita. Teste usa `cache:'no-cache'`, mantendo exigência de 304. A contagem inicial de h1 incluía o banner alternativo `hidden`; a validação usa agora a árvore de acessibilidade e exige exatamente um título principal exposto. São correções do executor de teste, sem relaxar a acessibilidade do produto. As limitações anteriores de reexecução da antiga versão de temas foram superadas pela suíte completa nesta etapa.
+
+### Arquivos principais desta fase
+
+- Design system/shell: `public/css/{tokens,base,components}.css`, `public/js/{app,navigation,modal}.js`, `templates/store-{header,footer}.html`, `scripts/sync-shell.mjs`, sete documentos em `public/pages/`.
+- Home: `public/css/home.css`, `public/js/home.js`, `public/img/visual/presente.svg`.
+- Personalização: `public/css/product-customizer.css`, `public/js/caneca-ceramica.js`, `public/data/art-previews.json`, 585 derivados em `public/img/art-previews/`, `scripts/generate-art-previews.py`.
+- Gestão: `public/css/admin.css`, `public/js/{admin,admin-themes}.js`.
+- Temas/Motion: `themes/config.js`, `public/css/themes.css`, `public/js/themes.js`, `public/img/themes/dia-das-maes.svg`. Driver Neon e rotas protegidas sem alterações.
+- Refinamento: `public/css/{auth,cart,orders}.css`, `public/js/cart.js`, `server.js` (somente cache estático).
+- Testes: `test/visual-{shell,home,customizer,admin,motion,accessibility}.mjs`, helpers isolados, `test/browser.mjs` e `scripts/measure-frontend.mjs`.
+
+### Validação na homologação
+
+1. Conferir no Render o commit mais recente em `feature/gerenciador-temas` e o log de Auto-Deploy do serviço `artize-homologacao`. Nesta sessão a publicação HTTP permanece não verificada: o proxy bloqueou CONNECT403, sem evidência de falha do serviço.
+2. Em 320/360/390/430px, percorrer home, busca/categorias, personalização por teclado/toque, mais artes, adicionar ao carrinho, quantidade e cotação de frete. Não finalizar pagamento real.
+3. Como administrador, pré-visualizar cada tema sem publicar, alternar largura da prévia, ativar manualmente e conferir em aba anônima após atualizar. Restaurar padrão. Neon usa DATABASE_URL já existente; não há novas variáveis de produção nesta fase.
+4. Verificar neve/pétalas somente na home/personalização, pausa/retomada, aba em segundo plano e movimento reduzido; controle não deve encobrir a compra.
+5. Confirmar persistência real em reinício/deploy de homologação autorizado e falha segura com banco indisponível em ambiente de teste. Banco real não estava disponível nesta sessão.
+
+### Pendências fora do escopo
+
+Testes em aparelhos físicos, Safari/iOS/Firefox, rede móvel real e Web Vitals de campo/p75. Não há medição de bateria/GPU/heap em hardware móvel. As medições locais de tarefas longas e quantidade de nós indicam trabalho do frontend, sem equivaler a consumo físico. Neon real requer THEME_TEST_DATABASE_URL em banco exclusivo de testes. Cache público de temas pode propagar entre instâncias em até 15 minutos, conforme integração preservada. Usuários/pedidos/sessões continuam no armazenamento operacional preexistente.
+
+Os bloqueadores críticos da Auditoria360° continuam antes da abertura comercial: validação/autenticidade e integridade financeira, exposição/escape de dados, validação de carrinho/frete, integridade da arte no pedido e persistência operacional. Não foram corrigidos nem ocultados nesta modernização visual. Nenhuma chamada de pagamento real, migração operacional, configuração do Render, merge ou force push foi executado.
+
+## Resultado dos seis pacotes
+
+| Pacote | Commit | Resultado |
+|---|---|---|
+| 1 — Design system | bb57b50 | Publicado em homologação por fast-forward |
+| 2 — Home | 1a94ce7 | Testes aprovados e push realizado |
+| 3 — Personalização | 5be0cb7 | Testes aprovados e push realizado |
+| 4 — Gestão | ab37e45 | Testes aprovados e push realizado |
+| 5 — Motion | 4c96038 | Testes aprovados e push realizado |
+| 6 — Refinamento | commit desta etapa | Testes completos e medição final concluídos |
+
+O [relatório de desempenho](performance/README.md) contém as36 amostras e condições reproduzíveis. Exemplo: na personalização padrão, mediana do evento de seleção208→48ms e da maior tarefa longa466→60ms; home Natal LCP1.888→888ms. Há cenários com FCP/LCP um pouco maiores, registrados sem ocultar resultados. As requisições da galeria caíram209→33 e a quantidade inicial de cards195→24. Não equivalem a Web Vitals p75 nem aprovação de desempenho em aparelhos reais.
+
+A última revalidação de `npm test`, galeria e acessibilidade passou após o refinamento do foco ao carregar mais artes. A ausência de diferenças em driver/rotas Neon, arquivos operacionais, originais/manifest comercial, dependências, .env e node_modules foi conferida contra a base a9ec895. Publicação HTTP no Render continua não verificada nesta sessão; pushes autorizados podem disparar Auto-Deploy. PR#1 permanece para revisão, sem merge.

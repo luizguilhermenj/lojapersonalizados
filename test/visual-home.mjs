@@ -20,5 +20,8 @@ try{
  await page.locator('#globalSearch').fill('ceramica');await page.waitForFunction(()=>document.querySelectorAll('.product-card').length===1);
  await page.locator('#globalSearch').fill('zzzz');await page.locator('#clearProductFilters').click();await page.waitForFunction(()=>document.querySelectorAll('.product-card').length===10);
  assert.equal(await page.locator('.choose-btn').count(),1);assert.equal(await page.locator('.soon-btn').count(),9);
+ await fetch(base+'/api/admin/themes/active',{method:'PUT',headers,body:JSON.stringify({themeId:'pascoa'})});
+ let release;const gate=new Promise(resolve=>release=resolve);await page.route('**/api/theme',async route=>{await gate;await route.continue();});
+ await page.goto(base+'/pages/home.html',{waitUntil:'domcontentloaded'});const categoryBefore=await page.locator('#categorias').evaluate(el=>el.getBoundingClientRect().top+scrollY);release();await page.locator('html[data-theme="pascoa"]').waitFor();const categoryAfter=await page.locator('#categorias').evaluate(el=>el.getBoundingClientRect().top+scrollY);assert.equal(categoryAfter,categoryBefore,'tema tardio não desloca categorias');
  console.log('PASS home: 4 temas × 6 larguras; hero 440px e CTA visível; 2 colunas mobile; busca sem acento; estado vazio; disponibilidade preservada');
 }finally{await browser?.close();server.kill('SIGTERM');}

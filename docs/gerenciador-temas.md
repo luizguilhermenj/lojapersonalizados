@@ -69,7 +69,7 @@ Resultado desta entrega: 5 testes automatizados passaram e o teste Neon real foi
 
 ## Campanhas e efeitos sazonais
 
-A ordem no painel é Artize Padrão, Natal, Páscoa e Dia das Mães. O padrão restaura os estilos originais e o carrossel existente. Os temas sazonais exibem um banner próprio, textos sem descontos/ofertas inventados, ilustração opcional e um rodapé Artize. Os links continuam apontando para o catálogo e a personalização real de canecas; produtos, preços e disponibilidade não são alterados.
+A ordem no painel é Artize Padrão, Natal, Páscoa e Dia das Mães. O padrão restaura a identidade Artize do design system e o banner editorial estático. Os temas sazonais exibem um banner próprio, textos sem descontos/ofertas inventados, ilustração opcional e um rodapé Artize. Os links continuam apontando para o catálogo e a personalização real de canecas; produtos, preços e disponibilidade não são alterados.
 
 A configuração de cada tema pode definir:
 
@@ -81,7 +81,7 @@ A configuração de cada tema pode definir:
 
 `applyTheme()` limpa a paleta e o efeito anteriores antes de aplicar o próximo tema. O painel também aplica o tema confirmado imediatamente, sem recarregar a página. Outras abas já abertas continuam seguindo a regra de atualização da página descrita acima.
 
-O módulo `seasonal-effects.js` cria uma quantidade limitada de partículas (máximo defensivo de 40), com posição, tamanho, atraso, duração e trajetória variados. Anima somente transformações/opacidade via CSS; não há bibliotecas, intervalos ou loops JavaScript por frame. Natal utiliza 30 flocos no desktop e 10 até 600 px; Páscoa, 22 pétalas no desktop e 7 no celular. O carrossel sazonal antigo é ocultado e seu timer é interrompido enquanto o banner da campanha está ativo.
+O módulo `seasonal-effects.js` cria uma quantidade limitada de partículas (máximo defensivo de 40), com posição, tamanho, atraso, duração e trajetória variados. Anima somente transformações/opacidade via CSS; não há bibliotecas, intervalos ou loops JavaScript por frame. Natal utiliza 24 flocos no desktop e 6 até 600 px; Páscoa, 16 pétalas no desktop e 4 no celular. Os efeitos ficam restritos à home, personalização e iframe de prévia, sem camada em carrinho, conta, pedidos ou gestão. Há uma animação CSS por partícula. O banner editorial padrão não tem rotação automática.
 
 A camada é fixa, recortada ao viewport do documento, `aria-hidden`, `inert` e `pointer-events: none`; partículas não recebem foco nem interceptam cliques/rolagem. Na prévia, ela pertence exclusivamente ao documento do iframe. Fechar ou mudar a prévia descarta o documento e seus efeitos. Alterar a seleção no painel não publica nem muda o tema do documento pai.
 
@@ -97,7 +97,7 @@ Uma execução completa de `node test/browser.mjs` passou com os quatro temas, e
 
 Para validar no Render após revisão e disponibilização autorizada: confirme `DATABASE_URL`, entre no painel e selecione cada campanha. Pré-visualize Natal/Páscoa e confira que o tema público permanece intacto até clicar em Ativar. Atualize uma aba anônima, teste menu/carrinho e confira os efeitos. Emule celular e movimento reduzido; use o botão de pausa. Restaure o padrão, confirme ausência de partículas e banner sazonal. Reinicie o serviço e, quando houver autorização, execute novo deploy de homologação para conferir preservação da seleção. Não realize pagamento real.
 
-A verificação de desempenho se limita à arquitetura sem loops por frame, contagem limitada de partículas, carrossel interrompido e testes funcionais no Chromium. Não foi feito benchmark de FPS em aparelhos físicos nem teste em Safari/Firefox. Ajustes futuros de densidade devem preservar esses limites e a preferência de acessibilidade.
+A validação inclui arquitetura sem loops por frame, contagem limitada, suspensão por visibilidade, testes funcionais no Chromium e ensaio local de CPU/rede simuladas documentado em [Visual 2.0](visual-2.0.md). Não foi feito benchmark de FPS em aparelhos físicos nem teste em Safari/Firefox. Ajustes futuros de densidade devem preservar esses limites e a preferência de acessibilidade.
 
 ## Arquivos e escopo
 

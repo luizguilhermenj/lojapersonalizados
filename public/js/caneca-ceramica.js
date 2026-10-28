@@ -8,7 +8,6 @@ const selectedArtName = document.getElementById('selectedArtName');
 const selectedArtDescription = document.getElementById('selectedArtDescription');
 const selectedThemeEyebrow = document.getElementById('selectedThemeEyebrow');
 const totalArtsLabel = document.getElementById('totalArtsLabel');
-const addSelectedArtBtn = document.getElementById('addSelectedArtBtn');
 const customizerFeedback = document.getElementById('customizerFeedback');
 
 const baseProduct = {
@@ -158,11 +157,14 @@ function renderArts() {
   loadMore.textContent = `Mostrar mais artes (${visible.length} de ${filtered.length})`;
   syncSelectedArt();
 }
-loadMore.addEventListener('click', () => {visibleCount += pageSize;renderArts();});
+loadMore.addEventListener('click', () => {const firstNew=visibleCount;visibleCount += pageSize;renderArts();const art=getFilteredArts()[firstNew];if(art)cards.get(art.id)?.focus({preventScroll:true});});
 
 async function loadArtes() {
   try {
-    const response = await fetch('/data/caneca-ceramica-artes.json');
+    const [response, thumbnails] = await Promise.all([
+      fetch('/data/caneca-ceramica-artes.json'),
+      fetch('/data/art-previews.json').catch(() => null)
+    ]);
     if (!response.ok) throw new Error('Falha ao carregar artes.');
     const payload = await response.json();
 
@@ -170,7 +172,7 @@ async function loadArtes() {
       throw new Error('Nenhuma arte cadastrada.');
     }
 
-    try {const thumbnails = await fetch('/data/art-previews.json');if(thumbnails.ok)previews = await thumbnails.json();} catch { /* Originais continuam disponíveis se os derivados falharem. */ }
+    try {if(thumbnails?.ok)previews = await thumbnails.json();} catch { /* Originais continuam disponíveis se os derivados falharem. */ }
     arts = payload;
     selectedArt = arts[0];
     syncSelectedArt();
