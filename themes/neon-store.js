@@ -1,10 +1,12 @@
 import { neon } from '@neondatabase/serverless';
 import { DEFAULT_THEME, findTheme } from './config.js';
+import { normalizeStudio, studioEntry } from './color-studio.js';
+import { validateCustomization } from '../public/js/color-studio.js';
 
 const CACHE_MS = 15 * 60 * 1000;
 const REQUEST_TIMEOUT_MS = 8000;
 
-export function createNeonThemeStore(databaseUrl, { createSql = neon, now = Date.now } = {}) {
+export function createNeonThemeStore(databaseUrl, { createSql = neon, now = Date.now, studioWritable = false } = {}) {
   let sql;
   let initialization;
   let cached;
@@ -33,8 +35,46 @@ export function createNeonThemeStore(databaseUrl, { createSql = neon, now = Date
     await initialization;
   }
   function remember(themeId) { cached = { themeId, expiresAt: now() + CACHE_MS }; }
+  async function readRecord() {
+    await initialize();
+    const rows = await sql.query("SELECT theme_id, to_jsonb(settings)->'color_studio' AS color_studio FROM public.artize_theme_settings AS settings WHERE id = 1", [], options());
+    if (!findTheme(rows[0]?.theme_id)) throw new Error('Configuração de tema ausente ou inválida');
+    return rows[0];
+  }
+  async function writeStudio(themeId, config, userId, publish) {
+    if (!studioWritable) throw new Error('Color Studio em prévia temporária: gravação desativada.');
+    if (!findTheme(themeId)) throw new Error('Tema inválido');
+    const clean = validateCustomization(config);
+    await initialize();
+    const entry = publish ? { draft: clean, published: clean } : null;
+    // Update only this theme's path; other themes and the active ID survive draft saves.
+    const document = `jsonb_build_object('version', 1, 'themes', CASE WHEN jsonb_typeof(color_studio->'themes') = 'object' THEN color_studio->'themes' ELSE '{}'::jsonb END)`;
+    const query = publish ? `UPDATE public.artize_theme_settings
+      SET color_studio = jsonb_set(${document}, ARRAY['themes', $1]::text[], $2::jsonb, true),
+          theme_id = $1, updated_at = CURRENT_TIMESTAMP, updated_by = $3, version = version + 1
+      WHERE id = 1 RETURNING theme_id` : `UPDATE public.artize_theme_settings
+      SET color_studio = jsonb_set(${document}, ARRAY['themes', $1]::text[],
+          (CASE WHEN jsonb_typeof(color_studio #> ARRAY['themes', $1]::text[]) = 'object'
+            THEN color_studio #> ARRAY['themes', $1]::text[] ELSE '{"draft":null,"published":null}'::jsonb END)
+          || jsonb_build_object('draft', $2::jsonb), true),
+          updated_at = CURRENT_TIMESTAMP, updated_by = $3, version = version + 1
+      WHERE id = 1 RETURNING theme_id`;
+    try {
+      const rows = await sql.query(query, [themeId, JSON.stringify(publish ? entry : clean), userId], options());
+      if (!findTheme(rows[0]?.theme_id)) throw new Error('Gravação não confirmada');
+      revision++; cached = undefined;
+    } catch (error) { revision++; cached = undefined; throw error; }
+  }
   return {
-    provider: 'neon', writable: true, warning: null,
+    async readStudio() { return studioWritable ? normalizeStudio((await readRecord()).color_studio) : normalizeStudio(null); },
+    async readPublished() {
+      if (!studioWritable) return { themeId: await this.read(), customization: null };
+      const record = await readRecord();
+      return { themeId: record.theme_id, customization: studioEntry(record.color_studio, record.theme_id).published };
+    },
+    async saveStudio(themeId, config, userId = null) { await writeStudio(themeId, config, userId, false); },
+    async publishStudio(themeId, config, userId = null) { await writeStudio(themeId, config, userId, true); },
+    provider: 'neon', writable: true, studioWritable, warning: null,
     async read({ fresh = false } = {}) {
       if (!fresh && cached && now() < cached.expiresAt) return cached.themeId;
       const readRevision = revision;

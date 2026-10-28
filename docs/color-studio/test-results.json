@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-28",
+  "branch": "feature/artize-color-studio",
+  "frontendCommit": "af7b830b8e1450958ff238f7131e556c82ee7eb7",
+  "unit": {
+    "command": "npm test",
+    "passed": 11,
+    "skipped": 1,
+    "failed": 0,
+    "skipReason": "THEME_TEST_DATABASE_URL absent; no alternate connection attempted"
+  },
+  "browserSuites": [
+    {
+      "command": "npm run test:browser",
+      "result": "passed"
+    },
+    {
+      "command": "npm run test:studio:browser",
+      "result": "passed"
+    },
+    {
+      "command": "node test/visual-admin.mjs",
+      "result": "passed"
+    },
+    {
+      "command": "node test/hero-carousel.mjs",
+      "result": "passed"
+    },
+    {
+      "command": "node test/home-loading.mjs",
+      "result": "passed"
+    },
+    {
+      "command": "node test/visual-accessibility.mjs",
+      "result": "passed"
+    },
+    {
+      "command": "node test/visual-customizer.mjs",
+      "result": "passed"
+    },
+    {
+      "command": "node test/visual-home.mjs",
+      "result": "passed"
+    },
+    {
+      "command": "node test/visual-motion.mjs",
+      "result": "passed"
+    },
+    {
+      "command": "node test/visual-shell.mjs",
+      "result": "passed"
+    }
+  ],
+  "syntaxAndDiffCheck": "passed",
+  "neonLive": {
+    "attempted": false,
+    "configured": false,
+    "instructions": "docs/color-studio-neon.md"
+  },
+  "realOrdersOrPayments": false,
+  "renderDeployExecuted": false
+}

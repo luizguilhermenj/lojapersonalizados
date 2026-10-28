@@ -1,7 +1,7 @@
 import { initNavigation } from '/js/navigation.js';
 const storageKeys={cart:'artize_cart_v1',session:'artize_session_v1'};
 export function readCart(){try{return JSON.parse(localStorage.getItem(storageKeys.cart)||'[]')}catch{return []}}
-export function writeCart(items){localStorage.setItem(storageKeys.cart,JSON.stringify(items)); updateCartBadge();}
+export function writeCart(items){if (window.parent !== window && new URLSearchParams(location.search).get('studioPreview') === '1') return;localStorage.setItem(storageKeys.cart,JSON.stringify(items)); updateCartBadge();}
 export function addToCart(item){
   const cart=readCart();
   const cartKey=item.cartKey||item.productId;

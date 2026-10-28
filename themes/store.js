@@ -10,7 +10,7 @@ export function createThemeStore({ env = process.env, localDir, neonOptions } = 
   const warning = 'Ativação indisponível: configure DATABASE_URL com um banco Neon PostgreSQL persistente.';
   // THEME_STORAGE_DIR e THEME_STORAGE_DURABLE não liberam arquivos em produção.
   return {
-    provider: 'unavailable', writable: false, warning,
+    provider: 'unavailable', writable: false, studioWritable: false, warning,
     async read() { return DEFAULT_THEME; },
     async save() { throw new Error(warning); }
   };

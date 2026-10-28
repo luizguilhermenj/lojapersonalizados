@@ -40,3 +40,36 @@ body:has(.mobile-purchase) .seasonal-effects-toggle{bottom:calc(94px + env(safe-
 @media(min-width:48rem){body:has(.mobile-purchase) .seasonal-effects-toggle{bottom:calc(16px + env(safe-area-inset-bottom,0px))}}
 @media(hover:hover) and (prefers-reduced-motion:no-preference){.primary-btn:active,.ghost-btn:active{transform:scale(.98)}.art-card:hover{box-shadow:var(--shadow)}.theme-option{transition:box-shadow var(--motion-fast)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}.art-card,.product-card,.primary-btn,.ghost-btn{transition:none!important;transform:none!important}}
+
+
+html[data-theme][data-color-studio] body {background:var(--store-background);color:var(--store-page-text)}
+html[data-theme][data-color-studio] :is(.site-header,.sub-header,.side-menu,.modal-card,.product-card,.art-card,.card,.hero-controls,.product-summary,.mobile-purchase,.theme-option,.empty-state) {--text:var(--store-text);--muted:var(--store-text);background:var(--store-surface);color:var(--store-text);border-color:var(--line)}
+html[data-theme][data-color-studio] :is(.field,.search,select,textarea,.menu-toggle,.side-close,.ghost-btn,.chip,.side-menu-section a,.quantity-control,.qty-btn,.art-filter-toggle,.theme-filter-toggle) {background:var(--store-surface);color:var(--store-text);border-color:var(--line)}
+html[data-theme][data-color-studio] :is(.primary-btn,.cart-btn,.chip.active,.brand-mark,.mobile-purchase .primary-btn),
+html[data-theme][data-color-studio] .hero-carousel .hero-copy .primary-btn {background:var(--store-accent);color:var(--store-on-accent);border-color:var(--store-accent)}
+html[data-theme][data-color-studio] .price {color:var(--store-link)}
+html[data-theme][data-color-studio] :is(.site-footer) {background:var(--store-surface);color:var(--store-text);border-top:1px solid var(--line)}
+html[data-theme][data-color-studio] :is(.footer-intro p,.footer-links h2,.footer-bottom,.menu-toggle em) {color:inherit}
+html[data-theme][data-color-studio] :is(.hero-carousel,.hero-controls,.search) {border-color:var(--line)}
+html[data-theme][data-color-studio] :is(.card,.product-card,.art-card,.hero-carousel) {transition:background-color var(--motion-fast),color var(--motion-fast),box-shadow var(--motion-fast)}
+html[data-theme][data-color-studio] :is(input,select,textarea,button,a):focus-visible {outline:3px solid currentColor;outline-offset:3px}
+html[data-theme][data-color-studio] .site-footer a:focus-visible {outline-color:currentColor}
+html[data-theme][data-color-studio][data-glow-cards] :is(.product-card,.art-card,.card) {box-shadow:0 4px 22px var(--store-glow-soft)}
+html[data-theme][data-color-studio][data-glow-borders] :is(.product-card,.art-card,.hero-carousel) {border-color:var(--store-glow-edge);box-shadow:inset 0 0 0 1px var(--store-glow-edge)}
+html[data-theme][data-color-studio][data-glow-buttons] .primary-btn {box-shadow:0 3px 18px var(--store-glow-edge)}
+html[data-theme][data-color-studio] .home-page {background-image:radial-gradient(ellipse at 10% 0%,var(--store-glow-soft),transparent 55%);background-repeat:no-repeat;background-size:100% min(700px,100vh)}
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+  html[data-theme][data-color-studio][data-glow-cards] .product-card:hover {box-shadow:0 7px 26px var(--store-glow-edge)}
+}
+@media(max-width:600px),(prefers-reduced-motion:reduce),(prefers-reduced-data:reduce) {
+  html[data-theme][data-color-studio] .home-page {background-image:none}
+  html[data-theme][data-color-studio]:is([data-glow-cards],[data-glow-buttons],[data-glow-borders]) :is(.product-card,.art-card,.card,.primary-btn,.hero-carousel) {box-shadow:none;transition:none}
+}
+
+html[data-theme][data-color-studio] .art-card.active .select-pill {background:var(--store-accent);color:var(--store-on-accent)}
+html[data-theme][data-color-studio] .eyebrow {color:var(--store-link)}
+html[data-theme][data-color-studio] :is(.qty-row button,.modal-card,.cart-item,.selection-box) {background:var(--store-surface);color:var(--store-text)}
+html[data-theme][data-color-studio] :is(.field,.search,textarea)::placeholder {color:var(--store-text);opacity:.75}
+/* Control boundaries and focus stay visible independently of decorative glow. */
+html[data-theme][data-color-studio] :is(.field,.search,select,textarea,.menu-toggle,.side-close,.ghost-btn,.chip) {--line:var(--store-text)}
+html[data-theme][data-color-studio] :is(input,select,textarea,button,a):focus-visible {outline-color:var(--store-text)}
