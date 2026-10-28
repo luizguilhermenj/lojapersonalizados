@@ -36,6 +36,35 @@ function neonTransport() {
 }
 const url = 'postgresql://fixture:fixture@ep-fixture.us-east-2.aws.neon.tech/fixture?sslmode=require';
 
+test('driver Neon oficial: detecção JSONB e aplicação de paleta com parâmetros, sem rede real', async () => {
+  const original = neonConfig.fetchFunction;
+  const { fromPalette } = await import('../public/js/color-studio.js');
+  let theme = 'artize', colors = null; const calls = [];
+  const result = (fields, rows) => ({ fields: fields.map(([name,dataTypeID]) => ({name,dataTypeID})), rows, rowCount: rows.length, command: 'SELECT' });
+  const execute = ({query,params=[]}) => {
+    calls.push({query,params});
+    if (query.includes('information_schema.columns')) return result([['data_type',25]],[['jsonb']]);
+    if (query.includes('SET color_studio')) { theme = params[0]; colors = JSON.parse(params[1]); return result([['theme_id',25]],[[theme]]); }
+    if (query.includes('to_jsonb(settings)')) return result([['theme_id',25],['color_studio',3802]],[[theme,JSON.stringify({version:1,themes:colors?{[theme]:colors}:{}})]]);
+    if (query.startsWith('SELECT theme_id')) return result([['theme_id',25]],[[theme]]);
+    return result([],[]);
+  };
+  neonConfig.fetchFunction = async (_url, options) => {
+    const body = JSON.parse(options.body);
+    return new Response(JSON.stringify(body.queries ? {results:body.queries.map(execute)} : execute(body)), {headers:{'Content-Type':'application/json'}});
+  };
+  try {
+    const store = createNeonThemeStore(url), c = fromPalette('royal-purple');
+    assert.deepEqual(await store.readPublished(), {themeId:'artize',customization:null}); assert.equal(store.studioWritable,true);
+    const actor = "admin'; DROP TABLE secret; --";
+    await store.publishStudio('natal',c,actor);
+    assert.deepEqual(await createNeonThemeStore(url).readPublished(),{themeId:'natal',customization:c});
+    const update = calls.find(q => q.query.includes('SET color_studio'));
+    assert.deepEqual(update.params,['natal',JSON.stringify({draft:c,published:c}),actor]);
+    assert(!update.query.includes(actor)); assert(!calls.some(q => /\bALTER\b/.test(q.query)));
+  } finally { neonConfig.fetchFunction = original; }
+});
+
 // Sequenciais: fetchFunction é uma configuração global do driver apenas neste processo de teste.
 test('driver Neon: criação idempotente, parâmetros, cache, ativação, reinicialização e restauração', async () => {
   const original = neonConfig.fetchFunction; const db = neonTransport(); neonConfig.fetchFunction = db.fetch;

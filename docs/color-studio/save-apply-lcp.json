@@ -1,0 +1,750 @@
+{
+  "schemaVersion": 2,
+  "sourceManifest": {
+    "public/css/themes.css": "72a62260fca836d3c208370201e9303dee8322f2bc2a1b5d4952d58d380c991d",
+    "public/css/admin.css": "2035dbb8444d081ae6da2e56284c328ece55f38d4a5942d0565a6968f42b3106",
+    "public/js/themes.js": "03995fef7726d89c2d5b20cc5a15c44b9c7c543ad4e15bcf8d627e38150847b2",
+    "public/js/home.js": "e514ff47393e123da64ed0c659e4992f3b30059ad14dc7f06845a013643d618b",
+    "public/pages/home.html": "084c9fdb256b785012e3320f04ab2d9021daf0f59a3e821af139c8f22844e4fc"
+  },
+  "baseline": "92db5fa43f5b5493410527682d06721b4ac76fb1",
+  "before": "54b8a879ead3355e46da128e0088fbc5f97f654a",
+  "after": "54b8a879ead3355e46da128e0088fbc5f97f654a",
+  "workingTree": true,
+  "conditions": {
+    "cpuSlowdown": 4,
+    "cpuQuota": "200000 100000",
+    "transport": "Same local HTTP middleware for all builds; no browser interception; cache disabled; no network throttling",
+    "motion": "reduce",
+    "runs": 3,
+    "observationAfterReadyMs": 1000,
+    "traceEnabled": false,
+    "order": "Interleaved rotated blocks",
+    "percentile": "Nearest rank p75; even median averages middle two; all samples retained",
+    "note": "Laboratory distribution, not field p75. Historical 9164 ms sample remains in docs/color-studio/performance.json; no original trace exists."
+  },
+  "summary": [
+    {
+      "build": "baseline",
+      "look": "original",
+      "width": 390,
+      "lcp": {
+        "n": 3,
+        "mean": 1145.3333333333333,
+        "min": 772,
+        "median": 916,
+        "p75": 1748,
+        "max": 1748
+      },
+      "layout": {
+        "n": 3,
+        "mean": 243.4276666666667,
+        "min": 179.651,
+        "median": 221.123,
+        "p75": 329.509,
+        "max": 329.509
+      },
+      "clsMax": 4.961538461538461e-05,
+      "task": {
+        "n": 3,
+        "mean": 1937.8580000000002,
+        "min": 1750.877,
+        "median": 1933.514,
+        "p75": 2129.183,
+        "max": 2129.183
+      }
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "width": 1440,
+      "lcp": {
+        "n": 3,
+        "mean": 1164,
+        "min": 828,
+        "median": 1328,
+        "p75": 1336,
+        "max": 1336
+      },
+      "layout": {
+        "n": 3,
+        "mean": 344.5046666666667,
+        "min": 310.017,
+        "median": 330.053,
+        "p75": 393.444,
+        "max": 393.444
+      },
+      "clsMax": 0,
+      "task": {
+        "n": 3,
+        "mean": 1950.1553333333334,
+        "min": 1848.374,
+        "median": 1988.41,
+        "p75": 2013.6820000000002,
+        "max": 2013.6820000000002
+      }
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "width": 390,
+      "lcp": {
+        "n": 3,
+        "mean": 1136,
+        "min": 964,
+        "median": 1088,
+        "p75": 1356,
+        "max": 1356
+      },
+      "layout": {
+        "n": 3,
+        "mean": 411.5336666666667,
+        "min": 232.556,
+        "median": 262.97900000000004,
+        "p75": 739.066,
+        "max": 739.066
+      },
+      "clsMax": 0.005796771130104464,
+      "task": {
+        "n": 3,
+        "mean": 2212.3703333333337,
+        "min": 1737.9679999999998,
+        "median": 2295.038,
+        "p75": 2604.105,
+        "max": 2604.105
+      }
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "width": 1440,
+      "lcp": {
+        "n": 3,
+        "mean": 1020,
+        "min": 980,
+        "median": 1028,
+        "p75": 1052,
+        "max": 1052
+      },
+      "layout": {
+        "n": 3,
+        "mean": 311.50066666666663,
+        "min": 206.974,
+        "median": 286.78900000000004,
+        "p75": 440.739,
+        "max": 440.739
+      },
+      "clsMax": 0.0034467021172919885,
+      "task": {
+        "n": 3,
+        "mean": 1955.243333333333,
+        "min": 1654.6609999999998,
+        "median": 1679.4370000000001,
+        "p75": 2531.632,
+        "max": 2531.632
+      }
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "width": 390,
+      "lcp": {
+        "n": 3,
+        "mean": 1610.6666666666667,
+        "min": 692,
+        "median": 1540,
+        "p75": 2600,
+        "max": 2600
+      },
+      "layout": {
+        "n": 3,
+        "mean": 249.60933333333332,
+        "min": 202.972,
+        "median": 220.51299999999998,
+        "p75": 325.343,
+        "max": 325.343
+      },
+      "clsMax": 0,
+      "task": {
+        "n": 3,
+        "mean": 2151.626,
+        "min": 1555.584,
+        "median": 2136.078,
+        "p75": 2763.216,
+        "max": 2763.216
+      }
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "width": 1440,
+      "lcp": {
+        "n": 3,
+        "mean": 998.6666666666666,
+        "min": 796,
+        "median": 868,
+        "p75": 1332,
+        "max": 1332
+      },
+      "layout": {
+        "n": 3,
+        "mean": 314.74500000000006,
+        "min": 292.694,
+        "median": 309.62,
+        "p75": 341.921,
+        "max": 341.921
+      },
+      "clsMax": 0.000938891501093107,
+      "task": {
+        "n": 3,
+        "mean": 1832.545,
+        "min": 1544.64,
+        "median": 1891.357,
+        "p75": 2061.638,
+        "max": 2061.638
+      }
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "width": 390,
+      "lcp": {
+        "n": 3,
+        "mean": 1170.6666666666667,
+        "min": 928,
+        "median": 1044,
+        "p75": 1540,
+        "max": 1540
+      },
+      "layout": {
+        "n": 3,
+        "mean": 264.63933333333335,
+        "min": 215.113,
+        "median": 248.483,
+        "p75": 330.322,
+        "max": 330.322
+      },
+      "clsMax": 0,
+      "task": {
+        "n": 3,
+        "mean": 2027.3306666666667,
+        "min": 1627.04,
+        "median": 1860.25,
+        "p75": 2594.7019999999998,
+        "max": 2594.7019999999998
+      }
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "width": 1440,
+      "lcp": {
+        "n": 3,
+        "mean": 1061.3333333333333,
+        "min": 720,
+        "median": 1192,
+        "p75": 1272,
+        "max": 1272
+      },
+      "layout": {
+        "n": 3,
+        "mean": 315.19599999999997,
+        "min": 284.222,
+        "median": 287.509,
+        "p75": 373.85699999999997,
+        "max": 373.85699999999997
+      },
+      "clsMax": 0.001311475212191358,
+      "task": {
+        "n": 3,
+        "mean": 1828.8456666666668,
+        "min": 1753.327,
+        "median": 1775.017,
+        "p75": 1958.193,
+        "max": 1958.193
+      }
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "width": 390,
+      "lcp": {
+        "n": 3,
+        "mean": 1232,
+        "min": 908,
+        "median": 1356,
+        "p75": 1432,
+        "max": 1432
+      },
+      "layout": {
+        "n": 3,
+        "mean": 196.013,
+        "min": 163.854,
+        "median": 203.906,
+        "p75": 220.279,
+        "max": 220.279
+      },
+      "clsMax": 0,
+      "task": {
+        "n": 3,
+        "mean": 1521.5196666666664,
+        "min": 1461.4499999999998,
+        "median": 1521.482,
+        "p75": 1581.627,
+        "max": 1581.627
+      }
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "width": 1440,
+      "lcp": {
+        "n": 3,
+        "mean": 913.3333333333334,
+        "min": 824,
+        "median": 912,
+        "p75": 1004,
+        "max": 1004
+      },
+      "layout": {
+        "n": 3,
+        "mean": 267.55366666666663,
+        "min": 215.38199999999998,
+        "median": 274.942,
+        "p75": 312.337,
+        "max": 312.337
+      },
+      "clsMax": 0,
+      "task": {
+        "n": 3,
+        "mean": 2048.0983333333334,
+        "min": 1742.465,
+        "median": 1973.274,
+        "p75": 2428.556,
+        "max": 2428.556
+      }
+    }
+  ],
+  "samples": [
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 1,
+      "order": 0,
+      "lcp": 772,
+      "cls": 0,
+      "LayoutDuration": 329.509,
+      "TaskDuration": 2129.183,
+      "cpuThrottledMs": 1176.096,
+      "errors": []
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 1,
+      "order": 1,
+      "lcp": 1356,
+      "cls": 0,
+      "LayoutDuration": 739.066,
+      "TaskDuration": 2604.105,
+      "cpuThrottledMs": 1430.219,
+      "errors": []
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 390,
+      "run": 1,
+      "order": 2,
+      "lcp": 1540,
+      "cls": 0,
+      "LayoutDuration": 202.972,
+      "TaskDuration": 1555.584,
+      "cpuThrottledMs": 1012.76,
+      "errors": []
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 1,
+      "order": 3,
+      "lcp": 1540,
+      "cls": 0,
+      "LayoutDuration": 248.483,
+      "TaskDuration": 1627.04,
+      "cpuThrottledMs": 706.329,
+      "errors": []
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 390,
+      "run": 1,
+      "order": 4,
+      "lcp": 1432,
+      "cls": 0,
+      "LayoutDuration": 163.854,
+      "TaskDuration": 1461.4499999999998,
+      "cpuThrottledMs": 561.172,
+      "errors": []
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 1,
+      "order": 0,
+      "lcp": 980,
+      "cls": 0,
+      "LayoutDuration": 206.974,
+      "TaskDuration": 1679.4370000000001,
+      "cpuThrottledMs": 716.467,
+      "errors": []
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 1,
+      "order": 1,
+      "lcp": 796,
+      "cls": 0,
+      "LayoutDuration": 309.62,
+      "TaskDuration": 1891.357,
+      "cpuThrottledMs": 651.917,
+      "errors": []
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 1,
+      "order": 2,
+      "lcp": 720,
+      "cls": 0,
+      "LayoutDuration": 287.509,
+      "TaskDuration": 1775.017,
+      "cpuThrottledMs": 952.801,
+      "errors": []
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 1,
+      "order": 3,
+      "lcp": 1004,
+      "cls": 0,
+      "LayoutDuration": 274.942,
+      "TaskDuration": 2428.556,
+      "cpuThrottledMs": 824.447,
+      "errors": []
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 1,
+      "order": 4,
+      "lcp": 1336,
+      "cls": 0,
+      "LayoutDuration": 393.444,
+      "TaskDuration": 1988.41,
+      "cpuThrottledMs": 1139.143,
+      "errors": []
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 390,
+      "run": 2,
+      "order": 0,
+      "lcp": 2600,
+      "cls": 0,
+      "LayoutDuration": 220.51299999999998,
+      "TaskDuration": 2763.216,
+      "cpuThrottledMs": 2015.357,
+      "errors": []
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 2,
+      "order": 1,
+      "lcp": 1044,
+      "cls": 0,
+      "LayoutDuration": 215.113,
+      "TaskDuration": 1860.25,
+      "cpuThrottledMs": 671.712,
+      "errors": []
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 390,
+      "run": 2,
+      "order": 2,
+      "lcp": 908,
+      "cls": 0,
+      "LayoutDuration": 220.279,
+      "TaskDuration": 1581.627,
+      "cpuThrottledMs": 658.569,
+      "errors": []
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 2,
+      "order": 3,
+      "lcp": 1748,
+      "cls": 0,
+      "LayoutDuration": 221.123,
+      "TaskDuration": 1933.514,
+      "cpuThrottledMs": 715.842,
+      "errors": []
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 2,
+      "order": 4,
+      "lcp": 964,
+      "cls": 0.005796771130104464,
+      "LayoutDuration": 232.556,
+      "TaskDuration": 1737.9679999999998,
+      "cpuThrottledMs": 704.164,
+      "errors": []
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 2,
+      "order": 0,
+      "lcp": 1192,
+      "cls": 0,
+      "LayoutDuration": 373.85699999999997,
+      "TaskDuration": 1958.193,
+      "cpuThrottledMs": 1406.286,
+      "errors": []
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 2,
+      "order": 1,
+      "lcp": 912,
+      "cls": 0,
+      "LayoutDuration": 312.337,
+      "TaskDuration": 1973.274,
+      "cpuThrottledMs": 522.314,
+      "errors": []
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 2,
+      "order": 2,
+      "lcp": 828,
+      "cls": 0,
+      "LayoutDuration": 310.017,
+      "TaskDuration": 1848.374,
+      "cpuThrottledMs": 886.76,
+      "errors": []
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 2,
+      "order": 3,
+      "lcp": 1052,
+      "cls": 0.0034467021172919885,
+      "LayoutDuration": 440.739,
+      "TaskDuration": 1654.6609999999998,
+      "cpuThrottledMs": 841.446,
+      "errors": []
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 2,
+      "order": 4,
+      "lcp": 868,
+      "cls": 0.000938891501093107,
+      "LayoutDuration": 292.694,
+      "TaskDuration": 1544.64,
+      "cpuThrottledMs": 711.503,
+      "errors": []
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 390,
+      "run": 3,
+      "order": 0,
+      "lcp": 1356,
+      "cls": 0,
+      "LayoutDuration": 203.906,
+      "TaskDuration": 1521.482,
+      "cpuThrottledMs": 538.08,
+      "errors": []
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 3,
+      "order": 1,
+      "lcp": 916,
+      "cls": 4.961538461538461e-05,
+      "LayoutDuration": 179.651,
+      "TaskDuration": 1750.877,
+      "cpuThrottledMs": 1262.71,
+      "errors": []
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 3,
+      "order": 2,
+      "lcp": 1088,
+      "cls": 0,
+      "LayoutDuration": 262.97900000000004,
+      "TaskDuration": 2295.038,
+      "cpuThrottledMs": 877.267,
+      "errors": []
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 390,
+      "run": 3,
+      "order": 3,
+      "lcp": 692,
+      "cls": 0,
+      "LayoutDuration": 325.343,
+      "TaskDuration": 2136.078,
+      "cpuThrottledMs": 960.209,
+      "errors": []
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 3,
+      "order": 4,
+      "lcp": 928,
+      "cls": 0,
+      "LayoutDuration": 330.322,
+      "TaskDuration": 2594.7019999999998,
+      "cpuThrottledMs": 1748.002,
+      "errors": []
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 3,
+      "order": 0,
+      "lcp": 1328,
+      "cls": 0,
+      "LayoutDuration": 330.053,
+      "TaskDuration": 2013.6820000000002,
+      "cpuThrottledMs": 1014.441,
+      "errors": []
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 3,
+      "order": 1,
+      "lcp": 1028,
+      "cls": 0.001311475212191358,
+      "LayoutDuration": 286.78900000000004,
+      "TaskDuration": 2531.632,
+      "cpuThrottledMs": 874.395,
+      "errors": []
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 3,
+      "order": 2,
+      "lcp": 1332,
+      "cls": 0,
+      "LayoutDuration": 341.921,
+      "TaskDuration": 2061.638,
+      "cpuThrottledMs": 986.563,
+      "errors": []
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 3,
+      "order": 3,
+      "lcp": 1272,
+      "cls": 0.001311475212191358,
+      "LayoutDuration": 284.222,
+      "TaskDuration": 1753.327,
+      "cpuThrottledMs": 910.194,
+      "errors": []
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 3,
+      "order": 4,
+      "lcp": 824,
+      "cls": 0,
+      "LayoutDuration": 215.38199999999998,
+      "TaskDuration": 1742.465,
+      "cpuThrottledMs": 726.978,
+      "errors": []
+    }
+  ]
+}

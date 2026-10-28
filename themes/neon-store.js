@@ -6,11 +6,12 @@ import { validateCustomization } from '../public/js/color-studio.js';
 const CACHE_MS = 15 * 60 * 1000;
 const REQUEST_TIMEOUT_MS = 8000;
 
-export function createNeonThemeStore(databaseUrl, { createSql = neon, now = Date.now, studioWritable = false } = {}) {
+export function createNeonThemeStore(databaseUrl, { createSql = neon, now = Date.now, studioWritable } = {}) {
   let sql;
   let initialization;
   let cached;
   let revision = 0;
+  let colorsAvailable = studioWritable === true;
   // Um novo sinal por operação permite recuperação depois de um timeout.
   const options = () => ({ fetchOptions: { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) } });
   async function initialize() {
@@ -30,6 +31,14 @@ export function createNeonThemeStore(databaseUrl, { createSql = neon, now = Date
           sql.query(`INSERT INTO public.artize_theme_settings (id, theme_id)
             VALUES (1, $1) ON CONFLICT (id) DO NOTHING`, [DEFAULT_THEME])
         ], options());
+        // Only inspect the existing schema. Migrations require explicit operator approval.
+        // The override is reserved for isolated transport fixtures/legacy preview mode.
+        if (studioWritable === undefined) {
+          const columns = await sql.query(`SELECT data_type FROM information_schema.columns
+            WHERE table_schema = 'public' AND table_name = 'artize_theme_settings'
+              AND column_name = 'color_studio'`, [], options());
+          colorsAvailable = columns[0]?.data_type === 'jsonb';
+        }
       })().catch(error => { initialization = undefined; throw error; });
     }
     await initialization;
@@ -42,10 +51,11 @@ export function createNeonThemeStore(databaseUrl, { createSql = neon, now = Date
     return rows[0];
   }
   async function writeStudio(themeId, config, userId, publish) {
-    if (!studioWritable) throw new Error('Color Studio em prévia temporária: gravação desativada.');
+    if (studioWritable === false) throw new Error('Salvamento de paletas indisponível neste ambiente.');
     if (!findTheme(themeId)) throw new Error('Tema inválido');
     const clean = validateCustomization(config);
     await initialize();
+    if (!colorsAvailable) throw new Error('Estrutura de persistência de paletas ainda não validada.');
     const entry = publish ? { draft: clean, published: clean } : null;
     // Update only this theme's path; other themes and the active ID survive draft saves.
     const document = `jsonb_build_object('version', 1, 'themes', CASE WHEN jsonb_typeof(color_studio->'themes') = 'object' THEN color_studio->'themes' ELSE '{}'::jsonb END)`;
@@ -66,15 +76,21 @@ export function createNeonThemeStore(databaseUrl, { createSql = neon, now = Date
     } catch (error) { revision++; cached = undefined; throw error; }
   }
   return {
-    async readStudio() { return studioWritable ? normalizeStudio((await readRecord()).color_studio) : normalizeStudio(null); },
+    async readStudio() {
+      if (studioWritable !== false) await initialize();
+      return colorsAvailable ? normalizeStudio((await readRecord()).color_studio) : normalizeStudio(null);
+    },
     async readPublished() {
-      if (!studioWritable) return { themeId: await this.read(), customization: null };
+      await initialize();
+      if (!colorsAvailable) return { themeId: await this.read(), customization: null };
       const record = await readRecord();
       return { themeId: record.theme_id, customization: studioEntry(record.color_studio, record.theme_id).published };
     },
     async saveStudio(themeId, config, userId = null) { await writeStudio(themeId, config, userId, false); },
     async publishStudio(themeId, config, userId = null) { await writeStudio(themeId, config, userId, true); },
-    provider: 'neon', writable: true, studioWritable, warning: null,
+    provider: 'neon', writable: true, warning: null,
+    get studioWritable() { return colorsAvailable; },
+    get studioWarning() { return colorsAvailable ? null : 'Salvar paletas aguarda a validação da estrutura JSONB no banco deste ambiente. A prévia continua disponível; nenhuma migração é executada automaticamente.'; },
     async read({ fresh = false } = {}) {
       if (!fresh && cached && now() < cached.expiresAt) return cached.themeId;
       const readRevision = revision;

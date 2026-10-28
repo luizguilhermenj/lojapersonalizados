@@ -64,7 +64,7 @@ try {
   assert.equal((await published()).theme.customization,null);
   await page.reload();await page.locator('.palette-choice').last().waitFor();await page.locator('#tab-custom').click();assert.equal(await page.locator('#hex-background').inputValue(),'#123456');
   await page.locator('#hex-background').fill('#654321');await page.locator('#tab-settings').click();await page.locator('#discardStudio').click();await page.locator('#tab-custom').click();assert.equal(await page.locator('#hex-background').inputValue(),'#123456');
-  await page.locator('#tab-settings').click();await page.locator('#publishStudio').click();await page.getByText('Visual publicado com sucesso. Atualize a loja para conferir.').waitFor();assert.equal((await published()).theme.customization.background,'#123456');
+  await page.locator('#tab-settings').click();await page.locator('#publishStudio').click();await page.getByText('Paleta salva e aplicada à loja. As cores permanecerão ao atualizar a página.').waitFor();assert.equal((await published()).theme.customization.background,'#123456');
   console.log('PASS HEX validation, glow toggles/0–100, compare, viewport, draft save/reload/discard/publish, cart isolation');
   // Unsaved changes survive theme switching and independent saves.
   for(const [index,id] of ['artize','natal','pascoa','dia-das-maes'].entries()) {
@@ -74,7 +74,7 @@ try {
     await page.locator(`input[name="appearanceTheme"][value="${id}"]`).check();assert.equal(await page.locator(`[data-palette="${PALETTES[index].id}"]`).getAttribute('aria-pressed'),'true');
   }
   await page.locator('#tab-settings').click();await page.locator('#resetStudio').click();await page.locator('#tab-preview').click();await frame.locator('html:not([data-color-studio])').waitFor();assert.equal((await published()).theme.customization.background,'#123456');
-  await page.locator('#tab-settings').click();await page.locator('#publishStudio').click();await page.getByText('Visual publicado com sucesso. Atualize a loja para conferir.').waitFor();assert.equal((await published()).theme.id,'dia-das-maes');assert.equal((await published()).theme.customization,null);
+  await page.locator('#tab-settings').click();await page.locator('#publishStudio').click();await page.getByText('Paleta salva e aplicada à loja. As cores permanecerão ao atualizar a página.').waitFor();assert.equal((await published()).theme.id,'dia-das-maes');assert.equal((await published()).theme.customization,null);
   console.log('PASS independent drafts for 4 themes; reset original requires publication');
   // Inspect actual computed contrast on public pages, not just color formulas.
   const contrastResults=[];

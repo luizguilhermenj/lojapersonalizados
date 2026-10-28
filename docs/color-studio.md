@@ -1,5 +1,7 @@
 # Artize Color Studio — relatório do PR #2
 
+> Histórico do PR #2. A solicitação posterior de salvar/aplicar tem [documentação própria](color-studio-save-apply.md), com inspeção do banco pendente e migração dependente de autorização específica. As instruções de modo temporário abaixo descrevem a fase anterior.
+
 Implementação na branch `feature/artize-color-studio`, baseada em `feature/gerenciador-temas` no commit `92db5fa43f5b5493410527682d06721b4ac76fb1`. Destino do PR: `feature/gerenciador-temas`, confirmada pelo responsável como a branch acompanhada pelo serviço de homologação. Nenhum merge, deploy ou acesso a banco de produção foi executado.
 
 **Estratégia atual: frontend primeiro.** O Color Studio está preparado para homologação visual em modo temporário no Neon/Render, sem gravar cores nem executar migração nova. Não criar projetos/bancos Neon e não configurar THEME_TEST_DATABASE_URL. A persistência existente da seleção dos quatro temas foi mantida. [Roteiro atual e limitações](color-studio-homologacao.md). Os ensaios e planos de backend anteriores abaixo ficam como histórico, sem bloquear essa fase visual.

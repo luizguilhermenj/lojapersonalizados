@@ -30,18 +30,19 @@ Refinamento da home: [carrossel mobile integrado aos temas](docs/banner-mobile.m
 
 ## Artize Color Studio
 
-O gerenciador em **Aparência e Temas** oferece 12 paletas, cores e glow por tema e prévia isolada. No Neon/Render, o modo temporário permite experimentar o frontend sem gravar cores nem executar migrações novas. [Documentação, persistência, testes e validação na homologação](docs/color-studio.md).
+O gerenciador em **Aparência e Temas** oferece 12 paletas, cores e glow por tema e prévia isolada. O botão **Salvar e aplicar paleta** grava as cores por tema e aplica à loja quando a estrutura JSONB está disponível. Sem essa estrutura, a ação fica desabilitada com uma explicação; nenhuma migração é executada automaticamente. [Documentação, persistência, testes e validação na homologação](docs/color-studio.md).
 
 ```bash
 npm ci
 npm test
 # Chromium instalado; ajuste CHROMIUM_PATH se necessário para a suíte do Studio.
 npm run test:studio:browser
+npm run test:studio:apply
 npm run test:studio:preview
 npm run test:browser
 npm run measure:studio
 ```
 
-Nesta fase não criar projetos/bancos Neon nem configurar THEME_TEST_DATABASE_URL. A persistência existente dos quatro temas permanece igual; as cores experimentais ficam apenas na memória da prévia no Render. A persistência local de desenvolvimento foi preservada.
+Não criar projetos/bancos Neon. A inspeção real, somente leitura, aguarda uma conexão identificada de homologação; qualquer migração exige autorização específica. Não alterar configurações do Render. [Fluxo de salvar/aplicar, SQL proposto, riscos, rollback e pendências](docs/color-studio-save-apply.md).
 
-[Integração e roteiro de homologação visual](docs/color-studio-homologacao.md). O PR #2 tem como destino apenas feature/gerenciador-temas; main, produção e configurações do Render não são alteradas por esta preparação.
+O novo fluxo parte de feature/gerenciador-temas e tem PR exclusivamente para essa branch. Após os testes, o responsável autorizou seu merge; isso pode acionar o Auto-Deploy existente da homologação. A migração Neon continua pendente de inspeção e autorização específica. O [roteiro anterior de prévia temporária](docs/color-studio-homologacao.md) registra a fase do PR #2 já integrado pelo responsável.
