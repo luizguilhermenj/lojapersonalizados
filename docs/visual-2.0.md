@@ -64,3 +64,9 @@ Autorização recebida para corrigir e continuar. A altura passou a pertencer à
 - Galeria inicia com 24 botões nativos, lazy loading, srcset e botão de mais artes. Seleção altera apenas o card anterior, o atual e a prévia. Filtros reutilizam os nós, mantêm foco e estado aria-pressed. Ação fixa mobile respeita área segura.
 - `node test/visual-customizer.mjs`: passou, verifica todos os arquivos/195 IDs, navegação sem baixar originais, 6 larguras, foco/Enter, identidade dos nós, paginação completa, filtros e payload comercial original.
 - `npm test`: 5 passaram/1 Neon real pulado. Matriz de quatro temas e seis resoluções executada antes da publicação.
+
+## Etapa 4 — Painel administrativo
+
+Cabeçalho de gestão, atalhos nativos a Pedidos/Aparência, resumos em grade, estilos de pedidos compartilhados, quebra de textos longos e ações confortáveis no celular. Os quatro temas mantêm radios/ativação/restauração e ganham miniaturas decorativas quando disponíveis; prévia alterna entre largura mobile de até 430px e largura disponível. Filtros mantêm foco e aria-pressed; select de status tem rótulo por pedido. Modal de novas vendas contém foco, torna o fundo inerte, permite Escape sem confirmar leitura e restaura o estado. A confirmação explícita continua usando a rota existente. Nenhum cálculo de faturamento/status foi modificado.
+
+`npm test`: 5 passaram/1 Neon real pulado. `node test/visual-admin.mjs`: passou com pedido sintético de texto longo, 6 resoluções, modal/teclado/inert, quatro opções e prévia mobile/desktop sem publicar. `node test/visual-shell.mjs`: 120 combinações aprovadas, sem overflow/erro JS. As deficiências de integridade financeira e segurança indicadas na auditoria continuam pendentes; esta etapa não as resolve.

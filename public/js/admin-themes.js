@@ -6,7 +6,10 @@ const feedback = document.getElementById('themeFeedback');
 const publish = document.getElementById('publishTheme');
 const restore = document.getElementById('restoreTheme');
 const preview = document.getElementById('previewTheme');
+const previewSize = document.getElementById('previewSize');
 const frame = document.getElementById('themePreviewFrame');
+function sizePreview(){frame.style.maxWidth=previewSize.value==='mobile'?'430px':'100%';}
+previewSize.addEventListener('change',sizePreview);sizePreview();
 let selected;
 let canActivate = false;
 let busy = false;
@@ -38,6 +41,8 @@ async function load() {
     const description = document.createElement('span'); description.textContent = theme.description;
     const swatches = document.createElement('span'); swatches.className = 'theme-swatches'; swatches.ariaHidden = 'true';
     for (const color of theme.colors) { const swatch = document.createElement('i'); swatch.style.backgroundColor = color; swatches.append(swatch); }
+    if(theme.decoration){const image=document.createElement('img');image.className='theme-option-art';image.src=theme.decoration.src;image.alt='';image.width=240;image.height=120;image.loading='lazy';label.append(image);}
+    label.dataset.theme=theme.id;
     label.append(input, title, description, swatches); choices.append(label);
   }
   if (data.warning) message(data.warning, true);

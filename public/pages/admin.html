@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/css/tokens.css">
 <link rel="stylesheet" href="/css/base.css">
 <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/orders.css">
   <link rel="stylesheet" href="/css/admin.css">
   <link rel="stylesheet" href="/css/themes.css">
   <script type="module" src="/js/themes.js"></script>
@@ -41,15 +42,14 @@
   <main id="main-content" tabindex="-1" class="container page-stack">
     <a class="back-link" href="/pages/home.html">← Voltar para loja</a>
 
-    <section class="card">
+    <header class="admin-page-heading"><div><p class="admin-eyebrow">Área de gestão</p><h1>Painel administrativo</h1><p>Pedidos e identidade da loja em um só lugar.</p></div><a class="ghost-btn" href="/pages/pedidos.html">Visão do cliente</a></header>
+    <nav class="admin-section-nav" aria-label="Seções do painel"><a href="#ordersPanel">Pedidos</a><a href="#appearancePanel">Aparência e Temas</a></nav>
+    <section class="card" id="ordersPanel" aria-labelledby="ordersTitle">
       <div class="section-head">
         <div>
-          <h1>Painel administrativo</h1>
-          <p>Gerencie pedidos, acompanhe novas vendas e atualize o andamento da produção.</p>
+          <p class="admin-eyebrow">Acompanhe a produção</p><h2 id="ordersTitle">Pedidos</h2><p>Filtre pelo andamento e atualize o status de cada pedido.</p>
         </div>
-        <div class="toolbar">
-          <a class="ghost-btn" href="/pages/pedidos.html">Visão do cliente</a>
-        </div>
+
       </div>
 
       <div id="adminSummary" class="admin-summary"></div>
@@ -60,10 +60,10 @@
       </div>
 
       <div id="adminOrders" class="stack"></div>
-      <p id="adminFeedback" class="feedback"></p>
+      <p id="adminFeedback" class="feedback" role="status" aria-live="polite"></p>
     </section>
     <section id="appearancePanel" class="card" hidden aria-labelledby="appearanceTitle">
-      <h2 id="appearanceTitle">Aparência e Temas</h2>
+      <p class="admin-eyebrow">A identidade da sua loja</p><h2 id="appearanceTitle">Aparência e Temas</h2>
       <p>Escolha uma identidade visual e pré-visualize antes de publicar. A ativação é manual.</p>
       <fieldset id="themeChoices" class="theme-options" aria-label="Temas disponíveis"></fieldset>
       <div class="toolbar">
@@ -72,6 +72,7 @@
         <button id="restoreTheme" class="ghost-btn" type="button" disabled>Restaurar tema padrão</button>
       </div>
       <p id="themeFeedback" class="feedback" role="status" aria-live="polite"></p>
+      <label class="preview-size-label" for="previewSize">Largura da prévia<select id="previewSize" class="field"><option value="mobile">Celular (até 430 px)</option><option value="full">Toda a largura disponível</option></select></label>
       <iframe id="themePreviewFrame" class="theme-preview-frame" title="Pré-visualização da loja" hidden></iframe>
     </section>
   </main>
