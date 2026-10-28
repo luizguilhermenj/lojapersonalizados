@@ -49,7 +49,7 @@
         <span class="eyebrow" id="selectedThemeEyebrow">Coleções temáticas</span>
         <h1>Caneca de Cerâmica</h1>
         <span class="inventory-pill" id="totalArtsLabel">Carregando artes...</span>
-        <p class="summary-copy">Escolha um tema, navegue pelos mockups reais e adicione ao carrinho exatamente a arte desejada. Assim o pedido já segue organizado e sem ruído na produção.</p>
+        <p class="summary-copy">Escolha um tema, navegue pelos mockups reais e adicione ao carrinho exatamente a arte desejada. Veja a prévia da sua escolha antes de adicionar ao carrinho.</p>
         <div class="summary-price-row">
           <strong>R$ 34,90</strong>
           <span>Caneca base + arte da coleção escolhida</span>
@@ -65,10 +65,10 @@
           <span id="selectedArtDescription">Assim que você tocar em uma arte, a prévia e os detalhes aparecem aqui.</span>
         </div>
         <div class="cta-row">
-          <button id="addSelectedArtBtn" class="primary-btn" type="button">Adicionar ao carrinho</button>
+          <button id="addSelectedArtBtn" data-add-art disabled class="primary-btn" type="button">Adicionar ao carrinho</button>
           <a class="ghost-btn" href="/pages/carrinho.html">Ir para o carrinho</a>
         </div>
-        <p id="customizerFeedback" class="feedback"></p>
+        <p id="customizerFeedback" class="feedback" role="status" aria-live="polite"></p>
       </div>
     </section>
 
@@ -82,10 +82,12 @@
       <div class="theme-filter-wrap">
         <div id="themeFilters" class="chips" aria-label="Filtrar artes por tema"></div>
       </div>
-      <div id="filterSummary" class="filter-summary">Mostrando todas as artes disponíveis.</div>
-      <div id="artGrid" class="art-grid"></div>
+      <div id="filterSummary" class="filter-summary" role="status" aria-live="polite">Mostrando todas as artes disponíveis.</div>
+      <div id="artGrid" class="art-grid" aria-label="Artes disponíveis"></div>
+      <button id="loadMoreArts" class="ghost-btn load-more" type="button" hidden>Mostrar mais artes</button>
     </section>
   </main>
+  <div class="mobile-purchase" aria-label="Adicionar arte selecionada"><div><small>R$ 34,90 • Arte escolhida</small><strong id="mobileArtName">Escolha uma arte</strong></div><button class="primary-btn" type="button" data-add-art disabled>Adicionar</button></div>
 
   <script type="module" src="/js/app.js"></script>
   <script type="module" src="/js/caneca-ceramica.js"></script>

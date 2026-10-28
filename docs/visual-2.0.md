@@ -55,3 +55,12 @@ Resultados nesta retomada: etapa 1 revalidada com 120 combinações visuais e `n
 ### Retomada e correção da etapa 2
 
 Autorização recebida para corrigir e continuar. A altura passou a pertencer à `.promo-carousel` externa (`height:440px;box-sizing:border-box`), e a `.promo-track` usa `height:100%`. A asserção continua exigindo exatamente 440px, sem tolerância. `node test/visual-home.mjs` passou para quatro temas × seis larguras, CTA contido, duas colunas mobile, busca sem acento e catálogo com disponibilidade preservada. `npm test`: 5 passaram/1 Neon real pulado. `node test/browser.mjs`: suíte de regressão completa aprovada sem pagamento. O script `scripts/measure-frontend.mjs` permite comparar o snapshot bb57b50 e o frontend final com imagens reais, 390×844, CPU 4× e rede simulada.
+
+## Etapa 3 — Personalização e imagens
+
+- 195 originais e manifest comercial intactos; IDs, preço e payload de carrinho preservados.
+- Derivados WebP 200/400/800px por ID, sem corte de conteúdo: 1.201.446 / 3.595.698 / 12.072.322 bytes (16.869.466 total), comparados a 149.660.340 bytes dos originais. O conjunto pequeno equivale a cerca de 0,8% do conjunto original, sem implicar download de todas as imagens em uma visita.
+- `scripts/generate-art-previews.py` reproduz os derivados com Pillow 12.3.0 (ferramenta local, sem dependência nova no servidor). Adicionar uma arte exige rodar o script e versionar os derivados/manifest. Os originais continuam sendo referência do item comercial.
+- Galeria inicia com 24 botões nativos, lazy loading, srcset e botão de mais artes. Seleção altera apenas o card anterior, o atual e a prévia. Filtros reutilizam os nós, mantêm foco e estado aria-pressed. Ação fixa mobile respeita área segura.
+- `node test/visual-customizer.mjs`: passou, verifica todos os arquivos/195 IDs, navegação sem baixar originais, 6 larguras, foco/Enter, identidade dos nós, paginação completa, filtros e payload comercial original.
+- `npm test`: 5 passaram/1 Neon real pulado. Matriz de quatro temas e seis resoluções executada antes da publicação.
