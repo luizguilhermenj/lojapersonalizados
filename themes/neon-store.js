@@ -49,12 +49,14 @@ export function createNeonThemeStore(databaseUrl, { createSql = neon, now = Date
     await initialize();
     const entry = publish ? { draft: clean, published: clean } : null;
     // Update only this theme's path; other themes and the active ID survive draft saves.
+    const document = `jsonb_build_object('version', 1, 'themes', CASE WHEN jsonb_typeof(color_studio->'themes') = 'object' THEN color_studio->'themes' ELSE '{}'::jsonb END)`;
     const query = publish ? `UPDATE public.artize_theme_settings
-      SET color_studio = jsonb_set(color_studio, ARRAY['themes', $1]::text[], $2::jsonb, true),
+      SET color_studio = jsonb_set(${document}, ARRAY['themes', $1]::text[], $2::jsonb, true),
           theme_id = $1, updated_at = CURRENT_TIMESTAMP, updated_by = $3, version = version + 1
       WHERE id = 1 RETURNING theme_id` : `UPDATE public.artize_theme_settings
-      SET color_studio = jsonb_set(color_studio, ARRAY['themes', $1]::text[],
-          COALESCE(color_studio #> ARRAY['themes', $1]::text[], '{"draft":null,"published":null}'::jsonb)
+      SET color_studio = jsonb_set(${document}, ARRAY['themes', $1]::text[],
+          (CASE WHEN jsonb_typeof(color_studio #> ARRAY['themes', $1]::text[]) = 'object'
+            THEN color_studio #> ARRAY['themes', $1]::text[] ELSE '{"draft":null,"published":null}'::jsonb END)
           || jsonb_build_object('draft', $2::jsonb), true),
           updated_at = CURRENT_TIMESTAMP, updated_by = $3, version = version + 1
       WHERE id = 1 RETURNING theme_id`;
