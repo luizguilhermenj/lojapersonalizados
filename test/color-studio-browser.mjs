@@ -105,6 +105,19 @@ try {
   assert.notEqual(await page.locator('.primary-btn').first().evaluate(el=>getComputedStyle(el).boxShadow),'none');
   await page.emulateMedia({reducedMotion:'reduce'});assert.equal(await page.locator('.primary-btn').first().evaluate(el=>getComputedStyle(el).boxShadow),'none');
   await page.emulateMedia({reducedMotion:'no-preference'});await page.setViewportSize({width:390,height:1000});assert.equal(await page.locator('.primary-btn').first().evaluate(el=>getComputedStyle(el).boxShadow),'none');
+  // A color edit is a single root style write and preserves the active carousel.
+  const update=await page.evaluate(async()=>{
+    const {applyTheme}=await import('/js/themes.js');
+    const {theme}=await(await fetch('/api/theme')).json();applyTheme(theme);
+    document.querySelector('[data-hero-index="1"]').click();
+    const styles=new MutationObserver(()=>{});styles.observe(document.documentElement,{attributes:true,attributeFilter:['style']});
+    const hero=new MutationObserver(()=>{});hero.observe(document.querySelector('[data-hero-carousel]'),{childList:true,subtree:true,characterData:true});
+    applyTheme({...theme,customization:{...theme.customization,glowIntensity:57}});
+    const result={styleWrites:styles.takeRecords().length,heroChanges:hero.takeRecords().length,slide:document.querySelector('[data-hero-carousel]').dataset.slide};
+    styles.disconnect();hero.disconnect();return result;
+  });
+  assert.deepEqual(update,{styleWrites:1,heroChanges:0,slide:'1'});
+  console.log('PASS color edit writes styles atomically and preserves carousel content/slide');
   // Purchase modules stay functional with a dark published palette.
   const products=await(await fetch(base+'/api/products')).json();
   await page.evaluate(async p=>{const app=await import('/js/app.js');app.addToCart({productId:p.id,name:p.name,price:p.price,image:p.image,quantity:1});},products[0]);

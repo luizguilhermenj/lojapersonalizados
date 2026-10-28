@@ -71,7 +71,7 @@ function renderProducts() {
     .map(
       (product, index) => `
         <article class="product-card">
-          <img src="${product.image}" alt="${product.name}" width="400" height="400" loading="${index < 2 ? 'eager' : 'lazy'}" decoding="async">
+          <img src="${product.image}" alt="${product.name}" width="400" height="400" loading="${index < 2 ? 'eager' : 'lazy'}" fetchpriority="${index === 0 && matchMedia('(max-width:47.99rem)').matches ? 'high' : 'auto'}" decoding="async">
           <div class="product-body">
             <h3>${product.name}</h3>
             <p>${product.description}</p>

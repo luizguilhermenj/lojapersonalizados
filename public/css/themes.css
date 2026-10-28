@@ -57,7 +57,7 @@ html[data-theme][data-color-studio] .site-footer a:focus-visible {outline-color:
 html[data-theme][data-color-studio][data-glow-cards] :is(.product-card,.art-card,.card) {box-shadow:0 4px 22px var(--store-glow-soft)}
 html[data-theme][data-color-studio][data-glow-borders] :is(.product-card,.art-card,.hero-carousel) {border-color:var(--store-glow-edge);box-shadow:inset 0 0 0 1px var(--store-glow-edge)}
 html[data-theme][data-color-studio][data-glow-buttons] .primary-btn {box-shadow:0 3px 18px var(--store-glow-edge)}
-html[data-theme][data-color-studio] .home-page {background-image:radial-gradient(ellipse at 10% 0%,var(--store-glow-soft),transparent 55%)}
+html[data-theme][data-color-studio] .home-page {background-image:radial-gradient(ellipse at 10% 0%,var(--store-glow-soft),transparent 55%);background-repeat:no-repeat;background-size:100% min(700px,100vh)}
 @media(hover:hover) and (prefers-reduced-motion:no-preference) {
   html[data-theme][data-color-studio][data-glow-cards] .product-card:hover {box-shadow:0 7px 26px var(--store-glow-edge)}
 }
@@ -66,47 +66,10 @@ html[data-theme][data-color-studio] .home-page {background-image:radial-gradient
   html[data-theme][data-color-studio]:is([data-glow-cards],[data-glow-buttons],[data-glow-borders]) :is(.product-card,.art-card,.card,.primary-btn,.hero-carousel) {box-shadow:none;transition:none}
 }
 
-/* Studio controls inherit the current dashboard design tokens. */
-.color-studio {margin-top:28px;padding-top:24px;border-top:1px solid var(--line);min-width:0}
-.studio-heading {display:flex;justify-content:space-between;align-items:start;gap:16px;flex-wrap:wrap}
-.studio-heading h3 {margin:0;font-family:var(--font-display);font-size:1.75rem;letter-spacing:-.04em}
-.studio-heading p {max-width:62ch;color:var(--muted);line-height:1.6}
-.studio-badge {border:1px solid var(--line);border-radius:99px;padding:8px 12px;font-size:.75rem}
-.studio-tabs {display:flex;flex-wrap:wrap;gap:8px;margin-block:20px}
-.studio-tabs button {min-height:44px;border:1px solid var(--line);border-radius:99px;padding:10px 16px;background:var(--surface);color:var(--text);font:inherit;cursor:pointer}
-.studio-tabs button[aria-selected="true"] {background:var(--dark);color:var(--store-on-accent,#fff)}
-.studio-panel[hidden] {display:none}
-.palette-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;margin-bottom:24px}
-.palette-choice {display:grid;gap:12px;text-align:left;padding:16px;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:16px;cursor:pointer;min-height:112px;font:inherit}
-.palette-choice[aria-pressed="true"] {outline:2px solid var(--text);outline-offset:2px}
-.palette-swatches {display:flex;overflow:hidden;border-radius:8px;height:32px;border:1px solid #8885}
-.palette-swatches i {flex:1}
-.palette-choice small {color:var(--muted);font-size:.75rem}
-.studio-fields {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px;margin-bottom:24px}
-.studio-color-field {display:grid;gap:8px}
-.studio-color-pair {display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center}
-.studio-color-pair input[type="color"] {width:52px;height:48px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:10px;cursor:pointer}
-.studio-switches {display:flex;flex-wrap:wrap;gap:18px;margin:20px 0}
-.studio-switches label {display:flex;align-items:center;gap:10px;min-height:44px}
-.studio-switches input {width:20px;height:20px;accent-color:var(--dark)}
-.studio-range {display:grid;gap:12px;max-width:520px}
-.studio-range input {width:100%;accent-color:var(--dark);min-height:44px}
-.studio-note {color:var(--muted);font-size:.875rem;line-height:1.6}
-.studio-actions {display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
-.studio-preview-tools {display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.studio-preview-tools label {display:flex;align-items:center;gap:10px;min-height:44px}
-.studio-preview-tools select {width:auto;max-width:100%}
-.studio-preview-viewport {overflow:auto;max-width:100%;border-radius:16px}
-.studio-preview-viewport .theme-preview-frame {box-sizing:content-box;display:block;margin:16px auto 0;height:700px;max-height:80vh}
-.studio-preview-viewport .theme-preview-frame[hidden] {display:none}
-@media(max-width:600px) {.studio-tabs button{flex:1 1 40%;font-size:.875rem}.studio-actions{display:grid}.studio-actions button{width:100%}.studio-preview-tools{align-items:start;flex-direction:column}}
-
 html[data-theme][data-color-studio] .art-card.active .select-pill {background:var(--store-accent);color:var(--store-on-accent)}
 html[data-theme][data-color-studio] .eyebrow {color:var(--store-link)}
 html[data-theme][data-color-studio] :is(.qty-row button,.modal-card,.cart-item,.selection-box) {background:var(--store-surface);color:var(--store-text)}
 html[data-theme][data-color-studio] :is(.field,.search,textarea)::placeholder {color:var(--store-text);opacity:.75}
-.studio-preview-tools label {max-width:100%;font-size:.875rem}
-@media(max-width:600px) {.studio-preview-tools label:has(select){display:grid;gap:8px;width:100%}.studio-preview-tools select{width:100%}.studio-preview-tools input[type="checkbox"]{flex-shrink:0}}
 /* Control boundaries and focus stay visible independently of decorative glow. */
 html[data-theme][data-color-studio] :is(.field,.search,select,textarea,.menu-toggle,.side-close,.ghost-btn,.chip) {--line:var(--store-text)}
 html[data-theme][data-color-studio] :is(input,select,textarea,button,a):focus-visible {outline-color:var(--store-text)}

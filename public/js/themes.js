@@ -10,32 +10,48 @@ const tokenNames = {
   heroMuted: '--theme-hero-muted', heroButton: '--theme-hero-button', heroButtonText: '--theme-hero-button-text'
 };
 let currentTheme;
-let appliedStudioTokens = [];
-export function applyCustomization(value) {
+let appliedTokens = [];
+function writeThemeTokens(theme) {
+  const config = safeCustomization(theme.customization);
+  const tokens = {};
+  for (const [key, name] of Object.entries(tokenNames)) {
+    if (/^#[0-9a-f]{6}$/i.test(theme.palette?.[key] || '')) tokens[name] = theme.palette[key];
+  }
+  Object.assign(tokens, customizationTokens(config));
   const root = document.documentElement;
-  for (const key of appliedStudioTokens) root.style.removeProperty(key);
-  const config = safeCustomization(value);
-  const tokens = customizationTokens(config);
-  appliedStudioTokens = Object.keys(tokens);
-  for (const [key, color] of Object.entries(tokens)) root.style.setProperty(key, color);
+  // Assemble off-document: one style mutation, without intermediate default colors.
+  const style = document.createElement('span').style;
+  style.cssText = root.style.cssText;
+  for (const key of appliedTokens) if (!(key in tokens)) style.removeProperty(key);
+  for (const [key, value] of Object.entries(tokens)) style.setProperty(key, value);
+  if (config) style.colorScheme = parseInt(config.background.slice(1, 3), 16) < 128 ? 'dark' : 'light';
+  else style.removeProperty('color-scheme');
+  if (root.style.cssText !== style.cssText) root.style.cssText = style.cssText;
+  appliedTokens = Object.keys(tokens);
   root.toggleAttribute('data-color-studio', Boolean(config));
-  root.style.colorScheme = config && parseInt(config.background.slice(1, 3), 16) < 128 ? 'dark' : 'light';
   for (const [attr, key] of [['data-glow-buttons','glowButtons'],['data-glow-cards','glowCards'],['data-glow-borders','glowBorders']]) root.toggleAttribute(attr, Boolean(config?.glowEnabled && config.glowIntensity > 0 && config[key]));
+}
+export function applyCustomization(value) {
+  writeThemeTokens({ ...(currentTheme || { id: 'artize' }), customization: value });
 }
 
 // Efeitos ficam na experiência de descoberta, fora do carrinho e gestão.
 const motionAllowed = () => Boolean(document.querySelector('.home-page,.customizer-page'));
 
 export function applyTheme(theme) {
-  effects.stop();
+  const previous = currentTheme;
+  // Live color changes do not rebuild campaign copy, reset the slide or particles.
+  const sameCampaign = previous && previous.id === theme.id &&
+    previous.campaign === theme.campaign && previous.effect === theme.effect &&
+    previous.decoration === theme.decoration;
   currentTheme = theme;
+  writeThemeTokens(theme);
   const root = document.documentElement;
-  applyCustomization(null);
-  for (const [key, name] of Object.entries(tokenNames)) {
-    root.style.removeProperty(name);
-    if (/^#[0-9a-f]{6}$/i.test(theme.palette?.[key] || '')) root.style.setProperty(name, theme.palette[key]);
+  if (sameCampaign) {
+    document.dispatchEvent(new CustomEvent('artize:themechange', { detail: { themeId: theme.id } }));
+    return;
   }
-  applyCustomization(theme.customization);
+  effects.stop();
   root.dataset.theme = theme.id;
   root.toggleAttribute('data-seasonal', Boolean(theme.campaign));
   const navLink = document.getElementById('seasonalNavLink');
