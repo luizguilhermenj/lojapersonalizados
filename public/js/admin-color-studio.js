@@ -135,6 +135,7 @@ export function createColorStudio({ frame, onPublished, onBusy }) {
   });
   return {
     load(data) {
+      root.hidden = false;
       const previousSaved = saved;
       const previousDrafts = drafts;
       themes = data.themes; saved = data.colorStudio?.themes || {}; writable = data.canActivate;

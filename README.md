@@ -27,3 +27,18 @@ Design system Mobile First, home, galeria progressiva com derivados WebP, painel
 Homologação autorizada: `feature/gerenciador-temas`, serviço `artize-homologacao`. Pushes nessa branch podem acionar Auto-Deploy; esta fase não publica em `main`. Os problemas críticos de segurança e integridade da auditoria permanecem pendentes antes da abertura comercial.
 
 Refinamento da home: [carrossel mobile integrado aos temas](docs/banner-mobile.md), com comparação440→220px, swipe e controles acessíveis. Para atualizar a marcação inicial das categorias a partir do catálogo existente, execute `node scripts/sync-shell.mjs`.
+
+## Artize Color Studio
+
+O gerenciador em **Aparência e Temas** oferece 12 paletas, cores e glow por tema, rascunhos e prévia isolada. [Documentação, persistência, testes e validação na homologação](docs/color-studio.md).
+
+```bash
+npm ci
+npm test
+# Chromium instalado; ajuste CHROMIUM_PATH se necessário para a suíte do Studio.
+npm run test:studio:browser
+npm run test:browser
+npm run measure:studio
+```
+
+Salvar rascunho não publica a aparência. A publicação exige administrador e armazenamento persistente no Neon em ambientes Render. Não reutilize banco de produção para testes.
