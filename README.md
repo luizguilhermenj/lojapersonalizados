@@ -45,4 +45,4 @@ npm run measure:studio
 
 Não criar projetos/bancos Neon. A inspeção real, somente leitura, aguarda uma conexão identificada de homologação; qualquer migração exige autorização específica. Não alterar configurações do Render. [Fluxo de salvar/aplicar, SQL proposto, riscos, rollback e pendências](docs/color-studio-save-apply.md).
 
-O novo fluxo parte de feature/gerenciador-temas e terá PR exclusivamente para essa branch, sem merge ou deploy. O [roteiro anterior de prévia temporária](docs/color-studio-homologacao.md) registra a fase do PR #2 já integrado pelo responsável.
+O novo fluxo parte de feature/gerenciador-temas e tem PR exclusivamente para essa branch. Após os testes, o responsável autorizou seu merge; isso pode acionar o Auto-Deploy existente da homologação. A migração Neon continua pendente de inspeção e autorização específica. O [roteiro anterior de prévia temporária](docs/color-studio-homologacao.md) registra a fase do PR #2 já integrado pelo responsável.

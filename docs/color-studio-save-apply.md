@@ -1,6 +1,6 @@
 # Color Studio — salvar e aplicar paleta
 
-Implementação na branch `feature/color-studio-save-apply`, criada a partir de `feature/gerenciador-temas` em `54b8a879ead3355e46da128e0088fbc5f97f654a` (PR #2 já integrado pelo responsável). Destino exclusivo: `feature/gerenciador-temas`. Nenhum merge, deploy, alteração de main ou configuração do Render faz parte desta entrega.
+Implementação na branch `feature/color-studio-save-apply`, criada a partir de `feature/gerenciador-temas` em `54b8a879ead3355e46da128e0088fbc5f97f654a` (PR #2 já integrado pelo responsável). Destino exclusivo: `feature/gerenciador-temas`. Após os testes, o responsável autorizou explicitamente o commit e o merge nesta branch de homologação. O merge pode acionar o Auto-Deploy existente. Main e configurações do Render não são alteradas; nenhuma migração real foi autorizada.
 
 ## Fluxo do administrador
 
@@ -90,9 +90,9 @@ Os testes executam o SQL real em PGlite (PostgreSQL isolado). A suíte de navega
 
 ## Pendências para homologação
 
-Disponibilizar a conexão de leitura e acesso de rede; inspecionar o esquema real; conferir permissões do usuário da aplicação; apresentar a decisão final de migração e obter autorização específica antes de qualquer alteração. Só depois validar a persistência no Neon de homologação e executar merge/deploy se autorizados separadamente. O novo PR permanece em Draft até concluir essas validações. Não há afirmação de que o botão já esteja habilitado no Render.
+Disponibilizar a conexão de leitura e acesso de rede; inspecionar o esquema real; conferir permissões do usuário da aplicação; apresentar a decisão final de migração e obter autorização específica antes de qualquer alteração. A persistência no Neon real continua pendente. O responsável autorizou integrar agora o código validado em isolamento, mantendo o bloqueio quando faltar estrutura JSONB. O PR pode sair de Draft para esse merge autorizado; não há afirmação de que a gravação já esteja habilitada no Render. A migração continua exigindo autorização específica depois da inspeção.
 
-## Resultado da execução
+## Resultado da execução antes da integração autorizada
 
 - **npm test: 15 passaram, 1 pulado, 0 falhas** (16 testes). O skip é o teste Neon remoto isolado, sem URL configurada; nenhuma conexão alternativa foi usada.
 - **12 suítes de navegador aprovadas**: salvar/aplicar, Studio persistente, contingência de prévia, gerenciador/carrinho/frete, admin, carrossel histórico, carregamento pendente, acessibilidade, personalizador, home, movimento e shell.
