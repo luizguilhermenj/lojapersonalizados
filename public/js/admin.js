@@ -88,3 +88,23 @@ ackBtn?.addEventListener('click', async()=>{try{await acknowledgeNewSales();}cat
 buildFilters();
 await render();
 await checkNewSales();
+
+const syncArtsBtn = document.getElementById('syncArtsBtn');
+const syncArtsFeedback = document.getElementById('syncArtsFeedback');
+syncArtsBtn?.addEventListener('click', async () => {
+  syncArtsBtn.disabled = true;
+  syncArtsBtn.textContent = 'Sincronizando...';
+  syncArtsFeedback.className = 'feedback';
+  syncArtsFeedback.textContent = 'Consultando as imagens de Natal...';
+  try {
+    const result = await api('/api/admin/arts/sync', { method: 'POST' });
+    syncArtsFeedback.className = 'feedback success';
+    syncArtsFeedback.textContent = `${result.added} novas, ${result.updated} atualizadas, ${result.unchanged} sem alterações. Total de Natal: ${result.total}.`;
+  } catch (error) {
+    syncArtsFeedback.className = 'feedback error';
+    syncArtsFeedback.textContent = error.message;
+  } finally {
+    syncArtsBtn.disabled = false;
+    syncArtsBtn.textContent = 'Sincronizar artes';
+  }
+});

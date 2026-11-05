@@ -1,0 +1,6 @@
+node_modules/
+.env
+.env.*
+!.env.example
+data/cloudinary-arts.json
+data/cloudinary-arts.json.*.tmp

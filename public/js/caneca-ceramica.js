@@ -19,6 +19,7 @@ const baseProduct = {
 
 const THEMES = [
   { id: 'todos', label: 'Todas' },
+  { id: 'natal', label: 'Natal' },
   { id: 'pascoa', label: 'Páscoa' },
   { id: 'maes', label: 'Dia das Mães' },
   { id: 'namorados', label: 'Dia dos Namorados' },
@@ -67,7 +68,13 @@ function updateThemeUi(filteredCount) {
 }
 
 function syncSelectedArt() {
-  if (!selectedArt) return;
+  if (addSelectedArtBtn) addSelectedArtBtn.disabled = !selectedArt;
+  if (!selectedArt) {
+    selectedMockup?.removeAttribute('src');
+    if (selectedArtName) selectedArtName.textContent = 'Nenhuma arte disponível';
+    if (selectedArtDescription) selectedArtDescription.textContent = 'As artes aparecerão após a sincronização da coleção.';
+    return;
+  }
 
   if (selectedMockup) {
     selectedMockup.src = selectedArt.image;
@@ -82,7 +89,7 @@ function renderThemeFilters() {
   if (!themeFilters) return;
 
   themeFilters.innerHTML = THEMES
-    .filter((theme) => theme.id === 'todos' || getThemeCount(theme.id) > 0)
+    .filter((theme) => theme.id === 'todos' || theme.id === 'natal' || getThemeCount(theme.id) > 0)
     .map((theme) => `
       <button
         class="chip ${theme.id === currentTheme ? 'active' : ''}"
@@ -111,6 +118,8 @@ function renderThemeFilters() {
   });
 }
 
+const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+
 function renderArts() {
   const filteredArts = getFilteredArts();
   updateThemeUi(filteredArts.length);
@@ -121,11 +130,11 @@ function renderArts() {
   }
 
   artGrid.innerHTML = filteredArts.map((art) => `
-    <article class="art-card ${art.id === selectedArt?.id ? 'active' : ''}" data-art-id="${art.id}">
-      <img src="${art.image}" alt="${art.name}">
+    <article class="art-card ${art.id === selectedArt?.id ? 'active' : ''}" data-art-id="${escapeHtml(art.id)}">
+      <img src="${escapeHtml(art.image)}" alt="${escapeHtml(art.name)}">
       <div class="art-body">
-        <h3>${art.name}</h3>
-        <p>${art.description}</p>
+        <h3>${escapeHtml(art.name)}</h3>
+        <p>${escapeHtml(art.description)}</p>
       </div>
       <span class="select-pill">${art.id === selectedArt?.id ? 'Selecionada' : 'Toque para escolher'}</span>
     </article>
@@ -144,7 +153,7 @@ function renderArts() {
 
 async function loadArtes() {
   try {
-    const response = await fetch('/data/caneca-ceramica-artes.json', { cache: 'no-store' });
+    const response = await fetch('/api/caneca-ceramica-arts', { cache: 'no-store' });
     if (!response.ok) throw new Error('Falha ao carregar artes.');
     const payload = await response.json();
 
@@ -161,7 +170,7 @@ async function loadArtes() {
     console.error(error);
     if (totalArtsLabel) totalArtsLabel.textContent = 'Sem artes disponíveis';
     if (filterSummary) filterSummary.textContent = 'Não foi possível carregar as artes.';
-    artGrid.innerHTML = '<p class="feedback error">Nenhuma arte foi encontrada. Verifique o arquivo public/data/caneca-ceramica-artes.json.</p>';
+    artGrid.innerHTML = '<p class="feedback error">Nenhuma arte foi encontrada. Tente novamente mais tarde.</p>';
   }
 }
 
