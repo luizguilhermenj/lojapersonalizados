@@ -1,4 +1,5 @@
 import { addToCart } from '/js/app.js';
+import { ART_CATEGORIES, filterArts, categoryPath } from '/js/art-categories.js';
 
 const artGrid = document.getElementById('artGrid');
 const themeFilters = document.getElementById('themeFilters');
@@ -16,21 +17,18 @@ const baseProduct = {
   price: 34.9
 };
 
-const THEMES = [
-  { id: 'todos', label: 'Todas' },
-  { id: 'natal', label: 'Natal' },
-  { id: 'pascoa', label: 'Páscoa' },
-  { id: 'maes', label: 'Dia das Mães' },
-  { id: 'namorados', label: 'Dia dos Namorados' },
-  { id: 'paes', label: 'Dia dos Pais' },
-  { id: 'avos', label: 'Dia dos Avós' },
-  { id: 'flores', label: 'Cactus e Flores' },
-  { id: 'diversos', label: 'Diversas' }
-];
+const THEMES = ART_CATEGORIES;
 
 let arts = [];
 let selectedArt = null;
 let currentTheme = 'todos';
+let currentSubcategory = 'todos';
+const initialFilters = new URLSearchParams(location.search);
+const initialCategory = THEMES.find(category => category.id === initialFilters.get('categoria'));
+if (initialCategory) {
+  currentTheme = initialCategory.id;
+  currentSubcategory = initialCategory.subcategories?.find(category => category.id === initialFilters.get('subcategoria'))?.id || 'todos';
+}
 let previews = {};
 const cards = new Map();
 let activeCard;
@@ -48,27 +46,27 @@ function getThemeCount(themeId) {
 }
 
 function getFilteredArts() {
-  if (currentTheme === 'todos') return arts;
-  return arts.filter((art) => art.theme === currentTheme);
+  return filterArts(arts, currentTheme, currentSubcategory);
 }
 
 function updateThemeUi(filteredCount) {
   if (filterSummary) {
     filterSummary.textContent = currentTheme === 'todos'
       ? `Mostrando todas as ${filteredCount} artes disponíveis.`
-      : `Mostrando ${filteredCount} artes da coleção ${getThemeLabel(currentTheme)}.`;
+      : filteredCount ? `${categoryPath(currentTheme, currentSubcategory)} · ${filteredCount} artes disponíveis.`
+      : `${categoryPath(currentTheme, currentSubcategory)} · Em breve`;
   }
 
   if (selectedThemeEyebrow) {
     selectedThemeEyebrow.textContent = currentTheme === 'todos'
       ? 'Coleções temáticas'
-      : `Coleção ${getThemeLabel(currentTheme)}`;
+      : `Coleção ${categoryPath(currentTheme, currentSubcategory)}`;
   }
 
   if (totalArtsLabel) {
     totalArtsLabel.textContent = currentTheme === 'todos'
       ? `${filteredCount} artes disponíveis`
-      : `${filteredCount} artes em ${getThemeLabel(currentTheme)}`;
+      : filteredCount ? `${filteredCount} artes em ${categoryPath(currentTheme, currentSubcategory)}` : 'Uma nova coleção está chegando';
   }
 }
 
@@ -76,17 +74,21 @@ function artLabel(art) {
   const source = art.public_id?.split('/').pop() || '';
   const number = source.match(/^(\d+)(?:[_ .-]|$)/)?.[1] || (!art.asset_id && art.id.match(/-(\d+)$/)?.[1]);
   const reference = number ? number.padStart(2, '0') : String(art.asset_id || art.id).replace(/[^a-z0-9]/gi,'').slice(0,6).toUpperCase();
-  return getThemeLabel(art.theme) + ' · Arte ' + reference;
+  return categoryPath(art.theme, art.subcategory) + ' · Arte ' + reference;
 }
 
 function syncSelectedArt() {
+  selectedMockup.hidden = !selectedArt;
+  const emptyPreview = document.getElementById('previewEmpty');
+  emptyPreview.hidden = Boolean(selectedArt);
+  document.getElementById('previewEmptyCategory').textContent = categoryPath(currentTheme, currentSubcategory);
   document.querySelectorAll('[data-add-art]').forEach(button => button.disabled = !selectedArt);
   if (!selectedArt) {
     selectedMockup?.removeAttribute('src');
     document.getElementById('mobileArtName').textContent = 'Nenhuma arte disponível';
     if(activeCard){activeCard.classList.remove('active');activeCard.setAttribute('aria-pressed','false');activeCard.querySelector('.select-pill').textContent='Escolher arte';}
     activeCard = null;
-    if (selectedArtName) selectedArtName.textContent = 'Nenhuma arte disponível';
+    if (selectedArtName) selectedArtName.textContent = 'Escolha outra coleção enquanto as novidades chegam';
     if (selectedArtDescription) selectedArtDescription.textContent = 'Coleção ainda indisponível nesta homologação.';
     return;
   }
@@ -116,14 +118,14 @@ function renderThemeFilters() {
   if (!themeFilters) return;
 
   themeFilters.innerHTML = THEMES
-    .filter((theme) => theme.id === 'todos' || theme.id === 'natal' || getThemeCount(theme.id) > 0)
+    .filter((theme) => theme.id === 'todos' || theme.id === 'natal' || theme.upcoming || getThemeCount(theme.id) > 0)
     .map((theme) => `
       <button
         class="chip ${theme.id === currentTheme ? 'active' : ''}"
         type="button"
         aria-pressed="${theme.id === currentTheme}" data-theme="${theme.id}"
       >
-        ${theme.label} (${getThemeCount(theme.id)})
+        ${theme.label}${theme.upcoming && !getThemeCount(theme.id) ? ' <span class="category-new">Novo</span>' : ` (${getThemeCount(theme.id)})`}
       </button>
     `)
     .join('');
@@ -131,6 +133,8 @@ function renderThemeFilters() {
   themeFilters.querySelectorAll('.chip').forEach((button) => {
     button.addEventListener('click', () => {
       currentTheme = button.dataset.theme;
+      currentSubcategory = 'todos';
+      renderSubcategoryFilters();
       const filtered = getFilteredArts();
 
       if (!filtered.some((art) => art.id === selectedArt?.id)) {
@@ -144,6 +148,35 @@ function renderThemeFilters() {
       renderArts();
     });
   });
+}
+
+function renderSubcategoryFilters() {
+  const panel = document.getElementById('subcategoryPanel');
+  const filters = document.getElementById('subcategoryFilters');
+  const category = THEMES.find(theme => theme.id === currentTheme);
+  panel.hidden = !category?.subcategories?.length;
+  if (panel.hidden) { filters.replaceChildren(); return; }
+  document.getElementById('subcategoryTitle').textContent = `Explore ${category.label}`;
+  filters.replaceChildren();
+  for (const subcategory of [{ id:'todos', label:`Todas de ${category.label}` }, ...category.subcategories]) {
+    const button = document.createElement('button');
+    button.type = 'button'; button.className = 'chip subcategory-chip';
+    button.dataset.subcategory = subcategory.id;
+    button.textContent = subcategory.label;
+    button.setAttribute('aria-pressed', String(currentSubcategory === subcategory.id));
+    button.classList.toggle('active', currentSubcategory === subcategory.id);
+    button.addEventListener('click', () => {
+      currentSubcategory = subcategory.id; visibleCount = pageSize;
+      const filtered = getFilteredArts();
+      if (!filtered.some(art => art.id === selectedArt?.id)) selectedArt = filtered[0] || null;
+      filters.querySelectorAll('button').forEach(chip => {
+        const active = chip.dataset.subcategory === currentSubcategory;
+        chip.classList.toggle('active', active); chip.setAttribute('aria-pressed', String(active));
+      });
+      renderArts();
+    });
+    filters.append(button);
+  }
 }
 
 function thumbnail(image) {
@@ -170,6 +203,14 @@ function renderArts() {
   const visible = filtered.slice(0,visibleCount);
   // Reutiliza nós entre filtros; selecionar não passa por esta função.
   artGrid.replaceChildren(...visible.map(art => cards.get(art.id) || createCard(art)));
+  if (!filtered.length) {
+    const empty = document.createElement('div'); empty.className = 'arts-empty';
+    const title = document.createElement('h3'); title.textContent = `${categoryPath(currentTheme, currentSubcategory)}: novas artes em breve`;
+    const message = document.createElement('p'); message.textContent = 'Estamos preparando esta coleção. Enquanto isso, descubra as artes das outras categorias.';
+    const back = document.createElement('button'); back.type = 'button'; back.className = 'ghost-btn'; back.textContent = 'Ver todas as artes';
+    back.addEventListener('click', () => { currentTheme = 'todos'; currentSubcategory = 'todos'; visibleCount = pageSize; selectedArt = arts[0] || null; renderThemeFilters(); renderSubcategoryFilters(); renderArts(); });
+    empty.append(title, message, back); artGrid.append(empty);
+  }
   loadMore.hidden = visible.length >= filtered.length;
   loadMore.textContent = `Mostrar mais artes (${visible.length} de ${filtered.length})`;
   syncSelectedArt();
@@ -191,9 +232,10 @@ async function loadArtes() {
 
     try {if(thumbnails?.ok)previews = await thumbnails.json();} catch { /* Originais continuam disponíveis se os derivados falharem. */ }
     arts = payload;
-    selectedArt = arts[0];
+    selectedArt = getFilteredArts()[0] || null;
     syncSelectedArt();
     renderThemeFilters();
+    renderSubcategoryFilters();
     renderArts();
   } catch (error) {
     console.error(error);

@@ -44,6 +44,11 @@
     <section class="customizer-hero card">
       <div class="product-preview">
         <img id="selectedMockup" width="800" height="800" decoding="async" fetchpriority="high" src="/img/products/caneca-ceramica.svg" alt="Caneca de Cerâmica com arte selecionada" />
+        <div id="previewEmpty" class="preview-empty" hidden>
+          <small>Novas histórias para sua caneca</small>
+          <strong id="previewEmptyCategory">Filmes</strong>
+          <p>As artes desta coleção estão chegando.</p>
+        </div>
       </div>
       <div class="product-summary">
         <span class="eyebrow" id="selectedThemeEyebrow">Coleções temáticas</span>
@@ -76,11 +81,15 @@
       <div class="section-head customizer-section-head">
         <div>
           <h2>Escolha a arte</h2>
-          <span class="section-helper">Filtre por tema e toque em uma arte para ver a prévia acima.</span>
+          <span class="section-helper">Escolha uma categoria e explore os estilos para encontrar sua arte.</span>
         </div>
       </div>
       <div class="theme-filter-wrap">
-        <div id="themeFilters" class="chips" aria-label="Filtrar artes por tema"></div>
+        <div id="themeFilters" class="chips" aria-label="Categorias de artes"></div>
+        <section id="subcategoryPanel" class="subcategory-panel" aria-labelledby="subcategoryTitle" hidden>
+          <h3 id="subcategoryTitle">Explore a categoria</h3>
+          <div id="subcategoryFilters" class="chips" aria-label="Subcategorias de artes"></div>
+        </section>
       </div>
       <div id="filterSummary" class="filter-summary" role="status" aria-live="polite">Mostrando todas as artes disponíveis.</div>
       <div id="artGrid" class="art-grid" aria-label="Artes disponíveis"></div>
