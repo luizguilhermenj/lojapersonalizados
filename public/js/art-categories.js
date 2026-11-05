@@ -9,6 +9,30 @@ export const ART_CATEGORIES = [
     { id: 'infantil', label: 'Infantil' },
     { id: 'terror', label: 'Terror' }
   ] },
+  plannedCategory('funko', 'Funko', [
+    'FRIENDS','FROZEN','HARRY POTTER','LA CASA DE PAPEL','PRINCESAS','STRANGER','TOY STORY'
+  ]),
+  plannedCategory('games', 'Games', [
+    'ANGRY BIRDS','ASSASSINS CREED','BATMAN','BATTLEFIELD','BLOODBORNE','CRASH',
+    'CYBERPUNK 2077','DARK SOULS','DAYS GONE','DETROIT','DYING LIGHT','FORZA',
+    'GEARS OF WAR','GOOD OF WAR','GTA','HALO','HOMEM ARANHA','HORIZON ZERO DAWN',
+    'JUST CAUSE','MAFIA','MINECRAFT','THE DIVISION','THE LAST OF US','THE LAST OF US PART 2'
+  ]),
+  plannedCategory('musica-bandas-cantores', 'Música, bandas, cantores', [
+    '50 CETN_S','ADELE','AMADO BATISTA','ANITTA','BRITNEY SPEARS','BRUNO MARS',
+    'BYONCE','DRAKE','EDUARDO COSTA','EVANESCENCE','FELIPE ARAUJO',
+    'FERNANDO E SOROCABA','GEEK','GUSTAVO LIMA','JOÃO NETO E FREDERICO',
+    'JORGE E MATEUS','JUSTIN BIEBER','KATY PERRY','LADY GAGA','LEONARDO',
+    'LUAN SANTANA','LUCAS LUCCO','MAROON 5','MC KEVINHO','MC LIVINHO',
+    'SOMINE E SIMARIA','THIAGUINHO','WESLEY SAFADÃO','ZÉ NETO E CRISTIANO',
+    'ZEZÉ DI CAMARGO E LUCIANO'
+  ]),
+  plannedCategory('series', 'Séries', [
+    'AGENTES DA S.H.I.E.L.D','AMERICAN GODS','BLACK LIST','BLACK MIRROR',
+    'BREAKING BAD','CHAVES','ELITE','EU TU E ELA','GAME OF THRONES','GOTHAM',
+    'GRIMM','HOUSE','IRMANDADE','O PERFUME','Orange Black','OS INOCENTES',
+    'OZARK','PUNHO DE FERRO','STAR TREK','SUPER GIRL'
+  ]),
   { id: 'pascoa', label: 'Páscoa' },
   { id: 'maes', label: 'Dia das Mães' },
   { id: 'namorados', label: 'Dia dos Namorados' },
@@ -17,6 +41,15 @@ export const ART_CATEGORIES = [
   { id: 'flores', label: 'Cactus e Flores' },
   { id: 'diversos', label: 'Diversas' }
 ];
+
+// UI placeholders only. Real folder discovery remains automatic and is not
+// restricted to these names; incoming assets merge with the same normalized IDs.
+function plannedCategory(id, label, names) {
+  return { id, label, upcoming:true, subcategories:names.map(name=>({
+    id:name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),
+    label:formatCategoryLabel(name)
+  })) };
+}
 
 export function filterArts(arts, category = 'todos', subcategory = 'todos') {
   return arts.filter(art => (category === 'todos' || art.theme === category) &&

@@ -68,7 +68,7 @@ test('failed child discovery never reaches asset import; taxonomy is derived wit
     return {ok:false,status:500};
   }}));
   assert.equal(assetCalls,0);
-  const first=buildCategories([{theme:'funko',themeLabel:'FUNKO',subcategory:'friends',subcategoryLabel:'FRIENDS'}]);
+  const first=buildCategories([{theme:'funko',themeLabel:'FUNKO',subcategory:'extra-dynamic',subcategoryLabel:'EXTRA DYNAMIC'}]);
   assert.equal(first.find(c=>c.id==='funko').label,'Funko');
-  assert(!buildCategories([]).some(c=>c.id==='funko'));
+  assert(!buildCategories([]).find(c=>c.id==='funko').subcategories.some(c=>c.id==='extra-dynamic'));
 });
