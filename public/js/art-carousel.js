@@ -1,3 +1,6 @@
+const ORIGINAL_ROTATION_MS = 4500; // Original interval retained for easy rollback.
+const ROTATION_MS = ORIGINAL_ROTATION_MS * 2 / 3;
+
 function shuffle(items, random) {
   const result = [...items];
   for (let i = result.length - 1; i > 0; i--) {
@@ -48,18 +51,15 @@ function photoUrl(art) {
 export function createArtCarousel(element, arts) {
   let deck = mixedArts(arts), index = 0;
   if (!deck.length) return { destroy() {} };
-  const image = element.querySelector('img'), pause = element.querySelector('[data-art-pause]');
+  const image = element.querySelector('img');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const events = new AbortController();
   const on = (target, type, handler) => target.addEventListener(type, handler, { signal: events.signal });
-  let timer, paused = false, hovering = false, focused = false, visible = false, destroyed = false, touch;
+  let timer, hovering = false, focused = false, visible = false, destroyed = false, touch;
   function schedule() {
     clearTimeout(timer);
-    pause.textContent = paused || reduced.matches ? '▶' : 'Ⅱ';
-    pause.setAttribute('aria-label', reduced.matches ? 'Rotação desativada por movimento reduzido' : paused ? 'Reproduzir fotos das artes' : 'Pausar fotos das artes');
-    pause.disabled = reduced.matches || deck.length < 2;
-    if (!destroyed && deck.length > 1 && !paused && !reduced.matches && !hovering && !focused && !document.hidden && visible) {
-      timer = setTimeout(() => show(index + 1), 4500);
+    if (!destroyed && deck.length > 1 && !reduced.matches && !hovering && !focused && !document.hidden && visible) {
+      timer = setTimeout(() => show(index + 1), ROTATION_MS);
     }
   }
   function show(next) {
@@ -74,7 +74,6 @@ export function createArtCarousel(element, arts) {
   for (const button of element.querySelectorAll('[data-art-prev], [data-art-next]')) button.disabled = deck.length < 2;
   on(element.querySelector('[data-art-prev]'), 'click', () => show(index - 1));
   on(element.querySelector('[data-art-next]'), 'click', () => show(index + 1));
-  on(pause, 'click', () => { paused = !paused; schedule(); });
   on(element, 'mouseenter', () => { hovering = true; schedule(); });
   on(element, 'mouseleave', () => { hovering = false; schedule(); });
   on(element, 'focusin', () => { focused = true; schedule(); });

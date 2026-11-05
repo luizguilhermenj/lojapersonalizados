@@ -14,7 +14,9 @@ Uma foto é exibida por vez. Cloudinary usa tamanho reduzido e ajuste automátic
 de formato/qualidade; fotos completas usam object-fit contain. A lista de URLs
 não cria centenas de elementos img nem baixa todo o catálogo antecipadamente.
 
-Rotação de 4,5 segundos, anterior/próxima, pausa e gesto horizontal no celular.
+Rotação de 3 segundos (redução de um terço do intervalo original de 4,5 segundos),
+anterior/próxima e gesto horizontal no celular, sem botão de pausa. O intervalo
+original está preservado em `ORIGINAL_ROTATION_MS` para facilitar reversão.
 Autoplay pausa ao passar o mouse, focar controles, ocultar a aba ou sair da tela;
 movimento reduzido desativa autoplay mantendo as setas. Instância e eventos são
 removidos ao filtrar/ordenar produtos. Falha na API mantém uma foto real local.

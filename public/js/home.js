@@ -18,7 +18,6 @@ function productImageMarkup(product, index) {
       <img src="/img/artes/caneca-ceramica/pascoa/pascoa-01.webp" alt="Caneca de Cerâmica com arte da coleção Páscoa" width="400" height="400" loading="lazy" decoding="async">
       <div class="product-art-controls">
         <button type="button" data-art-prev aria-label="Arte anterior">‹</button>
-        <button type="button" data-art-pause aria-label="Pausar fotos das artes">Ⅱ</button>
         <button type="button" data-art-next aria-label="Próxima arte">›</button>
       </div>
     </section>`;
