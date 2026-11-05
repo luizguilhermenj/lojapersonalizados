@@ -102,7 +102,7 @@ syncArtsBtn?.addEventListener('click', async () => {
   syncArtsBtn.disabled = true;
   syncArtsBtn.textContent = 'Sincronizando...';
   syncArtsFeedback.className = 'feedback';
-  syncArtsFeedback.textContent = 'Consultando Natal e os gêneros de Filmes...';
+  syncArtsFeedback.textContent = 'Descobrindo categorias e consultando as imagens da coleção...';
   try {
     const result = await api('/api/admin/arts/sync', { method: 'POST' });
     syncArtsFeedback.className = 'feedback success';

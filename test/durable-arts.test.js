@@ -26,7 +26,7 @@ function durableFixture() {
 }
 test('durable catalog survives service recreation, keeps 195 originals and imports only once', async () => {
   const fixture = durableFixture(); let calls = 0;
-  const make = () => createDurableCatalog({ baseFile, store: fixture.store, credentialsReady: true, list: async () => { calls++; return [art(), {...art('b'),theme:'filmes',subcategory:'acao'}]; } });
+  const make = () => createDurableCatalog({ baseFile, store: fixture.store, credentialsReady: true, list: async () => { calls++; return [art(), {...art('b'),theme:'filmes',subcategory:'acao',source_folder:'Artize/Canecas ceramicas/Filmes/AÇÃO'}]; } });
   const first = make(); assert.equal((await first.bootstrap()).total, 2);
   const original = (await first.get()).slice(0,195);
   const restarted = make(); await restarted.bootstrap(); assert.equal(calls, 1);
@@ -101,8 +101,8 @@ test('new film bootstrap preserves saved Natal; approved schema upgrade touches 
   assert.equal((await catalog.status()).categories.filmes,1);
   assert.deepEqual(fixture.records.get('a'),art());
   assert.deepEqual(validateArts([film]),[film]);
-  assert.throws(()=>validateArts([{...film,subcategory:'unknown'}]));
-  assert.throws(()=>validateArts([{...film,subcategory:undefined}]));
+  assert.throws(()=>validateArts([{...film,subcategory:'../outside'}]));
+  assert.deepEqual(validateArts([{...film,subcategory:undefined}]),[{...film,subcategory:undefined}]);
   assert(!/DROP\s+(TABLE|COLUMN)|ALTER\s+COLUMN|DELETE\s+FROM/i.test(ARTS_SCHEMA_UPGRADE));
   assert(ARTS_SCHEMA_UPGRADE.includes("'artize_cloudinary_arts_check'"));
   assert(ARTS_SCHEMA_UPGRADE.includes("'artize_cloudinary_arts_art_check'"));

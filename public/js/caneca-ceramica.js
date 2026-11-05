@@ -1,5 +1,5 @@
 import { addToCart } from '/js/app.js';
-import { ART_CATEGORIES, filterArts, categoryPath } from '/js/art-categories.js';
+import { ART_CATEGORIES, buildCategories, filterArts, categoryPath as pathForCategory } from '/js/art-categories.js';
 
 const artGrid = document.getElementById('artGrid');
 const themeFilters = document.getElementById('themeFilters');
@@ -17,18 +17,14 @@ const baseProduct = {
   price: 34.9
 };
 
-const THEMES = ART_CATEGORIES;
+let THEMES = ART_CATEGORIES;
+const categoryPath = (category, subcategory = 'todos') => pathForCategory(category, subcategory, THEMES);
 
 let arts = [];
 let selectedArt = null;
 let currentTheme = 'todos';
 let currentSubcategory = 'todos';
 const initialFilters = new URLSearchParams(location.search);
-const initialCategory = THEMES.find(category => category.id === initialFilters.get('categoria'));
-if (initialCategory) {
-  currentTheme = initialCategory.id;
-  currentSubcategory = initialCategory.subcategories?.find(category => category.id === initialFilters.get('subcategoria'))?.id || 'todos';
-}
 let previews = {};
 const cards = new Map();
 let activeCard;
@@ -117,18 +113,14 @@ function syncSelectedArt() {
 function renderThemeFilters() {
   if (!themeFilters) return;
 
-  themeFilters.innerHTML = THEMES
-    .filter((theme) => theme.id === 'todos' || theme.id === 'natal' || theme.upcoming || getThemeCount(theme.id) > 0)
-    .map((theme) => `
-      <button
-        class="chip ${theme.id === currentTheme ? 'active' : ''}"
-        type="button"
-        aria-pressed="${theme.id === currentTheme}" data-theme="${theme.id}"
-      >
-        ${theme.label}${theme.upcoming && !getThemeCount(theme.id) ? ' <span class="category-new">Novo</span>' : ` (${getThemeCount(theme.id)})`}
-      </button>
-    `)
-    .join('');
+  themeFilters.replaceChildren();
+  for (const theme of THEMES.filter(theme => theme.id === 'todos' || theme.id === 'natal' || theme.upcoming || getThemeCount(theme.id) > 0)) {
+    const button = document.createElement('button'); button.type = 'button';
+    button.className = 'chip'; button.classList.toggle('active', theme.id === currentTheme);
+    button.setAttribute('aria-pressed', String(theme.id === currentTheme)); button.dataset.theme = theme.id;
+    button.textContent = theme.label + (theme.upcoming && !getThemeCount(theme.id) ? ' · Novo' : ` (${getThemeCount(theme.id)})`);
+    themeFilters.append(button);
+  }
 
   themeFilters.querySelectorAll('.chip').forEach((button) => {
     button.addEventListener('click', () => {
@@ -233,6 +225,12 @@ async function loadArtes() {
 
     try {if(thumbnails?.ok)previews = await thumbnails.json();} catch { /* Originais continuam disponíveis se os derivados falharem. */ }
     arts = payload;
+    THEMES = buildCategories(arts);
+    const initialCategory = THEMES.find(category => category.id === initialFilters.get('categoria'));
+    if (initialCategory) {
+      currentTheme = initialCategory.id;
+      currentSubcategory = initialCategory.subcategories?.find(category => category.id === initialFilters.get('subcategoria'))?.id || 'todos';
+    }
     selectedArt = getFilteredArts()[0] || null;
     syncSelectedArt();
     renderThemeFilters();

@@ -9,7 +9,7 @@ const ok=payload=>({ok:true,json:async()=>payload});
 
 test('reads exact case/accented folders and paginates genres independently, matching UI IDs',async()=>{
   const calls=[];
-  const arts=await listCeramicArts({env,fetcher:async url=>{
+  const arts=await listCeramicArts({env,sources:ART_SOURCES,fetcher:async url=>{
     const folder=url.searchParams.get('asset_folder'),cursor=url.searchParams.get('next_cursor');
     calls.push({folder,cursor});
     const index=ART_SOURCES.findIndex(source=>source.folder===folder);
@@ -29,15 +29,15 @@ test('reads exact case/accented folders and paginates genres independently, matc
 
 test('failure in a later genre or wrong folder rejects the complete import without partial results',async()=>{
   let calls=0;
-  await assert.rejects(listCeramicArts({env,fetcher:async url=>{
+  await assert.rejects(listCeramicArts({env,sources:ART_SOURCES,fetcher:async url=>{
     if(++calls===4)return {ok:false,status:403};
     return ok({resources:[asset(String(calls),url.searchParams.get('asset_folder'))]});
   }}),/permissão/);
   assert.equal(calls,4);
-  await assert.rejects(listCeramicArts({env,fetcher:async()=>ok({resources:[asset('x','incorrect-folder')]})}),/pasta/);
+  await assert.rejects(listCeramicArts({env,sources:ART_SOURCES,fetcher:async()=>ok({resources:[asset('x','incorrect-folder')]})}),/pasta/);
 });
 
 test('empty genres are allowed and duplicate assets across folders are rejected',async()=>{
-  assert.deepEqual(await listCeramicArts({env,fetcher:async()=>ok({resources:[]})}),[]);
-  await assert.rejects(listCeramicArts({env,fetcher:async url=>ok({resources:[asset('same',url.searchParams.get('asset_folder'))]})}),/mais de uma pasta/);
+  assert.deepEqual(await listCeramicArts({env,sources:ART_SOURCES,fetcher:async()=>ok({resources:[]})}),[]);
+  await assert.rejects(listCeramicArts({env,sources:ART_SOURCES,fetcher:async url=>ok({resources:[asset('same',url.searchParams.get('asset_folder'))]})}),/mais de uma pasta/);
 });

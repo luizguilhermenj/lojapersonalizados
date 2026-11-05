@@ -102,6 +102,7 @@ test('HTTP endpoint requires authentication and admin role; public API preserves
   await fs.mkdir(path.join(dir, 'public', 'data'), { recursive: true });
   await fs.mkdir(path.join(dir, 'public', 'js'), { recursive: true });
   await fs.copyFile(new URL('public/js/color-studio.js', root), path.join(dir, 'public', 'js', 'color-studio.js'));
+  await fs.copyFile(new URL('public/js/art-categories.js', root), path.join(dir, 'public', 'js', 'art-categories.js'));
   await fs.copyFile(new URL('public/data/caneca-ceramica-artes.json', root), path.join(dir, 'public', 'data', 'caneca-ceramica-artes.json'));
   await fs.copyFile(new URL('package.json', root), path.join(dir, 'package.json'));
   await fs.symlink(fileURLToPath(new URL('node_modules', root)), path.join(dir, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');

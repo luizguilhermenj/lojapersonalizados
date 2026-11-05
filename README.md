@@ -49,6 +49,10 @@ O novo fluxo parte de feature/gerenciador-temas e tem PR exclusivamente para ess
 
 ## Artes de Natal — persistência autorizada no Neon
 
+Atualização: categorias e subcategorias agora são descobertas automaticamente em
+`Artize/Canecas ceramicas`, incluindo Desenhos, Filmes e novas coleções. Após os
+uploads, use **Sincronizar artes**. Leia [organização e nomes das pastas](docs/descoberta-automatica-artes.md).
+
 O catálogo agora usa a tabela exclusiva `public.artize_cloudinary_arts` quando
 `DATABASE_URL` está configurada. O proprietário autorizou criar essa tabela na
 homologação. Nenhuma tabela existente é migrada. As credenciais Cloudinary ficam
