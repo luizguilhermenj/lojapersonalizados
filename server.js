@@ -376,7 +376,7 @@ ensureAdminTrackingFields();
 const themeStore = createThemeStore({ localDir: path.join(DATA_DIR, 'appearance') });
 app.use('/api', themeRoutes({ store: themeStore, auth, adminOnly }));
 
-app.get('/api/health', (req, res) => res.json({ ok: true, envConfigured: Boolean(MP_ACCESS_TOKEN) }));
+app.get('/api/health', (req, res) => res.json({ ok: true, envConfigured: Boolean(MP_ACCESS_TOKEN), release: process.env.RENDER_GIT_COMMIT || null }));
 app.get('/api/products', (req, res) => res.json(products()));
 const baseArtFile = path.join(PUBLIC_DIR, 'data', 'caneca-ceramica-artes.json');
 const durableArts = Boolean(String(process.env.DATABASE_URL || '').trim());

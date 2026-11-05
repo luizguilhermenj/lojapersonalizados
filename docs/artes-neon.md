@@ -38,6 +38,13 @@ pela rede. Os testes usam transporte isolado e proíbem conexão externa. Não s
 uma execução real do SQL PostgreSQL nem um teste real de reinício do Render.
 A importação e as contagens reais devem ser verificadas após o deploy.
 
+Primeira verificação real: o deploy `9baf6a9` importou 59 artes de Natal via
+Cloudinary e a API pública retornou 254 registros com 254 IDs únicos. O preview
+selecionado carregou e a galeria progressiva apresentou as 59 artes. Essa leitura
+usa Neon (não há arquivo de artes sincronizadas no caminho durável). A rota
+`/api/health` agora informa somente o SHA público da versão, permitindo confirmar
+um segundo deploy e comparar os registros antes/depois, sem expor configuração.
+
 ## Operação e reversão
 
 No painel, confira o total salvo no Neon e clique **Sincronizar artes** para
