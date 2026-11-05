@@ -4,3 +4,10 @@
 node_modules/
 data/appearance/
 work/
+
+node_modules/
+.env
+.env.*
+!.env.example
+data/cloudinary-arts.json
+data/cloudinary-arts.json.*.tmp

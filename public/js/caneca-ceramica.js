@@ -18,6 +18,7 @@ const baseProduct = {
 
 const THEMES = [
   { id: 'todos', label: 'Todas' },
+  { id: 'natal', label: 'Natal' },
   { id: 'pascoa', label: 'Páscoa' },
   { id: 'maes', label: 'Dia das Mães' },
   { id: 'namorados', label: 'Dia dos Namorados' },
@@ -72,7 +73,16 @@ function updateThemeUi(filteredCount) {
 }
 
 function syncSelectedArt() {
-  if (!selectedArt) return;
+  document.querySelectorAll('[data-add-art]').forEach(button => button.disabled = !selectedArt);
+  if (!selectedArt) {
+    selectedMockup?.removeAttribute('src');
+    document.getElementById('mobileArtName').textContent = 'Nenhuma arte disponível';
+    if(activeCard){activeCard.classList.remove('active');activeCard.setAttribute('aria-pressed','false');activeCard.querySelector('.select-pill').textContent='Escolher arte';}
+    activeCard = null;
+    if (selectedArtName) selectedArtName.textContent = 'Nenhuma arte disponível';
+    if (selectedArtDescription) selectedArtDescription.textContent = 'Coleção ainda indisponível nesta homologação.';
+    return;
+  }
 
   if (selectedMockup) {
     const nextImage=previews[selectedArt.id]?.preview || selectedArt.image;
@@ -99,7 +109,7 @@ function renderThemeFilters() {
   if (!themeFilters) return;
 
   themeFilters.innerHTML = THEMES
-    .filter((theme) => theme.id === 'todos' || getThemeCount(theme.id) > 0)
+    .filter((theme) => theme.id === 'todos' || theme.id === 'natal' || getThemeCount(theme.id) > 0)
     .map((theme) => `
       <button
         class="chip ${theme.id === currentTheme ? 'active' : ''}"
@@ -129,12 +139,16 @@ function renderThemeFilters() {
   });
 }
 
+function thumbnail(image) {
+  try {const url=new URL(image);if(url.hostname==='res.cloudinary.com' && url.pathname.startsWith('/etoqnuvw/image/upload/'))return image.replace('/image/upload/','/image/upload/c_limit,w_640,q_auto,f_auto/');} catch {}
+  return image;
+}
 function createCard(art) {
   const card = document.createElement('button');
   card.type = 'button';card.className = 'art-card';card.dataset.artId = art.id;card.setAttribute('aria-pressed','false');
   const image = document.createElement('img');
   const preview = previews[art.id];
-  image.src = preview?.small || art.image;
+  image.src = preview?.small || thumbnail(art.image);
   if (preview) {image.srcset = `${preview.small} 200w, ${preview.medium} 400w`;image.sizes = '(min-width:1024px) 240px, (min-width:768px) 30vw, 44vw';}
   image.alt = '';image.width = image.height = 400;image.loading = 'lazy';image.decoding = 'async';
   const body = document.createElement('span');body.className = 'art-body';
@@ -162,7 +176,7 @@ loadMore.addEventListener('click', () => {const firstNew=visibleCount;visibleCou
 async function loadArtes() {
   try {
     const [response, thumbnails] = await Promise.all([
-      fetch('/data/caneca-ceramica-artes.json'),
+      fetch('/api/caneca-ceramica-arts', { cache:'no-store' }),
       fetch('/data/art-previews.json').catch(() => null)
     ]);
     if (!response.ok) throw new Error('Falha ao carregar artes.');
@@ -182,7 +196,7 @@ async function loadArtes() {
     console.error(error);
     if (totalArtsLabel) totalArtsLabel.textContent = 'Sem artes disponíveis';
     if (filterSummary) filterSummary.textContent = 'Não foi possível carregar as artes.';
-    artGrid.innerHTML = '<p class="feedback error">Nenhuma arte foi encontrada. Verifique o arquivo public/data/caneca-ceramica-artes.json.</p>';
+    artGrid.innerHTML = '<p class="feedback error">Nenhuma arte foi encontrada. Tente novamente mais tarde.</p>';
   }
 }
 

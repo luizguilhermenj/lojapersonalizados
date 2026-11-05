@@ -42,3 +42,6 @@
 
 .studio-preview-tools label {max-width:100%;font-size:.875rem}
 @media(max-width:600px) {.studio-preview-tools label:has(select){display:grid;gap:8px;width:100%}.studio-preview-tools select{width:100%}.studio-preview-tools input[type="checkbox"]{flex-shrink:0}}
+
+.arts-sync { padding-block:1rem; border-bottom:1px solid var(--line); margin-bottom:1rem; }
+.arts-sync button { max-width:100%; white-space:normal; }
