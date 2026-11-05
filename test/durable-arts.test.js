@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createDurableCatalog } from '../lib/durable-art-catalog.js';
-import { createNeonArtStore, ARTS_DDL, ARTS_UPSERT } from '../lib/neon-art-store.js';
+import { createNeonArtStore, ARTS_DDL, ARTS_UPSERT, ARTS_SCHEMA_UPGRADE, validateArts } from '../lib/neon-art-store.js';
 import { cloudinaryConfig } from '../lib/cloudinary-arts.js';
 
 const baseFile = new URL('../public/data/caneca-ceramica-artes.json', import.meta.url);
@@ -26,7 +26,7 @@ function durableFixture() {
 }
 test('durable catalog survives service recreation, keeps 195 originals and imports only once', async () => {
   const fixture = durableFixture(); let calls = 0;
-  const make = () => createDurableCatalog({ baseFile, store: fixture.store, credentialsReady: true, list: async () => { calls++; return [art(), art('b')]; } });
+  const make = () => createDurableCatalog({ baseFile, store: fixture.store, credentialsReady: true, list: async () => { calls++; return [art(), {...art('b'),theme:'filmes',subcategory:'acao'}]; } });
   const first = make(); assert.equal((await first.bootstrap()).total, 2);
   const original = (await first.get()).slice(0,195);
   const restarted = make(); await restarted.bootstrap(); assert.equal(calls, 1);
@@ -85,11 +85,27 @@ test('Neon adapter batches lock+upsert, parameterizes metadata and retries faile
   assert.equal((await store.save([art()])).added, 1);
   assert.equal(transactions.length, 3);
   assert.equal(transactions[1][2].query, ARTS_DDL);
+  assert.equal(transactions[1][3].query, ARTS_SCHEMA_UPGRADE);
   assert.match(transactions[2][1].query, /pg_advisory_xact_lock/);
   assert.deepEqual(JSON.parse(transactions[2][2].params[0]), [art()]);
   assert(!ARTS_DDL.includes('ALTER')); assert(!ARTS_UPSERT.includes('DELETE'));
   const tables = [...(ARTS_DDL + ARTS_UPSERT).matchAll(/public\.(\w+)/g)].map(match => match[1]);
   assert(tables.every(table => table === 'artize_cloudinary_arts'));
+});
+
+test('new film bootstrap preserves saved Natal; approved schema upgrade touches only arts constraint', async () => {
+  const fixture = durableFixture(); fixture.records.set('a',art());
+  const film = {...art('movie'),theme:'filmes',subcategory:'acao'};
+  const catalog = createDurableCatalog({baseFile,store:fixture.store,credentialsReady:true,list:async()=>[art(),film]});
+  assert.equal((await catalog.bootstrap()).total,2);
+  assert.equal((await catalog.status()).categories.filmes,1);
+  assert.deepEqual(fixture.records.get('a'),art());
+  assert.deepEqual(validateArts([film]),[film]);
+  assert.throws(()=>validateArts([{...film,subcategory:'unknown'}]));
+  assert.throws(()=>validateArts([{...film,subcategory:undefined}]));
+  assert(!/DROP\s+(TABLE|COLUMN)|ALTER\s+COLUMN|DELETE\s+FROM/i.test(ARTS_SCHEMA_UPGRADE));
+  const tables = [...ARTS_SCHEMA_UPGRADE.matchAll(/public\.(\w+)/g)].map(match=>match[1]);
+  assert(tables.every(table=>table==='artize_cloudinary_arts'));
 });
 test('Cloudinary URL supported without accepting placeholder secrets', () => {
   assert.equal(cloudinaryConfig({ CLOUDINARY_URL:'cloudinary://key:secret@etoqnuvw' }).configured, true);

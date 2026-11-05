@@ -162,7 +162,8 @@ function renderSubcategoryFilters() {
     const button = document.createElement('button');
     button.type = 'button'; button.className = 'chip subcategory-chip';
     button.dataset.subcategory = subcategory.id;
-    button.textContent = subcategory.label;
+    const count = filterArts(arts, currentTheme, subcategory.id).length;
+    button.textContent = subcategory.label + (getThemeCount(currentTheme) ? ` (${count})` : '');
     button.setAttribute('aria-pressed', String(currentSubcategory === subcategory.id));
     button.classList.toggle('active', currentSubcategory === subcategory.id);
     button.addEventListener('click', () => {

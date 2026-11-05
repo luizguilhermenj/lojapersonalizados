@@ -9,12 +9,15 @@ Neon de homologação, preservando as tabelas existentes. Branch de publicação
 - Usa a `DATABASE_URL` existente no backend. Nenhuma conexão é enviada ao cliente.
 - Cria somente `public.artize_cloudinary_arts` na primeira gravação. SQL canônico:
   `ARTS_DDL` e `ARTS_UPSERT` em `lib/neon-art-store.js`.
-- Nenhum ALTER, DROP ou DELETE. Não modifica temas, usuários, pedidos ou paletas.
-- Lê `Artize/Canecas ceramicas/natal` no Cloudinary via Admin API paginada.
+- A ampliação para Filmes ajusta somente o CHECK da tabela exclusiva de artes,
+  substituindo a restrição inicial de Natal por Natal ou Filmes com gênero válido.
+  Não remove tabelas/colunas/registros e não modifica temas, usuários, pedidos ou paletas.
+- Lê `Artize/Canecas ceramicas/natal` e os seis gêneros de
+  `Artize/Canecas ceramicas/Filmes` via Admin API paginada por pasta.
 - Usa as três variáveis `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` e
   `CLOUDINARY_API_SECRET`. Também aceita `CLOUDINARY_URL` real, sem placeholders.
 - A primeira importação é tentada no deploy se as credenciais estiverem presentes
-  e a tabela estiver ausente/vazia. Reinícios posteriores leem o catálogo salvo
+  e ainda não houver Filmes salvos. Reinícios posteriores leem o catálogo salvo
   e não repetem a consulta Cloudinary. Falhas permitem nova tentativa pelo admin.
 - Só grava depois de receber e validar todas as páginas. asset_id é chave estável;
   preserva IDs anteriores e registros ausentes. Não duplica nem exclui artes.

@@ -102,11 +102,11 @@ syncArtsBtn?.addEventListener('click', async () => {
   syncArtsBtn.disabled = true;
   syncArtsBtn.textContent = 'Sincronizando...';
   syncArtsFeedback.className = 'feedback';
-  syncArtsFeedback.textContent = 'Consultando as imagens de Natal...';
+  syncArtsFeedback.textContent = 'Consultando Natal e os gêneros de Filmes...';
   try {
     const result = await api('/api/admin/arts/sync', { method: 'POST' });
     syncArtsFeedback.className = 'feedback success';
-    syncArtsFeedback.textContent = `${result.added} novas, ${result.updated} atualizadas, ${result.unchanged} sem alterações. Total de Natal: ${result.total}.`;
+    syncArtsFeedback.textContent = `${result.added} novas, ${result.updated} atualizadas, ${result.unchanged} sem alterações. Total sincronizado: ${result.total}.`;
     try { document.getElementById('syncArtsNotice').textContent = (await api('/api/admin/arts/status')).message; } catch { /* A saved sync remains successful if status refresh fails. */ }
   } catch (error) {
     syncArtsFeedback.className = 'feedback error';

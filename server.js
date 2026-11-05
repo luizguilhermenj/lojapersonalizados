@@ -406,8 +406,8 @@ app.post('/api/admin/arts/sync', auth, adminOnly, async (req, res) => {
 });
 if (durableArts) {
   artCatalog.bootstrap().then(result => {
-    if (result) console.log(`Catálogo Natal salvo no Neon: ${result.total} artes.`);
-  }).catch(() => console.error('Importação inicial de Natal não concluída. Consulte o painel administrativo para tentar novamente.'));
+    if (result) console.log(`Catálogo de artes salvo no Neon: ${result.total} artes.`);
+  }).catch(() => console.error('Importação inicial de artes não concluída. Consulte o painel administrativo para tentar novamente.'));
 }
 app.post('/api/auth/register', (req, res) => {
   const { name, email, password } = req.body || {};
