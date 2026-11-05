@@ -47,7 +47,16 @@ Não criar projetos/bancos Neon. A inspeção real, somente leitura, aguarda uma
 
 O novo fluxo parte de feature/gerenciador-temas e tem PR exclusivamente para essa branch. Após os testes, o responsável autorizou seu merge; isso pode acionar o Auto-Deploy existente da homologação. A migração Neon continua pendente de inspeção e autorização específica. O [roteiro anterior de prévia temporária](docs/color-studio-homologacao.md) registra a fase do PR #2 já integrado pelo responsável.
 
-## Artes de Natal — sincronização local (issue #4)
+## Artes de Natal — persistência autorizada no Neon
+
+O catálogo agora usa a tabela exclusiva `public.artize_cloudinary_arts` quando
+`DATABASE_URL` está configurada. O proprietário autorizou criar essa tabela na
+homologação. Nenhuma tabela existente é migrada. As credenciais Cloudinary ficam
+somente no backend. A primeira importação ocorre no deploy, quando o catálogo
+está vazio e as credenciais estão configuradas; depois use **Sincronizar artes**.
+Detalhes, validação e limites: [sincronização durável](docs/artes-neon.md).
+
+### Histórico: implementação inicial por JSON (substituída no Render)
 
 Requer Node.js 20+ e as variáveis de ambiente `CLOUDINARY_CLOUD_NAME=etoqnuvw`,
 `CLOUDINARY_API_KEY` e `CLOUDINARY_API_SECRET`, com acesso de leitura à Admin API.

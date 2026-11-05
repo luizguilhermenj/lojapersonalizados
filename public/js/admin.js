@@ -107,6 +107,7 @@ syncArtsBtn?.addEventListener('click', async () => {
     const result = await api('/api/admin/arts/sync', { method: 'POST' });
     syncArtsFeedback.className = 'feedback success';
     syncArtsFeedback.textContent = `${result.added} novas, ${result.updated} atualizadas, ${result.unchanged} sem alterações. Total de Natal: ${result.total}.`;
+    try { document.getElementById('syncArtsNotice').textContent = (await api('/api/admin/arts/status')).message; } catch { /* A saved sync remains successful if status refresh fails. */ }
   } catch (error) {
     syncArtsFeedback.className = 'feedback error';
     syncArtsFeedback.textContent = error.message;
