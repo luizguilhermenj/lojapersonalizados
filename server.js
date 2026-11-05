@@ -1,3 +1,5 @@
+import { createCatalog } from './lib/art-catalog.js';
+import { SyncError } from './lib/cloudinary-arts.js';
 import 'dotenv/config';
 import express from 'express';
 import fs from 'fs';
@@ -363,7 +365,25 @@ ensureAdminTrackingFields();
 
 app.get('/api/health', (req, res) => res.json({ ok: true, envConfigured: Boolean(MP_ACCESS_TOKEN) }));
 app.get('/api/products', (req, res) => res.json(products()));
-app.get('/api/caneca-ceramica-arts', (req, res) => res.json(buildCeramicMugArts()));
+const artCatalog = createCatalog({
+  enabled: process.env.RENDER !== 'true' && process.env.NODE_ENV !== 'production',
+  baseFile: path.join(PUBLIC_DIR, 'data', 'caneca-ceramica-artes.json'),
+  syncFile: path.join(DATA_DIR, 'cloudinary-arts.json')
+});
+app.get('/api/admin/arts/status', auth, adminOnly, (req, res) => {
+  const enabled = process.env.RENDER !== 'true' && process.env.NODE_ENV !== 'production';
+  res.set('Cache-Control', 'no-store').json({ enabled, durable: false, message: enabled
+    ? 'Teste local: as artes são salvas em arquivo neste computador. Não há garantia de persistência em hospedagem.'
+    : 'Homologação: sincronização indisponível até configurar armazenamento durável. As 195 artes originais continuam disponíveis.' });
+});
+app.get('/api/caneca-ceramica-arts', async (req, res) => {
+  try { res.set('Cache-Control', 'no-store').json(await artCatalog.get()); }
+  catch { res.status(500).json({ error: 'Não foi possível carregar o catálogo de artes.' }); }
+});
+app.post('/api/admin/arts/sync', auth, adminOnly, async (req, res) => {
+  try { res.json(await artCatalog.sync()); }
+  catch (error) { res.status(error instanceof SyncError ? error.status : 500).json({ error: error instanceof SyncError ? error.message : 'Não foi possível salvar o catálogo. As artes anteriores foram preservadas.' }); }
+});
 app.post('/api/auth/register', (req, res) => {
   const { name, email, password } = req.body || {};
   if (!name || !email || !password) return res.status(400).json({ error: 'Nome, e-mail e senha são obrigatórios.' });
