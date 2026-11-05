@@ -104,8 +104,22 @@ test('new film bootstrap preserves saved Natal; approved schema upgrade touches 
   assert.throws(()=>validateArts([{...film,subcategory:'unknown'}]));
   assert.throws(()=>validateArts([{...film,subcategory:undefined}]));
   assert(!/DROP\s+(TABLE|COLUMN)|ALTER\s+COLUMN|DELETE\s+FROM/i.test(ARTS_SCHEMA_UPGRADE));
+  assert(ARTS_SCHEMA_UPGRADE.includes("'artize_cloudinary_arts_check'"));
+  assert(ARTS_SCHEMA_UPGRADE.includes("'artize_cloudinary_arts_art_check'"));
+  assert(ARTS_SCHEMA_UPGRADE.includes('pg_get_constraintdef'));
   const tables = [...ARTS_SCHEMA_UPGRADE.matchAll(/public\.(\w+)/g)].map(match=>match[1]);
   assert(tables.every(table=>table==='artize_cloudinary_arts'));
+});
+
+test('operational diagnostics expose only stage, SQLSTATE and counts without secrets', async () => {
+  const fixture=durableFixture();
+  fixture.store.save=async()=>{const error=new Error('postgresql://private-password@private-host');error.code='23514';throw error;};
+  const catalog=createDurableCatalog({baseFile,store:fixture.store,credentialsReady:true,list:async()=>[art()]});
+  await assert.rejects(catalog.sync(),error=>/validação/.test(error.message)&&!error.message.includes('private'));
+  assert.deepEqual(catalog.operationalStatus(),{state:'failed',stage:'neon',code:'23514'});
+  fixture.store.save=async()=>{throw {code:'private-password',message:'private-host'};};
+  await assert.rejects(catalog.sync());
+  assert.equal(catalog.operationalStatus().code,null);
 });
 test('Cloudinary URL supported without accepting placeholder secrets', () => {
   assert.equal(cloudinaryConfig({ CLOUDINARY_URL:'cloudinary://key:secret@etoqnuvw' }).configured, true);

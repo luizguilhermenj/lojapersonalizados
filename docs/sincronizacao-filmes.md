@@ -26,7 +26,9 @@ Novas pastas fora desse mapa ainda precisam ser cadastradas no código.
 O recurso inicial criou uma tabela exclusiva com CHECK de Natal. Para atender
 à ampliação de categorias autorizada nesta tarefa, a inicialização adiciona
 artize_cloudinary_arts_metadata_check e só então remove a antiga restrição
-artize_cloudinary_arts_art_check. As operações ocorrem sob lock, em uma transação
+artize_cloudinary_arts_art_check ou artize_cloudinary_arts_check (PostgreSQL pode
+gerar ambos os nomes). Antes de remover a restrição, a migração confere o nome,
+a tabela, o tipo CHECK e a definição limitada a Natal. As operações ocorrem sob lock, em uma transação
 e são idempotentes. Se a nova regra não validar, a transação reverte integralmente.
 Não remove tabelas, colunas ou dados. Não altera nenhuma outra tabela, conexão
 ou estrutura de temas/Color Studio/pedidos/usuários. SQL: lib/neon-art-store.js.
@@ -38,8 +40,11 @@ feitas pelo botão administrativo. As 195 originais e as artes de Natal permanec
 
 ## Validação
 
-31 testes locais passaram com acesso externo ao Neon bloqueado, usando fixtures.
+32 testes locais passaram com acesso externo ao Neon bloqueado, usando fixtures.
 Incluem as sete fontes, paginação independente, Unicode/case, falhas entre gêneros,
 colisões, bootstrap sobre Natal existente, persistência, filtros e regressão dos
 temas/Color Studio. O SQL da restrição requer confirmação no deploy real.
 Credenciais não são exibidas, gravadas no Git nem retornadas ao navegador.
+O healthcheck expõe somente estado/etapa da sincronização, SQLSTATE validado e
+contagens públicas, para diagnosticar o deploy sem retornar mensagens do driver,
+URLs de conexão, parâmetros de SQL ou nomes arbitrários de restrições.
