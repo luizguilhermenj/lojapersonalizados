@@ -72,6 +72,13 @@ function updateThemeUi(filteredCount) {
   }
 }
 
+function artLabel(art) {
+  const source = art.public_id?.split('/').pop() || '';
+  const number = source.match(/^(\d+)(?:[_ .-]|$)/)?.[1] || (!art.asset_id && art.id.match(/-(\d+)$/)?.[1]);
+  const reference = number ? number.padStart(2, '0') : String(art.asset_id || art.id).replace(/[^a-z0-9]/gi,'').slice(0,6).toUpperCase();
+  return getThemeLabel(art.theme) + ' · Arte ' + reference;
+}
+
 function syncSelectedArt() {
   document.querySelectorAll('[data-add-art]').forEach(button => button.disabled = !selectedArt);
   if (!selectedArt) {
@@ -88,12 +95,12 @@ function syncSelectedArt() {
     const nextImage=previews[selectedArt.id]?.preview || selectedArt.image;
     if(selectedMockup.getAttribute('src')!==nextImage)selectedMockup.src = nextImage;
     selectedMockup.width = selectedMockup.height = 800;
-    selectedMockup.alt = `${baseProduct.name} com arte ${selectedArt.name}`;
+    selectedMockup.alt = `${baseProduct.name} com ${artLabel(selectedArt)}`;
   }
 
-  if (selectedArtName) selectedArtName.textContent = selectedArt.name;
-  if (selectedArtDescription) selectedArtDescription.textContent = selectedArt.description;
-  document.getElementById('mobileArtName').textContent = selectedArt.name;
+  if (selectedArtName) selectedArtName.textContent = artLabel(selectedArt);
+  if (selectedArtDescription) selectedArtDescription.textContent = '';
+  document.getElementById('mobileArtName').textContent = artLabel(selectedArt);
   document.querySelectorAll('[data-add-art]').forEach(button => button.disabled = false);
   for (const card of new Set([activeCard,cards.get(selectedArt.id)])) {
     if(!card)continue;
@@ -151,13 +158,9 @@ function createCard(art) {
   image.src = preview?.small || thumbnail(art.image);
   if (preview) {image.srcset = `${preview.small} 200w, ${preview.medium} 400w`;image.sizes = '(min-width:1024px) 240px, (min-width:768px) 30vw, 44vw';}
   image.alt = '';image.width = image.height = 400;image.loading = 'lazy';image.decoding = 'async';
-  const body = document.createElement('span');body.className = 'art-body';
-  const title = document.createElement('strong');title.textContent = art.name;
-  const description = document.createElement('span');description.className='art-description';description.textContent=art.description;
-  body.append(title,description);
   const pill = document.createElement('span');pill.className = 'select-pill';pill.ariaHidden = 'true';pill.textContent='Escolher arte';
-  card.append(image,body,pill);
-  card.setAttribute('aria-label', `Escolher arte ${art.name}`);
+  card.append(image,pill);
+  card.setAttribute('aria-label', `Escolher ${artLabel(art)}`);
   card.addEventListener('click', () => {selectedArt=art;syncSelectedArt();});
   cards.set(art.id,card);return card;
 }
@@ -207,18 +210,18 @@ function addSelectedArt() {
   addToCart({
     cartKey,
     productId: baseProduct.id,
-    name: `${baseProduct.name} • ${selectedArt.name}`,
+    name: `${baseProduct.name} • ${artLabel(selectedArt)}`,
     price: baseProduct.price,
     image: selectedArt.image,
     quantity: 1,
-    variation: selectedArt.name,
+    variation: artLabel(selectedArt),
     variationId: selectedArt.id,
     baseName: baseProduct.name
   });
 
   if (customizerFeedback) {
     customizerFeedback.className = 'feedback success';
-    customizerFeedback.textContent = `Perfeito! ${selectedArt.name} foi adicionada ao carrinho.`;
+    customizerFeedback.textContent = `Perfeito! ${artLabel(selectedArt)} foi adicionada ao carrinho.`;
   }
 }
 document.querySelectorAll('[data-add-art]').forEach(button => button.addEventListener('click',addSelectedArt));
