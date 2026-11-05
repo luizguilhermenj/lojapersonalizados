@@ -1,5 +1,6 @@
 import { api } from '/js/app.js';
 import { initHeroCarousel } from '/js/hero-carousel.js';
+import { createArtCarousel } from '/js/art-carousel.js';
 initHeroCarousel();
 
 const productsGrid = document.getElementById('productsGrid');
@@ -8,6 +9,31 @@ const globalSearch = document.getElementById('globalSearch');
 const sortSelect = document.getElementById('sortSelect');
 
 let products = [];
+let artsRequest;
+let artCarousel;
+
+function productImageMarkup(product, index) {
+  if (product.slug === 'caneca-ceramica') return `
+    <section class="product-art-carousel" data-product-art-carousel aria-label="Fotos reais das artes da Caneca de Cerâmica" aria-roledescription="carrossel">
+      <img src="/img/artes/caneca-ceramica/pascoa/pascoa-01.webp" alt="Caneca de Cerâmica com arte da coleção Páscoa" width="400" height="400" loading="lazy" decoding="async">
+      <div class="product-art-controls">
+        <button type="button" data-art-prev aria-label="Arte anterior">‹</button>
+        <button type="button" data-art-pause aria-label="Pausar fotos das artes">Ⅱ</button>
+        <button type="button" data-art-next aria-label="Próxima arte">›</button>
+      </div>
+    </section>`;
+  return `<img src="${product.image}" alt="${product.name}" width="400" height="400" loading="${index < 2 ? 'eager' : 'lazy'}" fetchpriority="${index === 0 && matchMedia('(max-width:47.99rem)').matches ? 'high' : 'auto'}" decoding="async">`;
+}
+
+async function startArtCarousel() {
+  const element = productsGrid.querySelector('[data-product-art-carousel]');
+  if (!element) return;
+  try {
+    artsRequest ||= api('/api/caneca-ceramica-arts').catch(error => { artsRequest = null; throw error; });
+    const arts = await artsRequest;
+    if (element.isConnected) artCarousel = createArtCarousel(element, arts);
+  } catch { element.querySelector('.product-art-controls').hidden = true; }
+}
 let currentCategory = 'Todos';
 let searchText = new URLSearchParams(location.search).get('q') || '';
 if (globalSearch) globalSearch.value = searchText;
@@ -58,6 +84,7 @@ function productActionMarkup(product) {
 
 const fold = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 function renderProducts() {
+  artCarousel?.destroy();
   productsGrid.setAttribute('aria-busy','false');
   let list = products.filter((product) => {
     const haystack = `${product.name} ${product.description} ${product.category}`.toLowerCase();
@@ -71,7 +98,7 @@ function renderProducts() {
     .map(
       (product, index) => `
         <article class="product-card">
-          <img src="${product.image}" alt="${product.name}" width="400" height="400" loading="${index < 2 ? 'eager' : 'lazy'}" fetchpriority="${index === 0 && matchMedia('(max-width:47.99rem)').matches ? 'high' : 'auto'}" decoding="async">
+          ${productImageMarkup(product, index)}
           <div class="product-body">
             <h3>${product.name}</h3>
             <p>${product.description}</p>
@@ -89,6 +116,7 @@ function renderProducts() {
     )
     .join('') || '<div class="empty-state"><h3>Nenhum presente encontrado</h3><p>Tente outro termo ou selecione outra categoria.</p><button class="ghost-btn" id="clearProductFilters" type="button">Limpar filtros</button></div>';
   document.getElementById('clearProductFilters')?.addEventListener('click', () => {currentCategory='Todos';searchText='';globalSearch.value='';renderChips();renderProducts();});
+  startArtCarousel();
 
   productsGrid.querySelectorAll('.soon-btn').forEach((button) => {
     button.onclick = () => {
