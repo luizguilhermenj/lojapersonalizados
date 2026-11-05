@@ -72,7 +72,7 @@ function syncSelectedArt() {
   if (!selectedArt) {
     selectedMockup?.removeAttribute('src');
     if (selectedArtName) selectedArtName.textContent = 'Nenhuma arte disponível';
-    if (selectedArtDescription) selectedArtDescription.textContent = 'As artes aparecerão após a sincronização da coleção.';
+    if (selectedArtDescription) selectedArtDescription.textContent = 'Coleção ainda indisponível nesta homologação.';
     return;
   }
 
@@ -120,6 +120,16 @@ function renderThemeFilters() {
 
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 
+function thumbnail(image) {
+  try {
+    const url = new URL(image);
+    if (url.hostname === 'res.cloudinary.com' && url.pathname.startsWith('/etoqnuvw/image/upload/')) {
+      return image.replace('/image/upload/', '/image/upload/c_limit,w_640,q_auto,f_auto/');
+    }
+  } catch {}
+  return image;
+}
+
 function renderArts() {
   const filteredArts = getFilteredArts();
   updateThemeUi(filteredArts.length);
@@ -131,7 +141,7 @@ function renderArts() {
 
   artGrid.innerHTML = filteredArts.map((art) => `
     <article class="art-card ${art.id === selectedArt?.id ? 'active' : ''}" data-art-id="${escapeHtml(art.id)}">
-      <img src="${escapeHtml(art.image)}" alt="${escapeHtml(art.name)}">
+      <img src="${escapeHtml(thumbnail(art.image))}" alt="${escapeHtml(art.name)}" loading="lazy" decoding="async" width="440" height="440">
       <div class="art-body">
         <h3>${escapeHtml(art.name)}</h3>
         <p>${escapeHtml(art.description)}</p>

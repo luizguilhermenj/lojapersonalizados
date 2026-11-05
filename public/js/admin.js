@@ -91,6 +91,13 @@ await checkNewSales();
 
 const syncArtsBtn = document.getElementById('syncArtsBtn');
 const syncArtsFeedback = document.getElementById('syncArtsFeedback');
+try {
+  const status = await api('/api/admin/arts/status');
+  document.getElementById('syncArtsNotice').textContent = status.message;
+  syncArtsBtn.disabled = !status.enabled;
+} catch {
+  document.getElementById('syncArtsNotice').textContent = 'Não foi possível verificar a disponibilidade da sincronização.';
+}
 syncArtsBtn?.addEventListener('click', async () => {
   syncArtsBtn.disabled = true;
   syncArtsBtn.textContent = 'Sincronizando...';

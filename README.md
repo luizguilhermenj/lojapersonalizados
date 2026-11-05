@@ -43,7 +43,7 @@ não garante persistência de arquivos escritos em runtime; os dados podem desap
 após reinício ou deploy. O bloqueio de concorrência pressupõe um único processo.
 Não considerar produção pronta até definir armazenamento durável e concorrência
 adequada a múltiplas instâncias. Não há acesso ou alteração no Neon nesta etapa.
-Nenhum deploy ou merge está autorizado por esta implementação.
+A autorização posterior do proprietário permite merge e deploy de homologação, com as restrições descritas abaixo.
 
 Consulta real de leitura durante a implementação: 59 imagens, 59 `asset_id` únicos,
 incluindo `3_MOCKUPS`. Nenhum metadado real foi persistido ou versionado.
@@ -57,7 +57,31 @@ contagem retornada e a categoria Natal; erros da API não expõem suas respostas
 ### Pendência de segurança preexistente
 
 A inspeção sem divulgação de valores encontrou `MP_ACCESS_TOKEN` não vazio no
-`.env` já versionado. Trate-o como potencial segredo real. Esse arquivo não foi
-alterado. O proprietário deve avaliar revogação/rotação e remoção do histórico;
+`.env` já versionado. Trate-o como potencial segredo real. O arquivo foi retirado do versionamento atual na revisão, sem reescrever histórico. O proprietário deve avaliar revogação/rotação e remoção do histórico;
 adicionar `.gitignore` não remove um arquivo já rastreado. Não copie esse valor
 para issues, logs, commits ou PRs.
+
+## Homologação após revisão do PR #5
+
+A interface Natal está disponível para avaliação. A sincronização fica bloqueada
+no Render (`RENDER=true`) e em `NODE_ENV=production`, inclusive por chamada direta
+à API. O painel informa a indisponibilidade e mantém o botão desabilitado.
+Nesses ambientes somente as 195 artes originais são servidas: não há promessa de
+sincronização persistente. Esta entrega NÃO resolve armazenamento durável.
+Render Free não permite disco persistente: https://render.com/docs/free.
+A próxima etapa exige escolher armazenamento externo e validar sync → reinício →
+catálogo preservado. Nenhuma alteração no Neon foi realizada ou autorizada.
+
+Em desenvolvimento local, a sincronização por JSON permanece disponível para
+testes em processo único. Arquivo corrompido ou IDs colidentes não removem as
+artes originais da vitrine; a sincronização recusa sobrescrever o arquivo inválido.
+Miniaturas Cloudinary usam tamanho reduzido e carregamento sob demanda; o preview
+selecionado mantém a URL original.
+
+O `.env` foi retirado do versionamento atual, sem reescrita de histórico. Isso
+NÃO revoga a credencial potencialmente exposta. O proprietário deve coordenar
+rotação/revogação no Mercado Pago, atualizar `MP_ACCESS_TOKEN` nas variáveis do
+Render e avaliar limpeza do histórico separadamente. Checkout depende dessa
+variável no ambiente; não restaurar o segredo no Git. Demais variáveis devem ser
+configuradas conforme `.env.example`. Merge/deploy de homologação autorizado pelo
+proprietário; produção continua dependente dessas pendências.

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { listNatalArts, NATAL_FOLDER } from '../lib/cloudinary-arts.js';
 import { createCatalog } from '../lib/art-catalog.js';
 const env = { CLOUDINARY_CLOUD_NAME: 'etoqnuvw', CLOUDINARY_API_KEY: 'test', CLOUDINARY_API_SECRET: 'test' };
@@ -89,13 +90,19 @@ test('HTTP endpoint requires authentication and admin role; public API preserves
   const { spawn } = await import('node:child_process');
   const { once } = await import('node:events');
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'artize-http-'));
-  t.after(() => fs.rm(dir, { recursive: true, force: true }));
+  let child;
+  t.after(async () => {
+    if (child && child.exitCode === null && child.signalCode === null) {
+      const done = once(child, 'exit'); child.kill(); await done;
+    }
+    await fs.rm(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+  });
   const root = new URL('../', import.meta.url);
   await fs.cp(new URL('lib/', root), path.join(dir, 'lib'), { recursive: true });
   await fs.mkdir(path.join(dir, 'public', 'data'), { recursive: true });
   await fs.copyFile(new URL('public/data/caneca-ceramica-artes.json', root), path.join(dir, 'public', 'data', 'caneca-ceramica-artes.json'));
   await fs.copyFile(new URL('package.json', root), path.join(dir, 'package.json'));
-  await fs.symlink(new URL('node_modules', root).pathname, path.join(dir, 'node_modules'));
+  await fs.symlink(fileURLToPath(new URL('node_modules', root)), path.join(dir, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
   await fs.mkdir(path.join(dir, 'data'));
   const fixtures = {
     users: [{ id: 'admin', role: 'admin', lastAdminSeenAt: null }, { id: 'buyer', role: 'customer' }],
@@ -105,8 +112,7 @@ test('HTTP endpoint requires authentication and admin role; public API preserves
   let source = await fs.readFile(new URL('server.js', root), 'utf8');
   source = source.replace(/app\.listen\(PORT,[^\n]+/, "app.listen(0, function () { console.log('TEST_PORT=' + this.address().port); });");
   await fs.writeFile(path.join(dir, 'server.js'), source);
-  const child = spawn(process.execPath, ['server.js'], { cwd: dir, env: { ...process.env, CLOUDINARY_CLOUD_NAME: '', CLOUDINARY_API_KEY: '', CLOUDINARY_API_SECRET: '' }, stdio: ['ignore', 'pipe', 'pipe'] });
-  t.after(async () => { if (child.exitCode !== null || child.signalCode !== null) return; const done = once(child, 'exit'); child.kill(); await done; });
+  child = spawn(process.execPath, ['server.js'], { cwd: dir, env: { ...process.env, RENDER: 'true', NODE_ENV: 'production', CLOUDINARY_CLOUD_NAME: '', CLOUDINARY_API_KEY: '', CLOUDINARY_API_SECRET: '', MP_ACCESS_TOKEN: '' }, stdio: ['ignore', 'pipe', 'pipe'] });
   const port = await new Promise((resolve, reject) => {
     const timeout = setTimeout(() => reject(new Error('Test server startup timed out')), 10000);
     child.stdout.on('data', chunk => { const match = chunk.toString().match(/TEST_PORT=(\d+)/); if (match) { clearTimeout(timeout); resolve(match[1]); } });
@@ -118,6 +124,9 @@ test('HTTP endpoint requires authentication and admin role; public API preserves
   assert.equal((await request('invalid')).status, 401);
   assert.equal((await request('buyer-test')).status, 403);
   assert.equal((await request('admin-test')).status, 503);
+  const status = await fetch(`${url}/api/admin/arts/status`, { headers: { Authorization: 'Bearer admin-test' } });
+  assert.equal((await status.json()).enabled, false);
+  assert.equal((await fetch(`${url}/api/admin/arts/status`)).status, 401);
   const catalogResponse = await fetch(`${url}/api/caneca-ceramica-arts`);
   assert.equal(catalogResponse.headers.get('cache-control'), 'no-store');
   const base = JSON.parse(await fs.readFile(new URL('public/data/caneca-ceramica-artes.json', root), 'utf8'));
@@ -131,6 +140,30 @@ test('failed sync releases lock for a retry; corrupted file is never silently re
   fail = false;
   assert.equal((await catalog.sync()).total, 0);
   await fs.writeFile(syncFile, 'corrupt');
+  assert.equal((await catalog.get()).length, 195);
   await assert.rejects(catalog.sync());
   assert.equal(await fs.readFile(syncFile, 'utf8'), 'corrupt');
+});
+
+test('preserved custom ID is unchanged; collisions never replace saved catalog', async t => {
+  let incoming = [{ id: 'cloudinary-a', asset_id: 'a', name: 'A' }];
+  const { catalog, syncFile } = await fixture(t, async () => incoming);
+  await fs.writeFile(syncFile, JSON.stringify([{ ...incoming[0], id: 'legacy-a' }]));
+  assert.equal((await catalog.sync()).updated, 0);
+  assert.equal((await catalog.get()).at(-1).id, 'legacy-a');
+  const before = await fs.readFile(syncFile, 'utf8');
+  incoming = [{ id: (await catalog.get())[0].id, asset_id: 'b' }];
+  await assert.rejects(catalog.sync(), /IDs/);
+  assert.equal(await fs.readFile(syncFile, 'utf8'), before);
+});
+
+test('homologation blocks writes and ignores ephemeral catalog across restart', async t => {
+  const { syncFile } = await fixture(t, async () => []);
+  const baseFile = new URL('../public/data/caneca-ceramica-artes.json', import.meta.url);
+  await fs.writeFile(syncFile, JSON.stringify([{ id: 'temporary' }]));
+  for (let restart = 0; restart < 2; restart++) {
+    const catalog = createCatalog({ baseFile, syncFile, enabled: false, list: () => assert.fail('Must not call Cloudinary') });
+    assert.equal((await catalog.get()).length, 195);
+    await assert.rejects(catalog.sync(), error => error.status === 503);
+  }
 });
