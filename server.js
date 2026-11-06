@@ -1,6 +1,10 @@
 import { createCatalog } from './lib/art-catalog.js';
-import { SyncError } from './lib/cloudinary-arts.js';
+import { SyncError, cloudinaryConfig } from './lib/cloudinary-arts.js';
+import { createNeonArtStore } from './lib/neon-art-store.js';
+import { createDurableCatalog } from './lib/durable-art-catalog.js';
 import 'dotenv/config';
+import { createThemeStore } from './themes/store.js';
+import { themeRoutes } from './routes/themes.js';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -28,7 +32,13 @@ const ADMIN_ORDER_STATUSES = ['aguardando_processamento', 'em_producao', 'enviad
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(PUBLIC_DIR));
+app.use(express.static(PUBLIC_DIR, {
+  setHeaders(res, file) {
+    // Recursos sem hash: imagens podem ser reutilizadas; documentos e código revalidam.
+    const image = /\.(?:svg|webp|avif|png|jpe?g)$/i.test(file);
+    res.setHeader('Cache-Control', image ? 'public, max-age=86400' : 'public, max-age=0, must-revalidate');
+  }
+}));
 
 function readJson(file) { return JSON.parse(fs.readFileSync(file, 'utf-8')); }
 function writeJson(file, data) { fs.writeFileSync(file, JSON.stringify(data, null, 2)); }
@@ -363,14 +373,25 @@ function getUnseenSalesForAdmin(adminUser) {
 
 ensureAdminTrackingFields();
 
-app.get('/api/health', (req, res) => res.json({ ok: true, envConfigured: Boolean(MP_ACCESS_TOKEN) }));
+const themeStore = createThemeStore({ localDir: path.join(DATA_DIR, 'appearance') });
+app.use('/api', themeRoutes({ store: themeStore, auth, adminOnly }));
+
+app.get('/api/health', (req, res) => res.json({ ok: true, envConfigured: Boolean(MP_ACCESS_TOKEN), release: process.env.RENDER_GIT_COMMIT || null,
+  artsSync: durableArts ? artCatalog.operationalStatus() : { state:'local' } }));
 app.get('/api/products', (req, res) => res.json(products()));
-const artCatalog = createCatalog({
+const baseArtFile = path.join(PUBLIC_DIR, 'data', 'caneca-ceramica-artes.json');
+const durableArts = Boolean(String(process.env.DATABASE_URL || '').trim());
+const artCatalog = durableArts ? createDurableCatalog({
+  baseFile: baseArtFile,
+  store: createNeonArtStore(process.env.DATABASE_URL),
+  credentialsReady: cloudinaryConfig().configured
+}) : createCatalog({
   enabled: process.env.RENDER !== 'true' && process.env.NODE_ENV !== 'production',
   baseFile: path.join(PUBLIC_DIR, 'data', 'caneca-ceramica-artes.json'),
   syncFile: path.join(DATA_DIR, 'cloudinary-arts.json')
 });
-app.get('/api/admin/arts/status', auth, adminOnly, (req, res) => {
+app.get('/api/admin/arts/status', auth, adminOnly, async (req, res) => {
+  if (durableArts) return res.set('Cache-Control', 'no-store').json(await artCatalog.status());
   const enabled = process.env.RENDER !== 'true' && process.env.NODE_ENV !== 'production';
   res.set('Cache-Control', 'no-store').json({ enabled, durable: false, message: enabled
     ? 'Teste local: as artes são salvas em arquivo neste computador. Não há garantia de persistência em hospedagem.'
@@ -384,6 +405,11 @@ app.post('/api/admin/arts/sync', auth, adminOnly, async (req, res) => {
   try { res.json(await artCatalog.sync()); }
   catch (error) { res.status(error instanceof SyncError ? error.status : 500).json({ error: error instanceof SyncError ? error.message : 'Não foi possível salvar o catálogo. As artes anteriores foram preservadas.' }); }
 });
+if (durableArts) {
+  artCatalog.bootstrap().then(result => {
+    if (result) console.log(`Catálogo de artes salvo no Neon: ${result.total} artes.`);
+  }).catch(() => console.error('Importação inicial de artes não concluída. Consulte o painel administrativo para tentar novamente.'));
+}
 app.post('/api/auth/register', (req, res) => {
   const { name, email, password } = req.body || {};
   if (!name || !email || !password) return res.status(400).json({ error: 'Nome, e-mail e senha são obrigatórios.' });

@@ -1,3 +1,10 @@
+.env
+.env.*
+!.env.example
+node_modules/
+data/appearance/
+work/
+
 node_modules/
 .env
 .env.*

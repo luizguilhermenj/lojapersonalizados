@@ -1,0 +1,124 @@
+{
+  "database": "isolated PGlite on temporary disk; no live Neon",
+  "palettes": 12,
+  "themes": 4,
+  "widths": [
+    320,
+    390,
+    768,
+    1440
+  ],
+  "restart": true,
+  "errors": [],
+  "saveTiming": {
+    "metric": "HTTP request responseEnd in local browser, includes PostgreSQL; no network/Render latency",
+    "samples": [
+      {
+        "palette": "champagne",
+        "requestMs": 81.245
+      },
+      {
+        "palette": "lavanda",
+        "requestMs": 30.544
+      },
+      {
+        "palette": "rosa-blush",
+        "requestMs": 10.169
+      },
+      {
+        "palette": "menta",
+        "requestMs": 8.001
+      },
+      {
+        "palette": "azul-nevoa",
+        "requestMs": 28.341
+      },
+      {
+        "palette": "pessego",
+        "requestMs": 22.306
+      },
+      {
+        "palette": "midnight-emerald",
+        "requestMs": 6.127
+      },
+      {
+        "palette": "royal-purple",
+        "requestMs": 19.628
+      },
+      {
+        "palette": "ocean-neon",
+        "requestMs": 6.118
+      },
+      {
+        "palette": "ruby-night",
+        "requestMs": 9.157
+      },
+      {
+        "palette": "gold-luxury",
+        "requestMs": 5.838
+      },
+      {
+        "palette": "graphite",
+        "requestMs": 18.761
+      }
+    ],
+    "summary": {
+      "n": 12,
+      "mean": 20.519583333333337,
+      "min": 5.838,
+      "median": 14.465,
+      "p75": 22.306,
+      "max": 81.245
+    }
+  },
+  "contrast": [
+    {
+      "palette": "champagne",
+      "minimum": 8.4147716888798
+    },
+    {
+      "palette": "lavanda",
+      "minimum": 5.8460168009668685
+    },
+    {
+      "palette": "rosa-blush",
+      "minimum": 7.1442054386071945
+    },
+    {
+      "palette": "menta",
+      "minimum": 6.530078076010956
+    },
+    {
+      "palette": "azul-nevoa",
+      "minimum": 6.626590859523209
+    },
+    {
+      "palette": "pessego",
+      "minimum": 7.6992392892225014
+    },
+    {
+      "palette": "midnight-emerald",
+      "minimum": 7.675737493293069
+    },
+    {
+      "palette": "royal-purple",
+      "minimum": 5.882554328709019
+    },
+    {
+      "palette": "ocean-neon",
+      "minimum": 7.362502236887725
+    },
+    {
+      "palette": "ruby-night",
+      "minimum": 6.377285063740435
+    },
+    {
+      "palette": "gold-luxury",
+      "minimum": 7.816793835148327
+    },
+    {
+      "palette": "graphite",
+      "minimum": 6.327080619259503
+    }
+  ]
+}

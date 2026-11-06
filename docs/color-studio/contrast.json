@@ -1,0 +1,98 @@
+[
+  {
+    "id": "artize",
+    "paletteId": "champagne",
+    "width": 390,
+    "minimum": 8.4147716888798
+  },
+  {
+    "id": "artize",
+    "paletteId": "champagne",
+    "width": 1440,
+    "minimum": 8.4147716888798
+  },
+  {
+    "id": "artize",
+    "paletteId": "midnight-emerald",
+    "width": 390,
+    "minimum": 7.675737493293069
+  },
+  {
+    "id": "artize",
+    "paletteId": "midnight-emerald",
+    "width": 1440,
+    "minimum": 7.675737493293069
+  },
+  {
+    "id": "natal",
+    "paletteId": "champagne",
+    "width": 390,
+    "minimum": 8.4147716888798
+  },
+  {
+    "id": "natal",
+    "paletteId": "champagne",
+    "width": 1440,
+    "minimum": 8.4147716888798
+  },
+  {
+    "id": "natal",
+    "paletteId": "midnight-emerald",
+    "width": 390,
+    "minimum": 7.675737493293069
+  },
+  {
+    "id": "natal",
+    "paletteId": "midnight-emerald",
+    "width": 1440,
+    "minimum": 7.675737493293069
+  },
+  {
+    "id": "pascoa",
+    "paletteId": "champagne",
+    "width": 390,
+    "minimum": 8.4147716888798
+  },
+  {
+    "id": "pascoa",
+    "paletteId": "champagne",
+    "width": 1440,
+    "minimum": 8.4147716888798
+  },
+  {
+    "id": "pascoa",
+    "paletteId": "midnight-emerald",
+    "width": 390,
+    "minimum": 7.675737493293069
+  },
+  {
+    "id": "pascoa",
+    "paletteId": "midnight-emerald",
+    "width": 1440,
+    "minimum": 7.675737493293069
+  },
+  {
+    "id": "dia-das-maes",
+    "paletteId": "champagne",
+    "width": 390,
+    "minimum": 8.4147716888798
+  },
+  {
+    "id": "dia-das-maes",
+    "paletteId": "champagne",
+    "width": 1440,
+    "minimum": 8.4147716888798
+  },
+  {
+    "id": "dia-das-maes",
+    "paletteId": "midnight-emerald",
+    "width": 390,
+    "minimum": 7.675737493293069
+  },
+  {
+    "id": "dia-das-maes",
+    "paletteId": "midnight-emerald",
+    "width": 1440,
+    "minimum": 7.675737493293069
+  }
+]

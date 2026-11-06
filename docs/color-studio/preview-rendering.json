@@ -1,0 +1,395 @@
+{
+  "metric": "Elapsed parent click handler to two animation frames after iframe theme application; not LCP or field data",
+  "conditions": {
+    "cpuSlowdown": 4,
+    "widths": [
+      390,
+      1280
+    ],
+    "palettes": 12,
+    "repetitions": 3
+  },
+  "samples": [
+    {
+      "palette": "champagne",
+      "width": 390,
+      "durationMs": 118.6000000005588
+    },
+    {
+      "palette": "lavanda",
+      "width": 390,
+      "durationMs": 89.90000000037253
+    },
+    {
+      "palette": "rosa-blush",
+      "width": 390,
+      "durationMs": 97.6000000005588
+    },
+    {
+      "palette": "menta",
+      "width": 390,
+      "durationMs": 63.80000000074506
+    },
+    {
+      "palette": "azul-nevoa",
+      "width": 390,
+      "durationMs": 86.70000000018626
+    },
+    {
+      "palette": "pessego",
+      "width": 390,
+      "durationMs": 101.69999999925494
+    },
+    {
+      "palette": "midnight-emerald",
+      "width": 390,
+      "durationMs": 146.5
+    },
+    {
+      "palette": "royal-purple",
+      "width": 390,
+      "durationMs": 49.200000000186265
+    },
+    {
+      "palette": "ocean-neon",
+      "width": 390,
+      "durationMs": 59.799999999813735
+    },
+    {
+      "palette": "ruby-night",
+      "width": 390,
+      "durationMs": 39.80000000074506
+    },
+    {
+      "palette": "gold-luxury",
+      "width": 390,
+      "durationMs": 67.79999999981374
+    },
+    {
+      "palette": "graphite",
+      "width": 390,
+      "durationMs": 53.10000000055879
+    },
+    {
+      "palette": "champagne",
+      "width": 390,
+      "durationMs": 117.59999999962747
+    },
+    {
+      "palette": "lavanda",
+      "width": 390,
+      "durationMs": 120
+    },
+    {
+      "palette": "rosa-blush",
+      "width": 390,
+      "durationMs": 65.70000000018626
+    },
+    {
+      "palette": "menta",
+      "width": 390,
+      "durationMs": 96.30000000074506
+    },
+    {
+      "palette": "azul-nevoa",
+      "width": 390,
+      "durationMs": 64.09999999962747
+    },
+    {
+      "palette": "pessego",
+      "width": 390,
+      "durationMs": 93.09999999962747
+    },
+    {
+      "palette": "midnight-emerald",
+      "width": 390,
+      "durationMs": 115.59999999962747
+    },
+    {
+      "palette": "royal-purple",
+      "width": 390,
+      "durationMs": 77.70000000018626
+    },
+    {
+      "palette": "ocean-neon",
+      "width": 390,
+      "durationMs": 76.30000000074506
+    },
+    {
+      "palette": "ruby-night",
+      "width": 390,
+      "durationMs": 54.5
+    },
+    {
+      "palette": "gold-luxury",
+      "width": 390,
+      "durationMs": 64.6000000005588
+    },
+    {
+      "palette": "graphite",
+      "width": 390,
+      "durationMs": 47.299999999813735
+    },
+    {
+      "palette": "champagne",
+      "width": 390,
+      "durationMs": 91.6000000005588
+    },
+    {
+      "palette": "lavanda",
+      "width": 390,
+      "durationMs": 90.6000000005588
+    },
+    {
+      "palette": "rosa-blush",
+      "width": 390,
+      "durationMs": 88.79999999981374
+    },
+    {
+      "palette": "menta",
+      "width": 390,
+      "durationMs": 80.20000000018626
+    },
+    {
+      "palette": "azul-nevoa",
+      "width": 390,
+      "durationMs": 99.3999999994412
+    },
+    {
+      "palette": "pessego",
+      "width": 390,
+      "durationMs": 81.29999999981374
+    },
+    {
+      "palette": "midnight-emerald",
+      "width": 390,
+      "durationMs": 96.29999999981374
+    },
+    {
+      "palette": "royal-purple",
+      "width": 390,
+      "durationMs": 39.09999999962747
+    },
+    {
+      "palette": "ocean-neon",
+      "width": 390,
+      "durationMs": 52.299999999813735
+    },
+    {
+      "palette": "ruby-night",
+      "width": 390,
+      "durationMs": 60.10000000055879
+    },
+    {
+      "palette": "gold-luxury",
+      "width": 390,
+      "durationMs": 50.10000000055879
+    },
+    {
+      "palette": "graphite",
+      "width": 390,
+      "durationMs": 49.200000000186265
+    },
+    {
+      "palette": "champagne",
+      "width": 1280,
+      "durationMs": 98.80000000074506
+    },
+    {
+      "palette": "lavanda",
+      "width": 1280,
+      "durationMs": 123.6000000005588
+    },
+    {
+      "palette": "rosa-blush",
+      "width": 1280,
+      "durationMs": 101.40000000037253
+    },
+    {
+      "palette": "menta",
+      "width": 1280,
+      "durationMs": 83.29999999981374
+    },
+    {
+      "palette": "azul-nevoa",
+      "width": 1280,
+      "durationMs": 115.8999999994412
+    },
+    {
+      "palette": "pessego",
+      "width": 1280,
+      "durationMs": 160.19999999925494
+    },
+    {
+      "palette": "midnight-emerald",
+      "width": 1280,
+      "durationMs": 154.20000000018626
+    },
+    {
+      "palette": "royal-purple",
+      "width": 1280,
+      "durationMs": 114.79999999981374
+    },
+    {
+      "palette": "ocean-neon",
+      "width": 1280,
+      "durationMs": 175.1000000005588
+    },
+    {
+      "palette": "ruby-night",
+      "width": 1280,
+      "durationMs": 171.6000000005588
+    },
+    {
+      "palette": "gold-luxury",
+      "width": 1280,
+      "durationMs": 134.3999999994412
+    },
+    {
+      "palette": "graphite",
+      "width": 1280,
+      "durationMs": 178.40000000037253
+    },
+    {
+      "palette": "champagne",
+      "width": 1280,
+      "durationMs": 186
+    },
+    {
+      "palette": "lavanda",
+      "width": 1280,
+      "durationMs": 114.19999999925494
+    },
+    {
+      "palette": "rosa-blush",
+      "width": 1280,
+      "durationMs": 158.90000000037253
+    },
+    {
+      "palette": "menta",
+      "width": 1280,
+      "durationMs": 136.09999999962747
+    },
+    {
+      "palette": "azul-nevoa",
+      "width": 1280,
+      "durationMs": 121
+    },
+    {
+      "palette": "pessego",
+      "width": 1280,
+      "durationMs": 127.6000000005588
+    },
+    {
+      "palette": "midnight-emerald",
+      "width": 1280,
+      "durationMs": 151.70000000018626
+    },
+    {
+      "palette": "royal-purple",
+      "width": 1280,
+      "durationMs": 111.20000000018626
+    },
+    {
+      "palette": "ocean-neon",
+      "width": 1280,
+      "durationMs": 170.8999999994412
+    },
+    {
+      "palette": "ruby-night",
+      "width": 1280,
+      "durationMs": 129
+    },
+    {
+      "palette": "gold-luxury",
+      "width": 1280,
+      "durationMs": 149.70000000018626
+    },
+    {
+      "palette": "graphite",
+      "width": 1280,
+      "durationMs": 105.20000000018626
+    },
+    {
+      "palette": "champagne",
+      "width": 1280,
+      "durationMs": 111.40000000037253
+    },
+    {
+      "palette": "lavanda",
+      "width": 1280,
+      "durationMs": 103.09999999962747
+    },
+    {
+      "palette": "rosa-blush",
+      "width": 1280,
+      "durationMs": 86.29999999981374
+    },
+    {
+      "palette": "menta",
+      "width": 1280,
+      "durationMs": 87.5
+    },
+    {
+      "palette": "azul-nevoa",
+      "width": 1280,
+      "durationMs": 112.09999999962747
+    },
+    {
+      "palette": "pessego",
+      "width": 1280,
+      "durationMs": 62.200000000186265
+    },
+    {
+      "palette": "midnight-emerald",
+      "width": 1280,
+      "durationMs": 171.20000000018626
+    },
+    {
+      "palette": "royal-purple",
+      "width": 1280,
+      "durationMs": 81.90000000037253
+    },
+    {
+      "palette": "ocean-neon",
+      "width": 1280,
+      "durationMs": 107.09999999962747
+    },
+    {
+      "palette": "ruby-night",
+      "width": 1280,
+      "durationMs": 216.5
+    },
+    {
+      "palette": "gold-luxury",
+      "width": 1280,
+      "durationMs": 116.70000000018626
+    },
+    {
+      "palette": "graphite",
+      "width": 1280,
+      "durationMs": 94.59999999962747
+    }
+  ],
+  "summary": [
+    {
+      "width": 390,
+      "n": 36,
+      "mean": 79.06388888901307,
+      "min": 39.09999999962747,
+      "median": 78.95000000018626,
+      "p75": 96.29999999981374,
+      "max": 146.5
+    },
+    {
+      "width": 1280,
+      "n": 36,
+      "mean": 128.4388888889096,
+      "min": 62.200000000186265,
+      "median": 118.85000000009313,
+      "p75": 154.20000000018626,
+      "max": 216.5
+    }
+  ],
+  "note": "Editor response to two animation frames; not LCP or field p75."
+}

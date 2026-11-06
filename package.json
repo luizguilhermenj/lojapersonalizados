@@ -6,12 +6,25 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "test": "node --test test/*.test.js",
+    "test:browser": "node test/browser.mjs",
+    "test:studio:browser": "node test/color-studio-browser.mjs",
+    "measure:studio": "node scripts/measure-color-studio.mjs",
+    "test:neon": "node --test test/neon-live.test.js",
+    "test:studio:preview": "node test/studio-preview-browser.mjs",
+    "test:studio:apply": "node test/studio-save-apply-browser.mjs",
+    "inspect:studio": "node scripts/inspect-color-studio.mjs"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
     "mercadopago": "^2.8.0",
     "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.13",
+    "playwright": "^1.64.1"
   }
 }

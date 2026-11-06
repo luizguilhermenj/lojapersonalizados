@@ -1,0 +1,59 @@
+/* Dimensão externa reservada para todos os temas, sem esperar a API. */
+.hero-carousel {
+  height:220px;
+  box-sizing:border-box;
+  min-width:0;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:var(--theme-hero,var(--surface-2));
+  color:var(--theme-hero-text,var(--text));
+  isolation:isolate;
+}
+.hero-viewport {height:calc(100% - 45px);overflow:hidden;touch-action:pan-y pinch-zoom;min-width:0}
+.hero-track {display:flex;height:100%;width:100%;transition:transform 400ms var(--ease-out);}
+.hero-slide {position:relative;flex:0 0 100%;min-width:0;height:100%;display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:10px;align-items:center;padding:12px;overflow:hidden}
+.hero-copy {position:relative;min-width:0;z-index:1;display:grid;justify-items:start;gap:7px;align-content:center}
+.hero-eyebrow {margin:0;font-size:.625rem;line-height:1.3;font-weight:750;letter-spacing:.04em;color:var(--theme-hero-muted,var(--muted))}
+.hero-copy h2 {margin:0;font-family:var(--font-display);font-size:clamp(1.25rem,5.2vw,1.55rem);line-height:1.08;letter-spacing:-.035em;text-wrap:balance}
+.hero-description {display:none;margin:0;color:var(--theme-hero-muted,var(--muted));line-height:1.6;font-size:.925rem;max-width:440px}
+.hero-carousel .hero-copy .primary-btn {min-height:44px;font-size:.75rem;padding:10px 13px;background:var(--theme-hero-button,var(--accent));color:var(--theme-hero-button-text,#fff);transition:box-shadow var(--motion-fast)}
+.hero-copy a:focus-visible {outline-color:currentColor;outline-offset:2px}
+.hero-visual {position:relative;display:grid;place-items:center;min-width:0;width:96px;height:128px;border-radius:22px;background:color-mix(in srgb,var(--accent-2) 24%,transparent);isolation:isolate}
+.hero-product {position:relative;z-index:1;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.hero-decoration {position:absolute;inset:-20px;width:calc(100% + 40px);height:calc(100% + 40px);object-fit:contain;opacity:.3;pointer-events:none;z-index:0}
+.hero-slide--shirts .hero-visual {border-radius:44px 18px 44px 18px}
+.hero-slide--gifts .hero-visual {border-radius:50%}
+.hero-controls {display:grid;grid-template-columns:44px minmax(132px,1fr) 44px 44px;gap:0;align-items:center;height:45px;padding:0 8px;border-top:1px solid var(--line);background:var(--surface);color:var(--text)}
+.hero-controls button {display:grid;place-items:center;width:44px;height:44px;min-width:44px;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer;touch-action:manipulation}
+.hero-controls button:focus-visible {outline:2px solid var(--dark);outline-offset:-4px}
+.hero-controls button:hover {background:var(--surface-2)}
+.hero-controls svg {width:18px;height:18px;pointer-events:none}
+.hero-dots {display:flex;justify-content:center;min-width:132px}
+.hero-dot::after {content:"";width:6px;height:6px;border-radius:99px;background:var(--muted);transition:width 400ms var(--ease-out),background-color 400ms}
+.hero-dot[aria-current="true"]::after {width:20px;background:var(--accent)}
+.hero-carousel.is-dragging .hero-track {transition:none;user-select:none}
+@media(min-width:48rem) {
+  .hero-carousel {height:320px;border-radius:26px}
+  .hero-slide {grid-template-columns:minmax(0,1fr) minmax(180px,.65fr);gap:28px;padding:24px 36px}
+  .hero-copy {gap:12px}.hero-copy h2 {font-size:2.2rem;max-width:470px}
+  .hero-eyebrow {font-size:.75rem;letter-spacing:.08em}.hero-description {display:block}
+  .hero-carousel .hero-copy .primary-btn {font-size:.85rem;padding-inline:20px}
+  .hero-visual {width:190px;height:210px;justify-self:center;border-radius:40px}
+  .hero-controls {grid-template-columns:44px minmax(132px,1fr) 44px 44px;padding-inline:20px}
+}
+@media(min-width:64rem) {
+  .hero-carousel {height:380px}.hero-slide {padding:32px 48px;grid-template-columns:minmax(0,1.1fr) minmax(230px,.8fr)}
+  .hero-copy h2 {font-size:2.8rem}.hero-visual {width:230px;height:260px}
+}
+@media(prefers-reduced-motion:reduce) {.hero-track,.hero-dot::after {transition:none}}
+
+.hero-carousel[data-hero-theme="natal"] .hero-visual {background:color-mix(in srgb,#D5AD60 23%,transparent);border-radius:18px 42px 18px 42px}
+.hero-carousel[data-hero-theme="pascoa"] .hero-visual {background:color-mix(in srgb,#B7D8BE 30%,transparent);border-radius:50% 50% 42% 42%}
+.hero-carousel[data-hero-theme="dia-das-maes"] .hero-visual {background:color-mix(in srgb,#C96C8C 16%,transparent);border-radius:40px 14px 40px 14px}
+/* A primeira composição mantém a maior área visual; as seguintes são mais leves. */
+.hero-slide:not(:first-child) .hero-product {width:90%;height:90%}
+.hero-slide:not(:first-child) .hero-decoration {inset:0;width:100%;height:100%}
+.hero-slide:not(:first-child) .hero-copy h2 {font-size:clamp(1.125rem,4.8vw,1.375rem);max-width:17ch}
+@media(min-width:48rem){.hero-slide:not(:first-child) .hero-copy h2{font-size:2rem}}
+@media(min-width:64rem){.hero-slide:not(:first-child) .hero-copy h2{font-size:2.6rem}}
