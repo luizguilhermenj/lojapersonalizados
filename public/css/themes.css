@@ -143,7 +143,7 @@ html[data-theme="natal"] .home-page {background-image:none}
 }
 @media(max-width:47.99rem) {
   .natal-photo-frame {--frame-edge:24px;--photo-scale:.27px;--frame-top:126px}
-  .natal-photo-frame .natal-detail--lantern {display:none}
+  .natal-detail--lantern {display:none}
   body:has(.mobile-purchase) .natal-photo-frame {bottom:80px}
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) {
     background-image:linear-gradient(90deg,#945036 0%,transparent 12%,transparent 88%,#945036 100%),linear-gradient(165deg,#ffe5c6,#fff4e5 58%,#f8dcc1);
@@ -154,3 +154,52 @@ html[data-theme="natal"] .home-page {background-image:none}
   .natal-photo-frame {display:none}
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) {background:Canvas}
 }
+
+/* O cabeçalho dá continuidade ao dourado e à madeira da moldura de Natal. */
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header {
+  background-color:#fff1dd;
+  background-image:
+    radial-gradient(circle at 22% 27%,#fff9da 0 2px,#ffd88d94 4px,#ffd88d00 15px),
+    radial-gradient(circle at 29% 76%,#fff6d0 0 2px,#ffcd7470 4px,#ffcd7400 14px),
+    radial-gradient(circle at 72% 35%,#fff6cc 0 2px,#ffd18580 4px,#ffd18500 16px),
+    radial-gradient(circle at 83% 74%,#fff8dc 0 2px,#ffd18580 4px,#ffd18500 14px),
+    linear-gradient(90deg,#6a2b20 0%,#c8895b 6%,#f6d2a6 14%,#fff0da 28%,#fff5e7 52%,#fff0da 74%,#f6d2a6 88%,#bd794b 96%,#6a2b20 100%);
+  border-bottom-color:#bd8657;
+}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header::before,
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header::after {
+  content:"";
+  position:absolute;
+  inset-block:0;
+  width:clamp(25px,calc((100vw - 1240px) / 2 + 10px),170px);
+  pointer-events:none;
+  background-repeat:no-repeat;
+}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header::before {
+  left:0;
+  background-image:url("/natal-artize-01.jpg");
+  background-size:670px 948px;
+  background-position:-19px 0;
+  mask-image:linear-gradient(90deg,#000 37%,transparent);
+}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header::after {
+  right:0;
+  background-image:url("/natal-artize-02.jpg");
+  background-size:626px 885px;
+  background-position:right top;
+  mask-image:linear-gradient(270deg,#000 38%,transparent);
+}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header > .container {position:relative;z-index:1}
+@media(max-width:47.99rem) {
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header {
+    background-image:linear-gradient(90deg,#d49368 0%,#ffefd9 10%,#fff5e7 52%,#ffefd9 90%,#d49368 100%);
+  }
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header::before,
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header::after {width:14px;opacity:.8}
+}
+@media(forced-colors:active) {
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header {background:Canvas;border-color:CanvasText}
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header::before,
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header::after {display:none}
+}
+
