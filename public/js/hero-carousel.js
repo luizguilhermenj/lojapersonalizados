@@ -1,6 +1,33 @@
 import { heroContent } from './hero-content.js';
 
 const ROTATION_MS = 5500;
+const CATALOG_ROTATION_MS = 12000;
+const CATALOG_SPLITS = [.51,.50,.67,.60,.55,.55,.52,.54,.64,.50,.54,.49,.47,.47,.51];
+
+function addCatalogPanels(slide, index) {
+  const link = slide.querySelector('.catalog-page');
+  const image = link.querySelector('.catalog-page-image');
+  const source = image.dataset.src || image.getAttribute('src');
+  const split = CATALOG_SPLITS[index] ?? .5;
+  const overlap = .025;
+  const panels = document.createElement('span');
+  panels.className = 'catalog-panels';
+  panels.setAttribute('aria-hidden', 'true');
+  for (const [start, end] of [[0, split + overlap], [split - overlap, 1]]) {
+    const panel = document.createElement('span');
+    panel.className = 'catalog-panel';
+    panel.style.setProperty('--catalog-start', start);
+    panel.style.setProperty('--catalog-slice', end - start);
+    const crop = document.createElement('img');
+    crop.alt = '';
+    crop.decoding = 'async';
+    crop.draggable = false;
+    crop.dataset.src = source;
+    panel.append(crop);
+    panels.append(panel);
+  }
+  link.append(panels);
+}
 let instance;
 
 // Inicialização idempotente: tema e catálogo compartilham a mesma instância.
@@ -39,6 +66,7 @@ function createCarousel(element) {
     }
   }
   const slides = [...element.querySelectorAll('.hero-slide')];
+  if (catalogSize) slides.forEach(addCatalogPanels);
   const dots = [...element.querySelectorAll('[data-hero-index]')];
   const rotation = element.querySelector('[data-hero-rotation]');
   const status = element.querySelector('[data-hero-status]');
@@ -69,7 +97,7 @@ function createCarousel(element) {
     element.querySelector('[data-hero-play]').hidden = !paused;
     element.querySelector('[data-hero-pause]').hidden = paused;
     if (!destroyed && !paused && !hovering && !focused && !document.hidden && pageActive && inView) {
-      timer = setTimeout(() => show(index + 1), ROTATION_MS);
+      timer = setTimeout(() => show(index + 1), catalogSize ? CATALOG_ROTATION_MS : ROTATION_MS);
     }
   }
   function loadImages(slide) {
