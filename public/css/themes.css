@@ -75,26 +75,44 @@ html[data-theme][data-color-studio] :is(.field,.search,select,textarea,.menu-tog
 html[data-theme][data-color-studio] :is(input,select,textarea,button,a):focus-visible {outline-color:var(--store-text)}
 
 
-/* A moldura natalina acompanha as páginas da vitrine e as galerias. */
+/* Madeira quente e guirlandas presas à janela durante a campanha de Natal. */
 html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) {
-  background-color:#fff3df;
+  --natal-corner:clamp(33px,calc((100vw - 1240px) / 2 + 26px),178px);
+  background-color:#ffeddb;
   background-image:url("/img/visual/natal-fundo.svg"),
-    radial-gradient(ellipse at 0% 11%,#c48b4f80,transparent 31%),
-    radial-gradient(ellipse at 100% 19%,#c88b4f71,transparent 33%),
-    radial-gradient(ellipse at 3% 45%,#a9312124,transparent 29%),
-    radial-gradient(ellipse at 99% 54%,#79826145,transparent 26%),
-    linear-gradient(180deg,#ffe7c2 0,#fff5e5 580px,#fff1db 1150px,#fff7eb 100%);
-  background-position:center 108px,center,center,center,center,center;
-  background-size:100% auto,100% 1100px,100% 1300px,100% 1700px,100% 1900px,100% 100%;
-  background-repeat:no-repeat;
+    linear-gradient(90deg,#a9433582 0%,#e4a57d68 8%,transparent 25%,transparent 75%,#e4a57d68 92%,#a9433582 100%),
+    url("/img/visual/natal-madeira.svg"),
+    linear-gradient(176deg,#ffd6bb 0,#fff2df 560px,#f9d9c4 1150px,#fff0df 100%);
+  background-position:center 105px,center,center top,center top;
+  background-size:100% auto,100% 100%,100% 900px,100% 100%;
+  background-repeat:no-repeat,no-repeat,repeat-y,no-repeat;
+  background-attachment:fixed,fixed,scroll,scroll;
 }
 html[data-theme="natal"] .home-page {background-image:none}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::before,
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::after {
+  content:"";
+  position:fixed;
+  bottom:0;
+  width:var(--natal-corner);
+  aspect-ratio:240 / 230;
+  z-index:4;
+  pointer-events:none;
+  background:url("/img/visual/natal-rodape.svg") left bottom / contain no-repeat;
+  mask-image:linear-gradient(90deg,#000 64%,transparent 100%);
+}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::before {left:0}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::after {right:0;transform:scaleX(-1)}
 @media(max-width:47.99rem) {
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) {
-    background-position:center 140px,center,center,center,center,center;
-    background-size:100% auto,100% 790px,100% 920px,100% 1200px,100% 1400px,100% 100%;
+    --natal-corner:clamp(38px,9vw,64px);
+    background-position:center 124px,center,center top,center top;
   }
+  html[data-theme="natal"] body:has(.mobile-purchase)::before,
+  html[data-theme="natal"] body:has(.mobile-purchase)::after {bottom:80px}
 }
 @media(forced-colors: active) {
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) {background:Canvas}
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::before,
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::after {display:none}
 }
