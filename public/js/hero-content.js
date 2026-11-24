@@ -23,11 +23,20 @@ const collections = {
 };
 export function heroContent(theme) {
   const copy = collections[theme.id] || collections.artize;
-  return copy.map(([eyebrow, title, description], index) => ({
+  const seasonal = copy.map(([eyebrow, title, description], index) => ({
     eyebrow, title, description,
     action: index === 1 ? 'Ver catálogo' : index === 0 ? 'Escolher arte' : 'Explorar artes',
     href: index === 1 ? '#produtos' : '/pages/caneca-ceramica.html#escolha-arte',
     image: index === 2 && theme.decoration?.src ? theme.decoration.src : ['/img/visual/hero-caneca.svg','/img/visual/hero-camiseta.svg','/img/visual/hero-presentes.svg'][index],
     decoration: index === 2 ? '' : theme.decoration?.src || ''
   }));
+  return [{
+    eyebrow: 'Natal • Artize',
+    title: 'Catálogo de Natal',
+    description: 'Veja a coleção de presentes personalizados e escolha seus favoritos.',
+    action: 'Abrir catálogo de Natal',
+    href: '/catalogo-natal-artize.pdf',
+    image: '/capa-catalogo-natal-artize.jpg',
+    decoration: ''
+  }, ...seasonal];
 }
