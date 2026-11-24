@@ -11,7 +11,7 @@ const selectedThemeEyebrow = document.getElementById('selectedThemeEyebrow');
 const totalArtsLabel = document.getElementById('totalArtsLabel');
 const customizerFeedback = document.getElementById('customizerFeedback');
 
-const baseProduct = {
+let baseProduct = {
   id: 'caneca-ceramica',
   name: 'Caneca de Cerâmica',
   price: 34.9
@@ -99,7 +99,7 @@ function syncSelectedArt() {
   if (selectedArtName) selectedArtName.textContent = artLabel(selectedArt);
   if (selectedArtDescription) selectedArtDescription.textContent = '';
   document.getElementById('mobileArtName').textContent = artLabel(selectedArt);
-  document.querySelectorAll('[data-add-art]').forEach(button => button.disabled = false);
+  document.querySelectorAll('[data-add-art]').forEach(button => button.disabled = baseProduct.price == null);
   for (const card of new Set([activeCard,cards.get(selectedArt.id)])) {
     if(!card)continue;
     const active = card.dataset.artId === selectedArt.id;
@@ -210,11 +210,28 @@ function renderArts() {
 }
 loadMore.addEventListener('click', () => {const firstNew=visibleCount;visibleCount += pageSize;renderArts();const art=getFilteredArts()[firstNew];if(art)cards.get(art.id)?.focus({preventScroll:true});});
 
+const squeezePage = document.body.hasAttribute('data-squeeze-page');
+const productSlug = new URLSearchParams(location.search).get('produto') || 'squeeze-aluminio';
+
+async function loadSqueezeProduct() {
+  const response = await fetch('/api/products');
+  if (!response.ok) throw new Error('Catálogo indisponível.');
+  const products = await response.json();
+  baseProduct = products.find(product => product.slug === productSlug && product.category === 'Squeezes');
+  if (!baseProduct) throw new Error('Modelo não encontrado.');
+  const price = baseProduct.price == null ? 'Preço sob consulta' : new Intl.NumberFormat('pt-BR', {style:'currency',currency:'BRL'}).format(baseProduct.price);
+  document.title = 'Artize | ' + baseProduct.name;
+  document.querySelector('h1').textContent = baseProduct.name;
+  document.querySelector('.summary-price-row strong').textContent = price;
+  document.querySelector('.mobile-purchase small').textContent = price;
+}
+
 async function loadArtes() {
   try {
+    if (squeezePage) await loadSqueezeProduct();
     const [response, thumbnails] = await Promise.all([
-      fetch('/api/caneca-ceramica-arts', { cache:'no-store' }),
-      fetch('/data/art-previews.json').catch(() => null)
+      fetch(squeezePage ? '/api/squeeze-arts/' + encodeURIComponent(productSlug) : '/api/caneca-ceramica-arts', { cache:'no-store' }),
+      squeezePage ? null : fetch('/data/art-previews.json').catch(() => null)
     ]);
     if (!response.ok) throw new Error('Falha ao carregar artes.');
     const payload = await response.json();
@@ -225,7 +242,7 @@ async function loadArtes() {
 
     try {if(thumbnails?.ok)previews = await thumbnails.json();} catch { /* Originais continuam disponíveis se os derivados falharem. */ }
     arts = payload;
-    THEMES = buildCategories(arts);
+    THEMES = buildCategories(arts, squeezePage ? [{id:'todos', label:'Todas'}] : undefined);
     const initialCategory = THEMES.find(category => category.id === initialFilters.get('categoria'));
     if (initialCategory) {
       currentTheme = initialCategory.id;
@@ -245,7 +262,7 @@ async function loadArtes() {
 }
 
 function addSelectedArt() {
-  if (!selectedArt) return;
+  if (!selectedArt || baseProduct?.price == null) return;
 
   const cartKey = `${baseProduct.id}::${selectedArt.id}`;
   addToCart({

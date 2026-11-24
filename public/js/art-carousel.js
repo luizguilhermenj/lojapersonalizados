@@ -67,7 +67,7 @@ export function createArtCarousel(element, arts) {
     else index = (next + deck.length) % deck.length;
     const art = deck[index];
     image.src = photoUrl(art);
-    image.alt = `Caneca de Cerâmica — coleção ${art.themeLabel || art.theme}`;
+    image.alt = `${element.dataset.productName || 'Caneca de Cerâmica'} — coleção ${art.themeLabel || art.theme}`;
     element.dataset.artId = art.id; element.dataset.artTheme = art.theme;
     schedule();
   }

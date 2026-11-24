@@ -13,9 +13,9 @@ let artsRequest;
 let artCarousel;
 
 function productImageMarkup(product, index) {
-  if (product.slug === 'caneca-ceramica') return `
-    <section class="product-art-carousel" data-product-art-carousel aria-label="Fotos reais das artes da Caneca de Cerâmica" aria-roledescription="carrossel">
-      <img src="/img/artes/caneca-ceramica/pascoa/pascoa-01.webp" alt="Caneca de Cerâmica com arte da coleção Páscoa" width="400" height="400" loading="lazy" decoding="async">
+  if (product.slug === 'caneca-ceramica' || product.category === 'Squeezes') return `
+    <section class="product-art-carousel" data-product-art-carousel="${product.slug}" data-product-name="${product.name}" aria-label="Mockups de ${product.name}" aria-roledescription="carrossel">
+      <img src="${product.slug === 'caneca-ceramica' ? '/img/artes/caneca-ceramica/pascoa/pascoa-01.webp' : product.image}" alt="${product.name}" width="400" height="400" loading="lazy" decoding="async">
       <div class="product-art-controls">
         <button type="button" data-art-prev aria-label="Arte anterior">‹</button>
         <button type="button" data-art-next aria-label="Próxima arte">›</button>
@@ -24,13 +24,17 @@ function productImageMarkup(product, index) {
   return `<img src="${product.image}" alt="${product.name}" width="400" height="400" loading="${index < 2 ? 'eager' : 'lazy'}" fetchpriority="${index === 0 && matchMedia('(max-width:47.99rem)').matches ? 'high' : 'auto'}" decoding="async">`;
 }
 
-async function startArtCarousel() {
-  const element = productsGrid.querySelector('[data-product-art-carousel]');
-  if (!element) return;
+async function startArtCarousel(element) {
+  const slug = element.dataset.productArtCarousel;
+  const endpoint = slug === 'caneca-ceramica' ? '/api/caneca-ceramica-arts' : '/api/squeeze-arts/' + slug;
+  if (!artsRequests.has(slug)) {
+    artsRequests.set(slug, api(endpoint).catch(error => { artsRequests.delete(slug); throw error; }));
+  }
   try {
-    artsRequest ||= api('/api/caneca-ceramica-arts').catch(error => { artsRequest = null; throw error; });
-    const arts = await artsRequest;
-    if (element.isConnected) artCarousel = createArtCarousel(element, arts);
+    const arts = await artsRequests.get(slug);
+    if (!element.isConnected) return;
+    if (arts.length) artCarousels.add(createArtCarousel(element, arts));
+    else element.querySelector('.product-art-controls').hidden = true;
   } catch { element.querySelector('.product-art-controls').hidden = true; }
 }
 let currentCategory = 'Todos';
@@ -74,7 +78,7 @@ function sortProducts(list) {
 }
 
 function productActionMarkup(product) {
-  const route = PRODUCT_ROUTES[product.slug];
+  const route = product.category === 'Squeezes' ? '/pages/squeeze.html?produto=' + product.slug + '#escolha-arte' : PRODUCT_ROUTES[product.slug];
   if (route) {
     return `<a class="primary-btn choose-btn" href="${route}">Quero esta</a>`;
   }
@@ -83,7 +87,8 @@ function productActionMarkup(product) {
 
 const fold = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 function renderProducts() {
-  artCarousel?.destroy();
+  artCarousels.forEach(carousel => carousel.destroy());
+  artCarousels.clear();
   productsGrid.setAttribute('aria-busy','false');
   let list = products.filter((product) => {
     const haystack = `${product.name} ${product.description} ${product.category}`.toLowerCase();
@@ -103,7 +108,7 @@ function renderProducts() {
             <p>${product.description}</p>
             <div class="product-footer">
               <div>
-                <div class="price">${formatBRL(product.price)}</div>
+                <div class="price">${product.price == null ? 'Preço sob consulta' : formatBRL(product.price)}</div>
                 <div class="meta">${product.category} • ${product.meta}</div>
               </div>
             </div>
@@ -115,7 +120,7 @@ function renderProducts() {
     )
     .join('') || '<div class="empty-state"><h3>Nenhum presente encontrado</h3><p>Tente outro termo ou selecione outra categoria.</p><button class="ghost-btn" id="clearProductFilters" type="button">Limpar filtros</button></div>';
   document.getElementById('clearProductFilters')?.addEventListener('click', () => {currentCategory='Todos';searchText='';globalSearch.value='';renderChips();renderProducts();});
-  startArtCarousel();
+  productsGrid.querySelectorAll('[data-product-art-carousel]').forEach(startArtCarousel);
 
   productsGrid.querySelectorAll('.soon-btn').forEach((button) => {
     button.onclick = () => {

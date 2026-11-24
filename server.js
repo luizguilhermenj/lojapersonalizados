@@ -1,3 +1,4 @@
+import { squeezeArts } from './lib/squeeze-arts.js';
 import { createCatalog } from './lib/art-catalog.js';
 import { SyncError, cloudinaryConfig } from './lib/cloudinary-arts.js';
 import { createNeonArtStore } from './lib/neon-art-store.js';
@@ -397,6 +398,15 @@ app.get('/api/admin/arts/status', auth, adminOnly, async (req, res) => {
     ? 'Teste local: as artes são salvas em arquivo neste computador. Não há garantia de persistência em hospedagem.'
     : 'Homologação: sincronização indisponível até configurar armazenamento durável. As 195 artes originais continuam disponíveis.' });
 });
+app.get('/api/squeeze-arts/:product', async (req, res) => {
+  try {
+    const arts = squeezeArts(req.params.product);
+    if (!arts) return res.status(404).json({error: 'Modelo não encontrado.'});
+    res.json(await arts);
+  } catch {
+    res.status(503).json({error: 'Não foi possível carregar as estampas.'});
+  }
+});
 app.get('/api/caneca-ceramica-arts', async (req, res) => {
   try { res.set('Cache-Control', 'no-store').json(await artCatalog.get()); }
   catch { res.status(500).json({ error: 'Não foi possível carregar o catálogo de artes.' }); }
@@ -454,7 +464,7 @@ app.post('/api/checkout/create-preference', auth, async (req, res) => {
     const productMap = new Map(products().map(item => [item.id, item]));
     const orderItems = items.map(item => {
       const product = productMap.get(item.productId);
-      if (!product) throw new Error(`Produto não encontrado: ${item.productId}`);
+      if (!product || !Number.isFinite(product.price) || product.price <= 0) throw new Error(`Produto indisponível: ${item.productId}`);
       return {
         productId: product.id,
         name: product.name,

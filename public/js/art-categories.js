@@ -61,8 +61,8 @@ export function formatCategoryLabel(value) {
   return text.charAt(0).toLocaleUpperCase('pt-BR') + text.slice(1);
 }
 
-export function buildCategories(arts) {
-  const categories = ART_CATEGORIES.map(category => ({ ...category, label:formatCategoryLabel(category.label),
+export function buildCategories(arts, baseCategories = ART_CATEGORIES) {
+  const categories = baseCategories.map(category => ({ ...category, label:formatCategoryLabel(category.label),
     ...(category.subcategories ? {subcategories:category.subcategories.map(child=>({...child,label:formatCategoryLabel(child.label)}))} : {}) }));
   const byId = new Map(categories.map(category=>[category.id,category]));
   for (const art of arts) {
@@ -78,7 +78,7 @@ export function buildCategories(arts) {
     }
   }
   for (const category of categories) category.subcategories?.sort((a,b)=>a.label.localeCompare(b.label,'pt-BR'));
-  return [...categories.slice(0,ART_CATEGORIES.length), ...categories.slice(ART_CATEGORIES.length).sort((a,b)=>a.label.localeCompare(b.label,'pt-BR'))];
+  return [...categories.slice(0,baseCategories.length), ...categories.slice(baseCategories.length).sort((a,b)=>a.label.localeCompare(b.label,'pt-BR'))];
 }
 
 export function categoryPath(category, subcategory = 'todos', categories = ART_CATEGORIES) {

@@ -98,24 +98,36 @@
   {
     "id": "squeeze-aluminio",
     "slug": "squeeze-aluminio",
-    "name": "Squeeze em Alumínio",
+    "name": "Squeeze de Alumínio com Mosquetão",
     "category": "Squeezes",
     "price": 49.9,
     "weightKg": 0.35,
-    "description": "Modelo esportivo e versátil para nomes, logos e estampas.",
-    "meta": "Alumínio • leve e prático",
+    "description": "Garrafa de alumínio com tampa preta e mosquetão, sem isolamento térmico.",
+    "meta": "Tampa preta com mosquetão",
     "image": "/img/products/squeeze-aluminio.svg",
     "featured": false
   },
   {
     "id": "squeeze-termico",
     "slug": "squeeze-termico",
-    "name": "Squeeze Térmico",
+    "name": "Squeeze Térmico 500 ml",
     "category": "Squeezes",
     "price": 74.9,
     "weightKg": 0.35,
-    "description": "Conserva melhor a bebida e valoriza a personalização premium.",
-    "meta": "Térmico • maior valor percebido",
+    "description": "Garrafa térmica de 500 ml com tampa metálica.",
+    "meta": "500 ml • tampa metálica",
+    "image": "/img/products/squeeze-termico.svg",
+    "featured": false
+  },
+  {
+    "id": "squeeze-termico-bambu",
+    "slug": "squeeze-termico-bambu",
+    "name": "Squeeze Térmico 500 ml com Tampa de Bambu",
+    "category": "Squeezes",
+    "price": null,
+    "weightKg": 0.35,
+    "description": "Garrafa térmica de 500 ml com tampa de bambu e alça.",
+    "meta": "500 ml • tampa de bambu",
     "image": "/img/products/squeeze-termico.svg",
     "featured": false
   }
