@@ -75,44 +75,82 @@ html[data-theme][data-color-studio] :is(.field,.search,select,textarea,.menu-tog
 html[data-theme][data-color-studio] :is(input,select,textarea,button,a):focus-visible {outline-color:var(--store-text)}
 
 
-/* Madeira quente e guirlandas presas à janela durante a campanha de Natal. */
+/* Detalhes fotográficos do catálogo enquadram a vitrine de Natal. */
 html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) {
-  --natal-corner:clamp(33px,calc((100vw - 1240px) / 2 + 26px),178px);
-  background-color:#ffeddb;
-  background-image:url("/img/visual/natal-fundo.svg"),
-    linear-gradient(90deg,#a9433582 0%,#e4a57d68 8%,transparent 25%,transparent 75%,#e4a57d68 92%,#a9433582 100%),
+  background-color:#fff0df;
+  background-image:linear-gradient(90deg,#572119 0%,#a55c37 4%,#e4ae81 9%,transparent 21%,transparent 79%,#e8b78b 91%,#9d502f 97%,#572119 100%),
     url("/img/visual/natal-madeira.svg"),
-    linear-gradient(176deg,#ffd6bb 0,#fff2df 560px,#f9d9c4 1150px,#fff0df 100%);
-  background-position:center 105px,center,center top,center top;
-  background-size:100% auto,100% 100%,100% 900px,100% 100%;
-  background-repeat:no-repeat,no-repeat,repeat-y,no-repeat;
-  background-attachment:fixed,fixed,scroll,scroll;
+    linear-gradient(164deg,#ffe7c6 0%,#fff5e8 38%,#f9dec6 70%,#fff1df 100%);
+  background-position:center,center top,center top;
+  background-size:100% 100%,100% 900px,100% 100%;
+  background-repeat:no-repeat,repeat-y,no-repeat;
+  background-attachment:fixed,scroll,scroll;
 }
 html[data-theme="natal"] .home-page {background-image:none}
-html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::before,
-html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::after {
-  content:"";
-  position:fixed;
-  bottom:0;
-  width:var(--natal-corner);
-  aspect-ratio:240 / 230;
-  z-index:4;
-  pointer-events:none;
-  background:url("/img/visual/natal-rodape.svg") left bottom / contain no-repeat;
-  mask-image:linear-gradient(90deg,#000 64%,transparent 100%);
+.natal-photo-frame {
+  --frame-edge:clamp(31px,calc((100vw - 1240px) / 2 + 12px),178px);
+  --frame-top:124px;
+  --photo-scale:clamp(.40px,.060vw,.96px);
+  position:fixed;inset:0;z-index:4;overflow:hidden;pointer-events:none;
 }
-html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::before {left:0}
-html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::after {right:0;transform:scaleX(-1)}
+.natal-photo-frame .natal-detail {
+  position:absolute;display:block;
+  width:min(var(--frame-edge),calc(var(--photo-w) * var(--photo-scale)));
+  height:calc(var(--photo-h) * var(--photo-scale));
+  background-image:var(--photo, url("/natal-artize-01.jpg"));
+  background-size:calc(894 * var(--photo-scale)) calc(1264 * var(--photo-scale));
+  background-position:calc(-1 * var(--photo-x) * var(--photo-scale)) calc(-1 * var(--photo-y) * var(--photo-scale));
+  background-repeat:no-repeat;
+}
+.natal-detail--pine {
+  --photo-x:25;--photo-y:0;--photo-w:180;--photo-h:288;
+  top:var(--frame-top);left:0;
+  mask-image:linear-gradient(to right,#000 65%,transparent),linear-gradient(#000 78%,transparent);
+  mask-composite:intersect;
+}
+.natal-detail--bauble {
+  --photo:url("/natal-artize-02.jpg");--photo-x:744;--photo-y:0;--photo-w:150;--photo-h:205;
+  top:var(--frame-top);right:0;
+  background-position:calc(100% + 0px) 0 !important;
+  mask-image:linear-gradient(to left,#000 70%,transparent),linear-gradient(#000 76%,transparent);
+  mask-composite:intersect;
+}
+.natal-detail--lantern {
+  --photo-x:703;--photo-y:152;--photo-w:165;--photo-h:503;
+  top:calc(var(--frame-top) + 128px);right:0;
+  background-position:calc(100% + 26 * var(--photo-scale)) calc(-1 * var(--photo-y) * var(--photo-scale)) !important;
+  mask-image:linear-gradient(to left,#000 64%,transparent),linear-gradient(transparent,#000 16%,#000 85%,transparent);
+  mask-composite:intersect;
+}
+.natal-detail--cones {
+  --photo-x:25;--photo-y:834;--photo-w:87;--photo-h:127;
+  bottom:calc(127 * var(--photo-scale));left:0;
+  mask-image:linear-gradient(to right,#000 60%,transparent),linear-gradient(transparent,#000 24%,#000 60%,transparent);
+  mask-composite:intersect;
+}
+.natal-detail--lower-left {
+  --photo-x:25;--photo-y:1082;--photo-w:123;--photo-h:182;
+  bottom:0;left:0;
+  mask-image:linear-gradient(to right,#000 55%,transparent),linear-gradient(transparent,#000 28%);
+  mask-composite:intersect;
+}
+.natal-detail--lower-right {
+  --photo-x:743;--photo-y:1082;--photo-w:125;--photo-h:182;
+  bottom:0;right:0;
+  background-position:calc(100% + 26 * var(--photo-scale)) calc(-1 * var(--photo-y) * var(--photo-scale)) !important;
+  mask-image:linear-gradient(to left,#000 66%,transparent),linear-gradient(transparent,#000 26%);
+  mask-composite:intersect;
+}
 @media(max-width:47.99rem) {
+  .natal-photo-frame {--frame-edge:24px;--photo-scale:.27px;--frame-top:126px}
+  .natal-photo-frame .natal-detail--lantern {display:none}
+  body:has(.mobile-purchase) .natal-photo-frame {bottom:80px}
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) {
-    --natal-corner:clamp(38px,9vw,64px);
-    background-position:center 124px,center,center top,center top;
+    background-image:linear-gradient(90deg,#945036 0%,transparent 12%,transparent 88%,#945036 100%),linear-gradient(165deg,#ffe5c6,#fff4e5 58%,#f8dcc1);
+    background-size:100% 100%;background-repeat:no-repeat;
   }
-  html[data-theme="natal"] body:has(.mobile-purchase)::before,
-  html[data-theme="natal"] body:has(.mobile-purchase)::after {bottom:80px}
 }
-@media(forced-colors: active) {
+@media(forced-colors:active) {
+  .natal-photo-frame {display:none}
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) {background:Canvas}
-  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::before,
-  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::after {display:none}
 }

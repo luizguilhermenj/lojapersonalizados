@@ -38,6 +38,27 @@ export function applyCustomization(value) {
 // Efeitos ficam na experiência de descoberta, fora do carrinho e gestão.
 const motionAllowed = () => Boolean(document.querySelector('.home-page,.customizer-page'));
 
+let natalFrame;
+
+function setNatalFrame(theme) {
+  const visible = theme.id === 'natal' && motionAllowed();
+  if (!visible) {
+    natalFrame?.remove();
+    natalFrame = undefined;
+    return;
+  }
+  if (natalFrame) return;
+  natalFrame = document.createElement('div');
+  natalFrame.className = 'natal-photo-frame';
+  natalFrame.setAttribute('aria-hidden','true');
+  for (const name of ['pine','lantern','bauble','cones','lower-left','lower-right']) {
+    const detail = document.createElement('span');
+    detail.className = 'natal-detail natal-detail--' + name;
+    natalFrame.append(detail);
+  }
+  document.body.append(natalFrame);
+}
+
 export function applyTheme(theme) {
   const previous = currentTheme;
   // Live color changes do not rebuild campaign copy, reset the slide or particles.
@@ -53,6 +74,7 @@ export function applyTheme(theme) {
   }
   effects.stop();
   root.dataset.theme = theme.id;
+  setNatalFrame(theme);
   root.toggleAttribute('data-seasonal', Boolean(theme.campaign));
   const navLink = document.getElementById('seasonalNavLink');
   if (navLink) {
