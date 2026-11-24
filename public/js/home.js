@@ -9,8 +9,8 @@ const globalSearch = document.getElementById('globalSearch');
 const sortSelect = document.getElementById('sortSelect');
 
 let products = [];
-let artsRequest;
-let artCarousel;
+const artsRequests = new Map();
+const artCarousels = new Set();
 
 function productImageMarkup(product, index) {
   if (product.slug === 'caneca-ceramica' || product.category === 'Squeezes') return `
