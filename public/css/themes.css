@@ -82,8 +82,8 @@ html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) {
     url("/img/visual/natal-madeira.svg"),
     linear-gradient(164deg,#ffe7c6 0%,#fff5e8 38%,#f9dec6 70%,#fff1df 100%);
   background-position:center,center top,center top;
-  background-size:100% 100%,100% 900px,100% 100%;
-  background-repeat:no-repeat,repeat-y,no-repeat;
+  background-size:100% 100%,100% 100%,100% 100%;
+  background-repeat:no-repeat;
   background-attachment:fixed,scroll,scroll;
 }
 html[data-theme="natal"] .home-page {background-image:none}
@@ -203,3 +203,33 @@ html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header::after {display:none}
 }
 
+
+/* A madeira e as luzes continuam até o fim da vitrine de Natal. */
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer {
+  position:relative;
+  background:radial-gradient(ellipse at 50% 110%,#e4a35931,transparent 75%);
+  border:0;
+  color:var(--store-page-text,var(--text));
+}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer :is(.footer-intro p,.footer-links h2,.footer-links a,.footer-bottom) {
+  color:inherit;
+}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer .footer-bottom {border:0}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer a:focus-visible {outline-color:currentColor}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer > .container {position:relative;z-index:1}
+@media(min-width:48rem) {
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer::before {
+    content:"";
+    position:absolute;left:0;bottom:56px;
+    width:clamp(40px,calc((100vw - 1240px) / 2 - 14px),146px);height:210px;
+    background:url("/natal-artize-01.jpg") calc(100% + 22px) -346px / 760px 1074px no-repeat;
+    pointer-events:none;
+    transform:scaleX(-1);
+    mask-image:linear-gradient(to left,#000 58%,transparent),linear-gradient(transparent,#000 16%,#000 78%,transparent);
+    mask-composite:intersect;
+  }
+}
+@media(forced-colors:active) {
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer {background:Canvas;color:CanvasText}
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer::before {display:none}
+}
