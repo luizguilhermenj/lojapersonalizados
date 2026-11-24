@@ -233,3 +233,66 @@ html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer {background:Canvas;color:CanvasText}
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer::before {display:none}
 }
+
+
+/* Composição fotográfica abaixo da mensagem, dentro do próprio rodapé. */
+.natal-footer-scene {
+  --scene-unit:clamp(.58px,5.6vw,.82px);
+  position:relative;
+  isolation:isolate;
+  width:min(100%,420px);
+  height:calc(227 * var(--scene-unit));
+  margin-top:12px;
+  background:radial-gradient(circle at 15% 19%,#fff7cf 0 2px,#eeb96c95 3px,transparent 13px),
+    radial-gradient(circle at 57% 15%,#fff9dc 0 1px,#eeb86e7f 3px,transparent 10px),
+    radial-gradient(circle at 78% 34%,#fff8d6 0 2px,#eeb36a80 4px,transparent 13px),
+    radial-gradient(ellipse at 41% 61%,#fff1cba0,transparent 61%),
+    radial-gradient(ellipse at 41% 88%,#7746274a,transparent 58%);
+  pointer-events:none;
+}
+.natal-footer-piece {
+  position:absolute;display:block;
+  --piece-unit:calc(var(--scene-unit) * var(--piece-scale,1));
+  width:calc(var(--piece-w) * var(--piece-unit));
+  height:calc(var(--piece-h) * var(--piece-unit));
+  left:calc(var(--piece-left) * var(--scene-unit));
+  bottom:calc(var(--piece-bottom) * var(--scene-unit));
+  background-image:var(--piece-image,url("/natal-artize-01.jpg"));
+  background-size:calc(894 * var(--piece-unit)) calc(1264 * var(--piece-unit));
+  background-position:calc(var(--piece-x) * -1 * var(--piece-unit)) calc(var(--piece-y) * -1 * var(--piece-unit));
+  background-repeat:no-repeat;
+  filter:drop-shadow(0 3px 5px #542b2455);
+}
+.natal-footer-piece--lantern {
+  --piece-x:704;--piece-y:406;--piece-w:164;--piece-h:245;--piece-scale:.86;
+  --piece-left:54;--piece-bottom:18;
+  clip-path:polygon(51% 0,69% 1%,77% 10%,94% 28%,100% 49%,100% 100%,10% 100%,6% 54%,0 51%,4% 42%,20% 34%,27% 31%,29% 24%,45% 13%);
+  mask-image:linear-gradient(#000 89%,transparent);
+}
+.natal-footer-piece--gold-gift {
+  --piece-image:url("/natal-artize-03.jpg");--piece-x:0;--piece-y:1060;--piece-w:152;--piece-h:184;--piece-scale:.75;
+  --piece-left:169;--piece-bottom:15;
+  clip-path:polygon(0 11%,23% 6%,33% 0,53% 7%,67% 14%,99% 26%,99% 57%,89% 61%,89% 92%,63% 100%,0 92%);
+}
+.natal-footer-piece--red-gift {
+  --piece-image:url("/natal-artize-03.jpg");--piece-x:747;--piece-y:1064;--piece-w:147;--piece-h:181;--piece-scale:.87;
+  --piece-left:247;--piece-bottom:22;
+  clip-path:polygon(0 26%,21% 15%,35% 10%,48% 5%,64% 9%,76% 0,95% 7%,100% 14%,100% 86%,87% 93%,45% 100%,8% 89%,8% 57%,0 54%);
+}
+.natal-footer-piece--sprig {
+  --piece-x:709;--piece-y:1149;--piece-w:159;--piece-h:115;--piece-scale:1;
+  --piece-left:294;--piece-bottom:3;
+  mask-image:linear-gradient(90deg,transparent,#000 20%,#000 66%,transparent),linear-gradient(transparent,#000 28%,#000 73%,transparent);
+  mask-composite:intersect;
+}
+.natal-footer-piece--pinecone {
+  --piece-x:25;--piece-y:840;--piece-w:96;--piece-h:120;--piece-scale:1.15;
+  --piece-left:0;--piece-bottom:5;
+  clip-path:polygon(0 16%,24% 12%,42% 3%,64% 0,78% 15%,82% 28%,92% 44%,89% 55%,99% 71%,91% 92%,73% 100%,0 95%);
+  mask-image:linear-gradient(90deg,transparent,#000 13%,#000 71%,transparent),linear-gradient(transparent,#000 20%,#000 72%,transparent);
+  mask-composite:intersect;
+}
+@media(max-width:47.99rem) {
+  .natal-footer-scene {--scene-unit:.63px;margin-top:10px}
+}
+@media(forced-colors:active) {.natal-footer-scene {display:none}}

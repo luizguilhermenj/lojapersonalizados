@@ -39,12 +39,15 @@ export function applyCustomization(value) {
 const motionAllowed = () => Boolean(document.querySelector('.home-page,.customizer-page'));
 
 let natalFrame;
+let natalFooterScene;
 
 function setNatalFrame(theme) {
   const visible = theme.id === 'natal' && motionAllowed();
   if (!visible) {
     natalFrame?.remove();
+    natalFooterScene?.remove();
     natalFrame = undefined;
+    natalFooterScene = undefined;
     return;
   }
   if (natalFrame) return;
@@ -57,6 +60,17 @@ function setNatalFrame(theme) {
     natalFrame.append(detail);
   }
   document.body.append(natalFrame);
+  const footerIntro = document.querySelector('.site-footer .footer-intro');
+  if (!footerIntro) return;
+  natalFooterScene = document.createElement('div');
+  natalFooterScene.className = 'natal-footer-scene';
+  natalFooterScene.setAttribute('aria-hidden','true');
+  for (const name of ['lantern','gold-gift','red-gift','sprig','pinecone']) {
+    const piece = document.createElement('span');
+    piece.className = 'natal-footer-piece natal-footer-piece--' + name;
+    natalFooterScene.append(piece);
+  }
+  footerIntro.append(natalFooterScene);
 }
 
 export function applyTheme(theme) {
