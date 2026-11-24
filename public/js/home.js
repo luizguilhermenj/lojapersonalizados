@@ -13,7 +13,7 @@ const artsRequests = new Map();
 const artCarousels = new Set();
 
 function productImageMarkup(product, index) {
-  if (product.slug === 'caneca-ceramica' || product.category === 'Squeezes') return `
+  if (product.slug === 'caneca-ceramica' || product.category === 'Squeezes' || product.slug === 'relogio-azulejo') return `
     <section class="product-art-carousel" data-product-art-carousel="${product.slug}" data-product-name="${product.name}" aria-label="Mockups de ${product.name}" aria-roledescription="carrossel">
       <img src="${product.slug === 'caneca-ceramica' ? '/img/artes/caneca-ceramica/pascoa/pascoa-01.webp' : product.image}" alt="${product.name}" width="400" height="400" loading="lazy" decoding="async">
       <div class="product-art-controls">
@@ -26,7 +26,7 @@ function productImageMarkup(product, index) {
 
 async function startArtCarousel(element) {
   const slug = element.dataset.productArtCarousel;
-  const endpoint = slug === 'caneca-ceramica' ? '/api/caneca-ceramica-arts' : '/api/squeeze-arts/' + slug;
+  const endpoint = slug === 'caneca-ceramica' ? '/api/caneca-ceramica-arts' : '/api/product-arts/' + slug;
   if (!artsRequests.has(slug)) {
     artsRequests.set(slug, api(endpoint).catch(error => { artsRequests.delete(slug); throw error; }));
   }
@@ -42,7 +42,8 @@ let searchText = new URLSearchParams(location.search).get('q') || '';
 if (globalSearch) globalSearch.value = searchText;
 
 const PRODUCT_ROUTES = {
-  'caneca-ceramica': '/pages/caneca-ceramica.html#escolha-arte'
+  'caneca-ceramica': '/pages/caneca-ceramica.html#escolha-arte',
+  'relogio-azulejo': '/pages/relogio-azulejo.html#escolha-arte'
 };
 
 function formatBRL(value) {

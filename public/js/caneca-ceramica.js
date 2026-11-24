@@ -210,14 +210,15 @@ function renderArts() {
 }
 loadMore.addEventListener('click', () => {const firstNew=visibleCount;visibleCount += pageSize;renderArts();const art=getFilteredArts()[firstNew];if(art)cards.get(art.id)?.focus({preventScroll:true});});
 
-const squeezePage = document.body.hasAttribute('data-squeeze-page');
-const productSlug = new URLSearchParams(location.search).get('produto') || 'squeeze-aluminio';
+const productGallery = document.body.hasAttribute('data-squeeze-page') || document.body.hasAttribute('data-clock-page');
+const clockPage = document.body.hasAttribute('data-clock-page');
+const productSlug = clockPage ? 'relogio-azulejo' : new URLSearchParams(location.search).get('produto') || 'squeeze-aluminio';
 
-async function loadSqueezeProduct() {
+async function loadGalleryProduct() {
   const response = await fetch('/api/products');
   if (!response.ok) throw new Error('Catálogo indisponível.');
   const products = await response.json();
-  baseProduct = products.find(product => product.slug === productSlug && product.category === 'Squeezes');
+  baseProduct = products.find(product => product.slug === productSlug && (clockPage || product.category === 'Squeezes'));
   if (!baseProduct) throw new Error('Modelo não encontrado.');
   const price = baseProduct.price == null ? 'Preço sob consulta' : new Intl.NumberFormat('pt-BR', {style:'currency',currency:'BRL'}).format(baseProduct.price);
   document.title = 'Artize | ' + baseProduct.name;
@@ -228,10 +229,10 @@ async function loadSqueezeProduct() {
 
 async function loadArtes() {
   try {
-    if (squeezePage) await loadSqueezeProduct();
+    if (productGallery) await loadGalleryProduct();
     const [response, thumbnails] = await Promise.all([
-      fetch(squeezePage ? '/api/squeeze-arts/' + encodeURIComponent(productSlug) : '/api/caneca-ceramica-arts', { cache:'no-store' }),
-      squeezePage ? null : fetch('/data/art-previews.json').catch(() => null)
+      fetch(productGallery ? '/api/product-arts/' + encodeURIComponent(productSlug) : '/api/caneca-ceramica-arts', { cache:'no-store' }),
+      productGallery ? null : fetch('/data/art-previews.json').catch(() => null)
     ]);
     if (!response.ok) throw new Error('Falha ao carregar artes.');
     const payload = await response.json();
@@ -242,7 +243,7 @@ async function loadArtes() {
 
     try {if(thumbnails?.ok)previews = await thumbnails.json();} catch { /* Originais continuam disponíveis se os derivados falharem. */ }
     arts = payload;
-    THEMES = buildCategories(arts, squeezePage ? [{id:'todos', label:'Todas'}] : undefined);
+    THEMES = buildCategories(arts, productGallery ? [{id:'todos', label:'Todas'}] : undefined);
     const initialCategory = THEMES.find(category => category.id === initialFilters.get('categoria'));
     if (initialCategory) {
       currentTheme = initialCategory.id;

@@ -398,7 +398,7 @@ app.get('/api/admin/arts/status', auth, adminOnly, async (req, res) => {
     ? 'Teste local: as artes são salvas em arquivo neste computador. Não há garantia de persistência em hospedagem.'
     : 'Homologação: sincronização indisponível até configurar armazenamento durável. As 195 artes originais continuam disponíveis.' });
 });
-app.get('/api/squeeze-arts/:product', async (req, res) => {
+app.get(['/api/squeeze-arts/:product', '/api/product-arts/:product'], async (req, res) => {
   try {
     const arts = squeezeArts(req.params.product);
     if (!arts) return res.status(404).json({error: 'Modelo não encontrado.'});
