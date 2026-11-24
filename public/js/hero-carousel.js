@@ -16,6 +16,28 @@ export function initHeroCarousel() {
 function createCarousel(element) {
   const viewport = element.querySelector('.hero-viewport');
   const track = element.querySelector('.hero-track');
+  const catalogSize = Number(element.dataset.heroCatalog) || 0;
+  const pagePicker = element.querySelector('[data-hero-page]');
+  if (catalogSize) {
+    const first = track.querySelector('.hero-slide');
+    for (let page = 2; page <= catalogSize; page++) {
+      const slide = first.cloneNode(true);
+      slide.inert = true;
+      slide.setAttribute('aria-hidden', 'true');
+      slide.setAttribute('aria-label', `Página ${page} de ${catalogSize}`);
+      slide.querySelector('h2').textContent = `Catálogo de Natal · página ${page}`;
+      const action = slide.querySelector('[data-hero-action]');
+      action.href = `/catalogo-natal-artize.pdf#page=${page}`;
+      action.setAttribute('aria-label', `Abrir página ${page} do catálogo em PDF`);
+      slide.querySelector('.catalog-page-image').alt = `Página ${page} do Catálogo de Natal da Artize`;
+      for (const img of slide.querySelectorAll('img')) {
+        img.removeAttribute('src');
+        img.removeAttribute('fetchpriority');
+        img.dataset.src = `/natal-artize-${String(page).padStart(2, '0')}.jpg`;
+      }
+      track.append(slide);
+    }
+  }
   const slides = [...element.querySelectorAll('.hero-slide')];
   const dots = [...element.querySelectorAll('[data-hero-index]')];
   const rotation = element.querySelector('[data-hero-rotation]');
@@ -64,8 +86,9 @@ function createCarousel(element) {
     slides.forEach((slide, n) => {
       slide.inert = n !== index;
       slide.setAttribute('aria-hidden', String(n !== index));
-      dots[n].setAttribute('aria-current', String(n === index));
+      dots[n]?.setAttribute('aria-current', String(n === index));
     });
+    if (pagePicker) pagePicker.value = String(index);
     loadImages(slides[index]);
     if (moveFocus) slides[index].querySelector('[data-hero-action]').focus({ preventScroll: true });
     if (manual) {
@@ -87,6 +110,11 @@ function createCarousel(element) {
   }
   function setTheme(theme) {
     cancelGesture();
+    if (catalogSize) {
+      element.dataset.heroTheme = theme.id || 'artize';
+      show(index);
+      return;
+    }
     const content = heroContent(theme);
     status.textContent = '';
     element.dataset.heroTheme = theme.id || 'artize';
@@ -111,6 +139,7 @@ function createCarousel(element) {
   }
 
   dots.forEach((dot, n) => on(dot, 'click', () => show(n, true)));
+  if (pagePicker) on(pagePicker, 'change', () => show(Number(pagePicker.value), true));
   on(element.querySelector('[data-hero-prev]'), 'click', () => show(index - 1, true));
   on(element.querySelector('[data-hero-next]'), 'click', () => show(index + 1, true));
   on(rotation, 'click', () => {
@@ -124,7 +153,7 @@ function createCarousel(element) {
   on(element, 'pointerenter', event => { if (event.pointerType === 'mouse') { hovering = true; syncRotation(); } });
   on(element, 'pointerleave', event => { if (event.pointerType === 'mouse') { hovering = false; syncRotation(); } });
   on(element, 'keydown', event => {
-    if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    if (event.target === pagePicker || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
     event.preventDefault();
     show(index + (event.key === 'ArrowRight' ? 1 : -1), true);
   });
