@@ -102,9 +102,26 @@ function createCarousel(element) {
   }
   const defaultSlides = [...track.querySelectorAll('.hero-slide')];
   if (catalogSize) defaultSlides.forEach(addCatalogPanels);
-  const defaultOptions = pagePicker ? [...pagePicker.options] : [];
   const bannerSlides = catalogSize ? createBannerSlides() : [];
-  const bannerOptions = bannerSlides.map((_, index) => new Option(`Banner ${index + 1} de ${bannerSlides.length}`, String(index)));
+  const bannerNav = document.createElement('div');
+  bannerNav.className = 'hero-banner-dots';
+  bannerNav.setAttribute('role', 'group');
+  bannerNav.setAttribute('aria-label', 'Escolher banner de Natal');
+  bannerNav.hidden = true;
+  const bannerDots = bannerSlides.map((slide, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.setAttribute('aria-label', `Mostrar ${slide.getAttribute('aria-label')}`);
+    button.dataset.bannerIndex = String(index);
+    bannerNav.append(button);
+    return button;
+  });
+  const pdfLink = element.querySelector('.catalog-navigation a')?.cloneNode();
+  if (pdfLink) {
+    pdfLink.className = 'hero-catalog-link';
+    pdfLink.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 12h6M9 16h6"/></svg>Ver catálogo completo';
+  }
+  if (catalogSize) element.append(bannerNav);
   let slides = defaultSlides;
   const dots = [...element.querySelectorAll('[data-hero-index]')];
   const rotation = element.querySelector('[data-hero-rotation]');
@@ -150,12 +167,13 @@ function createCarousel(element) {
     index = (next + slides.length) % slides.length;
     element.dataset.slide = String(index);
     track.style.transform = `translate3d(-${index * 100}%,0,0)`;
+    const activeDots = slides === bannerSlides ? bannerDots : dots;
     slides.forEach((slide, n) => {
       slide.inert = n !== index;
       slide.setAttribute('aria-hidden', String(n !== index));
-      dots[n]?.setAttribute('aria-current', String(n === index));
+      activeDots[n]?.setAttribute('aria-current', String(n === index));
     });
-    if (pagePicker) pagePicker.value = String(index);
+    if (pagePicker && slides === defaultSlides) pagePicker.value = String(index);
     loadImages(slides[index]);
     if (slides === bannerSlides && !reduced.matches) {
       const nextImage = slides[(index + 1) % slides.length].querySelector('img');
@@ -191,9 +209,10 @@ function createCarousel(element) {
         track.replaceChildren(...slides);
         element.toggleAttribute('data-hero-banners', bannersActive);
         element.setAttribute('aria-label', bannersActive ? 'Banners de Natal da Artize' : 'Catálogo de Natal da Artize');
-        if (pagePicker) {
-          pagePicker.replaceChildren(...(bannersActive ? bannerOptions : defaultOptions));
-          pagePicker.setAttribute('aria-label', bannersActive ? 'Escolher banner de Natal' : 'Escolher página do catálogo');
+        bannerNav.hidden = !bannersActive;
+        if (pdfLink) {
+          if (bannersActive) element.after(pdfLink);
+          else pdfLink.remove();
         }
         status.textContent = '';
         show(0);
@@ -224,6 +243,7 @@ function createCarousel(element) {
   }
 
   dots.forEach((dot, n) => on(dot, 'click', () => show(n, true)));
+  bannerDots.forEach((dot, n) => on(dot, 'click', () => show(n, true)));
   if (pagePicker) on(pagePicker, 'change', () => show(Number(pagePicker.value), true));
   on(element.querySelector('[data-hero-prev]'), 'click', () => show(index - 1, true));
   on(element.querySelector('[data-hero-next]'), 'click', () => show(index + 1, true));
