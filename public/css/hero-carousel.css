@@ -91,3 +91,22 @@
   .catalog-panel img {position:absolute;top:calc(-100% * var(--catalog-start) / var(--catalog-slice));left:0;width:100%;height:auto;max-width:none;pointer-events:none}
   .catalog-navigation select {min-width:136px}
 }
+
+/* Os PNGs de Natal mantêm a área da arte separada dos controles. */
+.hero-carousel[data-hero-catalog][data-hero-banners] {
+  height:auto;
+  border-start-start-radius:0;
+  border-start-end-radius:0;
+}
+.hero-carousel[data-hero-banners] .hero-viewport {
+  height:auto;
+  aspect-ratio:2152 / 731;
+  background:#430905;
+}
+.hero-slide.hero-slide--banner {
+  display:block;
+  padding:0;
+}
+.hero-banner-link {display:block;width:100%;height:100%}
+.hero-banner-link:focus-visible {outline:2px solid #fff;outline-offset:-3px}
+.hero-banner-image {display:block;width:100%;height:100%;object-fit:contain}

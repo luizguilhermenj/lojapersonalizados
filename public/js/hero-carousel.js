@@ -1,4 +1,5 @@
 import { heroContent } from './hero-content.js';
+import { natalBanners } from './hero-banners-natal.js';
 
 const ROTATION_MS = 5500;
 const CATALOG_ROTATION_MS = 12000;
@@ -28,6 +29,40 @@ function addCatalogPanels(slide, index) {
   }
   link.append(panels);
 }
+function createBannerSlides() {
+  return natalBanners.map(({ title, url, width, height }, index) => {
+    const slide = document.createElement('article');
+    slide.className = 'hero-slide hero-slide--banner';
+    slide.setAttribute('role', 'group');
+    slide.setAttribute('aria-roledescription', 'slide');
+    slide.setAttribute('aria-label', `Banner ${index + 1} de ${natalBanners.length}: ${title}`);
+
+    const heading = document.createElement('h2');
+    heading.className = 'sr-only';
+    heading.textContent = title;
+
+    const link = document.createElement('a');
+    link.className = 'hero-banner-link';
+    link.dataset.heroAction = '';
+    link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.setAttribute('aria-label', `Abrir banner em tamanho original: ${title}`);
+
+    const image = document.createElement('img');
+    image.className = 'hero-banner-image';
+    image.alt = title;
+    image.width = width;
+    image.height = height;
+    image.decoding = 'async';
+    image.draggable = false;
+    image.dataset.src = url;
+    link.append(image);
+    slide.append(heading, link);
+    return slide;
+  });
+}
+
 let instance;
 
 // Inicialização idempotente: tema e catálogo compartilham a mesma instância.
@@ -65,8 +100,12 @@ function createCarousel(element) {
       track.append(slide);
     }
   }
-  const slides = [...element.querySelectorAll('.hero-slide')];
-  if (catalogSize) slides.forEach(addCatalogPanels);
+  const defaultSlides = [...track.querySelectorAll('.hero-slide')];
+  if (catalogSize) defaultSlides.forEach(addCatalogPanels);
+  const defaultOptions = pagePicker ? [...pagePicker.options] : [];
+  const bannerSlides = catalogSize ? createBannerSlides() : [];
+  const bannerOptions = bannerSlides.map((_, index) => new Option(`Banner ${index + 1} de ${bannerSlides.length}`, String(index)));
+  let slides = defaultSlides;
   const dots = [...element.querySelectorAll('[data-hero-index]')];
   const rotation = element.querySelector('[data-hero-rotation]');
   const status = element.querySelector('[data-hero-status]');
@@ -97,7 +136,7 @@ function createCarousel(element) {
     element.querySelector('[data-hero-play]').hidden = !paused;
     element.querySelector('[data-hero-pause]').hidden = paused;
     if (!destroyed && !paused && !hovering && !focused && !document.hidden && pageActive && inView) {
-      timer = setTimeout(() => show(index + 1), catalogSize ? CATALOG_ROTATION_MS : ROTATION_MS);
+      timer = setTimeout(() => show(index + 1), slides === defaultSlides && catalogSize ? CATALOG_ROTATION_MS : ROTATION_MS);
     }
   }
   function loadImages(slide) {
@@ -118,6 +157,11 @@ function createCarousel(element) {
     });
     if (pagePicker) pagePicker.value = String(index);
     loadImages(slides[index]);
+    if (slides === bannerSlides && !reduced.matches) {
+      const nextImage = slides[(index + 1) % slides.length].querySelector('img');
+      if (!nextImage.hasAttribute('src')) nextImage.fetchPriority = 'low';
+      loadImages(slides[(index + 1) % slides.length]);
+    }
     if (moveFocus) slides[index].querySelector('[data-hero-action]').focus({ preventScroll: true });
     if (manual) {
       userPaused = true;
@@ -139,8 +183,21 @@ function createCarousel(element) {
   function setTheme(theme) {
     cancelGesture();
     if (catalogSize) {
+      const bannersActive = theme.id === 'natal';
+      const nextSlides = bannersActive ? bannerSlides : defaultSlides;
       element.dataset.heroTheme = theme.id || 'artize';
-      show(index);
+      if (slides !== nextSlides) {
+        slides = nextSlides;
+        track.replaceChildren(...slides);
+        element.toggleAttribute('data-hero-banners', bannersActive);
+        element.setAttribute('aria-label', bannersActive ? 'Banners de Natal da Artize' : 'Catálogo de Natal da Artize');
+        if (pagePicker) {
+          pagePicker.replaceChildren(...(bannersActive ? bannerOptions : defaultOptions));
+          pagePicker.setAttribute('aria-label', bannersActive ? 'Escolher banner de Natal' : 'Escolher página do catálogo');
+        }
+        status.textContent = '';
+        show(0);
+      } else show(index);
       return;
     }
     const content = heroContent(theme);
