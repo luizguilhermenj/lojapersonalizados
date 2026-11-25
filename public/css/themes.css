@@ -75,27 +75,37 @@ html[data-theme][data-color-studio] :is(.field,.search,select,textarea,.menu-tog
 html[data-theme][data-color-studio] :is(input,select,textarea,button,a):focus-visible {outline-color:var(--store-text)}
 
 
-/* O PNG aprovado é pintado como uma imagem de borda vertical.
-   O trecho entre os ornamentos absorve a altura variável do conteúdo. */
+/* Topo e rodapé usam o PNG. O recorte intermediário repete na mesma escala. */
 html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) {
-  --natal-image-top:calc(100vw * 521 / 1628);
-  --natal-image-bottom:calc(100vw * 443 / 1628);
+  --natal-image-top:calc(100vw * 373 / 1628);
+  --natal-image-bottom:calc(100vw * 390 / 1628);
+  --natal-join:calc(100vw * 72 / 1628);
   --natal-page-inset:0px;
   position:relative;
   isolation:isolate;
   background:#ffe1c0;
 }
-html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::before {
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::before,
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::after {
   content:"";
   position:absolute;
   inset:0 0 var(--natal-page-inset);
-  z-index:-1;
   pointer-events:none;
+}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::before {
+  z-index:-1;
   border:0 solid transparent;
   border-image-source:url("/img/visual/natal-fundo-aprovado.png");
-  border-image-slice:521 0 443 0 fill;
+  border-image-slice:373 0 390 0;
   border-image-width:var(--natal-image-top) 0 var(--natal-image-bottom) 0;
-  border-image-repeat:stretch;
+  mask-image:linear-gradient(to bottom,
+    #000 var(--natal-image-top),transparent var(--natal-image-top),
+    transparent calc(100% - var(--natal-image-bottom)),
+    #000 calc(100% - var(--natal-image-bottom) + var(--natal-join)));
+}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::after {
+  z-index:-2;
+  background:url("/img/visual/natal-laterais.webp") center var(--natal-image-top) / 100% auto repeat-y;
 }
 html[data-theme="natal"] .home-page {background-image:none}
 html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-header {
@@ -147,7 +157,8 @@ html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer
   }
 }
 @media(forced-colors:active) {
-  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::before {display:none}
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::before,
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page))::after {display:none}
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)),
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) :is(.site-header,.site-footer) {
     background:Canvas;
