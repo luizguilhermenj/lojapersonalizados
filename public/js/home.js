@@ -13,7 +13,7 @@ const artsRequests = new Map();
 const artCarousels = new Set();
 
 function productImageMarkup(product, index) {
-  if (product.slug === 'caneca-ceramica' || product.category === 'Squeezes' || product.slug === 'relogio-azulejo') return `
+  if (product.slug === 'caneca-ceramica' || product.category === 'Squeezes' || product.slug === 'relogio-azulejo' || product.slug === 'camiseta') return `
     <section class="product-art-carousel" data-product-art-carousel="${product.slug}" data-product-name="${product.name}" aria-label="Mockups de ${product.name}" aria-roledescription="carrossel">
       <img src="${product.slug === 'caneca-ceramica' ? '/img/artes/caneca-ceramica/pascoa/pascoa-01.webp' : product.image}" alt="${product.name}" width="400" height="400" loading="lazy" decoding="async">
       <div class="product-art-controls">
@@ -43,7 +43,8 @@ if (globalSearch) globalSearch.value = searchText;
 
 const PRODUCT_ROUTES = {
   'caneca-ceramica': '/pages/caneca-ceramica.html#escolha-arte',
-  'relogio-azulejo': '/pages/relogio-azulejo.html#escolha-arte'
+  'relogio-azulejo': '/pages/relogio-azulejo.html#escolha-arte',
+  camiseta: '/pages/camiseta.html?categoria=natal#escolha-arte'
 };
 
 function formatBRL(value) {
@@ -81,7 +82,7 @@ function sortProducts(list) {
 function productActionMarkup(product) {
   const route = product.category === 'Squeezes' ? '/pages/squeeze.html?produto=' + product.slug + '#escolha-arte' : PRODUCT_ROUTES[product.slug];
   if (route) {
-    return `<a class="primary-btn choose-btn" href="${route}">Quero esta</a>`;
+    return `<a class="primary-btn choose-btn" href="${route}">${product.slug === 'camiseta' ? 'Ver estampas' : 'Quero esta'}</a>`;
   }
   return `<button class="ghost-btn soon-btn" type="button" data-name="${product.name}">Em breve</button>`;
 }
