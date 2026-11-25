@@ -38,25 +38,18 @@ export function applyCustomization(value) {
 // Efeitos ficam na experiência de descoberta, fora do carrinho e gestão.
 const motionAllowed = () => Boolean(document.querySelector('.home-page,.customizer-page'));
 
-let natalFrame;
+function updateNatalHeader() {
+  document.body.toggleAttribute('data-natal-header-scrolled', window.scrollY > 8);
+}
 
-function setNatalFrame(theme) {
-  const visible = theme.id === 'natal' && motionAllowed();
-  if (!visible) {
-    natalFrame?.remove();
-    natalFrame = undefined;
-    return;
+function setNatalHeader(theme) {
+  if (theme.id === 'natal' && motionAllowed()) {
+    window.addEventListener('scroll', updateNatalHeader, { passive: true });
+    updateNatalHeader();
+  } else {
+    window.removeEventListener('scroll', updateNatalHeader);
+    document.body.removeAttribute('data-natal-header-scrolled');
   }
-  if (natalFrame) return;
-  natalFrame = document.createElement('div');
-  natalFrame.className = 'natal-photo-frame';
-  natalFrame.setAttribute('aria-hidden','true');
-  for (const name of ['pine','lantern','bauble','cones','lower-left','lower-right']) {
-    const detail = document.createElement('span');
-    detail.className = 'natal-detail natal-detail--' + name;
-    natalFrame.append(detail);
-  }
-  document.body.append(natalFrame);
 }
 
 export function applyTheme(theme) {
@@ -74,7 +67,7 @@ export function applyTheme(theme) {
   }
   effects.stop();
   root.dataset.theme = theme.id;
-  setNatalFrame(theme);
+  setNatalHeader(theme);
   root.toggleAttribute('data-seasonal', Boolean(theme.campaign));
   const navLink = document.getElementById('seasonalNavLink');
   if (navLink) {
