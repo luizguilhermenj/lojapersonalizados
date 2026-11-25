@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-28",
+  "scope": "frontend temporary preview",
+  "migrationApplied": false,
+  "neonProjectsCreated": false,
+  "testDatabaseConfigured": false,
+  "liveNeonAttempted": false,
+  "renderConfigChanged": false,
+  "renderDeployExecuted": false,
+  "mergeExecuted": false,
+  "unit": {
+    "passed": 12,
+    "skipped": 1,
+    "failed": 0,
+    "skipReason": "Neon live tests deferred; no test URL configured"
+  },
+  "browserSuites": 11,
+  "legacyTableWithoutNewColumn": "passed in isolated PostgreSQL",
+  "previewDatabaseCallsDuringEditing": 0,
+  "iframeThemeApiCalls": 0,
+  "colorWrites": "blocked with 409 in temporary mode",
+  "legacyThemeActivation": "preserved and tested for four themes",
+  "appearanceLifetime": "in-memory only; discarded on reload",
+  "performance": {
+    "editorSamples": 72,
+    "lcpSmokeSamples": 60
+  },
+  "sourceSha256": {
+    "themes/neon-store.js": "85387cbf5998c1c13be381f9306c80e9200c8adc82bddeb3fb8da4c7e027556d",
+    "routes/themes.js": "960174cb4b4046db1ba57e0037ee470ec6768c306ed8a66db3b2c2a6a1168155",
+    "public/js/admin-color-studio.js": "08131ab6dfa30a68cf65b49e4d6e7923702f94de404b1fab1afdd5c2329f3348",
+    "public/js/admin-themes.js": "a19bdf10d7ef4f7afc364608518e3abcca96eb4e8cd1043c15be99ad731d0e9f",
+    "public/js/themes.js": "03995fef7726d89c2d5b20cc5a15c44b9c7c543ad4e15bcf8d627e38150847b2",
+    "public/pages/admin.html": "37c71ca3a12137d0711dcff0e1ced1eef5e1dfebe96771fc90074f2eb37b193f"
+  }
+}

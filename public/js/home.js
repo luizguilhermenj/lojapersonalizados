@@ -1,26 +1,49 @@
 import { api } from '/js/app.js';
+import { initHeroCarousel } from '/js/hero-carousel.js';
+import { createArtCarousel } from '/js/art-carousel.js';
+initHeroCarousel();
 
 const productsGrid = document.getElementById('productsGrid');
 const categoryChips = document.getElementById('categoryChips');
 const globalSearch = document.getElementById('globalSearch');
 const sortSelect = document.getElementById('sortSelect');
-const promoTrack = document.getElementById('promoTrack');
-const promoDots = document.getElementById('promoDots');
-const menuToggle = document.getElementById('menuToggle');
-const siteHeader = document.querySelector('.site-header');
-const sideMenu = document.getElementById('sideMenu');
-const sideMenuBackdrop = document.getElementById('sideMenuBackdrop');
-const sideClose = document.getElementById('sideClose');
-const sideAccountLink = document.getElementById('sideAccountLink');
 
 let products = [];
+const artsRequests = new Map();
+const artCarousels = new Set();
+
+function productImageMarkup(product, index) {
+  if (product.slug === 'caneca-ceramica' || product.category === 'Squeezes' || product.slug === 'relogio-azulejo') return `
+    <section class="product-art-carousel" data-product-art-carousel="${product.slug}" data-product-name="${product.name}" aria-label="Mockups de ${product.name}" aria-roledescription="carrossel">
+      <img src="${product.slug === 'caneca-ceramica' ? '/img/artes/caneca-ceramica/pascoa/pascoa-01.webp' : product.image}" alt="${product.name}" width="400" height="400" loading="lazy" decoding="async">
+      <div class="product-art-controls">
+        <button type="button" data-art-prev aria-label="Arte anterior">‹</button>
+        <button type="button" data-art-next aria-label="Próxima arte">›</button>
+      </div>
+    </section>`;
+  return `<img src="${product.image}" alt="${product.name}" width="400" height="400" loading="${index < 2 ? 'eager' : 'lazy'}" fetchpriority="${index === 0 && matchMedia('(max-width:47.99rem)').matches ? 'high' : 'auto'}" decoding="async">`;
+}
+
+async function startArtCarousel(element) {
+  const slug = element.dataset.productArtCarousel;
+  const endpoint = slug === 'caneca-ceramica' ? '/api/caneca-ceramica-arts' : '/api/product-arts/' + slug;
+  if (!artsRequests.has(slug)) {
+    artsRequests.set(slug, api(endpoint).catch(error => { artsRequests.delete(slug); throw error; }));
+  }
+  try {
+    const arts = await artsRequests.get(slug);
+    if (!element.isConnected) return;
+    if (arts.length) artCarousels.add(createArtCarousel(element, arts));
+    else element.querySelector('.product-art-controls').hidden = true;
+  } catch { element.querySelector('.product-art-controls').hidden = true; }
+}
 let currentCategory = 'Todos';
-let searchText = '';
-let currentSlide = 0;
-let carouselTimer;
+let searchText = new URLSearchParams(location.search).get('q') || '';
+if (globalSearch) globalSearch.value = searchText;
 
 const PRODUCT_ROUTES = {
-  'caneca-ceramica': '/pages/caneca-ceramica.html#escolha-arte'
+  'caneca-ceramica': '/pages/caneca-ceramica.html#escolha-arte',
+  'relogio-azulejo': '/pages/relogio-azulejo.html#escolha-arte'
 };
 
 function formatBRL(value) {
@@ -29,14 +52,15 @@ function formatBRL(value) {
 
 function renderChips() {
   const categories = ['Todos', ...new Set(products.map((p) => p.category))];
+  categoryChips.setAttribute('aria-busy','false');
   categoryChips.innerHTML = categories
-    .map((category) => `<button class="chip ${category === currentCategory ? 'active' : ''}" data-category="${category}">${category}</button>`)
+    .map((category) => `<button type="button" class="chip ${category === currentCategory ? 'active' : ''}" aria-pressed="${category === currentCategory}" data-category="${category}">${category}</button>`)
     .join('');
 
   categoryChips.querySelectorAll('.chip').forEach((button) => {
     button.onclick = () => {
       currentCategory = button.dataset.category;
-      renderChips();
+      categoryChips.querySelectorAll('.chip').forEach(chip=>{const active=chip.dataset.category===currentCategory;chip.classList.toggle('active',active);chip.setAttribute('aria-pressed',String(active));});
       renderProducts();
     };
   });
@@ -55,32 +79,37 @@ function sortProducts(list) {
 }
 
 function productActionMarkup(product) {
-  const route = PRODUCT_ROUTES[product.slug];
+  const route = product.category === 'Squeezes' ? '/pages/squeeze.html?produto=' + product.slug + '#escolha-arte' : PRODUCT_ROUTES[product.slug];
   if (route) {
     return `<a class="primary-btn choose-btn" href="${route}">Quero esta</a>`;
   }
   return `<button class="ghost-btn soon-btn" type="button" data-name="${product.name}">Em breve</button>`;
 }
 
+const fold = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 function renderProducts() {
+  artCarousels.forEach(carousel => carousel.destroy());
+  artCarousels.clear();
+  productsGrid.setAttribute('aria-busy','false');
   let list = products.filter((product) => {
     const haystack = `${product.name} ${product.description} ${product.category}`.toLowerCase();
-    return (currentCategory === 'Todos' || product.category === currentCategory) && haystack.includes(searchText.toLowerCase());
+    return (currentCategory === 'Todos' || product.category === currentCategory) && fold(haystack).includes(fold(searchText.trim()));
   });
 
   list = sortProducts(list);
 
+  document.getElementById('productResults').textContent = `${list.length} presente${list.length === 1 ? '' : 's'} no catálogo`;
   productsGrid.innerHTML = list
     .map(
-      (product) => `
+      (product, index) => `
         <article class="product-card">
-          <img src="${product.image}" alt="${product.name}">
+          ${productImageMarkup(product, index)}
           <div class="product-body">
             <h3>${product.name}</h3>
             <p>${product.description}</p>
             <div class="product-footer">
               <div>
-                <div class="price">${formatBRL(product.price)}</div>
+                <div class="price">${product.price == null ? 'Preço sob consulta' : formatBRL(product.price)}</div>
                 <div class="meta">${product.category} • ${product.meta}</div>
               </div>
             </div>
@@ -90,7 +119,9 @@ function renderProducts() {
           </div>
         </article>`
     )
-    .join('');
+    .join('') || '<div class="empty-state"><h3>Nenhum presente encontrado</h3><p>Tente outro termo ou selecione outra categoria.</p><button class="ghost-btn" id="clearProductFilters" type="button">Limpar filtros</button></div>';
+  document.getElementById('clearProductFilters')?.addEventListener('click', () => {currentCategory='Todos';searchText='';globalSearch.value='';renderChips();renderProducts();});
+  productsGrid.querySelectorAll('[data-product-art-carousel]').forEach(startArtCarousel);
 
   productsGrid.querySelectorAll('.soon-btn').forEach((button) => {
     button.onclick = () => {
@@ -102,110 +133,23 @@ function renderProducts() {
   });
 }
 
-function showSlide(index) {
-  const slides = [...promoTrack.querySelectorAll('.promo-slide')];
-  const dots = [...promoDots.querySelectorAll('button')];
-  if (!slides.length) return;
-
-  currentSlide = (index + slides.length) % slides.length;
-  slides.forEach((slide, slideIndex) => {
-    slide.classList.toggle('active', slideIndex === currentSlide);
-  });
-  dots.forEach((dot, dotIndex) => {
-    dot.classList.toggle('active', dotIndex === currentSlide);
-    dot.setAttribute('aria-current', dotIndex === currentSlide ? 'true' : 'false');
-  });
-}
-
-function startCarousel() {
-  const slides = [...promoTrack.querySelectorAll('.promo-slide')];
-  if (!slides.length) return;
-
-  promoDots.innerHTML = slides
-    .map((_, index) => `<button type="button" class="${index === 0 ? 'active' : ''}" aria-label="Ir para banner ${index + 1}"></button>`)
-    .join('');
-
-  [...promoDots.querySelectorAll('button')].forEach((button, index) => {
-    button.addEventListener('click', () => {
-      showSlide(index);
-      restartCarousel();
-    });
-  });
-
-  showSlide(0);
-  carouselTimer = window.setInterval(() => showSlide(currentSlide + 1), 4200);
-}
-
-function restartCarousel() {
-  window.clearInterval(carouselTimer);
-  carouselTimer = window.setInterval(() => showSlide(currentSlide + 1), 4200);
-}
-
-function closeMenu() {
-  siteHeader?.classList.remove('menu-open');
-  sideMenu?.classList.remove('open');
-  sideMenu?.setAttribute('aria-hidden', 'true');
-  sideMenuBackdrop?.setAttribute('hidden', 'hidden');
-  menuToggle?.setAttribute('aria-expanded', 'false');
-}
-
-function openMenu() {
-  siteHeader?.classList.add('menu-open');
-  sideMenu?.classList.add('open');
-  sideMenu?.setAttribute('aria-hidden', 'false');
-  sideMenuBackdrop?.removeAttribute('hidden');
-  menuToggle?.setAttribute('aria-expanded', 'true');
-}
-
-function setupMenu() {
-  if (!menuToggle || !siteHeader || !sideMenu) return;
-
-  menuToggle.addEventListener('click', () => {
-    const isOpen = sideMenu?.classList.contains('open');
-    if (isOpen) closeMenu();
-    else openMenu();
-  });
-
-  [sideMenu].forEach((container) => {
-    container?.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        closeMenu();
-      });
-    });
-  });
-
-  sideMenuBackdrop?.addEventListener('click', closeMenu);
-  sideClose?.addEventListener('click', closeMenu);
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 1100) closeMenu();
-  });
-
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeMenu();
-  });
-}
-
 async function init() {
   products = await api('/api/products');
   renderChips();
   renderProducts();
-  startCarousel();
-  setupMenu();
-  if (sideAccountLink) {
-    const accountLink = document.getElementById('accountLink');
-    sideAccountLink.textContent = accountLink?.textContent || 'Entrar';
-    sideAccountLink.href = accountLink?.getAttribute('href') || '/pages/login.html';
-  }
 }
 
+let searchTimer;
 globalSearch?.addEventListener('input', (event) => {
   searchText = event.target.value;
-  renderProducts();
+  clearTimeout(searchTimer);searchTimer=setTimeout(renderProducts,120);
 });
 
 sortSelect?.addEventListener('change', renderProducts);
 
 init().catch((error) => {
+  productsGrid.setAttribute('aria-busy','false');
+  categoryChips.setAttribute('aria-busy','false');
+  document.getElementById('productResults').textContent='Não foi possível carregar o catálogo.';
   productsGrid.innerHTML = `<p class="feedback error">${error.message}</p>`;
 });

@@ -1,0 +1,21 @@
+// Servidor real com dados de clientes/pedidos/temas apenas em memória.
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import express from 'express';
+import { fileURLToPath } from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
+const data=path.join(root,'data');const read=fs.readFileSync.bind(fs);
+const passwordHash=`scrypt$audit-only$${crypto.scryptSync('VisualOnly!234','audit-only',64).toString('base64')}`;
+const users=[{id:'visual-admin',name:'Admin Visual',email:'admin@visual.invalid',role:'admin',passwordHash,lastAdminSeenAt:'2100-01-01T00:00:00Z'},{id:'visual-customer',name:'Cliente Visual',email:'customer@visual.invalid',role:'customer',passwordHash}];
+const memory=new Map([[path.join(data,'users.json'),JSON.stringify(users)],[path.join(data,'orders.json'),'[]'],[path.join(data,'sessions.json'),'[]']]);
+const isAppearance=p=>p.startsWith(path.join(data,'appearance')+path.sep)||p===path.join(data,'appearance');
+fs.readFileSync=(file,options)=>{const p=path.resolve(String(file));let value;if(p===path.join(root,'.env'))value='';else if(memory.has(p))value=memory.get(p);else if(isAppearance(p)){const error=new Error('Fixture ausente');error.code='ENOENT';throw error;}else return read(file,options);return typeof options==='string'||options?.encoding?String(value):Buffer.from(value);};
+fs.writeFileSync=(file,value)=>{const p=path.resolve(String(file));if(!memory.has(p)&&!isAppearance(p))throw new Error('Escrita real proibida nos testes visuais');memory.set(p,String(value));};
+const mkdir=fs.mkdirSync.bind(fs);fs.mkdirSync=(file,...args)=>isAppearance(path.resolve(String(file)))?undefined:mkdir(file,...args);
+fs.renameSync=(source,dest)=>{source=path.resolve(String(source));dest=path.resolve(String(dest));if(!isAppearance(source)||!isAppearance(dest)||!memory.has(source))throw new Error('Rename real proibido');memory.set(dest,memory.get(source));memory.delete(source);};
+fs.rmSync=file=>{const p=path.resolve(String(file));if(!isAppearance(p))throw new Error('Remoção real proibida');memory.delete(p);};
+Object.assign(process.env,{PORT:process.env.PORT||'4320',BASE_URL:`http://127.0.0.1:${process.env.PORT||'4320'}`,MP_ACCESS_TOKEN:'',DATABASE_URL:'',THEME_TEST_DATABASE_URL:'',NODE_ENV:'test',RENDER:''});
+let server;const listen=express.application.listen;express.application.listen=function(...args){server=listen.apply(this,args);return server;};
+await import('../../server.js');
+process.on('SIGTERM',()=>server.close(()=>process.exit(0)));

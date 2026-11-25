@@ -1,0 +1,1047 @@
+{
+  "conditions": {
+    "cpuSlowdown": 4,
+    "cpuQuota": "200000 100000",
+    "transport": "Same local HTTP middleware for all builds; no browser interception; cache disabled; no network throttling",
+    "motion": "reduce",
+    "runs": 3,
+    "observationAfterReadyMs": 1000,
+    "traceEnabled": false,
+    "order": "Interleaved rotated blocks",
+    "percentile": "Nearest rank p75; even median averages middle two; all samples retained",
+    "note": "Laboratory distribution, not field p75. Historical 9164 ms sample remains in docs/color-studio/performance.json; no original trace exists."
+  },
+  "sourceManifest": {
+    "public/css/themes.css": "72a62260fca836d3c208370201e9303dee8322f2bc2a1b5d4952d58d380c991d",
+    "public/css/admin.css": "46d2b8766a96b6a2b9eaea2c12598fe2835147f9291fdbaa3a5bee9c947ecc0a",
+    "public/js/themes.js": "03995fef7726d89c2d5b20cc5a15c44b9c7c543ad4e15bcf8d627e38150847b2",
+    "public/js/home.js": "e514ff47393e123da64ed0c659e4992f3b30059ad14dc7f06845a013643d618b",
+    "public/pages/home.html": "084c9fdb256b785012e3320f04ab2d9021daf0f59a3e821af139c8f22844e4fc"
+  },
+  "summary": [
+    {
+      "build": "baseline",
+      "look": "original",
+      "width": 390,
+      "lcp": {
+        "n": 6,
+        "mean": 1854,
+        "min": 1388,
+        "median": 1758,
+        "p75": 2164,
+        "max": 2612
+      },
+      "layout": {
+        "n": 6,
+        "mean": 313.99883333333327,
+        "min": 185.857,
+        "median": 328.221,
+        "p75": 361.262,
+        "max": 387.679
+      },
+      "clsMax": 0,
+      "task": {
+        "n": 6,
+        "mean": 1936.9015,
+        "min": 1377.616,
+        "median": 1796.833,
+        "p75": 2075.174,
+        "max": 3068.514
+      }
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "width": 1440,
+      "lcp": {
+        "n": 6,
+        "mean": 852.6666666666666,
+        "min": 704,
+        "median": 804,
+        "p75": 908,
+        "max": 1172
+      },
+      "layout": {
+        "n": 6,
+        "mean": 328.9348333333333,
+        "min": 184.401,
+        "median": 336.378,
+        "p75": 419.257,
+        "max": 497.252
+      },
+      "clsMax": 2.9264322916666666e-05,
+      "task": {
+        "n": 6,
+        "mean": 2640.142166666667,
+        "min": 1288.705,
+        "median": 1741.614,
+        "p75": 3258.228,
+        "max": 6321.367
+      }
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "width": 390,
+      "lcp": {
+        "n": 6,
+        "mean": 1475.3333333333333,
+        "min": 764,
+        "median": 1414,
+        "p75": 1880,
+        "max": 2056
+      },
+      "layout": {
+        "n": 6,
+        "mean": 226.57333333333335,
+        "min": 160.679,
+        "median": 234.989,
+        "p75": 254.32,
+        "max": 260.346
+      },
+      "clsMax": 0.0008474074074074074,
+      "task": {
+        "n": 6,
+        "mean": 1615.0713333333333,
+        "min": 1347.4660000000001,
+        "median": 1536.6245,
+        "p75": 1822.135,
+        "max": 2052.399
+      }
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "width": 1440,
+      "lcp": {
+        "n": 6,
+        "mean": 1004,
+        "min": 800,
+        "median": 934,
+        "p75": 1264,
+        "max": 1264
+      },
+      "layout": {
+        "n": 6,
+        "mean": 383.58549999999997,
+        "min": 240.10899999999998,
+        "median": 389.49699999999996,
+        "p75": 473.16799999999995,
+        "max": 557.367
+      },
+      "clsMax": 2.9264322916666666e-05,
+      "task": {
+        "n": 6,
+        "mean": 1993.0845,
+        "min": 1461.2289999999998,
+        "median": 1875.942,
+        "p75": 2434.864,
+        "max": 2729.38
+      }
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "width": 390,
+      "lcp": {
+        "n": 6,
+        "mean": 1544,
+        "min": 544,
+        "median": 1466,
+        "p75": 2232,
+        "max": 2268
+      },
+      "layout": {
+        "n": 6,
+        "mean": 315.1218333333333,
+        "min": 134.58999999999997,
+        "median": 243.1335,
+        "p75": 278.302,
+        "max": 765.9019999999999
+      },
+      "clsMax": 0,
+      "task": {
+        "n": 6,
+        "mean": 1837.1591666666666,
+        "min": 1314.7089999999998,
+        "median": 1722.863,
+        "p75": 2334.6,
+        "max": 2511.511
+      }
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "width": 1440,
+      "lcp": {
+        "n": 6,
+        "mean": 1112.6666666666667,
+        "min": 760,
+        "median": 914,
+        "p75": 1384,
+        "max": 1912
+      },
+      "layout": {
+        "n": 6,
+        "mean": 254.70733333333337,
+        "min": 195.138,
+        "median": 232.56900000000002,
+        "p75": 296.65999999999997,
+        "max": 374.59
+      },
+      "clsMax": 0,
+      "task": {
+        "n": 6,
+        "mean": 1943.5028333333332,
+        "min": 1494.0819999999999,
+        "median": 1766.7815,
+        "p75": 2463.3129999999996,
+        "max": 2633.428
+      }
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "width": 390,
+      "lcp": {
+        "n": 6,
+        "mean": 1640,
+        "min": 888,
+        "median": 1612,
+        "p75": 2208,
+        "max": 2296
+      },
+      "layout": {
+        "n": 6,
+        "mean": 272.6563333333333,
+        "min": 224.66400000000002,
+        "median": 265.27549999999997,
+        "p75": 292.58299999999997,
+        "max": 333.856
+      },
+      "clsMax": 4.961538461538461e-05,
+      "task": {
+        "n": 6,
+        "mean": 2038.9605,
+        "min": 1472.638,
+        "median": 1900.2885,
+        "p75": 2334.526,
+        "max": 3057.81
+      }
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "width": 1440,
+      "lcp": {
+        "n": 6,
+        "mean": 931.3333333333334,
+        "min": 776,
+        "median": 906,
+        "p75": 1008,
+        "max": 1168
+      },
+      "layout": {
+        "n": 6,
+        "mean": 266.87083333333334,
+        "min": 134.97799999999998,
+        "median": 209.224,
+        "p75": 399.935,
+        "max": 508.15500000000003
+      },
+      "clsMax": 0,
+      "task": {
+        "n": 6,
+        "mean": 1685.732,
+        "min": 1273.721,
+        "median": 1591.049,
+        "p75": 1682.69,
+        "max": 2575.7870000000003
+      }
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "width": 390,
+      "lcp": {
+        "n": 6,
+        "mean": 1662.6666666666667,
+        "min": 1300,
+        "median": 1532,
+        "p75": 1920,
+        "max": 2268
+      },
+      "layout": {
+        "n": 6,
+        "mean": 388.66616666666664,
+        "min": 170.913,
+        "median": 416.307,
+        "p75": 474.498,
+        "max": 557.8340000000001
+      },
+      "clsMax": 4.961538461538461e-05,
+      "task": {
+        "n": 6,
+        "mean": 2226.901166666667,
+        "min": 1450.286,
+        "median": 2165.002,
+        "p75": 2254.07,
+        "max": 3248.155
+      }
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "width": 1440,
+      "lcp": {
+        "n": 6,
+        "mean": 888,
+        "min": 728,
+        "median": 852,
+        "p75": 928,
+        "max": 1168
+      },
+      "layout": {
+        "n": 6,
+        "mean": 360.37000000000006,
+        "min": 222.803,
+        "median": 368.01599999999996,
+        "p75": 439.88300000000004,
+        "max": 485.914
+      },
+      "clsMax": 0,
+      "task": {
+        "n": 6,
+        "mean": 2085.102,
+        "min": 1581.07,
+        "median": 2037.4275,
+        "p75": 2220.243,
+        "max": 2973.508
+      }
+    }
+  ],
+  "note": "Frontend smoke on Artize/Natal with existing HTTP fixtures; no live Neon/Render measurements. All 60 samples are retained; earlier experiments remain unchanged.",
+  "rawArchive": "preview-lcp.raw.json.gz",
+  "samples": [
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 1,
+      "lcp": 2164,
+      "cls": 0,
+      "LayoutDuration": 387.679,
+      "TaskDuration": 2075.174,
+      "cpuThrottledMs": 1079.614
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 1,
+      "lcp": 2056,
+      "cls": 0,
+      "LayoutDuration": 260.346,
+      "TaskDuration": 1822.135,
+      "cpuThrottledMs": 1166.099
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 390,
+      "run": 1,
+      "lcp": 1412,
+      "cls": 0,
+      "LayoutDuration": 278.302,
+      "TaskDuration": 1416.409,
+      "cpuThrottledMs": 880.996
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 1,
+      "lcp": 2208,
+      "cls": 0,
+      "LayoutDuration": 254.28400000000002,
+      "TaskDuration": 3057.81,
+      "cpuThrottledMs": 2153.509
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 390,
+      "run": 1,
+      "lcp": 1920,
+      "cls": 0,
+      "LayoutDuration": 429.29,
+      "TaskDuration": 2132.66,
+      "cpuThrottledMs": 791.065
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 1,
+      "lcp": 1264,
+      "cls": 0,
+      "LayoutDuration": 473.16799999999995,
+      "TaskDuration": 2147.203,
+      "cpuThrottledMs": 1322.998
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 1,
+      "lcp": 1384,
+      "cls": 0,
+      "LayoutDuration": 374.59,
+      "TaskDuration": 2633.428,
+      "cpuThrottledMs": 796.282
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 1,
+      "lcp": 988,
+      "cls": 0,
+      "LayoutDuration": 177.225,
+      "TaskDuration": 1510.927,
+      "cpuThrottledMs": 973.475
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 1,
+      "lcp": 800,
+      "cls": 0,
+      "LayoutDuration": 326.75,
+      "TaskDuration": 1660.936,
+      "cpuThrottledMs": 677.13
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 1,
+      "lcp": 856,
+      "cls": 0,
+      "LayoutDuration": 361.469,
+      "TaskDuration": 1663.1670000000001,
+      "cpuThrottledMs": 816.99
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "natal",
+      "width": 390,
+      "run": 1,
+      "lcp": 1520,
+      "cls": 0,
+      "LayoutDuration": 230.921,
+      "TaskDuration": 1605.38,
+      "cpuThrottledMs": 517.854
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "natal",
+      "width": 390,
+      "run": 1,
+      "lcp": 1296,
+      "cls": 0,
+      "LayoutDuration": 224.66400000000002,
+      "TaskDuration": 1568.212,
+      "cpuThrottledMs": 602.37
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "natal",
+      "width": 390,
+      "run": 1,
+      "lcp": 1424,
+      "cls": 0,
+      "LayoutDuration": 170.913,
+      "TaskDuration": 1450.286,
+      "cpuThrottledMs": 586.782
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "natal",
+      "width": 390,
+      "run": 1,
+      "lcp": 1388,
+      "cls": 0,
+      "LayoutDuration": 185.857,
+      "TaskDuration": 1377.616,
+      "cpuThrottledMs": 474.686
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "natal",
+      "width": 390,
+      "run": 1,
+      "lcp": 1424,
+      "cls": 0.0008474074074074074,
+      "LayoutDuration": 243.698,
+      "TaskDuration": 1543.056,
+      "cpuThrottledMs": 527.739
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 1,
+      "lcp": 824,
+      "cls": 0,
+      "LayoutDuration": 139.709,
+      "TaskDuration": 1273.721,
+      "cpuThrottledMs": 685.733
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 1,
+      "lcp": 728,
+      "cls": 0,
+      "LayoutDuration": 222.803,
+      "TaskDuration": 2025.007,
+      "cpuThrottledMs": 484.354
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 1,
+      "lcp": 908,
+      "cls": 0,
+      "LayoutDuration": 311.287,
+      "TaskDuration": 1820.061,
+      "cpuThrottledMs": 817.886
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 1,
+      "lcp": 1264,
+      "cls": 2.9264322916666666e-05,
+      "LayoutDuration": 557.367,
+      "TaskDuration": 2729.38,
+      "cpuThrottledMs": 1550.631
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 1,
+      "lcp": 1912,
+      "cls": 0,
+      "LayoutDuration": 260.93,
+      "TaskDuration": 2463.3129999999996,
+      "cpuThrottledMs": 1363.274
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 390,
+      "run": 2,
+      "lcp": 1496,
+      "cls": 0,
+      "LayoutDuration": 296.13800000000003,
+      "TaskDuration": 2197.344,
+      "cpuThrottledMs": 1377.96
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 2,
+      "lcp": 2612,
+      "cls": 0,
+      "LayoutDuration": 292.753,
+      "TaskDuration": 3068.514,
+      "cpuThrottledMs": 2112.168
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 2,
+      "lcp": 1880,
+      "cls": 0,
+      "LayoutDuration": 254.32,
+      "TaskDuration": 2052.399,
+      "cpuThrottledMs": 1617.912
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 390,
+      "run": 2,
+      "lcp": 544,
+      "cls": 0,
+      "LayoutDuration": 225.67000000000002,
+      "TaskDuration": 1314.7089999999998,
+      "cpuThrottledMs": 651.054
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 2,
+      "lcp": 888,
+      "cls": 0,
+      "LayoutDuration": 258.866,
+      "TaskDuration": 1979.561,
+      "cpuThrottledMs": 834.7
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 2,
+      "lcp": 704,
+      "cls": 0,
+      "LayoutDuration": 419.257,
+      "TaskDuration": 6321.367,
+      "cpuThrottledMs": 3478.841
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 2,
+      "lcp": 944,
+      "cls": 0,
+      "LayoutDuration": 440.28299999999996,
+      "TaskDuration": 2434.864,
+      "cpuThrottledMs": 1456.988
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 2,
+      "lcp": 1020,
+      "cls": 0,
+      "LayoutDuration": 296.65999999999997,
+      "TaskDuration": 1919.876,
+      "cpuThrottledMs": 1484.983
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 2,
+      "lcp": 824,
+      "cls": 0,
+      "LayoutDuration": 399.935,
+      "TaskDuration": 2575.7870000000003,
+      "cpuThrottledMs": 1118.559
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 2,
+      "lcp": 876,
+      "cls": 0,
+      "LayoutDuration": 439.88300000000004,
+      "TaskDuration": 2049.848,
+      "cpuThrottledMs": 959.389
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "natal",
+      "width": 390,
+      "run": 2,
+      "lcp": 1404,
+      "cls": 0,
+      "LayoutDuration": 226.28,
+      "TaskDuration": 1530.193,
+      "cpuThrottledMs": 952.755
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "natal",
+      "width": 390,
+      "run": 2,
+      "lcp": 2268,
+      "cls": 0,
+      "LayoutDuration": 255.346,
+      "TaskDuration": 2511.511,
+      "cpuThrottledMs": 1527.28
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "natal",
+      "width": 390,
+      "run": 2,
+      "lcp": 2296,
+      "cls": 0,
+      "LayoutDuration": 292.58299999999997,
+      "TaskDuration": 2334.526,
+      "cpuThrottledMs": 1458.964
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "natal",
+      "width": 390,
+      "run": 2,
+      "lcp": 1568,
+      "cls": 0,
+      "LayoutDuration": 474.498,
+      "TaskDuration": 2078.8920000000003,
+      "cpuThrottledMs": 698.224
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "natal",
+      "width": 390,
+      "run": 2,
+      "lcp": 2012,
+      "cls": 0,
+      "LayoutDuration": 361.262,
+      "TaskDuration": 1996.354,
+      "cpuThrottledMs": 1905.268
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 2,
+      "lcp": 808,
+      "cls": 0,
+      "LayoutDuration": 195.138,
+      "TaskDuration": 1613.6870000000001,
+      "cpuThrottledMs": 507.211
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 2,
+      "lcp": 1008,
+      "cls": 0,
+      "LayoutDuration": 134.97799999999998,
+      "TaskDuration": 1671.171,
+      "cpuThrottledMs": 558.863
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 2,
+      "lcp": 928,
+      "cls": 0,
+      "LayoutDuration": 409.282,
+      "TaskDuration": 2973.508,
+      "cpuThrottledMs": 709.867
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 2,
+      "lcp": 1172,
+      "cls": 2.9264322916666666e-05,
+      "LayoutDuration": 497.252,
+      "TaskDuration": 3258.228,
+      "cpuThrottledMs": 736.59
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 2,
+      "lcp": 924,
+      "cls": 0,
+      "LayoutDuration": 338.711,
+      "TaskDuration": 1581.15,
+      "cpuThrottledMs": 954.75
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 3,
+      "lcp": 1928,
+      "cls": 0,
+      "LayoutDuration": 333.856,
+      "TaskDuration": 1821.016,
+      "cpuThrottledMs": 916.221
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 390,
+      "run": 3,
+      "lcp": 1300,
+      "cls": 0,
+      "LayoutDuration": 557.8340000000001,
+      "TaskDuration": 3248.155,
+      "cpuThrottledMs": 666.044
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 3,
+      "lcp": 1504,
+      "cls": 0,
+      "LayoutDuration": 300.03499999999997,
+      "TaskDuration": 1506.439,
+      "cpuThrottledMs": 898.398
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "artize",
+      "width": 390,
+      "run": 3,
+      "lcp": 764,
+      "cls": 0,
+      "LayoutDuration": 214.117,
+      "TaskDuration": 1395.1789999999999,
+      "cpuThrottledMs": 678.232
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 390,
+      "run": 3,
+      "lcp": 2232,
+      "cls": 0,
+      "LayoutDuration": 765.9019999999999,
+      "TaskDuration": 2334.6,
+      "cpuThrottledMs": 1727.374
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 3,
+      "lcp": 1168,
+      "cls": 0,
+      "LayoutDuration": 485.914,
+      "TaskDuration": 2220.243,
+      "cpuThrottledMs": 1254.489
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 3,
+      "lcp": 724,
+      "cls": 0,
+      "LayoutDuration": 199.943,
+      "TaskDuration": 1288.705,
+      "cpuThrottledMs": 788.646
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 3,
+      "lcp": 800,
+      "cls": 0,
+      "LayoutDuration": 251.87500000000003,
+      "TaskDuration": 1604.681,
+      "cpuThrottledMs": 637.771
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 3,
+      "lcp": 792,
+      "cls": 0,
+      "LayoutDuration": 204.208,
+      "TaskDuration": 1494.0819999999999,
+      "cpuThrottledMs": 505.324
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "artize",
+      "width": 1440,
+      "run": 3,
+      "lcp": 1168,
+      "cls": 0,
+      "LayoutDuration": 508.15500000000003,
+      "TaskDuration": 1682.69,
+      "cpuThrottledMs": 684.072
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "natal",
+      "width": 390,
+      "run": 3,
+      "lcp": 1444,
+      "cls": 0,
+      "LayoutDuration": 356.407,
+      "TaskDuration": 1597.3120000000001,
+      "cpuThrottledMs": 1145.779
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "natal",
+      "width": 390,
+      "run": 3,
+      "lcp": 1324,
+      "cls": 0,
+      "LayoutDuration": 160.679,
+      "TaskDuration": 1347.4660000000001,
+      "cpuThrottledMs": 477.763
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "natal",
+      "width": 390,
+      "run": 3,
+      "lcp": 1288,
+      "cls": 0,
+      "LayoutDuration": 134.58999999999997,
+      "TaskDuration": 1840.346,
+      "cpuThrottledMs": 717.1
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "natal",
+      "width": 390,
+      "run": 3,
+      "lcp": 1224,
+      "cls": 4.961538461538461e-05,
+      "LayoutDuration": 271.685,
+      "TaskDuration": 1472.638,
+      "cpuThrottledMs": 674.334
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "natal",
+      "width": 390,
+      "run": 3,
+      "lcp": 2268,
+      "cls": 4.961538461538461e-05,
+      "LayoutDuration": 403.324,
+      "TaskDuration": 2254.07,
+      "cpuThrottledMs": 836.982
+    },
+    {
+      "build": "before",
+      "look": "original",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 3,
+      "lcp": 828,
+      "cls": 0,
+      "LayoutDuration": 240.10899999999998,
+      "TaskDuration": 1461.2289999999998,
+      "cpuThrottledMs": 458.148
+    },
+    {
+      "build": "before",
+      "look": "premium",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 3,
+      "lcp": 760,
+      "cls": 0,
+      "LayoutDuration": 196.71800000000002,
+      "TaskDuration": 1536.631,
+      "cpuThrottledMs": 409.068
+    },
+    {
+      "build": "after",
+      "look": "original",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 3,
+      "lcp": 776,
+      "cls": 0,
+      "LayoutDuration": 241.22299999999998,
+      "TaskDuration": 1400.096,
+      "cpuThrottledMs": 793.402
+    },
+    {
+      "build": "after",
+      "look": "premium",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 3,
+      "lcp": 828,
+      "cls": 0,
+      "LayoutDuration": 277.588,
+      "TaskDuration": 1581.07,
+      "cpuThrottledMs": 736.575
+    },
+    {
+      "build": "baseline",
+      "look": "original",
+      "themeId": "natal",
+      "width": 1440,
+      "run": 3,
+      "lcp": 752,
+      "cls": 0,
+      "LayoutDuration": 184.401,
+      "TaskDuration": 1489.325,
+      "cpuThrottledMs": 458.385
+    }
+  ]
+}

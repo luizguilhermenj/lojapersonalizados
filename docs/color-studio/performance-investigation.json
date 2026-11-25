@@ -1,0 +1,2266 @@
+{
+  "historicalExtreme": {
+    "themeId": "natal",
+    "mode": "premium",
+    "width": 390,
+    "run": 1,
+    "lcp": 9164,
+    "cls": 0,
+    "longTasks": 3,
+    "heroHeight": 220,
+    "productTop": 819.15625,
+    "LayoutDuration": 8009.349,
+    "RecalcStyleDuration": 211.324,
+    "ScriptDuration": 165.686,
+    "TaskDuration": 9995.163,
+    "decodedBytes": 84237
+  },
+  "historicalTraceAvailable": false,
+  "historicalConclusion": "No trace/cgroup/resource attribution was captured then; exact retrospective cause is unknown. Observation remains included in the historical data.",
+  "archives": [
+    {
+      "experiment": "controlled-final",
+      "samples": 120,
+      "path": "controlled-final.raw.json.gz",
+      "sha256": "b9a0bb904b821ca38899013f92e7e7d7ca1177dc8291bfefa105bdde93f29a51"
+    },
+    {
+      "experiment": "glow-final",
+      "samples": 30,
+      "path": "glow-final.raw.json.gz",
+      "sha256": "14b938646db0260e6d5750c0f47e0536e025a7a226db6c68da66b7cf6ce7c2e1"
+    },
+    {
+      "experiment": "controlled-intermediate",
+      "samples": 120,
+      "path": "controlled-intermediate.raw.json.gz",
+      "sha256": "8caaedfa2e2edb70fa5b8b8bb77c5338f72c7d134111164178488dca037ec6a2"
+    },
+    {
+      "experiment": "glow-intermediate",
+      "samples": 30,
+      "path": "glow-intermediate.raw.json.gz",
+      "sha256": "66d394693f29f98c2fa27de2f7cc2fc2048fa58c0e0f69909e6720fa1be9c56d"
+    },
+    {
+      "experiment": "pilot",
+      "samples": 5,
+      "path": "pilot.raw.json.gz",
+      "sha256": "c54ec61617ebb6e1f0d2e991d3ed8cb66b616effb45e2d649eb13b78d4f68a7a"
+    }
+  ],
+  "newExtremes": [
+    {
+      "experiment": "controlled-intermediate",
+      "sample": {
+        "build": "before",
+        "look": "premium",
+        "themeId": "dia-das-maes",
+        "width": 390,
+        "run": 1,
+        "order": 1,
+        "lcp": 5220,
+        "lcpEntries": [
+          {
+            "time": 1184,
+            "loadTime": 0,
+            "renderTime": 1184,
+            "url": "",
+            "size": 5192
+          },
+          {
+            "time": 1492,
+            "loadTime": 1238.6000000000931,
+            "renderTime": 1492,
+            "url": "/img/visual/hero-caneca.svg",
+            "tag": "IMG",
+            "className": "hero-product",
+            "size": 9216
+          },
+          {
+            "time": 5220,
+            "loadTime": 4139.5,
+            "renderTime": 5220,
+            "url": "/img/products/caneca-chopp.svg",
+            "tag": "IMG",
+            "className": "",
+            "size": 13653
+          }
+        ],
+        "cls": 0.005796771130104464,
+        "themeAt": 2951.7000000001863,
+        "productsAt": 3149.899999999907,
+        "longTasks": [
+          {
+            "start": 1481,
+            "duration": 145
+          },
+          {
+            "start": 1747.2999999998137,
+            "duration": 1023
+          },
+          {
+            "start": 2957.2000000001863,
+            "duration": 198
+          },
+          {
+            "start": 3182.7999999998137,
+            "duration": 581
+          },
+          {
+            "start": 5701.799999999814,
+            "duration": 141
+          }
+        ],
+        "resources": [
+          {
+            "name": "/css/tokens.css",
+            "bytes": 1060,
+            "start": 164.70000000018626,
+            "duration": 14.899999999906868,
+            "end": 179.60000000009313
+          },
+          {
+            "name": "/css/base.css",
+            "bytes": 2204,
+            "start": 165.20000000018626,
+            "duration": 14.599999999627471,
+            "end": 179.79999999981374
+          },
+          {
+            "name": "/css/components.css",
+            "bytes": 8080,
+            "start": 165.29999999981374,
+            "duration": 17.200000000186265,
+            "end": 182.5
+          },
+          {
+            "name": "/css/home.css",
+            "bytes": 3465,
+            "start": 165.60000000009313,
+            "duration": 19.100000000093132,
+            "end": 184.70000000018626
+          },
+          {
+            "name": "/css/hero-carousel.css",
+            "bytes": 4989,
+            "start": 166.79999999981374,
+            "duration": 20.5,
+            "end": 187.29999999981374
+          },
+          {
+            "name": "/css/themes.css",
+            "bytes": 12069,
+            "start": 184.29999999981374,
+            "duration": 11.400000000372529,
+            "end": 195.70000000018626
+          },
+          {
+            "name": "/js/themes.js",
+            "bytes": 5072,
+            "start": 189.89999999990687,
+            "duration": 14.100000000093132,
+            "end": 204
+          },
+          {
+            "name": "/img/visual/hero-caneca.svg",
+            "bytes": 553,
+            "start": 202.5,
+            "duration": 12.799999999813735,
+            "end": 215.29999999981374
+          },
+          {
+            "name": "/js/app.js",
+            "bytes": 3219,
+            "start": 208.39999999990687,
+            "duration": 13.899999999906868,
+            "end": 222.29999999981374
+          },
+          {
+            "name": "/js/home.js",
+            "bytes": 4939,
+            "start": 208.60000000009313,
+            "duration": 13.799999999813735,
+            "end": 222.39999999990687
+          },
+          {
+            "name": "/js/color-studio.js",
+            "bytes": 5760,
+            "start": 388,
+            "duration": 13.799999999813735,
+            "end": 401.79999999981374
+          },
+          {
+            "name": "/js/hero-carousel.js",
+            "bytes": 8082,
+            "start": 388.20000000018626,
+            "duration": 13.799999999813735,
+            "end": 402
+          },
+          {
+            "name": "/js/seasonal-effects.js",
+            "bytes": 3756,
+            "start": 388.29999999981374,
+            "duration": 13.700000000186265,
+            "end": 402
+          },
+          {
+            "name": "/js/navigation.js",
+            "bytes": 2994,
+            "start": 399.20000000018626,
+            "duration": 93.6999999997206,
+            "end": 492.89999999990687
+          },
+          {
+            "name": "/js/hero-content.js",
+            "bytes": 2351,
+            "start": 1442.8999999999069,
+            "duration": 28.5,
+            "end": 1471.3999999999069
+          },
+          {
+            "name": "/api/theme",
+            "bytes": 1125,
+            "start": 1616,
+            "duration": 13.700000000186265,
+            "end": 1629.7000000001863
+          },
+          {
+            "name": "/api/products",
+            "bytes": 3079,
+            "start": 1995.3999999999069,
+            "duration": 72.70000000018626,
+            "end": 2068.100000000093
+          },
+          {
+            "name": "/img/themes/dia-das-maes.svg",
+            "bytes": 916,
+            "start": 2953.2999999998137,
+            "duration": 12,
+            "end": 2965.2999999998137
+          },
+          {
+            "name": "/img/products/caneca-chopp.svg",
+            "bytes": 1149,
+            "start": 3153.100000000093,
+            "duration": 12.799999999813735,
+            "end": 3165.899999999907
+          },
+          {
+            "name": "/img/products/caneca-ceramica.svg",
+            "bytes": 1162,
+            "start": 3153.7999999998137,
+            "duration": 12.400000000372529,
+            "end": 3166.2000000001863
+          },
+          {
+            "name": "/img/products/caneca-vidro-transparente.svg",
+            "bytes": 1181,
+            "start": 5196.899999999907,
+            "duration": 25.200000000186265,
+            "end": 5222.100000000093
+          },
+          {
+            "name": "/img/products/caneca-vidro-fosco.svg",
+            "bytes": 1169,
+            "start": 5200,
+            "duration": 23.399999999906868,
+            "end": 5223.399999999907
+          },
+          {
+            "name": "/img/products/caneca-plastico.svg",
+            "bytes": 1163,
+            "start": 5200.5,
+            "duration": 27.899999999906868,
+            "end": 5228.399999999907
+          },
+          {
+            "name": "/img/products/relogio-azulejo.svg",
+            "bytes": 1163,
+            "start": 5200.600000000093,
+            "duration": 27.899999999906868,
+            "end": 5228.5
+          },
+          {
+            "name": "/img/products/camiseta.svg",
+            "bytes": 1169,
+            "start": 5200.700000000186,
+            "duration": 28,
+            "end": 5228.700000000186
+          },
+          {
+            "name": "/img/products/porta-retrato-azulejo.svg",
+            "bytes": 1176,
+            "start": 5200.899999999907,
+            "duration": 32.8000000002794,
+            "end": 5233.700000000186
+          }
+        ],
+        "webFonts": [],
+        "heroHeight": 220,
+        "heroGlow": "none",
+        "LayoutCount": 7,
+        "LayoutDuration": 1631.395,
+        "RecalcStyleDuration": 484.45,
+        "ScriptDuration": 438.07800000000003,
+        "TaskDuration": 5848.9890000000005,
+        "cpuThrottledMs": 2766.723,
+        "errors": [],
+        "trace": "trace-31-before-premium-dia-das-maes-390.json.gz",
+        "traceLayouts": [
+          {
+            "durationMs": 768.19,
+            "frame": "B6741E9AEF079E8B2235D369A0021F85",
+            "dirtyObjects": 253,
+            "roots": [
+              {
+                "depth": 1,
+                "nodeId": 3,
+                "nodeName": "#document",
+                "quads": [
+                  [
+                    0,
+                    0,
+                    390,
+                    0,
+                    390,
+                    900,
+                    0,
+                    900
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "durationMs": 630.073,
+            "frame": "B6741E9AEF079E8B2235D369A0021F85",
+            "dirtyObjects": 44,
+            "roots": [
+              {
+                "depth": 1,
+                "nodeId": 3,
+                "nodeName": "#document",
+                "quads": [
+                  [
+                    0,
+                    0,
+                    390,
+                    0,
+                    390,
+                    900,
+                    0,
+                    900
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "durationMs": 322.181,
+            "frame": "48BEC81809576C25B24A36800061278B",
+            "dirtyObjects": 16,
+            "roots": [
+              {
+                "depth": 1,
+                "nodeId": 16,
+                "nodeName": "#document",
+                "quads": [
+                  [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "retainedTrace": "traces/controlled-intermediate-trace-31-before-premium-dia-das-maes-390.json.gz"
+    },
+    {
+      "experiment": "controlled-intermediate",
+      "sample": {
+        "build": "after",
+        "look": "original",
+        "themeId": "artize",
+        "width": 1440,
+        "run": 3,
+        "order": 1,
+        "lcp": 912,
+        "lcpEntries": [
+          {
+            "time": 912,
+            "loadTime": 424.09999999962747,
+            "renderTime": 912,
+            "url": "/img/visual/hero-caneca.svg",
+            "tag": "IMG",
+            "className": "hero-product",
+            "size": 52900
+          }
+        ],
+        "cls": 0,
+        "themeAt": 1405.7999999998137,
+        "productsAt": 1980.5999999996275,
+        "longTasks": [
+          {
+            "start": 930.1999999997206,
+            "duration": 154
+          },
+          {
+            "start": 1406,
+            "duration": 579
+          },
+          {
+            "start": 2058.2999999998137,
+            "duration": 58
+          },
+          {
+            "start": 2151.7999999998137,
+            "duration": 53
+          },
+          {
+            "start": 2211.0999999996275,
+            "duration": 3150
+          },
+          {
+            "start": 10907.899999999907,
+            "duration": 57
+          }
+        ],
+        "resources": [
+          {
+            "name": "/css/tokens.css",
+            "bytes": 1060,
+            "start": 160.5,
+            "duration": 14.899999999906868,
+            "end": 175.39999999990687
+          },
+          {
+            "name": "/css/base.css",
+            "bytes": 2204,
+            "start": 160.89999999990687,
+            "duration": 38,
+            "end": 198.89999999990687
+          },
+          {
+            "name": "/css/components.css",
+            "bytes": 8080,
+            "start": 160.89999999990687,
+            "duration": 39.5,
+            "end": 200.39999999990687
+          },
+          {
+            "name": "/css/hero-carousel.css",
+            "bytes": 4989,
+            "start": 161.09999999962747,
+            "duration": 49.5,
+            "end": 210.59999999962747
+          },
+          {
+            "name": "/css/home.css",
+            "bytes": 3465,
+            "start": 161.09999999962747,
+            "duration": 50.200000000186265,
+            "end": 211.29999999981374
+          },
+          {
+            "name": "/css/themes.css",
+            "bytes": 8661,
+            "start": 161.1999999997206,
+            "duration": 50,
+            "end": 211.1999999997206
+          },
+          {
+            "name": "/js/app.js",
+            "bytes": 3219,
+            "start": 161.29999999981374,
+            "duration": 50.200000000186265,
+            "end": 211.5
+          },
+          {
+            "name": "/js/hero-carousel.js",
+            "bytes": 8082,
+            "start": 161.29999999981374,
+            "duration": 91.10000000009313,
+            "end": 252.39999999990687
+          },
+          {
+            "name": "/js/hero-content.js",
+            "bytes": 2351,
+            "start": 161.89999999990687,
+            "duration": 93.5,
+            "end": 255.39999999990687
+          },
+          {
+            "name": "/js/themes.js",
+            "bytes": 5880,
+            "start": 162.29999999981374,
+            "duration": 93.60000000009313,
+            "end": 255.89999999990687
+          },
+          {
+            "name": "/img/visual/hero-caneca.svg",
+            "bytes": 553,
+            "start": 162.39999999990687,
+            "duration": 93.29999999981374,
+            "end": 255.6999999997206
+          },
+          {
+            "name": "/js/home.js",
+            "bytes": 4988,
+            "start": 162.59999999962747,
+            "duration": 95,
+            "end": 257.59999999962747
+          },
+          {
+            "name": "/js/color-studio.js",
+            "bytes": 5760,
+            "start": 371.79999999981374,
+            "duration": 10,
+            "end": 381.79999999981374
+          },
+          {
+            "name": "/js/seasonal-effects.js",
+            "bytes": 3756,
+            "start": 372.59999999962747,
+            "duration": 9.800000000279397,
+            "end": 382.39999999990687
+          },
+          {
+            "name": "/js/navigation.js",
+            "bytes": 2994,
+            "start": 855.7999999998137,
+            "duration": 17.299999999813735,
+            "end": 873.0999999996275
+          },
+          {
+            "name": "/api/theme",
+            "bytes": 160,
+            "start": 929.0999999996275,
+            "duration": 26.40000000037253,
+            "end": 955.5
+          },
+          {
+            "name": "/api/products",
+            "bytes": 3079,
+            "start": 992.0999999996275,
+            "duration": 8.400000000372529,
+            "end": 1000.5
+          },
+          {
+            "name": "/img/products/caneca-chopp.svg",
+            "bytes": 1149,
+            "start": 1982.2999999998137,
+            "duration": 13.399999999906868,
+            "end": 1995.6999999997206
+          },
+          {
+            "name": "/img/products/caneca-ceramica.svg",
+            "bytes": 1162,
+            "start": 1982.3999999999069,
+            "duration": 13.799999999813735,
+            "end": 1996.1999999997206
+          },
+          {
+            "name": "/img/products/caneca-vidro-transparente.svg",
+            "bytes": 1181,
+            "start": 2051.0999999996275,
+            "duration": 13.600000000093132,
+            "end": 2064.6999999997206
+          },
+          {
+            "name": "/img/products/caneca-vidro-fosco.svg",
+            "bytes": 1169,
+            "start": 2052.899999999907,
+            "duration": 23.299999999813735,
+            "end": 2076.1999999997206
+          },
+          {
+            "name": "/img/products/caneca-plastico.svg",
+            "bytes": 1163,
+            "start": 2053.6999999997206,
+            "duration": 26.399999999906868,
+            "end": 2080.0999999996275
+          },
+          {
+            "name": "/img/products/relogio-azulejo.svg",
+            "bytes": 1163,
+            "start": 2054.899999999907,
+            "duration": 27.100000000093132,
+            "end": 2082
+          },
+          {
+            "name": "/img/products/camiseta.svg",
+            "bytes": 1169,
+            "start": 2056.1999999997206,
+            "duration": 26.100000000093132,
+            "end": 2082.2999999998137
+          },
+          {
+            "name": "/img/products/porta-retrato-azulejo.svg",
+            "bytes": 1176,
+            "start": 2056.399999999907,
+            "duration": 29.399999999906868,
+            "end": 2085.7999999998137
+          },
+          {
+            "name": "/img/products/squeeze-aluminio.svg",
+            "bytes": 1165,
+            "start": 2057.2999999998137,
+            "duration": 31.100000000093132,
+            "end": 2088.399999999907
+          },
+          {
+            "name": "/img/products/squeeze-termico.svg",
+            "bytes": 1157,
+            "start": 2058.2999999998137,
+            "duration": 35.89999999990687,
+            "end": 2094.1999999997206
+          }
+        ],
+        "webFonts": [],
+        "heroHeight": 380,
+        "heroGlow": "none",
+        "LayoutCount": 6,
+        "LayoutDuration": 1916.74,
+        "RecalcStyleDuration": 87.229,
+        "ScriptDuration": 113.095,
+        "TaskDuration": 16595,
+        "cpuThrottledMs": 16816.335,
+        "errors": [],
+        "trace": "trace-86-after-original-artize-1440.json.gz",
+        "traceLayouts": [
+          {
+            "durationMs": 2001.417,
+            "frame": "547D4A6A2F987147EC92C51FCA34537B",
+            "dirtyObjects": 16,
+            "roots": [
+              {
+                "depth": 1,
+                "nodeId": 18,
+                "nodeName": "#document",
+                "quads": [
+                  [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "durationMs": 1610.139,
+            "frame": "F8924D9FECDAAE940173C561923BD613",
+            "dirtyObjects": 2,
+            "roots": [
+              {
+                "depth": 1,
+                "nodeId": 14,
+                "nodeName": "#document",
+                "quads": [
+                  [
+                    0,
+                    0,
+                    293,
+                    0,
+                    293,
+                    293,
+                    0,
+                    293
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "durationMs": 818.844,
+            "frame": "8CF39A1CE534E46121EE4471BE1BEC4E",
+            "dirtyObjects": 16,
+            "roots": [
+              {
+                "depth": 1,
+                "nodeId": 3,
+                "nodeName": "#document",
+                "quads": [
+                  [
+                    0,
+                    0,
+                    1440,
+                    0,
+                    1440,
+                    900,
+                    0,
+                    900
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "retainedTrace": "traces/controlled-intermediate-trace-86-after-original-artize-1440.json.gz"
+    },
+    {
+      "experiment": "controlled-final",
+      "sample": {
+        "build": "after",
+        "look": "original",
+        "themeId": "natal",
+        "width": 390,
+        "run": 1,
+        "order": 1,
+        "lcp": 5004,
+        "lcpEntries": [
+          {
+            "time": 940,
+            "loadTime": 0,
+            "renderTime": 940,
+            "url": "",
+            "size": 5192
+          },
+          {
+            "time": 1108,
+            "loadTime": 1061.1999999997206,
+            "renderTime": 1108,
+            "url": "/img/visual/hero-caneca.svg",
+            "tag": "IMG",
+            "className": "hero-product",
+            "size": 9216
+          },
+          {
+            "time": 5004,
+            "loadTime": 4855.199999999721,
+            "renderTime": 5004,
+            "url": "/img/products/caneca-chopp.svg",
+            "tag": "IMG",
+            "className": "",
+            "size": 13653
+          }
+        ],
+        "cls": 0,
+        "themeAt": 2749.7999999998137,
+        "productsAt": 4789.899999999907,
+        "longTasks": [
+          {
+            "start": 496.5,
+            "duration": 77
+          },
+          {
+            "start": 905.6999999997206,
+            "duration": 72
+          },
+          {
+            "start": 985.8999999999069,
+            "duration": 58
+          },
+          {
+            "start": 1070,
+            "duration": 172
+          },
+          {
+            "start": 2056.6999999997206,
+            "duration": 64
+          },
+          {
+            "start": 2306,
+            "duration": 167
+          },
+          {
+            "start": 2497.1999999997206,
+            "duration": 80
+          },
+          {
+            "start": 2689.2999999998137,
+            "duration": 71
+          },
+          {
+            "start": 3821.899999999907,
+            "duration": 984
+          }
+        ],
+        "resources": [
+          {
+            "name": "/css/tokens.css",
+            "bytes": 1060,
+            "start": 199.79999999981374,
+            "duration": 24.5,
+            "end": 224.29999999981374
+          },
+          {
+            "name": "/css/base.css",
+            "bytes": 2204,
+            "start": 213.6999999997206,
+            "duration": 50.5,
+            "end": 264.1999999997206
+          },
+          {
+            "name": "/css/components.css",
+            "bytes": 8080,
+            "start": 219.59999999962747,
+            "duration": 50.40000000037253,
+            "end": 270
+          },
+          {
+            "name": "/css/home.css",
+            "bytes": 3465,
+            "start": 225.09999999962747,
+            "duration": 47.8000000002794,
+            "end": 272.89999999990687
+          },
+          {
+            "name": "/css/hero-carousel.css",
+            "bytes": 4989,
+            "start": 261.39999999990687,
+            "duration": 11.799999999813735,
+            "end": 273.1999999997206
+          },
+          {
+            "name": "/css/themes.css",
+            "bytes": 8727,
+            "start": 274.39999999990687,
+            "duration": 5.899999999906868,
+            "end": 280.29999999981374
+          },
+          {
+            "name": "/js/app.js",
+            "bytes": 3219,
+            "start": 284.09999999962747,
+            "duration": 10.400000000372529,
+            "end": 294.5
+          },
+          {
+            "name": "/js/hero-carousel.js",
+            "bytes": 8082,
+            "start": 284.6999999997206,
+            "duration": 14.700000000186265,
+            "end": 299.39999999990687
+          },
+          {
+            "name": "/js/hero-content.js",
+            "bytes": 2351,
+            "start": 287.89999999990687,
+            "duration": 11.299999999813735,
+            "end": 299.1999999997206
+          },
+          {
+            "name": "/js/themes.js",
+            "bytes": 5880,
+            "start": 295.39999999990687,
+            "duration": 12.799999999813735,
+            "end": 308.1999999997206
+          },
+          {
+            "name": "/img/visual/hero-caneca.svg",
+            "bytes": 553,
+            "start": 298.79999999981374,
+            "duration": 13.799999999813735,
+            "end": 312.59999999962747
+          },
+          {
+            "name": "/js/home.js",
+            "bytes": 5034,
+            "start": 313.1999999997206,
+            "duration": 5,
+            "end": 318.1999999997206
+          },
+          {
+            "name": "/js/color-studio.js",
+            "bytes": 5760,
+            "start": 585.8999999999069,
+            "duration": 14,
+            "end": 599.8999999999069
+          },
+          {
+            "name": "/js/seasonal-effects.js",
+            "bytes": 3756,
+            "start": 587,
+            "duration": 13.5,
+            "end": 600.5
+          },
+          {
+            "name": "/js/navigation.js",
+            "bytes": 2994,
+            "start": 605.2999999998137,
+            "duration": 5.7000000001862645,
+            "end": 611
+          },
+          {
+            "name": "/api/theme",
+            "bytes": 995,
+            "start": 1236.5,
+            "duration": 35.89999999990687,
+            "end": 1272.3999999999069
+          },
+          {
+            "name": "/api/products",
+            "bytes": 3079,
+            "start": 2541.399999999907,
+            "duration": 9.799999999813735,
+            "end": 2551.1999999997206
+          },
+          {
+            "name": "/img/themes/natal.svg",
+            "bytes": 2016,
+            "start": 2760.399999999907,
+            "duration": 18,
+            "end": 2778.399999999907
+          },
+          {
+            "name": "/img/products/caneca-chopp.svg",
+            "bytes": 1149,
+            "start": 4796.5,
+            "duration": 12.399999999906868,
+            "end": 4808.899999999907
+          },
+          {
+            "name": "/img/products/caneca-ceramica.svg",
+            "bytes": 1162,
+            "start": 4799.199999999721,
+            "duration": 10.399999999906868,
+            "end": 4809.5999999996275
+          },
+          {
+            "name": "/img/products/caneca-vidro-transparente.svg",
+            "bytes": 1181,
+            "start": 4948.399999999907,
+            "duration": 70,
+            "end": 5018.399999999907
+          },
+          {
+            "name": "/img/products/caneca-vidro-fosco.svg",
+            "bytes": 1169,
+            "start": 4951.899999999907,
+            "duration": 67.10000000009313,
+            "end": 5019
+          },
+          {
+            "name": "/img/products/caneca-plastico.svg",
+            "bytes": 1163,
+            "start": 4952.0999999996275,
+            "duration": 66.70000000018626,
+            "end": 5018.799999999814
+          },
+          {
+            "name": "/img/products/relogio-azulejo.svg",
+            "bytes": 1163,
+            "start": 4952.699999999721,
+            "duration": 66.60000000009313,
+            "end": 5019.299999999814
+          },
+          {
+            "name": "/img/products/camiseta.svg",
+            "bytes": 1169,
+            "start": 4952.699999999721,
+            "duration": 67,
+            "end": 5019.699999999721
+          },
+          {
+            "name": "/img/products/porta-retrato-azulejo.svg",
+            "bytes": 1176,
+            "start": 4953.199999999721,
+            "duration": 66.8000000002794,
+            "end": 5020
+          }
+        ],
+        "webFonts": [],
+        "heroHeight": 220,
+        "heroGlow": "none",
+        "LayoutCount": 8,
+        "LayoutDuration": 721.425,
+        "RecalcStyleDuration": 455.01000000000005,
+        "ScriptDuration": 233.56199999999998,
+        "TaskDuration": 5102.505,
+        "cpuThrottledMs": 1637.074,
+        "errors": [],
+        "trace": "trace-11-after-original-natal-390.json.gz",
+        "traceLayouts": [
+          {
+            "durationMs": 393.61,
+            "frame": "FC3C2815FB1C60E13B6FE234B5E59145",
+            "dirtyObjects": 157,
+            "roots": [
+              {
+                "depth": 1,
+                "nodeId": 3,
+                "nodeName": "#document",
+                "quads": [
+                  [
+                    0,
+                    0,
+                    390,
+                    0,
+                    390,
+                    900,
+                    0,
+                    900
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "durationMs": 221.784,
+            "frame": "FC3C2815FB1C60E13B6FE234B5E59145",
+            "dirtyObjects": 58,
+            "roots": [
+              {
+                "depth": 1,
+                "nodeId": 3,
+                "nodeName": "#document",
+                "quads": [
+                  [
+                    0,
+                    0,
+                    390,
+                    0,
+                    390,
+                    900,
+                    0,
+                    900
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "durationMs": 47.127,
+            "frame": "FC3C2815FB1C60E13B6FE234B5E59145",
+            "dirtyObjects": 43,
+            "roots": [
+              {
+                "depth": 1,
+                "nodeId": 3,
+                "nodeName": "#document",
+                "quads": [
+                  [
+                    0,
+                    0,
+                    390,
+                    0,
+                    390,
+                    900,
+                    0,
+                    900
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "retainedTrace": "traces/controlled-final-trace-11-after-original-natal-390.json.gz"
+    },
+    {
+      "experiment": "controlled-final-desktop",
+      "sample": {
+        "build": "after",
+        "look": "original",
+        "themeId": "natal",
+        "width": 1440,
+        "run": 2,
+        "order": 2,
+        "lcp": 2788,
+        "lcpEntries": [
+          {
+            "time": 1980,
+            "loadTime": 0,
+            "renderTime": 1980,
+            "url": "",
+            "tag": "SMALL",
+            "className": "",
+            "size": 2516
+          },
+          {
+            "time": 2788,
+            "loadTime": 2143.6999999997206,
+            "renderTime": 2788,
+            "url": "/img/visual/hero-caneca.svg",
+            "tag": "IMG",
+            "className": "hero-product",
+            "size": 52900
+          }
+        ],
+        "cls": 2.9264322916666666e-05,
+        "themeAt": 3218.100000000093,
+        "productsAt": 4637.699999999721,
+        "longTasks": [
+          {
+            "start": 1362.6999999997206,
+            "duration": 84
+          },
+          {
+            "start": 2596.7999999998137,
+            "duration": 89
+          },
+          {
+            "start": 2710.7999999998137,
+            "duration": 206
+          },
+          {
+            "start": 3151,
+            "duration": 75
+          },
+          {
+            "start": 3958.5,
+            "duration": 132
+          },
+          {
+            "start": 4222.799999999814,
+            "duration": 431
+          },
+          {
+            "start": 4653.799999999814,
+            "duration": 150
+          },
+          {
+            "start": 4807.799999999814,
+            "duration": 63
+          },
+          {
+            "start": 5547.100000000093,
+            "duration": 106
+          },
+          {
+            "start": 5667.399999999907,
+            "duration": 121
+          },
+          {
+            "start": 5809.699999999721,
+            "duration": 71
+          },
+          {
+            "start": 5885,
+            "duration": 177
+          },
+          {
+            "start": 6063.899999999907,
+            "duration": 51
+          },
+          {
+            "start": 6133.699999999721,
+            "duration": 52
+          },
+          {
+            "start": 6344.199999999721,
+            "duration": 60
+          },
+          {
+            "start": 6408.699999999721,
+            "duration": 53
+          }
+        ],
+        "resources": [
+          {
+            "name": "/css/tokens.css",
+            "bytes": 1060,
+            "start": 719.5,
+            "duration": 179.5,
+            "end": 899
+          },
+          {
+            "name": "/css/base.css",
+            "bytes": 2204,
+            "start": 734.6000000000931,
+            "duration": 261.29999999981374,
+            "end": 995.8999999999069
+          },
+          {
+            "name": "/css/components.css",
+            "bytes": 8080,
+            "start": 734.7999999998137,
+            "duration": 293.10000000009313,
+            "end": 1027.8999999999069
+          },
+          {
+            "name": "/css/home.css",
+            "bytes": 3465,
+            "start": 740.8999999999069,
+            "duration": 285.20000000018626,
+            "end": 1026.1000000000931
+          },
+          {
+            "name": "/css/hero-carousel.css",
+            "bytes": 4989,
+            "start": 742.5,
+            "duration": 334.29999999981374,
+            "end": 1076.7999999998137
+          },
+          {
+            "name": "/css/themes.css",
+            "bytes": 8727,
+            "start": 742.5,
+            "duration": 334.39999999990687,
+            "end": 1076.8999999999069
+          },
+          {
+            "name": "/js/app.js",
+            "bytes": 3219,
+            "start": 742.6000000000931,
+            "duration": 334.6999999997206,
+            "end": 1077.2999999998137
+          },
+          {
+            "name": "/js/hero-carousel.js",
+            "bytes": 8082,
+            "start": 742.6999999997206,
+            "duration": 365.20000000018626,
+            "end": 1107.8999999999069
+          },
+          {
+            "name": "/js/hero-content.js",
+            "bytes": 2351,
+            "start": 742.7999999998137,
+            "duration": 364.70000000018626,
+            "end": 1107.5
+          },
+          {
+            "name": "/js/themes.js",
+            "bytes": 5880,
+            "start": 742.7999999998137,
+            "duration": 456.70000000018626,
+            "end": 1199.5
+          },
+          {
+            "name": "/img/visual/hero-caneca.svg",
+            "bytes": 553,
+            "start": 742.8999999999069,
+            "duration": 454.29999999981374,
+            "end": 1197.1999999997206
+          },
+          {
+            "name": "/js/home.js",
+            "bytes": 5034,
+            "start": 743,
+            "duration": 476.39999999990687,
+            "end": 1219.3999999999069
+          },
+          {
+            "name": "/js/color-studio.js",
+            "bytes": 5760,
+            "start": 1934.2999999998137,
+            "duration": 57.3000000002794,
+            "end": 1991.6000000000931
+          },
+          {
+            "name": "/js/seasonal-effects.js",
+            "bytes": 3756,
+            "start": 1940,
+            "duration": 51.799999999813735,
+            "end": 1991.7999999998137
+          },
+          {
+            "name": "/js/navigation.js",
+            "bytes": 2994,
+            "start": 1951.8999999999069,
+            "duration": 53.10000000009313,
+            "end": 2005
+          },
+          {
+            "name": "/api/theme",
+            "bytes": 995,
+            "start": 2685.7999999998137,
+            "duration": 114.70000000018626,
+            "end": 2800.5
+          },
+          {
+            "name": "/api/products",
+            "bytes": 3079,
+            "start": 2810.899999999907,
+            "duration": 75.89999999990687,
+            "end": 2886.7999999998137
+          },
+          {
+            "name": "/img/themes/natal.svg",
+            "bytes": 2016,
+            "start": 3218.399999999907,
+            "duration": 28.299999999813735,
+            "end": 3246.6999999997206
+          },
+          {
+            "name": "/img/products/caneca-chopp.svg",
+            "bytes": 1149,
+            "start": 4640.100000000093,
+            "duration": 15.199999999720603,
+            "end": 4655.299999999814
+          },
+          {
+            "name": "/img/products/caneca-ceramica.svg",
+            "bytes": 1162,
+            "start": 4646.5,
+            "duration": 15.899999999906868,
+            "end": 4662.399999999907
+          },
+          {
+            "name": "/img/products/caneca-vidro-transparente.svg",
+            "bytes": 1181,
+            "start": 5490.799999999814,
+            "duration": 49.89999999990687,
+            "end": 5540.699999999721
+          },
+          {
+            "name": "/img/products/caneca-vidro-fosco.svg",
+            "bytes": 1169,
+            "start": 5492,
+            "duration": 36.39999999990687,
+            "end": 5528.399999999907
+          },
+          {
+            "name": "/img/products/caneca-plastico.svg",
+            "bytes": 1163,
+            "start": 5492.399999999907,
+            "duration": 48.299999999813735,
+            "end": 5540.699999999721
+          },
+          {
+            "name": "/img/products/relogio-azulejo.svg",
+            "bytes": 1163,
+            "start": 5492.799999999814,
+            "duration": 48.10000000009313,
+            "end": 5540.899999999907
+          },
+          {
+            "name": "/img/products/camiseta.svg",
+            "bytes": 1169,
+            "start": 5492.899999999907,
+            "duration": 48,
+            "end": 5540.899999999907
+          },
+          {
+            "name": "/img/products/porta-retrato-azulejo.svg",
+            "bytes": 1176,
+            "start": 5500.699999999721,
+            "duration": 40.3000000002794,
+            "end": 5541
+          },
+          {
+            "name": "/img/products/squeeze-aluminio.svg",
+            "bytes": 1165,
+            "start": 5503.799999999814,
+            "duration": 54.89999999990687,
+            "end": 5558.699999999721
+          },
+          {
+            "name": "/img/products/squeeze-termico.svg",
+            "bytes": 1157,
+            "start": 5505.600000000093,
+            "duration": 84.29999999981374,
+            "end": 5589.899999999907
+          }
+        ],
+        "webFonts": [],
+        "heroHeight": 380,
+        "heroGlow": "none",
+        "LayoutCount": 10,
+        "LayoutDuration": 611.2220000000001,
+        "RecalcStyleDuration": 890.343,
+        "ScriptDuration": 279.421,
+        "TaskDuration": 6176.021000000001,
+        "cpuThrottledMs": 6085.422,
+        "errors": [],
+        "trace": "trace-57-after-original-natal-1440.json.gz",
+        "traceLayouts": [
+          {
+            "durationMs": 313.73,
+            "frame": "6B089F517906F4615D67DA0E5C4094A9",
+            "dirtyObjects": 214,
+            "roots": [
+              {
+                "depth": 1,
+                "nodeId": 3,
+                "nodeName": "#document",
+                "quads": [
+                  [
+                    0,
+                    0,
+                    1440,
+                    0,
+                    1440,
+                    900,
+                    0,
+                    900
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "durationMs": 126.712,
+            "frame": "6B089F517906F4615D67DA0E5C4094A9",
+            "dirtyObjects": 22,
+            "roots": [
+              {
+                "depth": 1,
+                "nodeId": 3,
+                "nodeName": "#document",
+                "quads": [
+                  [
+                    0,
+                    0,
+                    1440,
+                    0,
+                    1440,
+                    900,
+                    0,
+                    900
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "durationMs": 90.065,
+            "frame": "6B089F517906F4615D67DA0E5C4094A9",
+            "dirtyObjects": 208,
+            "roots": [
+              {
+                "depth": 1,
+                "nodeId": 3,
+                "nodeName": "#document",
+                "quads": [
+                  [
+                    0,
+                    0,
+                    1440,
+                    0,
+                    1440,
+                    900,
+                    0,
+                    900
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "retainedTrace": "traces/controlled-final-desktop-trace-57-after-original-natal-1440.json.gz"
+    }
+  ],
+  "exploratoryProfiles": [
+    {
+      "variant": "before",
+      "lcp": [
+        {
+          "time": 1184,
+          "url": "",
+          "element": "<strong>Artize</strong>",
+          "size": 1653,
+          "load": 0,
+          "render": 1184
+        },
+        {
+          "time": 1340,
+          "url": "",
+          "size": 5192,
+          "load": 0,
+          "render": 1340
+        },
+        {
+          "time": 1532,
+          "url": "http://127.0.0.1:4320/img/visual/hero-caneca.svg",
+          "element": "<img class=\"hero-product\" src=\"/img/visual/hero-caneca.svg\" fetchpriority=\"high\" alt=\"\" width=\"240\" height=\"240\" decoding=\"async\" draggable=\"false\" data-src=\"/img/visual/hero-caneca.svg\">",
+          "size": 9216,
+          "load": 1391.3999999999069,
+          "render": 1532
+        },
+        {
+          "time": 2380,
+          "url": "http://127.0.0.1:4320/img/products/caneca-chopp.svg",
+          "element": "<img src=\"/img/products/caneca-chopp.svg\" alt=\"Caneca Chopp\" width=\"400\" height=\"400\" loading=\"eager\" decoding=\"async\">",
+          "size": 13653,
+          "load": 2177.0999999996275,
+          "render": 2380
+        }
+      ],
+      "perf": [
+        {
+          "name": "LayoutDuration",
+          "value": 0.460724
+        },
+        {
+          "name": "RecalcStyleDuration",
+          "value": 0.142987
+        },
+        {
+          "name": "ScriptDuration",
+          "value": 0.064437
+        },
+        {
+          "name": "TaskDuration",
+          "value": 2.462933
+        }
+      ],
+      "top": [
+        [
+          "Layout",
+          624.1920000000001
+        ],
+        [
+          "Paint",
+          279.15500000000003
+        ],
+        [
+          "UpdateLayoutTree",
+          174.70799999999994
+        ],
+        [
+          "ParseHTML",
+          138.653
+        ],
+        [
+          "HTMLDocumentParser::MaybeFetchQueuedPreloads",
+          66.787
+        ],
+        [
+          "BackgroundJSStreamManager::RunScriptStreamingTask",
+          56.199
+        ],
+        [
+          "v8.parseOnBackground",
+          56.009
+        ],
+        [
+          "v8.evaluateModule",
+          52.17999999999999
+        ],
+        [
+          "PrePaint",
+          47.50499999999999
+        ],
+        [
+          "v8.parseOnBackgroundWaiting",
+          30.593999999999994
+        ],
+        [
+          "v8.parseOnBackgroundParsing",
+          25.305999999999997
+        ],
+        [
+          "EventDispatch",
+          17.087999999999987
+        ],
+        [
+          "Layerize",
+          15.626999999999999
+        ],
+        [
+          "v8.compileModule",
+          14.758999999999997
+        ],
+        [
+          "FunctionCall",
+          12.347999999999999
+        ]
+      ],
+      "layouts": [
+        {
+          "ms": 262.595,
+          "args": {
+            "beginData": {
+              "dirtyObjects": 20,
+              "frame": "11C8ACC9AE576DA5EF2D0477B2C003C1",
+              "partialLayout": false,
+              "sampleTraceId": 6134791433297191,
+              "totalObjects": 20
+            },
+            "endData": {
+              "layoutRoots": [
+                {
+                  "depth": 1,
+                  "nodeId": 3,
+                  "nodeName": "#document",
+                  "quads": [
+                    [
+                      0,
+                      0,
+                      390,
+                      0,
+                      390,
+                      900,
+                      0,
+                      900
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "ms": 78.08,
+          "args": {
+            "beginData": {
+              "dirtyObjects": 126,
+              "frame": "11C8ACC9AE576DA5EF2D0477B2C003C1",
+              "partialLayout": false,
+              "sampleTraceId": 6134791433297398,
+              "totalObjects": 165
+            },
+            "endData": {
+              "layoutRoots": [
+                {
+                  "depth": 1,
+                  "nodeId": 3,
+                  "nodeName": "#document",
+                  "quads": [
+                    [
+                      0,
+                      0,
+                      390,
+                      0,
+                      390,
+                      900,
+                      0,
+                      900
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "ms": 64.023,
+          "args": {
+            "beginData": {
+              "dirtyObjects": 253,
+              "frame": "11C8ACC9AE576DA5EF2D0477B2C003C1",
+              "partialLayout": false,
+              "sampleTraceId": 6134791433296727,
+              "totalObjects": 379
+            },
+            "endData": {
+              "layoutRoots": [
+                {
+                  "depth": 1,
+                  "nodeId": 3,
+                  "nodeName": "#document",
+                  "quads": [
+                    [
+                      0,
+                      0,
+                      390,
+                      0,
+                      390,
+                      900,
+                      0,
+                      900
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "note": "Exploratory only; one or two observations per ablation, not used in final comparisons."
+    },
+    {
+      "variant": "no-balance",
+      "lcp": [
+        {
+          "time": 1068,
+          "url": "http://127.0.0.1:4320/img/visual/hero-caneca.svg",
+          "element": "<img class=\"hero-product\" src=\"/img/visual/hero-caneca.svg\" fetchpriority=\"high\" alt=\"\" width=\"240\" height=\"240\" decoding=\"async\" draggable=\"false\" data-src=\"/img/visual/hero-caneca.svg\">",
+          "size": 9216,
+          "load": 595.0999999996275,
+          "render": 1068
+        }
+      ],
+      "perf": [
+        {
+          "name": "LayoutDuration",
+          "value": 0.373932
+        },
+        {
+          "name": "RecalcStyleDuration",
+          "value": 0.282302
+        },
+        {
+          "name": "ScriptDuration",
+          "value": 0.220614
+        },
+        {
+          "name": "TaskDuration",
+          "value": 2.095614
+        }
+      ],
+      "top": [
+        [
+          "Layout",
+          440.31500000000005
+        ],
+        [
+          "UpdateLayoutTree",
+          320.697
+        ],
+        [
+          "Paint",
+          270.755
+        ],
+        [
+          "v8.evaluateModule",
+          202.118
+        ],
+        [
+          "ParseHTML",
+          51.189
+        ],
+        [
+          "FunctionCall",
+          28.621000000000002
+        ],
+        [
+          "PrePaint",
+          25.898999999999987
+        ],
+        [
+          "BackgroundJSStreamManager::RunScriptStreamingTask",
+          20.738
+        ],
+        [
+          "v8.parseOnBackground",
+          20.532000000000004
+        ],
+        [
+          "Layerize",
+          16.918
+        ],
+        [
+          "v8.parseOnBackgroundParsing",
+          14.550999999999998
+        ],
+        [
+          "HTMLDocumentParser::MaybeFetchQueuedPreloads",
+          13.285
+        ],
+        [
+          "EventDispatch",
+          9.364999999999991
+        ],
+        [
+          "ParseAuthorStyleSheet",
+          5.137999999999999
+        ],
+        [
+          "BackgroundProcessor::MaybeStartProcessingResponse",
+          3.42
+        ]
+      ],
+      "layouts": [
+        {
+          "ms": 305.898,
+          "args": {
+            "beginData": {
+              "dirtyObjects": 203,
+              "frame": "FA22415CE593637C4B6C2B0C32F2FFDF",
+              "partialLayout": false,
+              "sampleTraceId": 2026965089873933,
+              "totalObjects": 203
+            },
+            "endData": {
+              "layoutRoots": [
+                {
+                  "depth": 1,
+                  "nodeId": 3,
+                  "nodeName": "#document",
+                  "quads": [
+                    [
+                      0,
+                      0,
+                      390,
+                      0,
+                      390,
+                      900,
+                      0,
+                      900
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "ms": 28.602,
+          "args": {
+            "beginData": {
+              "dirtyObjects": 214,
+              "frame": "FA22415CE593637C4B6C2B0C32F2FFDF",
+              "partialLayout": false,
+              "sampleTraceId": 2026965089875490,
+              "totalObjects": 379
+            },
+            "endData": {
+              "layoutRoots": [
+                {
+                  "depth": 1,
+                  "nodeId": 3,
+                  "nodeName": "#document",
+                  "quads": [
+                    [
+                      0,
+                      0,
+                      390,
+                      0,
+                      390,
+                      900,
+                      0,
+                      900
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "ms": 25.672,
+          "args": {
+            "beginData": {
+              "dirtyObjects": 16,
+              "frame": "E1D4A1B8C5B758F712EA58E9DCC0E91C",
+              "partialLayout": false,
+              "sampleTraceId": 2026965089875578,
+              "totalObjects": 16
+            },
+            "endData": {
+              "layoutRoots": [
+                {
+                  "depth": 1,
+                  "nodeId": 15,
+                  "nodeName": "#document",
+                  "quads": [
+                    [
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "note": "Exploratory only; one or two observations per ablation, not used in final comparisons."
+    },
+    {
+      "variant": "no-balance",
+      "lcp": [
+        {
+          "time": 904,
+          "url": "http://127.0.0.1:4320/img/visual/hero-caneca.svg",
+          "element": "<img class=\"hero-product\" src=\"/img/visual/hero-caneca.svg\" fetchpriority=\"high\" alt=\"\" width=\"240\" height=\"240\" decoding=\"async\" draggable=\"false\">",
+          "size": 9216,
+          "load": 685.8999999999069,
+          "render": 904
+        },
+        {
+          "time": 1892,
+          "url": "http://127.0.0.1:4320/img/products/caneca-chopp.svg",
+          "element": "<img src=\"/img/products/caneca-chopp.svg\" alt=\"Caneca Chopp\" width=\"400\" height=\"400\" loading=\"eager\" decoding=\"async\">",
+          "size": 13653,
+          "load": 1741.5,
+          "render": 1892
+        }
+      ],
+      "perf": [
+        {
+          "name": "LayoutDuration",
+          "value": 0.222529
+        },
+        {
+          "name": "RecalcStyleDuration",
+          "value": 0.203269
+        },
+        {
+          "name": "ScriptDuration",
+          "value": 0.118958
+        },
+        {
+          "name": "TaskDuration",
+          "value": 1.987746
+        }
+      ],
+      "top": [
+        [
+          "Layout",
+          367.60799999999995
+        ],
+        [
+          "UpdateLayoutTree",
+          258.949
+        ],
+        [
+          "Paint",
+          212.83100000000002
+        ],
+        [
+          "v8.evaluateModule",
+          91.84700000000001
+        ],
+        [
+          "ParseHTML",
+          77.83699999999999
+        ],
+        [
+          "HTMLDocumentParser::MaybeFetchQueuedPreloads",
+          38.883
+        ],
+        [
+          "BackgroundJSStreamManager::RunScriptStreamingTask",
+          30.476999999999997
+        ],
+        [
+          "v8.parseOnBackground",
+          27.191999999999997
+        ],
+        [
+          "PrePaint",
+          25.006999999999998
+        ],
+        [
+          "FunctionCall",
+          23.608
+        ],
+        [
+          "v8.parseOnBackgroundParsing",
+          19.733
+        ],
+        [
+          "Layerize",
+          16.972
+        ],
+        [
+          "EventDispatch",
+          12.569999999999999
+        ],
+        [
+          "v8.compileModule",
+          7.577
+        ],
+        [
+          "ParseAuthorStyleSheet",
+          5.165
+        ]
+      ],
+      "layouts": [
+        {
+          "ms": 122.073,
+          "args": {
+            "beginData": {
+              "dirtyObjects": 165,
+              "frame": "9DCA9DF82FE90C3617B8CA97D76BA525",
+              "partialLayout": false,
+              "sampleTraceId": 6239066206756827,
+              "totalObjects": 165
+            },
+            "endData": {
+              "layoutRoots": [
+                {
+                  "depth": 1,
+                  "nodeId": 3,
+                  "nodeName": "#document",
+                  "quads": [
+                    [
+                      0,
+                      0,
+                      390,
+                      0,
+                      390,
+                      900,
+                      0,
+                      900
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "ms": 64.906,
+          "args": {
+            "beginData": {
+              "dirtyObjects": 16,
+              "frame": "3255CD360D2278FFA1CDB50CC8ADF14C",
+              "partialLayout": false,
+              "sampleTraceId": 6239066206756382,
+              "totalObjects": 16
+            },
+            "endData": {
+              "layoutRoots": [
+                {
+                  "depth": 1,
+                  "nodeId": 16,
+                  "nodeName": "#document",
+                  "quads": [
+                    [
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "ms": 55.869,
+          "args": {
+            "beginData": {
+              "dirtyObjects": 253,
+              "frame": "9DCA9DF82FE90C3617B8CA97D76BA525",
+              "partialLayout": false,
+              "sampleTraceId": 6239066206755294,
+              "totalObjects": 379
+            },
+            "endData": {
+              "layoutRoots": [
+                {
+                  "depth": 1,
+                  "nodeId": 3,
+                  "nodeName": "#document",
+                  "quads": [
+                    [
+                      0,
+                      0,
+                      390,
+                      0,
+                      390,
+                      900,
+                      0,
+                      900
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "note": "Exploratory only; one or two observations per ablation, not used in final comparisons."
+    },
+    {
+      "variant": "no-glow",
+      "lcp": [
+        {
+          "time": 768,
+          "url": "http://127.0.0.1:4320/img/visual/hero-caneca.svg",
+          "element": "<img class=\"hero-product\" src=\"/img/visual/hero-caneca.svg\" fetchpriority=\"high\" alt=\"\" width=\"240\" height=\"240\" decoding=\"async\" draggable=\"false\">",
+          "size": 9216,
+          "load": 430.10000000009313,
+          "render": 768
+        }
+      ],
+      "perf": [
+        {
+          "name": "LayoutDuration",
+          "value": 0.393259
+        },
+        {
+          "name": "RecalcStyleDuration",
+          "value": 0.176657
+        },
+        {
+          "name": "ScriptDuration",
+          "value": 0.087208
+        },
+        {
+          "name": "TaskDuration",
+          "value": 1.976449
+        }
+      ],
+      "top": [
+        [
+          "Layout",
+          466.787
+        ],
+        [
+          "Paint",
+          275.404
+        ],
+        [
+          "UpdateLayoutTree",
+          213.78900000000004
+        ],
+        [
+          "ParseHTML",
+          95.55400000000002
+        ],
+        [
+          "v8.evaluateModule",
+          76.327
+        ],
+        [
+          "HTMLDocumentParser::MaybeFetchQueuedPreloads",
+          47.779
+        ],
+        [
+          "PrePaint",
+          41.198
+        ],
+        [
+          "BackgroundJSStreamManager::RunScriptStreamingTask",
+          31.662
+        ],
+        [
+          "v8.parseOnBackground",
+          31.25
+        ],
+        [
+          "v8.parseOnBackgroundParsing",
+          19.328000000000003
+        ],
+        [
+          "v8.parseOnBackgroundWaiting",
+          11.758
+        ],
+        [
+          "FunctionCall",
+          10.203000000000001
+        ],
+        [
+          "Layerize",
+          7.431
+        ],
+        [
+          "EventDispatch",
+          6.118000000000004
+        ],
+        [
+          "ParseAuthorStyleSheet",
+          3.8609999999999998
+        ]
+      ],
+      "layouts": [
+        {
+          "ms": 180.653,
+          "args": {
+            "beginData": {
+              "dirtyObjects": 85,
+              "frame": "C776A17B2520DDA87CDB233BCEB61353",
+              "partialLayout": false,
+              "sampleTraceId": 4009702905547244,
+              "totalObjects": 85
+            },
+            "endData": {
+              "layoutRoots": [
+                {
+                  "depth": 1,
+                  "nodeId": 3,
+                  "nodeName": "#document",
+                  "quads": [
+                    [
+                      0,
+                      0,
+                      390,
+                      0,
+                      390,
+                      900,
+                      0,
+                      900
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "ms": 124.332,
+          "args": {
+            "beginData": {
+              "dirtyObjects": 124,
+              "frame": "C776A17B2520DDA87CDB233BCEB61353",
+              "partialLayout": false,
+              "sampleTraceId": 4009702905547347,
+              "totalObjects": 203
+            },
+            "endData": {
+              "layoutRoots": [
+                {
+                  "depth": 1,
+                  "nodeId": 3,
+                  "nodeName": "#document",
+                  "quads": [
+                    [
+                      0,
+                      0,
+                      390,
+                      0,
+                      390,
+                      900,
+                      0,
+                      900
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "ms": 61.353,
+          "args": {
+            "beginData": {
+              "dirtyObjects": 208,
+              "frame": "C776A17B2520DDA87CDB233BCEB61353",
+              "partialLayout": false,
+              "sampleTraceId": 4009702905547723,
+              "totalObjects": 379
+            },
+            "endData": {
+              "layoutRoots": [
+                {
+                  "depth": 1,
+                  "nodeId": 3,
+                  "nodeName": "#document",
+                  "quads": [
+                    [
+                      0,
+                      0,
+                      390,
+                      0,
+                      390,
+                      900,
+                      0,
+                      900
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "note": "Exploratory only; one or two observations per ablation, not used in final comparisons."
+    }
+  ],
+  "noObservationsDiscarded": true
+}

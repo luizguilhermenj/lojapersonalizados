@@ -98,8 +98,11 @@ test('HTTP endpoint requires authentication and admin role; public API preserves
     await fs.rm(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
   });
   const root = new URL('../', import.meta.url);
-  await fs.cp(new URL('lib/', root), path.join(dir, 'lib'), { recursive: true });
+  for (const folder of ['lib','themes','routes']) await fs.cp(new URL(folder + '/', root), path.join(dir, folder), { recursive: true });
   await fs.mkdir(path.join(dir, 'public', 'data'), { recursive: true });
+  await fs.mkdir(path.join(dir, 'public', 'js'), { recursive: true });
+  await fs.copyFile(new URL('public/js/color-studio.js', root), path.join(dir, 'public', 'js', 'color-studio.js'));
+  await fs.copyFile(new URL('public/js/art-categories.js', root), path.join(dir, 'public', 'js', 'art-categories.js'));
   await fs.copyFile(new URL('public/data/caneca-ceramica-artes.json', root), path.join(dir, 'public', 'data', 'caneca-ceramica-artes.json'));
   await fs.copyFile(new URL('package.json', root), path.join(dir, 'package.json'));
   await fs.symlink(fileURLToPath(new URL('node_modules', root)), path.join(dir, 'node_modules'), process.platform === 'win32' ? 'junction' : 'dir');
@@ -112,7 +115,7 @@ test('HTTP endpoint requires authentication and admin role; public API preserves
   let source = await fs.readFile(new URL('server.js', root), 'utf8');
   source = source.replace(/app\.listen\(PORT,[^\n]+/, "app.listen(0, function () { console.log('TEST_PORT=' + this.address().port); });");
   await fs.writeFile(path.join(dir, 'server.js'), source);
-  child = spawn(process.execPath, ['server.js'], { cwd: dir, env: { ...process.env, RENDER: 'true', NODE_ENV: 'production', CLOUDINARY_CLOUD_NAME: '', CLOUDINARY_API_KEY: '', CLOUDINARY_API_SECRET: '', MP_ACCESS_TOKEN: '' }, stdio: ['ignore', 'pipe', 'pipe'] });
+  child = spawn(process.execPath, ['server.js'], { cwd: dir, env: { ...process.env, DATABASE_URL: '', RENDER: 'true', NODE_ENV: 'production', CLOUDINARY_CLOUD_NAME: '', CLOUDINARY_API_KEY: '', CLOUDINARY_API_SECRET: '', MP_ACCESS_TOKEN: '' }, stdio: ['ignore', 'pipe', 'pipe'] });
   const port = await new Promise((resolve, reject) => {
     const timeout = setTimeout(() => reject(new Error('Test server startup timed out')), 10000);
     child.stdout.on('data', chunk => { const match = chunk.toString().match(/TEST_PORT=(\d+)/); if (match) { clearTimeout(timeout); resolve(match[1]); } });
@@ -124,6 +127,9 @@ test('HTTP endpoint requires authentication and admin role; public API preserves
   assert.equal((await request('invalid')).status, 401);
   assert.equal((await request('buyer-test')).status, 403);
   assert.equal((await request('admin-test')).status, 503);
+  const themeResponse = await fetch(`${url}/api/theme`);
+  assert.equal(themeResponse.status, 200);
+  assert.equal((await themeResponse.json()).theme.id, 'artize');
   const status = await fetch(`${url}/api/admin/arts/status`, { headers: { Authorization: 'Bearer admin-test' } });
   assert.equal((await status.json()).enabled, false);
   assert.equal((await fetch(`${url}/api/admin/arts/status`)).status, 401);
