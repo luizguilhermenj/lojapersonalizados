@@ -110,3 +110,119 @@
 .hero-banner-link {display:block;width:100%;height:100%}
 .hero-banner-link:focus-visible {outline:2px solid #fff;outline-offset:-3px}
 .hero-banner-image {display:block;width:100%;height:100%;object-fit:contain}
+
+/* Os controles de Natal têm a mesma área de toque, com ícones menores. */
+.hero-carousel[data-hero-catalog][data-hero-banners] {
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  border-color:transparent;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.hero-carousel[data-hero-banners] .hero-viewport,
+.hero-carousel[data-hero-banners] .hero-controls {grid-area:1 / 1}
+.hero-carousel[data-hero-catalog][data-hero-banners] .hero-controls {
+  position:relative;
+  grid-template-columns:44px minmax(0,1fr) 44px;
+  height:auto;
+  padding-inline:2px;
+  border:0;
+  background:transparent;
+  pointer-events:none;
+}
+.hero-carousel[data-hero-banners] .catalog-navigation {display:none}
+.hero-carousel[data-hero-banners] .hero-controls button {
+  position:relative;
+  background:transparent;
+  color:#fff7e8;
+  pointer-events:auto;
+  opacity:.86;
+  transition:opacity var(--motion-fast);
+}
+.hero-carousel[data-hero-banners] .hero-controls button::before {
+  content:"";
+  position:absolute;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:rgb(34 17 12 / .74);
+}
+.hero-carousel[data-hero-banners] .hero-controls svg {position:relative;width:15px;height:15px}
+.hero-carousel[data-hero-banners] [data-hero-prev] {grid-column:1}
+.hero-carousel[data-hero-banners] [data-hero-next] {grid-column:3}
+.hero-carousel[data-hero-banners] .hero-controls [data-hero-rotation] {
+  position:absolute;
+  inset-inline-end:2px;
+  inset-block-end:1px;
+}
+@media(max-width:26.99rem) {
+  .hero-carousel[data-hero-banners] .hero-controls [data-hero-rotation] {inset-inline-end:46px}
+}
+.hero-carousel[data-hero-banners] .hero-controls button:focus-visible {
+  outline:2px solid currentColor;
+  outline-offset:-3px;
+}
+@media(hover:hover) and (pointer:fine) {
+  .hero-carousel[data-hero-banners] .hero-controls button {opacity:.67}
+  .hero-carousel[data-hero-banners]:is(:hover,:focus-within) .hero-controls button {opacity:1}
+}
+
+.hero-banner-dots {
+  width:min(100%,390px);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(15,minmax(0,1fr));
+}
+.hero-banner-dots[hidden] {display:none}
+.hero-banner-dots button {
+  display:grid;
+  place-items:center;
+  min-width:0;
+  height:32px;
+  padding:0;
+  border:0;
+  border-radius:8px;
+  background:transparent;
+  cursor:pointer;
+}
+.hero-banner-dots button::after {
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:99px;
+  background:color-mix(in srgb,var(--store-accent,var(--accent)) 65%,transparent);
+  transition:width 250ms var(--ease-out),background-color 250ms var(--ease-out);
+}
+.hero-banner-dots button[aria-current="true"]::after {
+  width:min(75%,16px);
+  background:var(--store-accent,var(--accent));
+}
+.hero-banner-dots button:focus-visible {outline-offset:-3px}
+
+.hero-catalog-link {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  justify-self:center;
+  gap:6px;
+  min-height:32px;
+  margin-block-start:-16px;
+  color:var(--store-page-text,var(--text));
+  font-size:.78rem;
+  font-weight:600;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+.hero-catalog-link svg {width:15px;height:15px}
+@media(min-width:48rem) {.hero-catalog-link {margin-block-start:-30px}}
+@media(prefers-reduced-motion:reduce) {
+  .hero-carousel[data-hero-banners] .hero-controls button,
+  .hero-banner-dots button::after {transition:none}
+}
+@media(forced-colors:active) {
+  .hero-carousel[data-hero-banners] .hero-controls button::before {background:Canvas;border:1px solid CanvasText}
+  .hero-carousel[data-hero-banners] .hero-controls button {color:CanvasText;opacity:1}
+  .hero-banner-dots button::after {border:1px solid ButtonText}
+  .hero-banner-dots button[aria-current="true"]::after {background:Highlight;forced-color-adjust:none}
+}
