@@ -80,7 +80,7 @@
     "weightKg": 0.25,
     "description": "Para nomes, frases, datas especiais, memes e identidades visuais.",
     "meta": "Tecido • várias artes",
-    "image": "/img/products/camiseta.svg",
+    "image": "https://res.cloudinary.com/etoqnuvw/image/upload/camiseta-natal-01-e56b9892cf8e.jpg",
     "featured": false
   },
   {

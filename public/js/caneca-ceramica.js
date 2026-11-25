@@ -9,6 +9,7 @@ const selectedArtName = document.getElementById('selectedArtName');
 const selectedArtDescription = document.getElementById('selectedArtDescription');
 const selectedThemeEyebrow = document.getElementById('selectedThemeEyebrow');
 const totalArtsLabel = document.getElementById('totalArtsLabel');
+const mobileArtName = document.getElementById('mobileArtName');
 const customizerFeedback = document.getElementById('customizerFeedback');
 
 let baseProduct = {
@@ -67,6 +68,7 @@ function updateThemeUi(filteredCount) {
 }
 
 function artLabel(art) {
+  if (shirtPage) return art.name;
   const source = art.public_id?.split('/').pop() || '';
   const number = source.match(/^(\d+)(?:[_ .-]|$)/)?.[1] || (!art.asset_id && art.id.match(/-(\d+)$/)?.[1]);
   const reference = number ? number.padStart(2, '0') : String(art.asset_id || art.id).replace(/[^a-z0-9]/gi,'').slice(0,6).toUpperCase();
@@ -81,7 +83,7 @@ function syncSelectedArt() {
   document.querySelectorAll('[data-add-art]').forEach(button => button.disabled = !selectedArt);
   if (!selectedArt) {
     selectedMockup?.removeAttribute('src');
-    document.getElementById('mobileArtName').textContent = 'Nenhuma arte disponível';
+    if (mobileArtName) mobileArtName.textContent = 'Nenhuma arte disponível';
     if(activeCard){activeCard.classList.remove('active');activeCard.setAttribute('aria-pressed','false');activeCard.querySelector('.select-pill').textContent='Escolher arte';}
     activeCard = null;
     if (selectedArtName) selectedArtName.textContent = 'Escolha outra coleção enquanto as novidades chegam';
@@ -98,7 +100,7 @@ function syncSelectedArt() {
 
   if (selectedArtName) selectedArtName.textContent = artLabel(selectedArt);
   if (selectedArtDescription) selectedArtDescription.textContent = '';
-  document.getElementById('mobileArtName').textContent = artLabel(selectedArt);
+  if (mobileArtName) mobileArtName.textContent = artLabel(selectedArt);
   document.querySelectorAll('[data-add-art]').forEach(button => button.disabled = baseProduct.price == null);
   for (const card of new Set([activeCard,cards.get(selectedArt.id)])) {
     if(!card)continue;
@@ -210,21 +212,24 @@ function renderArts() {
 }
 loadMore.addEventListener('click', () => {const firstNew=visibleCount;visibleCount += pageSize;renderArts();const art=getFilteredArts()[firstNew];if(art)cards.get(art.id)?.focus({preventScroll:true});});
 
-const productGallery = document.body.hasAttribute('data-squeeze-page') || document.body.hasAttribute('data-clock-page');
+const shirtPage = document.body.hasAttribute('data-shirt-page');
 const clockPage = document.body.hasAttribute('data-clock-page');
-const productSlug = clockPage ? 'relogio-azulejo' : new URLSearchParams(location.search).get('produto') || 'squeeze-aluminio';
+const productGallery = shirtPage || clockPage || document.body.hasAttribute('data-squeeze-page');
+const galleryCategory = shirtPage ? 'Camisetas' : clockPage ? 'Relógios' : 'Squeezes';
+const productSlug = shirtPage ? 'camiseta' : clockPage ? 'relogio-azulejo' : initialFilters.get('produto') || 'squeeze-aluminio';
 
 async function loadGalleryProduct() {
   const response = await fetch('/api/products');
   if (!response.ok) throw new Error('Catálogo indisponível.');
   const products = await response.json();
-  baseProduct = products.find(product => product.slug === productSlug && (clockPage || product.category === 'Squeezes'));
+  baseProduct = products.find(product => product.slug === productSlug && (clockPage || product.category === galleryCategory));
   if (!baseProduct) throw new Error('Modelo não encontrado.');
   const price = baseProduct.price == null ? 'Preço sob consulta' : new Intl.NumberFormat('pt-BR', {style:'currency',currency:'BRL'}).format(baseProduct.price);
   document.title = 'Artize | ' + baseProduct.name;
   document.querySelector('h1').textContent = baseProduct.name;
   document.querySelector('.summary-price-row strong').textContent = price;
-  document.querySelector('.mobile-purchase small').textContent = price;
+  const mobilePrice = document.querySelector('.mobile-purchase small');
+  if (mobilePrice) mobilePrice.textContent = price;
 }
 
 async function loadArtes() {
