@@ -233,3 +233,49 @@ html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer {background:Canvas;color:CanvasText}
   html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer::before {display:none}
 }
+
+/* Acabamento independente do rodapé, exclusivo da vitrine de Natal. */
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer {
+  --natal-ribbon-height:calc(170px + env(safe-area-inset-bottom,0px));
+  padding-bottom:0;
+  isolation:isolate;
+}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer::after {
+  content:"";
+  position:absolute;inset-inline:0;bottom:0;
+  height:var(--natal-ribbon-height);
+  background:url("/img/visual/natal-faixa-rodape.svg") center bottom / 100% 100% no-repeat;
+  pointer-events:none;
+}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer .container.footer-bottom {
+  z-index:2;
+  box-sizing:border-box;
+  min-height:var(--natal-ribbon-height);
+  margin-top:12px;
+  padding:107px 116px calc(16px + env(safe-area-inset-bottom,0px)) 0;
+  flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:5px;
+  color:#fff6e7;line-height:1.4;
+}
+html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer .footer-bottom::before {
+  content:"";
+  position:absolute;top:calc(var(--natal-ribbon-height) * .35);left:50%;
+  width:106px;aspect-ratio:220 / 145;transform:translate(-50%,-40%);
+  background:url("/img/visual/natal-laco-rodape.svg") center / contain no-repeat;
+  pointer-events:none;
+}
+@media(min-width:48rem) {
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer {--natal-ribbon-height:194px}
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer::before {bottom:calc(var(--natal-ribbon-height) - 52px)}
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer .container.footer-bottom {
+    margin-top:14px;padding:124px clamp(0px,calc(755px - 50vw),120px) 20px 0;
+    flex-direction:row;justify-content:space-between;align-items:flex-start;gap:90px;font-size:.83rem;
+  }
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer .footer-bottom::before {width:clamp(136px,12vw,188px)}
+}
+@media(forced-colors:active) {
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer::after,
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer .footer-bottom::before {display:none}
+  html[data-theme="natal"] body:has(:is(.home-page,.customizer-page)) .site-footer .container.footer-bottom {
+    min-height:0;padding-block:20px;color:CanvasText
+  }
+}
