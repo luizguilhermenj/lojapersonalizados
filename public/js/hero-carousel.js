@@ -253,7 +253,11 @@ function createCarousel(element) {
     if (!userPaused) { focused = false; hovering = false; }
     syncRotation();
   });
-  on(element, 'focusin', () => { focused = true; userPaused = true; syncRotation(); });
+  on(element, 'focusin', event => {
+    focused = true;
+    if (slides !== bannerSlides || event.target !== rotation) userPaused = true;
+    syncRotation();
+  });
   on(element, 'focusout', event => { focused = element.contains(event.relatedTarget); syncRotation(); });
   on(element, 'pointerenter', event => { if (event.pointerType === 'mouse') { hovering = true; syncRotation(); } });
   on(element, 'pointerleave', event => { if (event.pointerType === 'mouse') { hovering = false; syncRotation(); } });
